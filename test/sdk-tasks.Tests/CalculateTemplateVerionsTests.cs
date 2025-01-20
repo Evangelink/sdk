@@ -2,7 +2,7 @@
 
 namespace Microsoft.CoreSdkTasks.Tests
 {
-    public class CalculateTemplateVersionsTests(TestContext testContext) : SdkTest(log)
+    public class CalculateTemplateVersionsTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]
         public void WhenAspNetCoreTemplateMajorVersionLowerthan3ItCanCalculateTemplateVersionsInStableBuilds()

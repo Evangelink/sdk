@@ -9,13 +9,13 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
     public class MSBuildWorkspaceFinderTests : SdkTest
     {
 
-        public MSBuildWorkspaceFinderTests(ITestOutputHelper log) : base(log)
+        public MSBuildWorkspaceFinderTests(MSTestTestContext testContext) : base(testContext)
         {
         }
-        
+
         private string ProjectsPath => TestProjectsPathHelper.GetProjectsDirectory();
 
-        [Fact]
+        [TestMethod]
         public void ThrowsException_CannotFindMSBuildProjectFile()
         {
             var testInstance = _testAssetsManager
@@ -28,7 +28,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             Assert.StartsWith(exceptionMessageStart, exception.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void ThrowsException_MultipleMSBuildProjectFiles()
         {
             var testInstance = _testAssetsManager
@@ -38,10 +38,10 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
                 Resources.Multiple_MSBuild_project_files_found_in_0_Specify_which_to_use_with_the_workspace_argument,
                 testInstance.Path).Replace('/', Path.DirectorySeparatorChar);
             var exception = Assert.Throws<FileNotFoundException>(() => MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path));
-            Assert.Equal(exceptionMessageStart, exception.Message);
+            Assert.AreEqual(exceptionMessageStart, exception.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void ThrowsException_MultipleMSBuildSolutionFiles()
         {
             var testInstance = _testAssetsManager
@@ -51,10 +51,10 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
                 Resources.Multiple_MSBuild_solution_files_found_in_0_Specify_which_to_use_with_the_workspace_argument,
                 testInstance.Path).Replace('/', Path.DirectorySeparatorChar);
             var exception = Assert.Throws<FileNotFoundException>(() => MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path));
-            Assert.Equal(exceptionMessageStart, exception.Message);
+            Assert.AreEqual(exceptionMessageStart, exception.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void ThrowsException_SolutionAndProjectAmbiguity()
         {
             var testInstance = _testAssetsManager
@@ -64,10 +64,10 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
                 Resources.Both_a_MSBuild_project_file_and_solution_file_found_in_0_Specify_which_to_use_with_the_workspace_argument,
                 testInstance.Path).Replace('/', Path.DirectorySeparatorChar);
             var exception = Assert.Throws<FileNotFoundException>(() => MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path));
-            Assert.Equal(exceptionMessageStart, exception.Message);
+            Assert.AreEqual(exceptionMessageStart, exception.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void FindsSolutionByFolder()
         {
             var testInstance = _testAssetsManager
@@ -77,11 +77,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             var (isSolution, workspacePath) = MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path);
 
             var solutionFileName = System.IO.Path.GetFileName(workspacePath);
-            Assert.Equal("single_solution.sln", solutionFileName);
-            Assert.True(isSolution);
+            Assert.AreEqual("single_solution.sln", solutionFileName);
+            Assert.IsTrue(isSolution);
         }
 
-        [Fact]
+        [TestMethod]
         public void FindsSolutionByFilePath()
         {
             var testInstance = _testAssetsManager
@@ -91,11 +91,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             var (isSolution, workspacePath) = MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path, "solution_b.sln");
 
             var solutionFileName = System.IO.Path.GetFileName(workspacePath);
-            Assert.Equal("solution_b.sln", solutionFileName);
-            Assert.True(isSolution);
+            Assert.AreEqual("solution_b.sln", solutionFileName);
+            Assert.IsTrue(isSolution);
         }
 
-        [Fact]
+        [TestMethod]
         public void FindsProjectByFolder()
         {
             var testInstance = _testAssetsManager
@@ -105,11 +105,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             var (isSolution, workspacePath) = MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path);
 
             var solutionFileName = System.IO.Path.GetFileName(workspacePath);
-            Assert.Equal("single_project.csproj", solutionFileName);
-            Assert.False(isSolution);
+            Assert.AreEqual("single_project.csproj", solutionFileName);
+            Assert.IsFalse(isSolution);
         }
 
-        [Fact]
+        [TestMethod]
         public void FindsProjectByFilePath()
         {
             var testInstance = _testAssetsManager
@@ -119,8 +119,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             var (isSolution, workspacePath) = MSBuildWorkspaceFinder.FindWorkspace(testInstance.Path, "project_b.csproj");
 
             var solutionFileName = System.IO.Path.GetFileName(workspacePath);
-            Assert.Equal("project_b.csproj", solutionFileName);
-            Assert.False(isSolution);
+            Assert.AreEqual("project_b.csproj", solutionFileName);
+            Assert.IsFalse(isSolution);
         }
     }
 }

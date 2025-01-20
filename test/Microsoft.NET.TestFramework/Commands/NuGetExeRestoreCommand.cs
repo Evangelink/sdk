@@ -16,7 +16,7 @@ namespace Microsoft.NET.TestFramework.Commands
 
         public string? PackagesDirectory { get; set; }
 
-        public NuGetExeRestoreCommand(ITestOutputHelper log, string projectRootPath, string? relativePathToProject = null) : base(log)
+        public NuGetExeRestoreCommand(MSTestContext testContext, string projectRootPath, string? relativePathToProject = null) : base(testContext)
         {
             _projectRootPath = projectRootPath;
             ProjectFile = MSBuildCommand.FindProjectFile(ref _projectRootPath, relativePathToProject);

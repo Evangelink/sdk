@@ -11,7 +11,7 @@ namespace Microsoft.NET.ToolPack.Tests
     public class GivenThatWeWantToPackAToolTargetingNonSupportedTFM : SdkTest
     {
 
-        public GivenThatWeWantToPackAToolTargetingNonSupportedTFM(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolTargetingNonSupportedTFM(MSTestContext testContext) : base(testContext)
         {
 
         }
@@ -39,7 +39,7 @@ namespace Microsoft.NET.ToolPack.Tests
                                             propertyGroup.Add(new XElement(ns + targetFrameworkProperty, targetFramework));
                                         });
 
-            var packCommand = new PackCommand(Log, helloWorldAsset.TestRoot);
+            var packCommand = new PackCommand(MSTestContext, helloWorldAsset.TestRoot);
 
             CommandResult result = packCommand.Execute();
             result.ExitCode.Should().NotBe(0);

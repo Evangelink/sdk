@@ -5,8 +5,8 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public sealed class RebuildCommand : MSBuildCommand
     {
-        public RebuildCommand(ITestOutputHelper log, string projectPath, string? relativePathToProject = null)
-            : base(log, "Rebuild", projectPath, relativePathToProject)
+        public RebuildCommand(MSTestContext testContext, string projectPath, string? relativePathToProject = null)
+            : base(testContext, "Rebuild", projectPath, relativePathToProject)
         {
         }
     }

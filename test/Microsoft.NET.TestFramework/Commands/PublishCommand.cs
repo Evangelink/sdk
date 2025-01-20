@@ -11,8 +11,8 @@ namespace Microsoft.NET.TestFramework.Commands
 
         //  Encourage use of the other overload, which is generally simpler to use
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PublishCommand(ITestOutputHelper log, string projectPath)
-            : base(log, "Publish", projectPath, relativePathToProject: null)
+        public PublishCommand(MSTestContext testContext, string projectPath)
+            : base(testContext, "Publish", projectPath, relativePathToProject: null)
         {
         }
 

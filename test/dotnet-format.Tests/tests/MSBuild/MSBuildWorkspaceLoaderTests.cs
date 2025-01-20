@@ -24,18 +24,18 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
 
         protected ITestOutputHelper TestOutputHelper { get; set; }
 
-        public MSBuildWorkspaceLoaderTests(ITestOutputHelper output)
+        public MSBuildWorkspaceLoaderTests(MSTestContext testContext)
         {
-            TestOutputHelper = output;
+            TestOutputHelper = testContext;
         }
 
         [MSBuildTheory(typeof(WindowsOnly))]
-        [InlineData("winforms")]
-        [InlineData("winformslib")]
-        [InlineData("wpf")]
-        [InlineData("wpfusercontrollib")]
-        [InlineData("wpflib")]
-        [InlineData("wpfcustomcontrollib")]
+        [DataRow("winforms")]
+        [DataRow("winformslib")]
+        [DataRow("wpf")]
+        [DataRow("wpfusercontrollib")]
+        [DataRow("wpflib")]
+        [DataRow("wpfcustomcontrollib")]
         public async Task CSharpTemplateProject_WindowsOnly_LoadWithNoDiagnostics(string templateName)
         {
             var ignoredDiagnostics = templateName switch
@@ -49,20 +49,20 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
         }
 
         [MSBuildTheory]
-        [InlineData("web")]
-        [InlineData("grpc")]
-        [InlineData("webapi")]
-        [InlineData("razor")]
-        [InlineData("mvc")]
-        [InlineData("blazor")]
-        [InlineData("blazorwasm")]
-        [InlineData("classlib")]
-        [InlineData("console")]
-        [InlineData("mstest")]
-        [InlineData("nunit")]
-        [InlineData("razorclasslib")]
-        [InlineData("worker")]
-        [InlineData("xunit")]
+        [DataRow("web")]
+        [DataRow("grpc")]
+        [DataRow("webapi")]
+        [DataRow("razor")]
+        [DataRow("mvc")]
+        [DataRow("blazor")]
+        [DataRow("blazorwasm")]
+        [DataRow("classlib")]
+        [DataRow("console")]
+        [DataRow("mstest")]
+        [DataRow("nunit")]
+        [DataRow("razorclasslib")]
+        [DataRow("worker")]
+        [DataRow("xunit")]
         public async Task CSharpTemplateProject_LoadWithNoDiagnostics(string templateName)
         {
             var ignoredDiagnostics = templateName switch
@@ -74,11 +74,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
         }
 
         [MSBuildTheory]
-        [InlineData("classlib")]
-        [InlineData("console")]
-        [InlineData("mstest")]
-        [InlineData("nunit")]
-        [InlineData("xunit")]
+        [DataRow("classlib")]
+        [DataRow("console")]
+        [DataRow("mstest")]
+        [DataRow("nunit")]
+        [DataRow("xunit")]
         public async Task VisualBasicTemplateProject_LoadWithNoDiagnostics(string templateName)
         {
             var ignoredDiagnostics = (templateName, isWindows: OperatingSystem.IsWindows()) switch
@@ -118,13 +118,13 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             }
         }
 
-        private static async Task<string> GenerateProjectFromTemplateAsync(string templateName, string languageName, ITestOutputHelper outputHelper)
+        private static async Task<string> GenerateProjectFromTemplateAsync(string templateName, string languageName, MSTestContext testContextHelper)
         {
             var projectPath = GetProjectPath(templateName, languageName);
             var projectFilePath = GetProjectFilePath(projectPath, languageName);
 
-            var exitCode = await DotNetHelper.NewProjectAsync(templateName, projectPath, languageName, outputHelper);
-            Assert.Equal(0, exitCode);
+            var exitCode = await DotNetHelper.NewProjectAsync(templateName, projectPath, languageName, testContextHelper);
+            Assert.AreEqual(0, exitCode);
 
             return projectFilePath;
         }

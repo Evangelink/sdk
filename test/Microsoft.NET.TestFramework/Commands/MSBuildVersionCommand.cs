@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class MSBuildVersionCommand : TestCommand
     {
-        public MSBuildVersionCommand(ITestOutputHelper log) : base(log) { }
+        public MSBuildVersionCommand(MSTestContext testContext) : base(testContext) { }
 
         protected override SdkCommandSpec CreateCommand(IEnumerable<string> args)
         {

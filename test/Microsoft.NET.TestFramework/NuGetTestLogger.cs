@@ -8,15 +8,15 @@ namespace Microsoft.NET.TestFramework
 {
     public class NuGetTestLogger : ILogger
     {
-        private readonly ITestOutputHelper? _output;
+        private readonly ITestOutputHelper? _testContext;
 
         public NuGetTestLogger()
         {
         }
 
-        public NuGetTestLogger(ITestOutputHelper output)
+        public NuGetTestLogger(MSTestContext testContext)
         {
-            _output = output;
+            _testContext = testContext;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.NET.TestFramework
         {
             // NOTE(anurse): Uncomment this to help when debugging tests
             //Console.WriteLine($"{level}: {data}");
-            _output?.WriteLine($"{level}: {data}");
+            _testContext?.WriteLine($"{level}: {data}");
         }
 
         public void Clear()

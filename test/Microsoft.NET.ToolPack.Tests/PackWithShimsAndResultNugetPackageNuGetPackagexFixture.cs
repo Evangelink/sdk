@@ -17,9 +17,9 @@ namespace Microsoft.NET.ToolPack.Tests
         {
         }
 
-        public ITestOutputHelper Log { get; private set; }
+        public MSTestContext MSTestContext { get; private set; }
         public TestAssetsManager TestAssetsManager { get; private set; }
-        public void Init(ITestOutputHelper log, TestAssetsManager testAssetsManager)
+        public void Init(MSTestContext testContext, TestAssetsManager testAssetsManager)
         {
             Log = log;
             TestAssetsManager = testAssetsManager;

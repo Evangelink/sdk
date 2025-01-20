@@ -9,14 +9,14 @@ namespace Microsoft.NET.ToolPack.Tests
 {
     public class GivenThatWeWantToPackAToolProjectWithComplexNugetDependency : SdkTest
     {
-        public GivenThatWeWantToPackAToolProjectWithComplexNugetDependency(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolProjectWithComplexNugetDependency(MSTestContext testContext) : base(testContext)
         {
 
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_has_native_and_transitive_dependencies_dll(bool multiTarget)
         {
             TestAsset helloWorldAsset = _testAssetsManager
@@ -31,7 +31,7 @@ namespace Microsoft.NET.ToolPack.Tests
                                         })
                                         .WithTargetFrameworkOrFrameworks("netcoreapp2.1", multiTarget);
 
-            var packCommand = new PackCommand(Log, helloWorldAsset.TestRoot);
+            var packCommand = new PackCommand(MSTestContext, helloWorldAsset.TestRoot);
             packCommand.Execute();
             var nugetPackage = packCommand.GetNuGetPackage();
 

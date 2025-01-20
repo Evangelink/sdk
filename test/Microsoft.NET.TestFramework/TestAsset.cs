@@ -22,25 +22,25 @@ namespace Microsoft.NET.TestFramework
         /// </summary>
         public readonly string Name;
 
-        public ITestOutputHelper Log { get; }
+        public MSTestContext MSTestContext { get; }
 
         //  The TestProject from which this asset was created, if any
         public TestProject? TestProject { get; set; }
 
-        internal TestAsset(string testDestination, string? sdkVersion, ITestOutputHelper log) : base(testDestination, sdkVersion)
+        internal TestAsset(string testDestination, string? sdkVersion, MSTestContext testContext) : base(testDestination, sdkVersion)
         {
-            Log = log;
+            TestContext = testContext;
             Name = new DirectoryInfo(testDestination).Name;
         }
 
-        internal TestAsset(string testAssetRoot, string testDestination, string? sdkVersion, ITestOutputHelper log) : base(testDestination, sdkVersion)
+        internal TestAsset(string testAssetRoot, string testDestination, string? sdkVersion, MSTestContext testContext) : base(testDestination, sdkVersion)
         {
             if (string.IsNullOrEmpty(testAssetRoot))
             {
                 throw new ArgumentException("testAssetRoot");
             }
 
-            Log = log;
+            TestContext = testContext;
             Name = new DirectoryInfo(testAssetRoot).Name;
             _testAssetRoot = testAssetRoot;
         }
@@ -256,14 +256,14 @@ namespace Microsoft.NET.TestFramework
 
         }
 
-        public RestoreCommand GetRestoreCommand(ITestOutputHelper log, string relativePath = "")
+        public RestoreCommand GetRestoreCommand(MSTestContext testContext, string relativePath = "")
         {
-            return new RestoreCommand(log, System.IO.Path.Combine(TestRoot, relativePath));
+            return new RestoreCommand(testContext, System.IO.Path.Combine(TestRoot, relativePath));
         }
 
-        public TestAsset Restore(ITestOutputHelper log, string relativePath = "", params string[] args)
+        public TestAsset Restore(MSTestContext testContext, string relativePath = "", params string[] args)
         {
-            var commandResult = GetRestoreCommand(log, relativePath)
+            var commandResult = GetRestoreCommand(testContext, relativePath)
                 .Execute(args);
 
             commandResult.Should().Pass();

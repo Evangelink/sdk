@@ -22,7 +22,7 @@ namespace Microsoft.NET.ToolPack.Tests
         {
             TestAsset helloWorldAsset = CreateAsset();
 
-            var packCommand = new PackCommand(Log, helloWorldAsset.TestRoot);
+            var packCommand = new PackCommand(MSTestContext, helloWorldAsset.TestRoot);
 
             CommandResult result = packCommand.Execute("--property:SelfContained=true");
             result.ExitCode.Should().NotBe(0);

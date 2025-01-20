@@ -22,7 +22,7 @@ namespace Microsoft.NET.TestFramework
 
         private bool _generateMSbuildLogs = GenerateMSbuildLogs;
 
-        protected AspNetSdkTest(ITestOutputHelper log) : base(log)
+        protected AspNetSdkTest(MSTestContext testContext) : base(testContext)
         {
             var assembly = Assembly.GetCallingAssembly();
             var testAssemblyMetadata = assembly.GetCustomAttributes<AssemblyMetadataAttribute>();
@@ -103,7 +103,7 @@ namespace Microsoft.NET.TestFramework
 
         protected virtual RebuildCommand CreateRebuildCommand(TestAsset asset, string? relativePathToProject = null)
         {
-            var rebuild = new RebuildCommand(Log, asset.Path, relativePathToProject);
+            var rebuild = new RebuildCommand(MSTestContext, asset.Path, relativePathToProject);
             rebuild.WithWorkingDirectory(asset.TestRoot);
             ApplyDefaults(rebuild);
 

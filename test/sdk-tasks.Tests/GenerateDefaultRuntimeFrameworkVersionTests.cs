@@ -2,7 +2,7 @@
 
 namespace Microsoft.CoreSdkTasks.Tests
 {
-    public class GenerateDefaultRuntimeFrameworkVersionTests(TestContext testContext) : SdkTest(log)
+    public class GenerateDefaultRuntimeFrameworkVersionTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]
         [DataRow("3.0.0-rtm", "3.0.0-rtm")]

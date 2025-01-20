@@ -7,7 +7,7 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private readonly string _commandPath;
 
-        public RunExeCommand(ITestOutputHelper log, string commandPath, params string[] args) : base(log)
+        public RunExeCommand(MSTestContext testContext, string commandPath, params string[] args) : base(testContext)
         {
             if (!File.Exists(commandPath) && !ToolsetInfo.TryResolveCommand(commandPath, out _))
             {

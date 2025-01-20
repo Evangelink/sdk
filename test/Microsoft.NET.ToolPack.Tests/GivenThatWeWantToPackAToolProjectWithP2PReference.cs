@@ -8,7 +8,7 @@ namespace Microsoft.NET.ToolPack.Tests
 {
     public class GivenThatWeWantToPackAToolProjectWithP2PReference : SdkTest
     {
-        public GivenThatWeWantToPackAToolProjectWithP2PReference(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolProjectWithP2PReference(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Microsoft.NET.ToolPack.Tests
             return packCommand.GetNuGetPackage();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_packs_successfully()
         {
             var nugetPackage = SetupNuGetPackage();
@@ -37,7 +37,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_contains_dependencies_dll()
         {
             var nugetPackage = SetupNuGetPackage();
@@ -54,7 +54,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_add_p2p_references_as_package_references_to_nuspec()
         {
             var nugetPackage = SetupNuGetPackage();
@@ -66,7 +66,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_contains_folder_structure_tfm_any()
         {
             var nugetPackage = SetupNuGetPackage();

@@ -88,7 +88,7 @@ namespace Microsoft.NET.TestFramework
             {
                 FullFrameworkMSBuildPath = null;
                 var logger = new StringTestLogger();
-                var command = new DotnetCommand(logger, "--version")
+                var command = new DotnetCommand(testContextger, "--version")
                 {
                     WorkingDirectory = TestContext.Current.TestExecutionDirectory
                 };
@@ -111,7 +111,7 @@ namespace Microsoft.NET.TestFramework
         private void InitMSBuildVersion()
         {
             var logger = new StringTestLogger();
-            var command = new MSBuildVersionCommand(logger)
+            var command = new MSBuildVersionCommand(testContextger)
             {
                 WorkingDirectory = TestContext.Current.TestExecutionDirectory
             };

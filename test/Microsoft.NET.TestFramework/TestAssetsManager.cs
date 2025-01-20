@@ -12,12 +12,12 @@ namespace Microsoft.NET.TestFramework
 
         private List<string> TestDestinationDirectories { get; } = new List<string>();
 
-        protected ITestOutputHelper Log { get; }
+        protected MSTestContext MSTestContext { get; }
 
-        public TestAssetsManager(ITestOutputHelper log)
+        public TestAssetsManager(MSTestContext testContext)
         {
             var testAssetsDirectory = TestContext.Current.TestAssetsDirectory;
-            Log = log;
+            TestContext = testContext;
 
             if (!Directory.Exists(testAssetsDirectory))
             {
@@ -98,7 +98,7 @@ namespace Microsoft.NET.TestFramework
 
             var testAsset = CreateTestProjectsInDirectory(testProjects, testDestinationDirectory, targetExtension);
 
-            var slnCreationResult = new DotnetNewCommand(Log, "sln")
+            var slnCreationResult = new DotnetNewCommand(TestContext, "sln")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDestinationDirectory)
                 .Execute();
@@ -110,7 +110,7 @@ namespace Microsoft.NET.TestFramework
 
             foreach (var testProject in testProjects)
             {
-                new DotnetCommand(Log, "sln", "add", testProject.Name ?? string.Empty)
+                new DotnetCommand(TestContext, "sln", "add", testProject.Name ?? string.Empty)
                     .WithWorkingDirectory(testDestinationDirectory)
                     .Execute()
                     .Should()

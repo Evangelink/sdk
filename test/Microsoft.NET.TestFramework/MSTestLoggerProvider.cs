@@ -15,21 +15,21 @@ namespace Microsoft.NET.TestFramework
     /// </remarks>
     public class MSTestLoggerProvider : ILoggerProvider
     {
-        private readonly MSTestTestContext _testContext;
+        private readonly MSTestContext _testContext;
         private readonly LogLevel _minLevel;
         private readonly DateTimeOffset? _testContextStart;
 
-        public MSTestLoggerProvider(MSTestTestContext testContext)
+        public MSTestLoggerProvider(MSTestContext testContext)
             : this(testContext, LogLevel.Trace)
         {
         }
 
-        public MSTestLoggerProvider(MSTestTestContext testContext, LogLevel minLevel)
+        public MSTestLoggerProvider(MSTestContext testContext, LogLevel minLevel)
             : this(testContext, minLevel, null)
         {
         }
 
-        public MSTestLoggerProvider(MSTestTestContext testContext, LogLevel minLevel, DateTimeOffset? logStart)
+        public MSTestLoggerProvider(MSTestContext testContext, LogLevel minLevel, DateTimeOffset? logStart)
         {
             _testContext = testContext;
             _minLevel = minLevel;
@@ -50,10 +50,10 @@ namespace Microsoft.NET.TestFramework
             private static readonly string[] NewLineChars = new[] { Environment.NewLine };
             private readonly string _category;
             private readonly LogLevel _minLogLevel;
-            private readonly MSTestTestContext _testContext;
+            private readonly MSTestContext _testContext;
             private readonly DateTimeOffset? _testContextStart;
 
-            public MSTestLogger(MSTestTestContext testContext, string category, LogLevel minLogLevel, DateTimeOffset? logStart)
+            public MSTestLogger(MSTestContext testContext, string category, LogLevel minLogLevel, DateTimeOffset? logStart)
             {
                 _minLogLevel = minLogLevel;
                 _category = category;

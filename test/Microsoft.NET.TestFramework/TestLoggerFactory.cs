@@ -25,7 +25,7 @@ namespace Microsoft.NET.TestFramework
             }
         }
 
-        public TestLoggerFactory(MSTestTestContext testContext)
+        public TestLoggerFactory(MSTestContext testContext)
         {
             _loggerProviders.Add(new MSTestLoggerProvider(testContext));
         }

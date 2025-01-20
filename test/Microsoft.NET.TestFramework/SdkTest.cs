@@ -9,12 +9,12 @@ namespace Microsoft.NET.TestFramework
 
         protected bool? UsingFullFrameworkMSBuild => TestContext.Current.ToolsetUnderTest?.ShouldUseFullFrameworkMSBuild;
 
-        protected ITestOutputHelper Log { get; }
+        protected MSTestContext MSTestContext { get; }
 
-        protected SdkTest(ITestOutputHelper log)
+        protected SdkTest(MSTestContext testContext)
         {
-            Log = log;
-            _testAssetsManager = new TestAssetsManager(log);
+            MSTestContext = testContext;
+            _testAssetsManager = new TestAssetsManager(testContext);
         }
 
         protected static void WaitForUtcNowToAdvance()

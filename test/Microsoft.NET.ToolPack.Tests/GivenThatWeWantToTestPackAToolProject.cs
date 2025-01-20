@@ -5,7 +5,7 @@ namespace Microsoft.NET.ToolPack.Tests
 {
     public class GivenThatWeWantToTestPackAToolProject : SdkTest
     {
-        public GivenThatWeWantToTestPackAToolProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToTestPackAToolProject(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -17,7 +17,7 @@ namespace Microsoft.NET.ToolPack.Tests
                 .WithSource();
 
             var appProjectDirectory = Path.Combine(testAsset.TestRoot, "Test");
-            var testCommand = new DotnetCommand(Log, "test", appProjectDirectory);
+            var testCommand = new DotnetCommand(MSTestContext, "test", appProjectDirectory);
             testCommand
                 .Execute()
                 .Should()

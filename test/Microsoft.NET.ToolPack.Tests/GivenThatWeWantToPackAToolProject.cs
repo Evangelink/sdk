@@ -13,7 +13,7 @@ namespace Microsoft.NET.ToolPack.Tests
         private string _testRoot;
         private string _targetFrameworkOrFrameworks = "netcoreapp2.1";
 
-        public GivenThatWeWantToPackAToolProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolProject(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -40,9 +40,9 @@ namespace Microsoft.NET.ToolPack.Tests
             return packCommand.GetNuGetPackage();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_packs_successfully(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -54,16 +54,16 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_finds_the_entry_point_dll_and_command_name_and_put_in_setting_file(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
             AssertFiles(nugetPackage);
         }
 
-        [Fact]
+        [TestMethod]
         public void Given_nuget_alias_It_finds_the_entry_point_dll_and_command_name_and_put_in_setting_file()
         {
             TestAsset helloWorldAsset = _testAssetsManager
@@ -84,7 +84,7 @@ namespace Microsoft.NET.ToolPack.Tests
 
             _testRoot = helloWorldAsset.TestRoot;
 
-            var packCommand = new PackCommand(Log, helloWorldAsset.TestRoot);
+            var packCommand = new PackCommand(MSTestContext, helloWorldAsset.TestRoot);
 
             var result = packCommand.Execute();
             result.Should().Pass();
@@ -120,9 +120,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_removes_all_package_dependencies(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -134,9 +134,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_contains_runtimeconfig_for_each_tfm(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -153,9 +153,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_does_not_contain_apphost_exe(bool multiTarget)
         {
             var extension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : "";
@@ -195,9 +195,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_contains_DotnetToolSettingsXml_for_each_tfm(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -214,9 +214,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_does_not_contain_lib(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -226,9 +226,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_contains_folder_structure_tfm_any(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -242,9 +242,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_contains_packagetype_dotnettool(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -255,9 +255,9 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_contains_dependencies_dll(bool multiTarget)
         {
             var nugetPackage = SetupNuGetPackage(multiTarget);
@@ -274,7 +274,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void Given_targetplatform_set_It_should_error()
         {
             TestAsset helloWorldAsset = _testAssetsManager
@@ -284,7 +284,7 @@ namespace Microsoft.NET.ToolPack.Tests
 
             _testRoot = helloWorldAsset.TestRoot;
 
-            var packCommand = new PackCommand(Log, helloWorldAsset.TestRoot);
+            var packCommand = new PackCommand(MSTestContext, helloWorldAsset.TestRoot);
 
             var result = packCommand.Execute();
             result.Should().Fail().And.HaveStdOutContaining("NETSDK1146");

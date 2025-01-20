@@ -14,7 +14,7 @@ namespace Microsoft.NET.ToolPack.Tests
 
         private const string AppName = "consoledemo";
 
-        public GivenThatWeWantToPackAToolProjectWithGeneratePackageOnBuild(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolProjectWithGeneratePackageOnBuild(MSTestContext testContext) : base(testContext)
         { }
 
         private TestAsset SetupAndRestoreTestAsset([CallerMemberName] string callingMethod = "")
@@ -35,7 +35,7 @@ namespace Microsoft.NET.ToolPack.Tests
             return testAsset;
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_successfully()
         {
             TestAsset testAsset = SetupAndRestoreTestAsset();
@@ -49,7 +49,7 @@ namespace Microsoft.NET.ToolPack.Tests
                   .NotHaveStdOutContaining("There is a circular dependency");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_and_result_contains_dependencies_dll()
         {
             TestAsset testAsset = SetupAndRestoreTestAsset();
@@ -73,11 +73,11 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/10335")]
-        [InlineData(false, false)]
-        [InlineData(false, true)]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/10335")]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
         public void It_packs_successfully(bool generatePackageOnBuild, bool packAsTool)
         {
             Console.WriteLine(generatePackageOnBuild.ToString() + packAsTool.ToString());
@@ -94,7 +94,7 @@ namespace Microsoft.NET.ToolPack.Tests
                 });
 
             var appProjectDirectory = Path.Combine(testAsset.TestRoot);
-            var packCommand = new PackCommand(Log, appProjectDirectory);
+            var packCommand = new PackCommand(MSTestContext, appProjectDirectory);
 
             CommandResult result = packCommand.Execute("/restore");
 

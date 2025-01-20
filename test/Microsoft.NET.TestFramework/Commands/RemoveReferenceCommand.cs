@@ -9,7 +9,7 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private string? _projectName = null;
 
-        public RemoveReferenceCommand(ITestOutputHelper log, params string[] args) : base(log, args)
+        public RemoveReferenceCommand(MSTestContext testContext, params string[] args) : base(testContext, args)
         {
         }
 

@@ -8,12 +8,12 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class NuGetCommandParserTests
     {
-        [Theory]
-        [InlineData("--framework net472")]
-        [InlineData("-f net472")]
-        [InlineData("--framework net472 --framework net6.0")]
-        [InlineData("-f net472 -f net6.0")]
-        [InlineData("--framework net472 -f net6.0")]
+        [TestMethod]
+        [DataRow("--framework net472")]
+        [DataRow("-f net472")]
+        [DataRow("--framework net472 --framework net6.0")]
+        [DataRow("-f net472 -f net6.0")]
+        [DataRow("--framework net472 -f net6.0")]
         public void NuGetWhyCommandCanParseFrameworkOptions(string inputOptions)
         {
             var result = Parser.Instance.Parse($"dotnet nuget why C:\\path Fake.Package {inputOptions}");

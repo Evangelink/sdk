@@ -12,12 +12,12 @@ namespace Microsoft.NET.ToolPack.Tests
     public class GivenThatWeWantToPackAToolSelfContainedProject : SdkTest
     {
 
-        public GivenThatWeWantToPackAToolSelfContainedProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAToolSelfContainedProject(MSTestContext testContext) : base(testContext)
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_with_error_message()
         {
             TestAsset helloWorldAsset = CreateAsset();
@@ -30,7 +30,7 @@ namespace Microsoft.NET.ToolPack.Tests
         }
 
         // Reproduce of https://github.com/dotnet/cli/issues/10607
-        [Fact]
+        [TestMethod]
         public void It_should_not_fail_on_build()
         {
             TestAsset helloWorldAsset = CreateAsset();

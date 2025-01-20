@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
 {
     public class RazorServerTests
     {
-        [Fact]
+        [TestMethod]
         public void GivenAFailedShutdownCommandItThrows()
         {
             const int ProcessId = 1234;
@@ -56,7 +56,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
             fileSystemMock.File.Exists(pidFilePath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenASuccessfulShutdownItDoesNotThrow()
         {
             const int ProcessId = 1234;
@@ -90,7 +90,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
             fileSystemMock.File.Exists(pidFilePath).Should().BeFalse();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenANonExistingRazorServerPathItDeletesPidFileAndDoesNotThrow()
         {
             const int ProcessId = 1234;

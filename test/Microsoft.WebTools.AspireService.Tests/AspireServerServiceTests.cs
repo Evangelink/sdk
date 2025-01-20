@@ -12,7 +12,7 @@ using System.Text.Json;
 
 namespace Aspire.Tools.Service.UnitTests;
 
-public class AspireServerServiceTests(ITestOutputHelper output)
+public class AspireServerServiceTests(MSTestContext testContext)
 {
     private const string Project1Path = @"c:\test\Projects\project1.csproj";
     private const int ProcessId = 34213;
@@ -31,7 +31,7 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         env = new List<EnvVar> { new EnvVar { Name = "var1", Value = "value1" } }
     };
 
-    [Fact]
+    [TestMethod]
     public async Task SessionStarted_Test()
     {
         var mocks = new Mocks();
@@ -53,15 +53,15 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var result = await notificationTask.Task;
 
-        Assert.Equal(ProcessId, result.PID);
-        Assert.Equal("1", result.SessionId);
+        Assert.AreEqual(ProcessId, result.PID);
+        Assert.AreEqual("1", result.SessionId);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task SessionEndedAsync_Test()
     {
         var mocks = new Mocks();
@@ -84,16 +84,16 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         await server.NotifySessionEndedAsync(DcpId, "1", ProcessId, 130, CancellationToken.None);
 
         var result = await sessionEndNotificationTask.Task;
-        Assert.Equal(ProcessId, result.Pid);
-        Assert.Equal("1", result.SessionId);
-        Assert.Equal(130, result.ExitCode);
+        Assert.AreEqual(ProcessId, result.Pid);
+        Assert.AreEqual("1", result.SessionId);
+        Assert.AreEqual(130, result.ExitCode);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_Success()
     {
         var mocks = new Mocks();
@@ -109,15 +109,15 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         HttpResponseMessage response;
         response = await client.PutAsJsonAsync(VersionedSessionUrl, Project1SessionRequest);
 
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal($"{client.BaseAddress}run_session/2", response.Headers.Location.AbsoluteUri);
+        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+        Assert.AreEqual($"{client.BaseAddress}run_session/2", response.Headers.Location.AbsoluteUri);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_WithNullArgs_PassesThroughNullArgs()
     {
         var mocks = new Mocks();
@@ -133,15 +133,15 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         HttpResponseMessage response;
         response = await client.PutAsJsonAsync(VersionedSessionUrl, Project2SessionRequest);
 
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal($"{client.BaseAddress}run_session/2", response.Headers.Location.AbsoluteUri);
+        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+        Assert.AreEqual($"{client.BaseAddress}run_session/2", response.Headers.Location.AbsoluteUri);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_Success_ThenStopProcessRequest()
     {
         var mocks = new Mocks();
@@ -157,22 +157,22 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         using HttpClient client = GetHttpClient(tokens);
 
         var response = await client.PutAsJsonAsync(VersionedSessionUrl, Project1SessionRequest);
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
         // Now send a stop session
         response = await client.DeleteAsync(RunSessionRequest.Url + "/2");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
         // Validate NoContent response if session not found
         response = await client.DeleteAsync(RunSessionRequest.Url + "/3");
-        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_FailedToLaunchProject()
     {
         var mocks = new Mocks();
@@ -187,15 +187,15 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.PutAsJsonAsync(VersionedSessionUrl, Project1SessionRequest);
 
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-        Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
-        Assert.Equal("{\"error\":{\"message\":\"Launch project failed\"}}", await response.Content.ReadAsStringAsync());
+        Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
+        Assert.AreEqual("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        Assert.AreEqual("{\"error\":{\"message\":\"Launch project failed\"}}", await response.Content.ReadAsStringAsync());
 
         await server.DisposeAsync();
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_FailNoBearerToken()
     {
         var mocks = new Mocks();
@@ -208,13 +208,13 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.PutAsJsonAsync(VersionedSessionUrl, Project1SessionRequest);
 
-        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
         await server.DisposeAsync();
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_FailWrongUrl()
     {
         var mocks = new Mocks();
@@ -226,14 +226,14 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.PutAsJsonAsync("/run_badurl", Project1SessionRequest);
 
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
         await server.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LaunchProject_NotAPUTRequest()
     {
         var mocks = new Mocks();
@@ -245,14 +245,14 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.PostAsJsonAsync(VersionedSessionUrl, Project1SessionRequest);
 
-        Assert.Equal(HttpStatusCode.MethodNotAllowed, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.MethodNotAllowed, response.StatusCode);
 
         await aspireServer.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task StopSession_FailNoBearerToken()
     {
         var mocks = new Mocks();
@@ -265,13 +265,13 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.DeleteAsync(RunSessionRequest.Url + "/2");
 
-        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
         await server.DisposeAsync();
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task Info_Success()
     {
         var mocks = new Mocks();
@@ -283,13 +283,13 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.GetAsync(InfoResponse.Url);
 
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
         await server.DisposeAsync();
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task Info_FailNoBearerToken()
     {
         var mocks = new Mocks();
@@ -302,13 +302,13 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var response = await client.GetAsync(InfoResponse.Url);
 
-        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 
         await server.DisposeAsync();
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task SendLogMessageAsync_Test()
     {
         var mocks = new Mocks();
@@ -330,14 +330,14 @@ public class AspireServerServiceTests(ITestOutputHelper output)
 
         var result = await notificationTask.Task;
 
-        Assert.Equal("My Message", result.LogMessage);
-        Assert.False(result.IsStdErr);
+        Assert.AreEqual("My Message", result.LogMessage);
+        Assert.IsFalse(result.IsStdErr);
         await aspireServer.DisposeAsync();
 
         mocks.Verify();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task GetEnvironmentForOrchestrator_Tests()
     {
         var mocks = new Mocks();
@@ -347,13 +347,13 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         // First time should create a key
         var envVars = server.GetServerConnectionEnvironment();
 
-        Assert.Equal(3, envVars.Count);
+        Assert.AreEqual(3, envVars.Count);
         var token = envVars[1];
-        Assert.NotNull(token.Value);
+        Assert.IsNotNull(token.Value);
 
         // Should return the same
         envVars = server.GetServerConnectionEnvironment();
-        Assert.Equal(token, envVars[1]);
+        Assert.AreEqual(token, envVars[1]);
 
         mocks.Verify();
     }
@@ -394,12 +394,12 @@ public class AspireServerServiceTests(ITestOutputHelper output)
             catch
             {
                 // This is expected if the connection is closed
-                Assert.Equal(WebSocketState.Closed, ws.State);
+                Assert.AreEqual(WebSocketState.Closed, ws.State);
                 return;
             }
 
             var notification = JsonSerializer.Deserialize<SessionNotification>(message, AspireServerService.JsonSerializerOptions);
-            Assert.NotNull(notification);
+            Assert.IsNotNull(notification);
 
             SessionNotification value = notification.NotificationType switch
             {
@@ -409,7 +409,7 @@ public class AspireServerServiceTests(ITestOutputHelper output)
                 _ => throw new InvalidOperationException($"Unexpected {notification.NotificationType}")
             };
 
-            Assert.NotNull(value);
+            Assert.IsNotNull(value);
             callback.Invoke(value);
         }
     }
@@ -457,7 +457,7 @@ public class AspireServerServiceTests(ITestOutputHelper output)
         var aspireServer = new AspireServerService(serverEvents.Object, displayName: "Test server",
             line =>
             {
-                output.WriteLine(line);
+                testContext.WriteLine(line);
                 Debug.WriteLine(line);
             });
 

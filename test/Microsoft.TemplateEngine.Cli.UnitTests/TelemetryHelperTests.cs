@@ -11,7 +11,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
     public class TelemetryHelperTests
     {
-        [Fact(DisplayName = nameof(NonChoiceParameterHasNullCanonicalValueTest))]
+        [TestMethod(nameof(NonChoiceParameterHasNullCanonicalValueTest))]
         public void NonChoiceParameterHasNullCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter("TestName", type: "parameter", datatype: "string", choices: null);
@@ -28,7 +28,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(UnknownParameterNameHasNullCanonicalValueTest))]
+        [TestMethod(nameof(UnknownParameterNameHasNullCanonicalValueTest))]
         public void UnknownParameterNameHasNullCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter("TestName", type: "parameter", datatype: "string", choices: null);
@@ -46,7 +46,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(InvalidChoiceValueForParameterHasNullCanonicalValueTest))]
+        [TestMethod(nameof(InvalidChoiceValueForParameterHasNullCanonicalValueTest))]
         public void InvalidChoiceValueForParameterHasNullCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -71,7 +71,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(ValidChoiceForParameterIsItsOwnCanonicalValueTest))]
+        [TestMethod(nameof(ValidChoiceForParameterIsItsOwnCanonicalValueTest))]
         public void ValidChoiceForParameterIsItsOwnCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -93,10 +93,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Equal(Sha256Hasher.HashWithNormalizedCasing("foo"), telemetryEntry);
+            Assert.AreEqual(Sha256Hasher.HashWithNormalizedCasing("foo"), telemetryEntry);
         }
 
-        [Fact]
+        [TestMethod]
         public void UniqueStartsWithValueDoesNotResolveCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -120,7 +120,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(AmbiguousStartsWithValueHasNullCanonicalValueTest))]
+        [TestMethod(nameof(AmbiguousStartsWithValueHasNullCanonicalValueTest))]
         public void AmbiguousStartsWithValueHasNullCanonicalValueTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -146,7 +146,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(ChoiceValueCaseDifferenceIsAMatchTest))]
+        [TestMethod(nameof(ChoiceValueCaseDifferenceIsAMatchTest))]
         public void ChoiceValueCaseDifferenceIsAMatchTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -167,10 +167,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Equal(Sha256Hasher.HashWithNormalizedCasing("FOO"), telemetryEntry);
+            Assert.AreEqual(Sha256Hasher.HashWithNormalizedCasing("FOO"), telemetryEntry);
         }
 
-        [Fact(DisplayName = nameof(ChoiceValueCaseDifferencesContributeToAmbiguousMatchTest))]
+        [TestMethod(nameof(ChoiceValueCaseDifferencesContributeToAmbiguousMatchTest))]
         public void ChoiceValueCaseDifferencesContributeToAmbiguousMatchTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -196,7 +196,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Null(telemetryEntry);
         }
 
-        [Fact]
+        [TestMethod]
         public void MultiValueChoiceTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -219,10 +219,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Equal(Sha256Hasher.HashWithNormalizedCasing("foo") + ";" + Sha256Hasher.HashWithNormalizedCasing("bar"), telemetryEntry);
+            Assert.AreEqual(Sha256Hasher.HashWithNormalizedCasing("foo") + ";" + Sha256Hasher.HashWithNormalizedCasing("bar"), telemetryEntry);
         }
 
-        [Fact]
+        [TestMethod]
         public void MultiValueChoice_SkipsInvalidEntriesTest()
         {
             ITemplateParameter param = new TemplateParameter(
@@ -245,7 +245,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Equal(Sha256Hasher.HashWithNormalizedCasing("foo") + ";" + Sha256Hasher.HashWithNormalizedCasing("bar"), telemetryEntry);
+            Assert.AreEqual(Sha256Hasher.HashWithNormalizedCasing("foo") + ";" + Sha256Hasher.HashWithNormalizedCasing("bar"), telemetryEntry);
         }
     }
 }

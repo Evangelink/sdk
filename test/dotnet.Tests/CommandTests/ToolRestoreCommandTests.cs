@@ -53,7 +53,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
 
         private int _installCalledCount = 0;
 
-        public ToolRestoreCommandTests(ITestOutputHelper log): base(log)
+        public ToolRestoreCommandTests(TestContext testContext): base(testContext)
         {
             _packageVersionA = NuGetVersion.Parse("1.0.4");
             _packageVersionWithCommandNameCollisionWithA = NuGetVersion.Parse("1.0.9");
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
 
             _toolPackageDownloaderMock = new ToolPackageDownloaderMock(
                 _toolPackageStore,
-                _fileSystem,    
+                _fileSystem,
                 _reporter,
                 new List<MockFeed>
                 {
@@ -113,7 +113,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                     1);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRunItCanSaveCommandsToCache()
         {
             IToolManifestFinder manifestFinder =
@@ -152,7 +152,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Should().BeTrue($"Cached command should be found at {restoredCommand.Executable.Value}");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRunItCanSaveCommandsToCacheAndShowSuccessMessage()
         {
             IToolManifestFinder manifestFinder =
@@ -189,7 +189,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 "ansicolor code for green, message should be green");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRestoredCommandHasTheSameCommandNameItThrows()
         {
             IToolManifestFinder manifestFinder =
@@ -246,7 +246,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Should().BeOneOf(allPossibleErrorMessage, "Run in parallel, no order guarantee");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenSomePackageFailedToRestoreItCanRestorePartiallySuccessful()
         {
             IToolManifestFinder manifestFinder =
@@ -289,7 +289,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Should().BeTrue("Existing package will succeed despite other package failed");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShouldFailWhenPackageCommandNameDoesNotMatchManifestCommands()
         {
             ToolCommandName differentCommandNameA = new("different-command-nameA");
@@ -319,7 +319,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                             "\"different-command-nameA\" \"different-command-nameB\"", _packageIdA, "a")));
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRestoresMultipleTools()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -392,7 +392,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             public string PathToExecutable { get; set; }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRestoresCorrectToolVersion()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -439,7 +439,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             rows[0].Version.Should().Be("8.0.0-rc.1.23419.6");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenCannotFindManifestFileItPrintsWarning()
         {
             IToolManifestFinder realManifestFinderImplementationWithMockFinderSystem =
@@ -460,7 +460,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                     l.Contains(ToolManifest.LocalizableStrings.CannotFindAManifestFile));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPackageIsRestoredAlreadyItWillNotRestoreItAgain()
         {
             IToolManifestFinder manifestFinder =
@@ -488,7 +488,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             _installCalledCount.Should().Be(installCallCountBeforeTheSecondRestore);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPackageIsRestoredAlreadyButDllIsRemovedItRestoresAgain()
         {
             IToolManifestFinder manifestFinder =
@@ -517,7 +517,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             _installCalledCount.Should().Be(installCallCountBeforeTheSecondRestore + 1);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRunWithoutManifestFileItShouldPrintSpecificRestoreErrorMessage()
         {
             IToolManifestFinder manifestFinder =

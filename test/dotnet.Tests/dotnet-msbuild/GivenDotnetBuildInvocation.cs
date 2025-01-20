@@ -13,29 +13,29 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         private static readonly string WorkingDirectory =
             TestPathUtilities.FormatAbsolutePath(nameof(GivenDotnetBuildInvocation));
 
-        [Theory]
-        [InlineData(new string[] { }, "")]
-        [InlineData(new string[] { "-o", "foo" }, "-property:OutputPath=<cwd>foo -property:_CommandLineDefinedOutputPath=true")]
-        [InlineData(new string[] { "-property:Verbosity=diag" }, "--property:Verbosity=diag")]
-        [InlineData(new string[] { "--output", "foo" }, "-property:OutputPath=<cwd>foo -property:_CommandLineDefinedOutputPath=true")]
-        [InlineData(new string[] { "--artifacts-path", "foo" }, "-property:ArtifactsPath=<cwd>foo")]
-        [InlineData(new string[] { "-o", "foo1 foo2" }, "\"-property:OutputPath=<cwd>foo1 foo2\" -property:_CommandLineDefinedOutputPath=true")]
-        [InlineData(new string[] { "--no-incremental" }, "-target:Rebuild")]
-        [InlineData(new string[] { "-r", "rid" }, "-property:RuntimeIdentifier=rid -property:_CommandLineDefinedRuntimeIdentifier=true")]
-        [InlineData(new string[] { "-r", "linux-amd64" }, "-property:RuntimeIdentifier=linux-x64 -property:_CommandLineDefinedRuntimeIdentifier=true")]
-        [InlineData(new string[] { "--runtime", "rid" }, "-property:RuntimeIdentifier=rid -property:_CommandLineDefinedRuntimeIdentifier=true")]
-        [InlineData(new string[] { "--use-current-runtime" }, "-property:UseCurrentRuntimeIdentifier=True")]
-        [InlineData(new string[] { "--ucr" }, "-property:UseCurrentRuntimeIdentifier=True")]
-        [InlineData(new string[] { "-c", "config" }, "-property:Configuration=config")]
-        [InlineData(new string[] { "--configuration", "config" }, "-property:Configuration=config")]
-        [InlineData(new string[] { "--version-suffix", "mysuffix" }, "-property:VersionSuffix=mysuffix")]
-        [InlineData(new string[] { "--no-dependencies" }, "-property:BuildProjectReferences=false")]
-        [InlineData(new string[] { "-v", "diag" }, "-verbosity:diag")]
-        [InlineData(new string[] { "--verbosity", "diag" }, "-verbosity:diag")]
-        [InlineData(new string[] { "--no-incremental", "-o", "myoutput", "-r", "myruntime", "-v", "diag", "/ArbitrarySwitchForMSBuild" },
+        [TestMethod]
+        [DataRow(new string[] { }, "")]
+        [DataRow(new string[] { "-o", "foo" }, "-property:OutputPath=<cwd>foo -property:_CommandLineDefinedOutputPath=true")]
+        [DataRow(new string[] { "-property:Verbosity=diag" }, "--property:Verbosity=diag")]
+        [DataRow(new string[] { "--output", "foo" }, "-property:OutputPath=<cwd>foo -property:_CommandLineDefinedOutputPath=true")]
+        [DataRow(new string[] { "--artifacts-path", "foo" }, "-property:ArtifactsPath=<cwd>foo")]
+        [DataRow(new string[] { "-o", "foo1 foo2" }, "\"-property:OutputPath=<cwd>foo1 foo2\" -property:_CommandLineDefinedOutputPath=true")]
+        [DataRow(new string[] { "--no-incremental" }, "-target:Rebuild")]
+        [DataRow(new string[] { "-r", "rid" }, "-property:RuntimeIdentifier=rid -property:_CommandLineDefinedRuntimeIdentifier=true")]
+        [DataRow(new string[] { "-r", "linux-amd64" }, "-property:RuntimeIdentifier=linux-x64 -property:_CommandLineDefinedRuntimeIdentifier=true")]
+        [DataRow(new string[] { "--runtime", "rid" }, "-property:RuntimeIdentifier=rid -property:_CommandLineDefinedRuntimeIdentifier=true")]
+        [DataRow(new string[] { "--use-current-runtime" }, "-property:UseCurrentRuntimeIdentifier=True")]
+        [DataRow(new string[] { "--ucr" }, "-property:UseCurrentRuntimeIdentifier=True")]
+        [DataRow(new string[] { "-c", "config" }, "-property:Configuration=config")]
+        [DataRow(new string[] { "--configuration", "config" }, "-property:Configuration=config")]
+        [DataRow(new string[] { "--version-suffix", "mysuffix" }, "-property:VersionSuffix=mysuffix")]
+        [DataRow(new string[] { "--no-dependencies" }, "-property:BuildProjectReferences=false")]
+        [DataRow(new string[] { "-v", "diag" }, "-verbosity:diag")]
+        [DataRow(new string[] { "--verbosity", "diag" }, "-verbosity:diag")]
+        [DataRow(new string[] { "--no-incremental", "-o", "myoutput", "-r", "myruntime", "-v", "diag", "/ArbitrarySwitchForMSBuild" },
                                   "-target:Rebuild -property:RuntimeIdentifier=myruntime -property:_CommandLineDefinedRuntimeIdentifier=true -verbosity:diag -property:OutputPath=<cwd>myoutput -property:_CommandLineDefinedOutputPath=true /ArbitrarySwitchForMSBuild")]
-        [InlineData(new string[] { "/t:CustomTarget" }, "/t:CustomTarget")]
-        [InlineData(new string[] { "--disable-build-servers" }, "--property:UseRazorBuildServer=false --property:UseSharedCompilation=false /nodeReuse:false")]
+        [DataRow(new string[] { "/t:CustomTarget" }, "/t:CustomTarget")]
+        [DataRow(new string[] { "--disable-build-servers" }, "--property:UseRazorBuildServer=false --property:UseSharedCompilation=false /nodeReuse:false")]
         public void MsbuildInvocationIsCorrect(string[] args, string expectedAdditionalArgs)
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -55,16 +55,16 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Theory]
-        [InlineData(new string[] { "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm")]
-        [InlineData(new string[] { "-p:TargetFramework=tfm" }, "-target:Restore -tlp:verbosity=quiet", "--property:TargetFramework=tfm")]
-        [InlineData(new string[] { "/p:TargetFramework=tfm" }, "-target:Restore -tlp:verbosity=quiet", "--property:TargetFramework=tfm")]
-        [InlineData(new string[] { "-t:Run", "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm -t:Run")]
-        [InlineData(new string[] { "/t:Run", "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm /t:Run")]
-        [InlineData(new string[] { "-o", "myoutput", "-f", "tfm", "-v", "diag", "/ArbitrarySwitchForMSBuild" },
+        [TestMethod]
+        [DataRow(new string[] { "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm")]
+        [DataRow(new string[] { "-p:TargetFramework=tfm" }, "-target:Restore -tlp:verbosity=quiet", "--property:TargetFramework=tfm")]
+        [DataRow(new string[] { "/p:TargetFramework=tfm" }, "-target:Restore -tlp:verbosity=quiet", "--property:TargetFramework=tfm")]
+        [DataRow(new string[] { "-t:Run", "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm -t:Run")]
+        [DataRow(new string[] { "/t:Run", "-f", "tfm" }, "-target:Restore -tlp:verbosity=quiet", "-property:TargetFramework=tfm /t:Run")]
+        [DataRow(new string[] { "-o", "myoutput", "-f", "tfm", "-v", "diag", "/ArbitrarySwitchForMSBuild" },
                                   "-target:Restore -tlp:verbosity=quiet -verbosity:diag -property:OutputPath=<cwd>myoutput -property:_CommandLineDefinedOutputPath=true /ArbitrarySwitchForMSBuild",
                                   "-property:TargetFramework=tfm -verbosity:diag -property:OutputPath=<cwd>myoutput -property:_CommandLineDefinedOutputPath=true /ArbitrarySwitchForMSBuild")]
-        [InlineData(new string[] { "-f", "tfm", "-getItem:Compile", "-getProperty:TargetFramework", "-getTargetResult:Build" }, "-target:Restore -tlp:verbosity=quiet -nologo -verbosity:quiet", "-property:TargetFramework=tfm -getItem:Compile -getProperty:TargetFramework -getTargetResult:Build")]
+        [DataRow(new string[] { "-f", "tfm", "-getItem:Compile", "-getProperty:TargetFramework", "-getTargetResult:Build" }, "-target:Restore -tlp:verbosity=quiet -nologo -verbosity:quiet", "-property:TargetFramework=tfm -getItem:Compile -getProperty:TargetFramework -getTargetResult:Build")]
         public void MsbuildInvocationIsCorrectForSeparateRestore(
             string[] args,
             string expectedAdditionalArgsForRestore,

@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     public class GivenDotnetOsArchOptions : SdkTest
     {
-        public GivenDotnetOsArchOptions(ITestOutputHelper log) : base(log)
+        public GivenDotnetOsArchOptions(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         private static readonly string WorkingDirectory =
             TestPathUtilities.FormatAbsolutePath(nameof(GivenDotnetBuildInvocation));
 
-        [Fact]
+        [TestMethod]
         public void OsOptionIsCorrectlyResolved()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void ArchOptionIsCorrectlyResolved()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -55,7 +55,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void OSAndArchOptionsCanBeCombined()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void OptionsRespectUserSpecifiedSelfContained()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void OSOptionCannotBeCombinedWithRuntime()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -92,7 +92,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void ArchOptionCannotBeCombinedWithRuntime()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -104,10 +104,10 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("build")]
-        [InlineData("publish")]
-        [InlineData("test")]
-        [InlineData("run")]
+        [DataRow("build")]
+        [DataRow("publish")]
+        [DataRow("test")]
+        [DataRow("run")]
         public void CommandsRunWithOSOption(string command)
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: command)
@@ -121,10 +121,10 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("build")]
-        [InlineData("publish")]
-        [InlineData("test")]
-        [InlineData("run")]
+        [DataRow("build")]
+        [DataRow("publish")]
+        [DataRow("test")]
+        [DataRow("run")]
         public void CommandsRunWithArchOption(string command)
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: command)
@@ -137,7 +137,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ArchOptionsAMD64toX64()
         {
             CommandDirectoryContext.PerformActionWithBasePath(WorkingDirectory, () =>
@@ -150,7 +150,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void ArchOptionIsResolvedFromRidUnderDifferentCulture()
         {
             CultureInfo currentCultureBefore = CultureInfo.CurrentCulture;
@@ -170,7 +170,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             finally { CultureInfo.CurrentCulture = currentCultureBefore; }
         }
 
-        [Fact]
+        [TestMethod]
         public void OsOptionIsResolvedFromRidUnderDifferentCulture()
         {
             CultureInfo currentCultureBefore = CultureInfo.CurrentCulture;

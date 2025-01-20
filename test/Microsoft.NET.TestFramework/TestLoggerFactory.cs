@@ -7,7 +7,7 @@ namespace Microsoft.NET.TestFramework
 {
     /// <summary>
     /// <see cref="ILoggerFactory"/> to be used with Xunit tests.
-    /// Adds <see cref="XunitLoggerProvider"/> and SimpleConsole logger by default.
+    /// Adds <see cref="MSTestLoggerProvider"/> and SimpleConsole logger by default.
     /// Additional logger providers are supported via <see cref="TestLoggerFactory.AddProvider(ILoggerProvider)"/> method.
     /// </summary>
     public sealed class TestLoggerFactory : ILoggerFactory
@@ -20,14 +20,14 @@ namespace Microsoft.NET.TestFramework
         {
             if (messageSink != null)
             {
-                SharedTestOutputHelper testOutputHelper = new(messageSink);
-                _loggerProviders.Add(new XunitLoggerProvider(testOutputHelper));
+                SharedTestOutputHelper testContextHelper = new(messageSink);
+                _loggerProviders.Add(new XunitLoggerProvider(testContextHelper));
             }
         }
 
-        public TestLoggerFactory(ITestOutputHelper testOutput)
+        public TestLoggerFactory(MSTestTestContext testContext)
         {
-            _loggerProviders.Add(new XunitLoggerProvider(testOutput));
+            _loggerProviders.Add(new MSTestLoggerProvider(testContext));
         }
 
         public void Dispose()

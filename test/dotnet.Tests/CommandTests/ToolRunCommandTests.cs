@@ -20,12 +20,12 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
         private const string ManifestFilename = "dotnet-tools.json";
         private DirectoryPath _nugetGlobalPackagesFolder;
 
-        public ToolRunCommandTests(ITestOutputHelper log) : base(log)
+        public ToolRunCommandTests(MSTestContext testContext) : base(testContext)
         {
             _nugetGlobalPackagesFolder = new DirectoryPath(NuGetGlobalPackagesFolder.GetLocation());
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRunWithRollForwardOptionItShouldIncludeRollForwardInNativeHost()
         {
             var parseResult = Parser.Instance.Parse($"dotnet tool run dotnet-a --allow-roll-forward");
@@ -39,13 +39,13 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             {
                 CommandName = "dotnet-a",
                 CommandArguments = testForwardArgument
-            }, toolRunCommand._allowRollForward); 
+            }, toolRunCommand._allowRollForward);
 
             result.Should().NotBeNull();
             result.Args.Should().Contain("--roll-forward", "Major", fakeExecutable.Value);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRunWithoutRollForwardOptionItShouldNotIncludeRollForwardInNativeHost()
         {
             var parseResult = Parser.Instance.Parse($"dotnet tool run dotnet-a");

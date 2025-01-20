@@ -8,7 +8,7 @@ namespace dotnet.Tests.ToolSearchTests
 {
     public class NugetSearchApiDeserializerTests
     {
-        [Fact]
+        [TestMethod]
         public void ItCanDeserialize()
         {
             var json = File.ReadAllText("queryResultSample.json");

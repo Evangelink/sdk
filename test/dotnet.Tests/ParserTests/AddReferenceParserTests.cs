@@ -10,14 +10,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class AddReferenceParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public AddReferenceParserTests(ITestOutputHelper output)
+        public AddReferenceParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void AddReferenceHasDefaultArgumentSetToCurrentDirectory()
         {
             var result = Parser.Instance.Parse("dotnet add reference my.csproj");
@@ -28,7 +28,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
                     PathUtility.EnsureTrailingSlash(Directory.GetCurrentDirectory()));
         }
 
-        [Fact]
+        [TestMethod]
         public void AddReferenceHasInteractiveFlag()
         {
             var result = Parser.Instance.Parse("dotnet add reference my.csproj --interactive");
@@ -37,7 +37,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
                 .Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void AddReferenceDoesNotHaveInteractiveFlagByDefault()
         {
             var result = Parser.Instance.Parse("dotnet add reference my.csproj");
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
                 .Should().BeFalse();
         }
 
-        [Fact]
+        [TestMethod]
         public void AddReferenceWithoutArgumentResultsInAnError()
         {
             var result = Parser.Instance.Parse("dotnet add reference");

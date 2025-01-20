@@ -9,7 +9,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.TestFramework
 {
-    [Trait("AspNetCore", "Integration")]
+    [TestProperty("AspNetCore", "Integration")]
     public abstract class AspNetSdkTest : SdkTest
     {
         public readonly string? DefaultTfm;

@@ -46,7 +46,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
         }
 
         // also asserts that "--param:<name>" is used if <name> is taken
-        [Fact(DisplayName = nameof(LongNameOverrideTakesPrecendence))]
+        [TestMethod(nameof(LongNameOverrideTakesPrecendence))]
         public void LongNameOverrideTakesPrecendence()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -64,7 +64,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
-        [Fact(DisplayName = nameof(ShortNameOverrideTakesPrecedence))]
+        [TestMethod(nameof(ShortNameOverrideTakesPrecedence))]
         public void ShortNameOverrideTakesPrecedence()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -82,7 +82,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
-        [Fact(DisplayName = nameof(ShortNameExcludedWithEmptyStringOverride))]
+        [TestMethod(nameof(ShortNameExcludedWithEmptyStringOverride))]
         public void ShortNameExcludedWithEmptyStringOverride()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -100,7 +100,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
-        [Fact(DisplayName = nameof(ParameterNameCannotContainColon))]
+        [TestMethod(nameof(ParameterNameCannotContainColon))]
         public void ParameterNameCannotContainColon()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -114,7 +114,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Contains("Parameter name 'foo:bar' contains colon, which is forbidden.", result["foo:bar"].Errors);
         }
 
-        [Fact(DisplayName = nameof(ShortNameGetPrependedPColonIfNeeded))]
+        [TestMethod(nameof(ShortNameGetPrependedPColonIfNeeded))]
         public void ShortNameGetPrependedPColonIfNeeded()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -132,7 +132,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
-        [Fact]
+        [TestMethod]
         public void ShortNameGenerationShouldNotProduceDuplicates()
         {
             List<CliTemplateParameter> paramList = new();
@@ -147,7 +147,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .BeFalse("Duplicate option aliases should not be generated.");
         }
 
-        [Fact]
+        [TestMethod]
         public void ShortNameSkippedAfter4Reps()
         {
             List<CliTemplateParameter> paramList = new();
@@ -169,7 +169,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
         }
 
         // This reflects the MVC 2.0 tempalte as of May 24, 2017
-        [Fact(DisplayName = nameof(CheckAliasAssignmentsMvc20))]
+        [TestMethod(nameof(CheckAliasAssignmentsMvc20))]
         public void CheckAliasAssignmentsMvc20()
         {
             IReadOnlyList<CliTemplateParameter> paramList = new List<CliTemplateParameter>()
@@ -244,10 +244,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
-        [Theory]
-        [InlineData("package", "--param:package")]
-        [InlineData("u", "-p:u")]
-        [InlineData("notreserved", "--notreserved")]
+        [TestMethod]
+        [DataRow("package", "--param:package")]
+        [DataRow("u", "-p:u")]
+        [DataRow("notreserved", "--notreserved")]
         public void CanAssignAliasForParameterWithReservedAlias(string parameterName, string expectedContainedAlias)
         {
             string command = "foo";
@@ -271,8 +271,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Contains(expectedContainedAlias, templateOption.Aliases);
         }
 
-        [Theory]
-        [MemberData(nameof(GetTemplateData))]
+        [TestMethod]
+        [DynamicData(nameof(GetTemplateData))]
         public void CanOverrideAliasesForParameterWithHostData(string hostJsonData, string expectedJsonResult)
         {
             var hostData = new HostSpecificTemplateData(string.IsNullOrEmpty(hostJsonData) ? null : JObject.Parse(hostJsonData));
@@ -302,17 +302,17 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 var expectedShortAlias = expectedValues[1];
                 var expectedIsHidden = expectedValues[2];
                 var templateOptions = templateCommands.Single().TemplateOptions;
-                Assert.NotNull(templateOptions);
+                Assert.IsNotNull(templateOptions);
                 Assert.Contains(expectedResult.Key, templateOptions.Keys);
                 var templateOption = templateOptions[expectedResult.Key];
-                Assert.NotNull(templateOption);
-                Assert.True(templateOption.Aliases.Count > 0);
+                Assert.IsNotNull(templateOption);
+                Assert.IsTrue(templateOption.Aliases.Count > 0);
                 var longAlias = templateOption.Aliases.ElementAt(0);
                 var shortAlias = templateOption.Aliases.Count > 1 ? templateOption.Aliases.ElementAt(1) : null;
                 var isHidden = templateOption.Option.Hidden;
-                Assert.Equal(expectedLongAlias, longAlias);
-                Assert.Equal(expectedShortAlias, shortAlias);
-                Assert.Equal(expectedIsHidden, isHidden);
+                Assert.AreEqual(expectedLongAlias, longAlias);
+                Assert.AreEqual(expectedShortAlias, shortAlias);
+                Assert.AreEqual(expectedIsHidden, isHidden);
             }
         }
 

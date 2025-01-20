@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
             _engineEnvironmentSettings = environmentSettingsHelper.CreateEnvironment(hostIdentifier: GetType().Name, virtualize: true);
         }
 
-        [Fact(DisplayName = nameof(DotnetRestoreCanTargetASingleProjectWithAJsonArray))]
+        [TestMethod(nameof(DotnetRestoreCanTargetASingleProjectWithAJsonArray))]
         public void DotnetRestoreCanTargetASingleProjectWithAJsonArray()
         {
             var callback = new MockDotnetRestoreCallback();
@@ -39,10 +39,10 @@ namespace Microsoft.DotNet.Cli.New.Tests
                 new MockCreationResult(),
                 targetBasePath);
 
-            Assert.Equal(projFileFullPath, callback.Target);
+            Assert.AreEqual(projFileFullPath, callback.Target);
         }
 
-        [Fact(DisplayName = nameof(DotnetRestoreCanTargetASingleProjectWithTheProjectName))]
+        [TestMethod(nameof(DotnetRestoreCanTargetASingleProjectWithTheProjectName))]
         public void DotnetRestoreCanTargetASingleProjectWithTheProjectName()
         {
             var callback = new MockDotnetRestoreCallback();
@@ -64,7 +64,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
                 new MockCreationResult(),
                 targetBasePath);
 
-            Assert.Equal(projFileFullPath, callback.Target);
+            Assert.AreEqual(projFileFullPath, callback.Target);
         }
 
         private class MockDotnetRestoreCallback

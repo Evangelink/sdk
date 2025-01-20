@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 {
     public class WorkloadsInfoProviderTests
     {
-        [Fact]
+        [TestMethod]
         public async Task InstalledWorkloads_ShouldReturnExpectedWorkloads()
         {
             // Setup

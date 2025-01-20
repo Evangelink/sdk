@@ -10,14 +10,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class InstallToolParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public InstallToolParserTests(ITestOutputHelper output)
+        public InstallToolParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallGlobaltoolParserCanGetPackageIdAndPackageVersion()
         {
             var result = Parser.Instance.Parse("dotnet tool install -g console.test.app --version 1.0.1");
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             packageVersion.Should().Be("1.0.1");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallGlobaltoolParserCanGetFollowingArguments()
         {
             var result =
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolInstallCommandParser.FrameworkOption).Should().Be(ToolsetInfo.CurrentTargetFramework);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseSourceOption()
         {
             const string expectedSourceValue = "TestSourceValue";
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolInstallCommandParser.AddSourceOption).First().Should().Be(expectedSourceValue);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseMultipleSourceOption()
         {
             const string expectedSourceValue1 = "TestSourceValue1";
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolInstallCommandParser.AddSourceOption)[1].Should().Be(expectedSourceValue2);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanGetGlobalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool install -g console.test.app");
@@ -76,7 +76,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue(ToolInstallCommandParser.GlobalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanGetLocalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool install --local console.test.app");
@@ -84,7 +84,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue(ToolInstallCommandParser.LocalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanGetManifestOption()
         {
             var result =
@@ -94,7 +94,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue(ToolInstallCommandParser.ToolManifestOption).Should().Be("folder/my-manifest.format");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseVerbosityOption()
         {
             const string expectedVerbosityLevel = "diag";
@@ -104,7 +104,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             Enum.GetName(result.GetValue<VerbosityOptions>(ToolInstallCommandParser.VerbosityOption)).Should().Be(expectedVerbosityLevel);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseToolPathOption()
         {
             var result =
@@ -113,7 +113,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue(ToolInstallCommandParser.ToolPathOption).Should().Be(@"C:\Tools");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseNoCacheOption()
         {
             var result =
@@ -122,7 +122,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolInstallCommandParser.GetCommand()).Should().ContainSingle("--no-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseNoHttpCacheOption()
         {
             var result =
@@ -131,7 +131,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolInstallCommandParser.GetCommand()).Should().ContainSingle("--no-http-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseIgnoreFailedSourcesOption()
         {
             var result =
@@ -140,7 +140,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolInstallCommandParser.GetCommand()).Should().ContainSingle("--ignore-failed-sources");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseDisableParallelOption()
         {
             var result =
@@ -149,7 +149,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolInstallCommandParser.GetCommand()).Should().ContainSingle("--disable-parallel");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallToolParserCanParseInteractiveRestoreOption()
         {
             var result =

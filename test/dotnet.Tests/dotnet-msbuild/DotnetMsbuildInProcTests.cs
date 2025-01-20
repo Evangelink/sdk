@@ -12,11 +12,11 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
     [Collection(TestConstants.UsesStaticTelemetryState)]
     public class DotnetMsbuildInProcTests : SdkTest
     {
-        public DotnetMsbuildInProcTests(ITestOutputHelper log) : base(log)
+        public DotnetMsbuildInProcTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTelemetryIsEnabledTheLoggerIsAddedToTheCommandLine()
         {
             Telemetry.Telemetry telemetry;
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTelemetryIsDisabledTheLoggerIsNotAddedToTheCommandLine()
         {
             string[] allArgs = GetArgsForMSBuild(() => false);

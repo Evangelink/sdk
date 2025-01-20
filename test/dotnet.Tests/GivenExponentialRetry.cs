@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.Tests
         {
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ItReturnsOnSuccess()
         {
             var retryCount = 0;
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests
             retryCount.Should().Be(1);
         }
 
-        [Fact(Skip = "Don't want to retry on exceptions")]
+        [TestMethod(IgnoreMessage = "Don't want to retry on exceptions")]
         public async Task ItRetriesOnError()
         {
             var retryCount = 0;

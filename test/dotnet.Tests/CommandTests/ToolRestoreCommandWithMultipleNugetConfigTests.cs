@@ -109,7 +109,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenManifestPackageAreFromDifferentDirectoryItCanFindTheRightNugetConfigAndSaveToCache()
         {
             IToolManifestFinder manifestFinder =

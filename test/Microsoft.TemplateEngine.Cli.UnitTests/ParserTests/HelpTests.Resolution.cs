@@ -13,7 +13,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
     public partial class HelpTests
     {
-        [Fact]
+        [TestMethod]
         public void UniqueNameMatchesCorrectly()
         {
             IReadOnlyList<ITemplateInfo> templatesToSearch = new List<ITemplateInfo>()
@@ -31,11 +31,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             IEnumerable<TemplateCommand> matchingTemplates = InstantiateCommand.GetMatchingTemplates(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
             Assert.Single(matchingTemplates);
             BufferedReporter reporter = new();
-            Assert.True(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out _));
+            Assert.IsTrue(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out _));
             Assert.Empty(reporter.Lines);
         }
 
-        [Fact]
+        [TestMethod]
         public Task FailedToResolveTemplate_WhenMultipleLanguagesAreFound()
         {
             IReadOnlyList<ITemplateInfo> templatesToSearch = new List<ITemplateInfo>()
@@ -57,11 +57,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Equal(3, matchingTemplates.Count());
             StringWriter output = new();
             BufferedReporter reporter = new();
-            Assert.False(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out _));
+            Assert.IsFalse(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out _));
             return Verify(string.Join(Environment.NewLine, reporter.Lines));
         }
 
-        [Fact]
+        [TestMethod]
         public void DefaultLanguageDisambiguates()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -84,15 +84,15 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new console");
             var args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             IEnumerable<TemplateCommand> matchingTemplates = InstantiateCommand.GetMatchingTemplates(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.Equal(2, matchingTemplates.Count());
+            Assert.AreEqual(2, matchingTemplates.Count());
             BufferedReporter reporter = new();
-            Assert.True(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
-            Assert.Equal(1, filtered?.Count());
-            Assert.Equal("Console.App.L1", filtered?.Single().Template.Identity);
+            Assert.IsTrue(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
+            Assert.AreEqual(1, filtered?.Count());
+            Assert.AreEqual("Console.App.L1", filtered?.Single().Template.Identity);
             Assert.Empty(reporter.Lines);
         }
 
-        [Fact]
+        [TestMethod]
         public void InputLanguageIsPreferredOverDefault()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -116,13 +116,13 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             IEnumerable<TemplateCommand> matchingTemplates = InstantiateCommand.GetMatchingTemplates(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
             Assert.Single(matchingTemplates);
             BufferedReporter reporter = new();
-            Assert.True(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
-            Assert.Equal(1, filtered?.Count());
-            Assert.Equal("Console.App.L2", filtered?.Single().Template.Identity);
+            Assert.IsTrue(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
+            Assert.AreEqual(1, filtered?.Count());
+            Assert.AreEqual("Console.App.L2", filtered?.Single().Template.Identity);
             Assert.Empty(reporter.Lines);
         }
 
-        [Fact]
+        [TestMethod]
         public void TemplatesAreSameLanguage()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -140,14 +140,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($"new console");
             var args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             IEnumerable<TemplateCommand> matchingTemplates = InstantiateCommand.GetMatchingTemplates(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.Equal(3, matchingTemplates.Count());
+            Assert.AreEqual(3, matchingTemplates.Count());
             BufferedReporter reporter = new();
-            Assert.True(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
-            Assert.Equal(3, filtered?.Count());
+            Assert.IsTrue(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out IEnumerable<TemplateCommand>? filtered));
+            Assert.AreEqual(3, filtered?.Count());
             Assert.Empty(reporter.Lines);
         }
 
-        [Fact]
+        [TestMethod]
         public void HasLanguageMismatch()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -170,7 +170,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void HasTypeMismatch()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -193,7 +193,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void HasBaselineMismatch()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -216,7 +216,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void HasMultipleMismatches()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -239,7 +239,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void HasTypeMismatch_HasGroupLanguageMatch()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -267,7 +267,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void OtherParameterMatch_Text()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -302,7 +302,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Single(matchingTemplates);
         }
 
-        [Fact]
+        [TestMethod]
         public void OtherParameterMatch_Choice()
         {
             List<ITemplateInfo> templatesToSearch = new()
@@ -338,7 +338,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void OtherParameterDoesNotExist()
         {
             List<ITemplateInfo> templatesToSearch = new()

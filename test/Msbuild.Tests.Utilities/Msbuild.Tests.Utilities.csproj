@@ -18,7 +18,6 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.Serialization.Primitives" />
     <PackageReference Include="FluentAssertions" />
-    <PackageReference Include="xunit" />
     <PackageReference Include="Microsoft.Build" />
     <PackageReference Include="System.Net.Http" />
   </ItemGroup>

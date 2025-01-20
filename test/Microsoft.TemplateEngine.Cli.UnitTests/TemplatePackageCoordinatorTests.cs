@@ -17,7 +17,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
     public class TemplatePackageCoordinatorTests
     {
-        [Fact]
+        [TestMethod]
         public void DisplayLocalPackageMetadata()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();
@@ -44,7 +44,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .And.Contain($"   {LocalizableStrings.DetailsCommand_Property_RepoUrl}: ANuGetSource");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisplayLocalPackageMetadata_NoData()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();
@@ -64,7 +64,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .ContainSingle("testPackage");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisplayNuGetPackageMetadata()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();
@@ -110,7 +110,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .And.NotContain($"   {LocalizableStrings.DetailsCommand_Property_PrefixReserved}: true");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisplayNuGetPackageMetadata_PrefixReserved()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();
@@ -157,7 +157,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .And.Contain($"   {LocalizableStrings.DetailsCommand_Property_PrefixReserved}: True");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisplayNuGetPackageMetadata_MultipleAuthors()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();
@@ -200,7 +200,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .And.Contain("      author3");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisplayNuGetPackageMetadata_MultipleOwners()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost();

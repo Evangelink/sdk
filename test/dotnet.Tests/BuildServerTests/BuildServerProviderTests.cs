@@ -20,7 +20,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMSBuildFlagItYieldsMSBuild()
         {
             var provider = new BuildServerProvider(
@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
                 .Equal(LocalizableStrings.MSBuildServer);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenVBCSCompilerFlagItYieldsVBCSCompiler()
         {
             var provider = new BuildServerProvider(
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
                 .Equal(LocalizableStrings.VBCSCompilerServer);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenRazorFlagAndNoPidDirectoryTheEnumerationIsEmpty()
         {
             var provider = new BuildServerProvider(
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
                 .BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoEnvironmentVariableItUsesTheDefaultPidDirectory()
         {
             var provider = new BuildServerProvider(
@@ -78,7 +78,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
                     "build"));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenEnvironmentVariableItUsesItForThePidDirectory()
         {
             IFileSystem fileSystem = new FileSystemMockBuilder().UseCurrentSystemTemporaryDirectory().Build();
@@ -94,7 +94,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
                 .Be(pidDirectory);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenARazorPidFileItReturnsARazorBuildServer()
         {
             const int ProcessId = 1234;
@@ -133,9 +133,9 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
             razorServer.PidFile.PipeName.Should().Be(PipeName);
         }
 
-        [Theory]
-        [InlineData(typeof(UnauthorizedAccessException))]
-        [InlineData(typeof(IOException))]
+        [TestMethod]
+        [DataRow(typeof(UnauthorizedAccessException))]
+        [DataRow(typeof(IOException))]
         public void GivenAnExceptionAccessingTheRazorPidFileItPrintsAWarning(Type exceptionType)
         {
             const int ProcessId = 1234;

@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Tests
         {
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42506")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42506")]
         public void CLI_SDK_assemblies_must_be_crossgened()
         {
             //  TODO: Update method of finding cliPath (right now it's finding a ref path in stage 0
@@ -26,7 +26,7 @@ namespace Microsoft.DotNet.Tests
             CheckDirectoryIsCrossgened(cliPath);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42506")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42506")]
         public void Shared_Fx_assemblies_must_be_crossgened()
         {
             //  TODO: Update method of finding sharedFxPath

@@ -9,7 +9,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     public class GivenMsbuildForwardingApp : SdkTest
     {
-        public GivenMsbuildForwardingApp(ITestOutputHelper log) : base(log)
+        public GivenMsbuildForwardingApp(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -29,10 +29,10 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .GetProcessStartInfo().FileName.Should().EndWith("dotnet");
         }
 
-        [Theory]
-        [InlineData("MSBuildExtensionsPath")]
-        [InlineData("MSBuildSDKsPath")]
-        [InlineData("DOTNET_CLI_TELEMETRY_SESSIONID")]
+        [TestMethod]
+        [DataRow("MSBuildExtensionsPath")]
+        [DataRow("MSBuildSDKsPath")]
+        [DataRow("DOTNET_CLI_TELEMETRY_SESSIONID")]
         public void ItSetsEnvironmentalVariables(string envVarName)
         {
             var msbuildPath = "<msbuildpath>";
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             startInfo.Environment.ContainsKey(envVarName).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItSetsMSBuildExtensionPathToExistingPath()
         {
             var msbuildPath = "<msbuildpath>";
@@ -52,7 +52,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItSetsMSBuildSDKsPathToExistingPath()
         {
             var msbuildPath = "<msbuildpath>";
@@ -64,7 +64,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItSetsOrIgnoresTelemetrySessionId()
         {
             var msbuildPath = "<msbuildpath>";
@@ -74,7 +74,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 
             string sessionId = startInfo.Environment[envVar];
 
-            Log.WriteLine("StartInfo DOTNET_CLI_TELEMETRY_SESSIONID: " + sessionId);
+            MSTestContext.WriteLine("StartInfo DOTNET_CLI_TELEMETRY_SESSIONID: " + sessionId);
 
             //  Other in-process tests (GivenADotnetFirstTimeUseConfigurerWithStateSetup) use "test"
             //  for session ID, so ignore if they already set it
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotSetCurrentWorkingDirectory()
         {
             var msbuildPath = "<msbuildpath>";

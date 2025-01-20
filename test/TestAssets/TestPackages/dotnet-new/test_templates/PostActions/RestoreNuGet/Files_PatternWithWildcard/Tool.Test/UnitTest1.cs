@@ -5,7 +5,7 @@ namespace Tool.Test
 {
     public class UnitTest1
     {
-        [Fact]
+        [TestMethod]
         public void Test1()
         {
             string filed = "Schedule";

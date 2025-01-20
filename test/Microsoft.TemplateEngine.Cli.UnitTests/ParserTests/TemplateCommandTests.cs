@@ -15,7 +15,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
     public class TemplateCommandTests
     {
-        [Fact]
+        [TestMethod]
         public Task CannotCreateCommandForInvalidParameter()
         {
             MockTemplateInfo template = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -53,8 +53,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             }
             catch (InvalidTemplateParametersException e)
             {
-                Assert.Equal(2, e.ParameterErrors.Count);
-                Assert.Equal(templateGroup.Templates.Single(), e.Template);
+                Assert.AreEqual(2, e.ParameterErrors.Count);
+                Assert.AreEqual(templateGroup.Templates.Single(), e.Template);
 
                 return Verify(e.Message);
             }
@@ -64,7 +64,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Constraints_WhenTheTemplateIsAllowed()
         {
             MockTemplateInfo template = new MockTemplateInfo(shortName: "test", identity: "testId1").WithConstraints(new TemplateConstraintInfo("test", "yes"));
@@ -77,7 +77,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Empty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Constraints_WhenTheTemplateIsRestricted()
         {
             MockTemplateInfo template = new MockTemplateInfo(shortName: "test").WithConstraints(new TemplateConstraintInfo("test", "no"));
@@ -90,7 +90,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.NotEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Constraints_WhenTheConstraintCannotBeEvaluated()
         {
             MockTemplateInfo template = new MockTemplateInfo(shortName: "test").WithConstraints(new TemplateConstraintInfo("test", "bad-arg"));

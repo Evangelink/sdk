@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="FakeItEasy" />
     <PackageReference Include="Moq" />
-    <PackageReference Include="Verify.XUnit" />
+    <PackageReference Include="Verify.MSTest" />
     <PackageReference Include="Verify.DiffPlex" />
     <PackageReference Include="Microsoft.TemplateEngine.Mocks" />
     <PackageReference Include="Microsoft.TemplateEngine.TestHelper" />

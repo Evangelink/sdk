@@ -4,7 +4,7 @@
 
   <ItemGroup>
     <!--Test dependencies-->
-    <PackageVersion Include="Verify.Xunit" Version="25.0.2" />
+    <PackageVersion Include="Verify.MSTest" Version="25.0.2" />
     <PackageVersion Include="Verify.DiffPlex" Version="3.0.0" />
     <PackageVersion Include="FakeItEasy" Version="8.0.0" />
     <PackageVersion Include="Wcwidth.Sources" Version="2.0.0" />

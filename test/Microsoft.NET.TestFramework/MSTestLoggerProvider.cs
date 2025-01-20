@@ -8,57 +8,57 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 namespace Microsoft.NET.TestFramework
 {
     // <summary>
-    /// Microsoft.Extensions.Logging <see cref="ILoggerProvider"/> which logs to XUnit test output.
+    /// Microsoft.Extensions.Logging <see cref="ILoggerProvider"/> which logs to XUnit test testContext.
     /// </summary>
     /// <remarks>
     /// See https://github.com/dotnet/runtime/blob/main/src/libraries/Microsoft.Extensions.Logging/tests/DI.Common/Common/src/XunitLoggerProvider.cs for more details.
     /// </remarks>
-    public class XunitLoggerProvider : ILoggerProvider
+    public class MSTestLoggerProvider : ILoggerProvider
     {
-        private readonly ITestOutputHelper _output;
+        private readonly MSTestTestContext _testContext;
         private readonly LogLevel _minLevel;
-        private readonly DateTimeOffset? _logStart;
+        private readonly DateTimeOffset? _testContextStart;
 
-        public XunitLoggerProvider(ITestOutputHelper output)
-            : this(output, LogLevel.Trace)
+        public MSTestLoggerProvider(MSTestTestContext testContext)
+            : this(testContext, LogLevel.Trace)
         {
         }
 
-        public XunitLoggerProvider(ITestOutputHelper output, LogLevel minLevel)
-            : this(output, minLevel, null)
+        public MSTestLoggerProvider(MSTestTestContext testContext, LogLevel minLevel)
+            : this(testContext, minLevel, null)
         {
         }
 
-        public XunitLoggerProvider(ITestOutputHelper output, LogLevel minLevel, DateTimeOffset? logStart)
+        public MSTestLoggerProvider(MSTestTestContext testContext, LogLevel minLevel, DateTimeOffset? logStart)
         {
-            _output = output;
+            _testContext = testContext;
             _minLevel = minLevel;
-            _logStart = logStart;
+            _testContextStart = logStart;
         }
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new XunitLogger(_output, categoryName, _minLevel, _logStart);
+            return new MSTestLogger(_testContext, categoryName, _minLevel, _testContextStart);
         }
 
         public void Dispose()
         {
         }
 
-        private class XunitLogger : ILogger
+        private class MSTestLogger : ILogger
         {
             private static readonly string[] NewLineChars = new[] { Environment.NewLine };
             private readonly string _category;
             private readonly LogLevel _minLogLevel;
-            private readonly ITestOutputHelper _output;
-            private readonly DateTimeOffset? _logStart;
+            private readonly MSTestTestContext _testContext;
+            private readonly DateTimeOffset? _testContextStart;
 
-            public XunitLogger(ITestOutputHelper output, string category, LogLevel minLogLevel, DateTimeOffset? logStart)
+            public MSTestLogger(MSTestTestContext testContext, string category, LogLevel minLogLevel, DateTimeOffset? logStart)
             {
                 _minLogLevel = minLogLevel;
                 _category = category;
-                _output = output;
-                _logStart = logStart;
+                _testContext = testContext;
+                _testContextStart = logStart;
             }
 
             public void Log<TState>(
@@ -72,7 +72,7 @@ namespace Microsoft.NET.TestFramework
                 // Buffer the message into a single string in order to avoid shearing the message when running across multiple threads.
                 var messageBuilder = new StringBuilder();
 
-                var timestamp = _logStart.HasValue ? $"{(DateTimeOffset.UtcNow - _logStart.Value).TotalSeconds:N3}s" : DateTimeOffset.UtcNow.ToString("s");
+                var timestamp = _testContextStart.HasValue ? $"{(DateTimeOffset.UtcNow - _testContextStart.Value).TotalSeconds:N3}s" : DateTimeOffset.UtcNow.ToString("s");
 
                 var firstLinePrefix = $"| [{timestamp}] {_category} {logLevel}: ";
                 var lines = formatter(state, exception).Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries);
@@ -103,7 +103,7 @@ namespace Microsoft.NET.TestFramework
 
                 try
                 {
-                    _output.WriteLine(message);
+                    _testContext.WriteLine(message);
                 }
                 catch (Exception)
                 {

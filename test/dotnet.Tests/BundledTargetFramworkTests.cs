@@ -14,7 +14,7 @@ namespace Microsoft.DotNet.Tests
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void VersionCommandDisplaysCorrectVersion()
         {
             var filePath = Path.Combine(

@@ -2,9 +2,9 @@
 
 namespace Microsoft.CoreSdkTasks.Tests
 {
-    public class CalculateTemplateVersionsTests(ITestOutputHelper log) : SdkTest(log)
+    public class CalculateTemplateVersionsTests(TestContext testContext) : SdkTest(log)
     {
-        [Fact]
+        [TestMethod]
         public void WhenAspNetCoreTemplateMajorVersionLowerthan3ItCanCalculateTemplateVersionsInStableBuilds()
         {
             var result = CalculateTemplateVersions.Calculate("3.1.0");
@@ -15,7 +15,7 @@ namespace Microsoft.CoreSdkTasks.Tests
             result.MajorMinorPatchVersion.Should().Be("3.1.1");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenAspNetCoreTemplateMajorVersionLowerthan3ItCanCalculateTemplateVersionsInNonStableBuilds()
         {
             var result = CalculateTemplateVersions.Calculate("3.0.0-alpha.1.20071.6");
@@ -25,7 +25,7 @@ namespace Microsoft.CoreSdkTasks.Tests
             result.MajorMinorPatchVersion.Should().Be("3.0.1");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenAspNetCoreTemplateMajorVersionHigherthan3ItCanCalculateTemplateVersionsInStableBuilds()
         {
             var result = CalculateTemplateVersions.Calculate("5.1.0");
@@ -36,7 +36,7 @@ namespace Microsoft.CoreSdkTasks.Tests
             result.MajorMinorPatchVersion.Should().Be("5.1.0");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenAspNetCoreTemplateMajorVersionHigherthan3ItCanCalculateTemplateVersionsInNonStableBuilds()
         {
             var result = CalculateTemplateVersions.Calculate("5.0.0-alpha.1.20071.6");

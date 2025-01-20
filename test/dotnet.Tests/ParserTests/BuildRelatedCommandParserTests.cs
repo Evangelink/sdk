@@ -43,8 +43,8 @@ namespace Microsoft.DotNet.Tests.ParserTests
             return data;
         }
 
-        [MemberData(nameof(BuildRelatedCommandsAndOptions))]
-        [Theory]
+        [DynamicData(nameof(BuildRelatedCommandsAndOptions))]
+        [TestMethod]
         public void Build(string command, string option)
         {
             var cliCommand = Parser.Instance.RootCommand.Children.OfType<CliCommand>().FirstOrDefault(c => c.Name == command);

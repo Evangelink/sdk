@@ -37,17 +37,17 @@ namespace Microsoft.DotNet.Cli.Workload.Clean.Tests
             return (testDirectory, dotnetRoot, userProfileDir, workloadResolver, nugetDownloader);
         }
 
-        public GivenDotnetWorkloadClean(ITestOutputHelper log) : base(log)
+        public GivenDotnetWorkloadClean(MSTestContext testContext) : base(testContext)
         {
             _reporter = new BufferedReporter();
             _manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "Sample.json");
         }
 
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        [InlineData(true, false)]
-        [InlineData(false, false)]
+        [TestMethod]
+        [DataRow(true, true)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        [DataRow(false, false)]
         public void GivenWorkloadCleanFileBasedItRemovesPacksAndPackRecords(bool userLocal, bool cleanAll)
         {
             var (testDirectory, dotnetRoot, userProfileDir, workloadResolver, nugetDownloader) = Setup(userLocal, cleanAll);
@@ -74,9 +74,9 @@ namespace Microsoft.DotNet.Cli.Workload.Clean.Tests
             AssertAdjacentCommandsStillPass(userProfileDir, dotnetRoot, testDirectory, workloadResolver, nugetDownloader);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void GivenWorkloadCleanAllFileBasedItCleansAllFeatureBands(bool userLocal)
         {
             var (testDirectory, dotnetRoot, userProfileDir, workloadResolver, nugetDownloader) = Setup(userLocal, true);
@@ -177,7 +177,7 @@ namespace Microsoft.DotNet.Cli.Workload.Clean.Tests
 
         private void AssertWorkloadInstallationRecordIsRemoved(string workloadInstallationRecordDirectory)
         {
-            Assert.Equal(Directory.GetFiles(workloadInstallationRecordDirectory), Array.Empty<string>());
+            Assert.AreEqual(Directory.GetFiles(workloadInstallationRecordDirectory), Array.Empty<string>());
         }
 
         private void AssertValidPackCountsMatchExpected(string installRoot, int expectedPackCount, int expectedPackRecordCount)

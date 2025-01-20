@@ -8,7 +8,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 {
     public class SdkInfoProviderTests
     {
-        [Fact]
+        [TestMethod]
         public async Task GetInstalledVersionsAsync_ShouldContainCurrentVersion()
         {
             string? dotnetRootUnderTest = TestContext.Current.ToolsetUnderTest?.DotNetRoot;

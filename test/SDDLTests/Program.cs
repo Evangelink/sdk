@@ -185,13 +185,13 @@ namespace SDDLTests
             Console.WriteLine($"Verifying descriptor: {sddlDescriptor}");
             (string owner, string group, IEnumerable<string> ACEs) d = GetDescriptorParts(sddlDescriptor);
 
-            Assert.True(expectedOwnerSID == d.owner, $"Expected owner SID to be {expectedOwnerSID}. Actual value: {d.owner}");
-            Assert.True(expectedGroupSID == d.group, $"Expected group SID to be {expectedGroupSID}. Actual value: {d.group}");
-            Assert.True(d.ACEs.Count() == expectedNumberOfACEsInDACL, $"Expected {expectedNumberOfACEsInDACL}. Actual: {d.ACEs.Count()}");
+            Assert.IsTrue(expectedOwnerSID == d.owner, $"Expected owner SID to be {expectedOwnerSID}. Actual value: {d.owner}");
+            Assert.IsTrue(expectedGroupSID == d.group, $"Expected group SID to be {expectedGroupSID}. Actual value: {d.group}");
+            Assert.IsTrue(d.ACEs.Count() == expectedNumberOfACEsInDACL, $"Expected {expectedNumberOfACEsInDACL}. Actual: {d.ACEs.Count()}");
 
             foreach (string ace in expectedACEs)
             {
-                Assert.True(d.ACEs.Contains(ace), $"Expected DACL to contain {ace}, but it did not.");
+                Assert.IsTrue(d.ACEs.Contains(ace), $"Expected DACL to contain {ace}, but it did not.");
             }
         }
 

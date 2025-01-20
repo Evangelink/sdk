@@ -16,7 +16,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
     public partial class TabCompletionTests
     {
-        [Fact]
+        [TestMethod]
         public void Instantiate_CanSuggestTemplateOption_StartsWith()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost(additionalComponents: BuiltInTemplatePackagesProviderFactory.GetComponents(RepoTemplatePackages));
@@ -25,13 +25,13 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($"new console --framework {ToolsetInfo.CurrentTargetFramework} --l");
             string[] suggestions = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
-            Assert.Equal(2, suggestions.Length);
+            Assert.AreEqual(2, suggestions.Length);
             Assert.Contains("--langVersion", suggestions);
             Assert.Contains("--language", suggestions);
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "doesn't work at the moment; it matches with legacy --language option which cannot be completed; to discuss how to avoid that")]
+        [TestMethod(IgnoreMessage = "doesn't work at the moment; it matches with legacy --language option which cannot be completed; to discuss how to avoid that")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Instantiate_CanSuggestLanguages()
         {
@@ -41,14 +41,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse("new console --language ");
             string[] suggestions = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
-            Assert.Equal(3, suggestions.Length);
+            Assert.AreEqual(3, suggestions.Length);
             Assert.Contains("C#", suggestions);
             Assert.Contains("F#", suggestions);
             Assert.Contains("VB", suggestions);
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "not valid behavior for parser, should suggest --nuget-source")]
+        [TestMethod(IgnoreMessage = "not valid behavior for parser, should suggest --nuget-source")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Install_GetSuggestionsAfterInteractive()
         {
@@ -58,11 +58,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse("new install --interactive ");
             string[] result = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
-            Assert.Equal(2, result.Length);
+            Assert.AreEqual(2, result.Length);
             Assert.Contains("--nuget-source", result);
         }
 
-        [Fact]
+        [TestMethod]
         public void Install_GetSuggestionsAfterOptionWithoutArg()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost(additionalComponents: BuiltInTemplatePackagesProviderFactory.GetComponents(RepoTemplatePackages));
@@ -75,7 +75,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "not valid behavior for parser, should suggest --interactive")]
+        [TestMethod(IgnoreMessage = "not valid behavior for parser, should suggest --interactive")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Install_GetSuggestionsAfterOptionWithArg()
         {
@@ -89,7 +89,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Contains("--interactive", result);
         }
 
-        [Fact]
+        [TestMethod]
         public void Instantiate_CanSuggestTemplate_StartsWith()
         {
             ICliTemplateEngineHost host = CliTestHostFactory.GetVirtualHost(additionalComponents: BuiltInTemplatePackagesProviderFactory.GetComponents(RepoTemplatePackages));
@@ -99,10 +99,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             string[] suggestions = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
             Assert.Single(suggestions);
-            Assert.Equal("console", suggestions.Single());
+            Assert.AreEqual("console", suggestions.Single());
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteChoice_FromSingleTemplate()
         {
             MockTemplateInfo template = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -118,19 +118,19 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             NewCommand myCommand = (NewCommand)NewCommandFactory.Create("new", _ => host);
             ParseResult parseResult = myCommand.Parse($" new foo --testChoice ");
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "val1", "val2", "val3" }, result);
+            Assert.AreEqual(new[] { "val1", "val2", "val3" }, result);
         }
 
-        [Theory]
-        [InlineData(" new foo --testChoice val2 --testChoice va", new[] { "val1", "val2", "val3" })]
-        [InlineData(" new foo --testC", new[] { "--testChoice" })]
-        // [InlineData(" new foo --testChoice val2 --testC", new[] { "--testChoice" },
+        [TestMethod]
+        [DataRow(" new foo --testChoice val2 --testChoice va", new[] { "val1", "val2", "val3" })]
+        [DataRow(" new foo --testC", new[] { "--testChoice" })]
+        // [DataRow(" new foo --testChoice val2 --testC", new[] { "--testChoice" },
         //  Skip = "Multiple arity option completion does not work. https://github.com/dotnet/command-line-api/issues/1727")]
         public void CanCompleteChoice_MultichoiceTabCompletion(string command, string[] suggestions)
         {
@@ -147,16 +147,16 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             NewCommand myCommand = (NewCommand)NewCommandFactory.Create("new", _ => host);
             ParseResult parseResult = myCommand.Parse(command);
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(suggestions, result);
+            Assert.AreEqual(suggestions, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteChoice_FromSingleTemplate_StartsWith()
         {
             MockTemplateInfo template = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -172,15 +172,15 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             NewCommand myCommand = (NewCommand)NewCommandFactory.Create("new", _ => host);
             ParseResult parseResult = myCommand.Parse($" new foo --testChoice v");
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "val1", "val2" }, result);
+            Assert.AreEqual(new[] { "val1", "val2" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteChoice_FromSingleTemplate_InTheMiddle()
         {
             MockTemplateInfo template = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -197,15 +197,15 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --testChoice v --name test");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
             completionContext = completionContext!.AtCursorPosition(23);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "val1", "val2" }, result);
+            Assert.AreEqual(new[] { "val1", "val2" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteChoice_FromMultipleTemplates()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -225,14 +225,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --testChoice ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "val1", "val2", "val3" }, result);
+            Assert.AreEqual(new[] { "val1", "val2", "val3" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteChoice_FromMultipleTemplates_StartsWith()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -252,14 +252,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --testChoice v");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "val1", "val2" }, result);
+            Assert.AreEqual(new[] { "val1", "val2" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteParameters_FromMultipleTemplates()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -281,7 +281,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
@@ -300,7 +300,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.DoesNotContain("--baseline", result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteParameters_StartsWith_FromMultipleTemplates()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -322,7 +322,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --t");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
@@ -342,7 +342,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "https://github.com/dotnet/templating/issues/4387")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/4387")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanCompleteParameters_StartsWith_AfterOption()
         {
@@ -365,7 +365,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --foo val1 --bar val2 --t");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
@@ -384,9 +384,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.DoesNotContain("--baseline", result);
         }
 
-        [Theory]
-        [InlineData("-lang")]
-        [InlineData("--language")]
+        [TestMethod]
+        [DataRow("-lang")]
+        [DataRow("--language")]
         public void CanCompleteLanguages(string optionName)
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -406,14 +406,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo {optionName} ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "C#", "F#" }, result);
+            Assert.AreEqual(new[] { "C#", "F#" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCompleteTypes()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")
@@ -433,14 +433,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo --type ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
-            Assert.Equal(new[] { "project", "solution" }, result);
+            Assert.AreEqual(new[] { "project", "solution" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanIgnoreTemplateGroupsWithConstraints()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo1", identity: "foo.1")
@@ -463,14 +463,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new fo");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateNameCompletions(args.ShortName, templateGroups, settings).Select(l => l.Label);
 
-            Assert.Equal(new[] { "foo1" }, result);
+            Assert.AreEqual(new[] { "foo1" }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanIgnoreTemplateGroupsWithConstraints_IgnoresLongEvaluationTemplateGroups()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo1", identity: "foo.1")
@@ -493,14 +493,14 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new fo");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateNameCompletions(args.ShortName, templateGroups, settings).Select(l => l.Label);
 
             Assert.Empty(result);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanIgnoreTemplatesInGroupWithConstraints()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "group")
@@ -526,7 +526,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
@@ -535,7 +535,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.DoesNotContain("--c", result);
         }
 
-        [Fact]
+        [TestMethod]
         public void IncludesTemplatesInGroupWithLongEvaluatedConstraints()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "group")
@@ -561,7 +561,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new foo ");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateCompletions(args, templateGroups, settings, packageManager, completionContext!).Select(l => l.Label);
 
@@ -570,7 +570,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             Assert.Contains("--c", result);
         }
 
-        [Fact]
+        [TestMethod]
         public void WillNotEvaluateConstraints_WhenAtLeastOneTemplateInGroupDoesNotHaveConstraints()
         {
             MockTemplateInfo template1 = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "group")
@@ -595,11 +595,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new fo");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var completionContext = parseResult.GetCompletionContext() as TextCompletionContext;
-            Assert.NotNull(completionContext);
+            Assert.IsNotNull(completionContext);
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateNameCompletions(args.ShortName, templateGroups, settings).Select(l => l.Label);
 
-            Assert.Equal(new[] { "foo" }, result);
+            Assert.AreEqual(new[] { "foo" }, result);
         }
     }
 }

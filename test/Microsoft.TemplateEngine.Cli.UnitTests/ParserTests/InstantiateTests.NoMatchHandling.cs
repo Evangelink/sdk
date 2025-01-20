@@ -280,8 +280,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             };
         }
 
-        [Theory]
-        [MemberData(nameof(GetInvalidParametersTestData))]
+        [TestMethod]
+        [DynamicData(nameof(GetInvalidParametersTestData))]
         // invalid params:
         // [0] name / value - Kind
         // [1] canonical
@@ -306,7 +306,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             List<TemplateResult> templateMatchInfos = InstantiateCommand.CollectTemplateMatchInfo(args, settings, templatePackageManager, templateGroup);
             List<InvalidTemplateOptionResult> invalidOptions = InstantiateCommand.GetInvalidOptions(templateMatchInfos);
-            Assert.Equal(expectedInvalidParams.Length, invalidOptions.Count);
+            Assert.AreEqual(expectedInvalidParams.Length, invalidOptions.Count);
 
             foreach (string?[] invalidParam in expectedInvalidParams)
             {
@@ -325,11 +325,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
                 InvalidTemplateOptionResult actualParam = invalidOptions.Single(param => param.InputFormat == expectedInputFormat);
 
-                Assert.Equal(expectedErrorKind, actualParam.ErrorKind);
-                Assert.Equal(expectedCanonicalName, actualParam.TemplateOption?.TemplateParameter.Name);
-                Assert.Equal(expectedInputFormat, actualParam.InputFormat);
-                Assert.Equal(expectedSpecifiedValue, actualParam.SpecifiedValue);
-                Assert.Equal(expectedErrorMessage, actualParam.ErrorMessage);
+                Assert.AreEqual(expectedErrorKind, actualParam.ErrorKind);
+                Assert.AreEqual(expectedCanonicalName, actualParam.TemplateOption?.TemplateParameter.Name);
+                Assert.AreEqual(expectedInputFormat, actualParam.InputFormat);
+                Assert.AreEqual(expectedSpecifiedValue, actualParam.SpecifiedValue);
+                Assert.AreEqual(expectedErrorMessage, actualParam.ErrorMessage);
             }
         }
     }

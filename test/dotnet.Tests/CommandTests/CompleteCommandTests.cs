@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Tests.Commands
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenOnlyDotnetItSuggestsTopLevelCommandsAndOptions()
         {
             var expected = new[] {
@@ -59,7 +59,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenASlashItSuggestsTopLevelOptions()
         {
             var expected = new[] {
@@ -103,7 +103,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Contain(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetCommandItDisplaysCompletions()
         {
             var expected = new[] {
@@ -129,12 +129,12 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetDeleteCommandItDisplaysCompletions()
         {
             var expected = new[] {
                 "--api-key",
-                "--force-english-output",
+                "--force-english-testContext",
                 "--help",
                 "--no-service-endpoint",
                 "--non-interactive",
@@ -153,12 +153,12 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetLocalsCommandItDisplaysCompletions()
         {
             var expected = new[] {
                 "--clear",
-                "--force-english-output",
+                "--force-english-testContext",
                 "--help",
                 "--list",
                 "-?",
@@ -179,13 +179,13 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetPushCommandItDisplaysCompletions()
         {
             var expected = new[] {
                 "--api-key",
                 "--disable-buffering",
-                "--force-english-output",
+                "--force-english-testContext",
                 "--help",
                 "--no-service-endpoint",
                 "--no-symbols",
@@ -213,7 +213,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetVerifyCommandItDisplaysCompletions()
         {
             var expected = new[] {
@@ -233,7 +233,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetTrustCommandItDisplaysCompletions()
         {
             var expected = new[] {
@@ -259,7 +259,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetSignCommandItDisplaysCompletions()
         {
             var expected = new[] {
@@ -289,7 +289,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNuGetWhyCommandItDisplaysCompletions()
         {
             var expected = new[] {
@@ -307,7 +307,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenDotnetAddPackWithPosition()
         {
             var expected = new[] {
@@ -319,7 +319,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenDotnetToolInWithPosition()
         {
             var expected = new[] {
@@ -332,7 +332,7 @@ namespace Microsoft.DotNet.Tests.Commands
             reporter.Lines.OrderBy(c => c).Should().Equal(expected.OrderBy(c => c));
         }
 
-        [Fact]
+        [TestMethod]
         public void CompletesNugetPackageIds()
         {
             NuGetPackageDownloader.CliCompletionsTimeout = TimeSpan.FromDays(1);
@@ -353,7 +353,7 @@ namespace Microsoft.DotNet.Tests.Commands
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CompletesNugetPackageVersions()
         {
             NuGetPackageDownloader.CliCompletionsTimeout = TimeSpan.FromDays(1);
@@ -375,7 +375,7 @@ namespace Microsoft.DotNet.Tests.Commands
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CompletesNugetPackageVersionsWithStem()
         {
             NuGetPackageDownloader.CliCompletionsTimeout = TimeSpan.FromDays(1);
@@ -401,7 +401,7 @@ namespace Microsoft.DotNet.Tests.Commands
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CompletesNugetPackageVersionsWithPrereleaseVersionsWhenSpecified()
         {
             NuGetPackageDownloader.CliCompletionsTimeout = TimeSpan.FromDays(1);

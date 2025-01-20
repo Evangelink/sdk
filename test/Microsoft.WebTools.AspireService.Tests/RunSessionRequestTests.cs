@@ -7,7 +7,7 @@ namespace Aspire.Tools.Service.UnitTests;
 
 public class RunSessionRequestTests
 {
-    [Fact]
+    [TestMethod]
     public void RunSessionRequest_ToProjectLaunchRequest()
     {
         var runSessionReq = new RunSessionRequest()
@@ -32,13 +32,13 @@ public class RunSessionRequestTests
 
         var projectReq = runSessionReq.ToProjectLaunchInformation();
 
-        Assert.Equal(runSessionReq.Arguments[0], projectReq.Arguments.First());
-        Assert.Equal(runSessionReq.Environment.Length, projectReq.Environment.Count());
-        Assert.Equal(runSessionReq.Environment[0].Name, projectReq.Environment.First().Key);
-        Assert.Equal(runSessionReq.Environment[0].Value, projectReq.Environment.First().Value);
-        Assert.Equal(runSessionReq.LaunchConfigurations[0].ProjectPath, projectReq.ProjectPath);
-        Assert.True(projectReq.Debug);
-        Assert.Equal(runSessionReq.LaunchConfigurations[0].LaunchProfile, projectReq.LaunchProfile);
-        Assert.Equal(runSessionReq.LaunchConfigurations[0].DisableLaunchProfile, projectReq.DisableLaunchProfile);
+        Assert.AreEqual(runSessionReq.Arguments[0], projectReq.Arguments.First());
+        Assert.AreEqual(runSessionReq.Environment.Length, projectReq.Environment.Count());
+        Assert.AreEqual(runSessionReq.Environment[0].Name, projectReq.Environment.First().Key);
+        Assert.AreEqual(runSessionReq.Environment[0].Value, projectReq.Environment.First().Value);
+        Assert.AreEqual(runSessionReq.LaunchConfigurations[0].ProjectPath, projectReq.ProjectPath);
+        Assert.IsTrue(projectReq.Debug);
+        Assert.AreEqual(runSessionReq.LaunchConfigurations[0].LaunchProfile, projectReq.LaunchProfile);
+        Assert.AreEqual(runSessionReq.LaunchConfigurations[0].DisableLaunchProfile, projectReq.DisableLaunchProfile);
     }
 }

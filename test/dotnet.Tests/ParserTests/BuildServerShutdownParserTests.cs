@@ -8,14 +8,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class BuildServerShutdownParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public BuildServerShutdownParserTests(ITestOutputHelper output)
+        public BuildServerShutdownParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoOptionsAllFlagsAreFalse()
         {
             var result = Parser.Instance.Parse("dotnet build-server shutdown");
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ServerShutdownCommandParser.RazorOption).Should().Be(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMSBuildOptionIsItTrue()
         {
             var result = Parser.Instance.Parse("dotnet build-server shutdown --msbuild");
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ServerShutdownCommandParser.RazorOption).Should().Be(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenVBCSCompilerOptionIsItTrue()
         {
             var result = Parser.Instance.Parse("dotnet build-server shutdown --vbcscompiler");
@@ -45,7 +45,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ServerShutdownCommandParser.RazorOption).Should().Be(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenRazorOptionIsItTrue()
         {
             var result = Parser.Instance.Parse("dotnet build-server shutdown --razor");
@@ -55,7 +55,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ServerShutdownCommandParser.RazorOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMultipleOptionsThoseAreTrue()
         {
             var result = Parser.Instance.Parse("dotnet build-server shutdown --razor --msbuild");

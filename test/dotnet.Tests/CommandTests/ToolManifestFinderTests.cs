@@ -43,7 +43,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             };
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryItGetContent()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContent);
@@ -58,7 +58,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(_defaultExpectedResult, manifestResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnParentDirectoryItGetContent()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -74,7 +74,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(_defaultExpectedResult, manifestResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileInDotConfigDirectoryItGetContent()
         {
             var dotnetconfigDirectory = Path.Combine(_testDirectoryRoot, ".config");
@@ -91,7 +91,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(_defaultExpectedResult, manifestResult);
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX)]
         public void GivenManifestFileInRootDirectoryForLinuxMacOSItGetsContent()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(expectedResult, manifestResult);
         }
 
-        [PlatformSpecificFact(TestPlatforms.Windows)]
+        [PlatformSpecificTestMethod(TestPlatforms.Windows)]
         public void GivenManifestFileInRootDirectoryItThrowsError()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);
@@ -152,7 +152,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(LocalizableStrings.CannotFindAManifestFile);
         }
 
-        [PlatformSpecificFact(TestPlatforms.Windows)]
+        [PlatformSpecificTestMethod(TestPlatforms.Windows)]
         public void GivenManifestFileInRootDirectoryWithEnvVariableCHECK_MANIFEST_IN_ROOTToTrueItGetsContent()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);
@@ -198,7 +198,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(expectedResult, manifestResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestWithDuplicatedPackageIdItReturnsTheLastValue()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename),
@@ -216,7 +216,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                     string.Join(", ", "t-rex")), ""));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenCalledWithFilePathItGetContent()
         {
             string customFileName = "customname.file";
@@ -244,7 +244,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenCalledWithNonExistsFilePathItThrows()
         {
             var toolManifest =
@@ -264,7 +264,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                     "the specificied manifest file name is in the 'searched list'");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoManifestFileItThrows()
         {
             var toolManifest =
@@ -281,7 +281,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(string.Format(LocalizableStrings.ListOfSearched, ""));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMissingFieldManifestFileItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonWithMissingField);
@@ -301,7 +301,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                         "\t\t" + LocalizableStrings.FieldCommandsIsMissing))));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInvalidFieldsManifestFileItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonWithInvalidField);
@@ -317,7 +317,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(string.Format(LocalizableStrings.VersionIsInvalid, "1.*"));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInvalidTypeManifestFileItThrows()
         {
             _fileSystem.File.WriteAllText(
@@ -334,7 +334,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .And.Message.Should().Contain(string.Format(LocalizableStrings.UnexpectedTypeInJson, "True|False", "isRoot"));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInvalidJsonIntergerManifestFileItThrows()
         {
             _fileSystem.File.WriteAllText(
@@ -350,7 +350,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenConflictedManifestFileInDifferentDirectoriesItReturnMergedContent()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -394,7 +394,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 because: "combine both content in different manifests");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileInDifferentDirectoriesWhenFindContainPackageIdItCanGetResultInOrder()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -431,7 +431,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             manifests3.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoManifestFileWhenFindContainPackageIdItThrows()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -451,7 +451,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(string.Format(LocalizableStrings.ListOfSearched, ""));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenConflictedManifestFileInDifferentDirectoriesItOnlyConsiderTheFirstIsRoot()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -471,7 +471,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             manifestResult.Count.Should().Be(2, "only content in the current directory manifest file is considered");
         }
 
-        [Fact]
+        [TestMethod]
         public void DifferentVersionOfManifestFileItShouldThrow()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContentHigherVersion);
@@ -488,7 +488,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                             99, 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void MissingIsRootInManifestFileItShouldThrow()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContentIsRootMissing);
@@ -503,7 +503,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>().And.Message.Should().Contain(LocalizableStrings.ManifestMissingIsRoot);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryWhenFindByCommandNameItGetContent()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContent);
@@ -523,7 +523,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 false));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryWhenFindByCommandNameWithDifferentCasingItGetContent()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContent);
@@ -543,7 +543,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 false));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnParentDirectoryWhenFindByCommandNameItGetContent()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -564,7 +564,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 false));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoManifestFileWhenFindByCommandNameItReturnFalse()
         {
             var toolManifest =
@@ -576,7 +576,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             toolManifest.TryFind(new ToolCommandName("dotnetSay"), out var result).Should().BeFalse();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMissingFieldManifestFileWhenFindByCommandNameItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonWithMissingField);
@@ -590,7 +590,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInvalidFieldsManifestFileWhenFindByCommandNameItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonWithInvalidField);
@@ -604,7 +604,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInvalidJsonManifestFileWhenFindByCommandNameItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename), _jsonContentInvalidJson);
@@ -618,7 +618,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenConflictedManifestFileInDifferentFieldsWhenFindByCommandNameItReturnMergedContent()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -643,7 +643,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 false));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenConflictedManifestFileInDifferentFieldsWhenFindByCommandNameItOnlyConsiderTheFirstIsRoot()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -663,7 +663,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             toolManifest.TryFind(new ToolCommandName("dotnetsay2"), out var result).Should().BeFalse();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryWithMarkOfTheWebDetectorItThrows()
         {
             string manifestFilePath = Path.Combine(_testDirectoryRoot, _manifestFilename);
@@ -681,7 +681,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 "The message is similar to Windows file property page");
         }
 
-        [Fact]
+        [TestMethod]
         public void DifferentVersionOfManifestFileItThrows()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, _manifestFilename),
@@ -697,7 +697,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             a.Should().Throw<ToolManifestException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryItCanFindTheFirstManifestFile()
         {
             string manifestPath = Path.Combine(_testDirectoryRoot, _manifestFilename);
@@ -713,7 +713,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             toolmanifestFilePath.Value.Should().Be(manifestPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryItDoesNotThrowsWhenTheManifestFileIsNotValid()
         {
             string manifestPath = Path.Combine(_testDirectoryRoot, _manifestFilename);
@@ -729,7 +729,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             toolmanifestFilePath.Value.Should().Be(manifestPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManifestFileOnSameDirectoryItThrowsWhenTheManifestFileCannotBeFound()
         {
             var toolManifest =
@@ -747,7 +747,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(string.Format(LocalizableStrings.ListOfSearched, ""));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenConflictedManifestFileInDifferentDirectoriesItReturnMergedContentWithSourceManifestFile()
         {
             var subdirectoryOfTestRoot = Path.Combine(_testDirectoryRoot, "sub");
@@ -769,7 +769,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .SourceManifest.Value.Should().Be(Path.Combine(_testDirectoryRoot, "sub", _manifestFilename));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoManifestInspectShouldNotThrow()
         {
             var testRoot = Path.Combine(_testDirectoryRoot);

@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         private static readonly string WorkingDirectory =
             TestPathUtilities.FormatAbsolutePath(nameof(GivenDotnetCleanInvocation));
 
-        [Fact]
+        [TestMethod]
         public void ItAddsProjectToMsbuildInvocation()
         {
             var msbuildPath = "<msbuildpath>";
@@ -21,18 +21,18 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .GetArgumentsToMSBuild().Should().Be("-maxcpucount -verbosity:m -tlp:default=auto -nologo -verbosity:normal <project> -target:Clean");
         }
 
-        [Theory]
-        [InlineData(new string[] { }, "")]
-        [InlineData(new string[] { "-o", "<output>" }, "-property:OutputPath=<cwd><output> -property:_CommandLineDefinedOutputPath=true")]
-        [InlineData(new string[] { "--output", "<output>" }, "-property:OutputPath=<cwd><output> -property:_CommandLineDefinedOutputPath=true")]
-        [InlineData(new string[] { "--artifacts-path", "foo" }, "-property:ArtifactsPath=<cwd>foo")]
-        [InlineData(new string[] { "-f", "<framework>" }, "-property:TargetFramework=<framework>")]
-        [InlineData(new string[] { "--framework", "<framework>" }, "-property:TargetFramework=<framework>")]
-        [InlineData(new string[] { "-c", "<configuration>" }, "-property:Configuration=<configuration>")]
-        [InlineData(new string[] { "--configuration", "<configuration>" }, "-property:Configuration=<configuration>")]
-        [InlineData(new string[] { "-v", "diag" }, "-verbosity:diag")]
-        [InlineData(new string[] { "--verbosity", "diag" }, "-verbosity:diag")]
-        [InlineData(new string[] { "--disable-build-servers" }, "--property:UseRazorBuildServer=false --property:UseSharedCompilation=false /nodeReuse:false")]
+        [TestMethod]
+        [DataRow(new string[] { }, "")]
+        [DataRow(new string[] { "-o", "<output>" }, "-property:OutputPath=<cwd><output> -property:_CommandLineDefinedOutputPath=true")]
+        [DataRow(new string[] { "--output", "<output>" }, "-property:OutputPath=<cwd><output> -property:_CommandLineDefinedOutputPath=true")]
+        [DataRow(new string[] { "--artifacts-path", "foo" }, "-property:ArtifactsPath=<cwd>foo")]
+        [DataRow(new string[] { "-f", "<framework>" }, "-property:TargetFramework=<framework>")]
+        [DataRow(new string[] { "--framework", "<framework>" }, "-property:TargetFramework=<framework>")]
+        [DataRow(new string[] { "-c", "<configuration>" }, "-property:Configuration=<configuration>")]
+        [DataRow(new string[] { "--configuration", "<configuration>" }, "-property:Configuration=<configuration>")]
+        [DataRow(new string[] { "-v", "diag" }, "-verbosity:diag")]
+        [DataRow(new string[] { "--verbosity", "diag" }, "-verbosity:diag")]
+        [DataRow(new string[] { "--disable-build-servers" }, "--property:UseRazorBuildServer=false --property:UseSharedCompilation=false /nodeReuse:false")]
 
         public void MsbuildInvocationIsCorrect(string[] args, string expectedAdditionalArgs)
         {

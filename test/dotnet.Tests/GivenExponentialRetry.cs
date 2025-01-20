@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenExponentialRetry : SdkTest
     {
-        public GivenExponentialRetry(ITestOutputHelper log) : base(log)
+        public GivenExponentialRetry(MSTestContext testContext) : base(testContext)
         {
         }
 

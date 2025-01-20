@@ -10,14 +10,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class UpdateInstallToolParserTests
     {
-        private readonly ITestOutputHelper _output;
+        private readonly ITestOutputHelper _testContext;
 
-        public UpdateInstallToolParserTests(ITestOutputHelper output)
+        public UpdateInstallToolParserTests(MSTestContext testContext)
         {
-            _output = output;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateGlobaltoolParserCanGetPackageId()
         {
             var result = Parser.Instance.Parse("dotnet tool update -g console.test.app");
@@ -27,7 +27,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             packageId.Should().Be("console.test.app");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanGetGlobalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool update -g console.test.app");
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolInstallCommandParser.GlobalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanGetFollowingArguments()
         {
             var result =
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolInstallCommandParser.FrameworkOption).Should().Be(ToolsetInfo.CurrentTargetFramework);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseSourceOption()
         {
             const string expectedSourceValue = "TestSourceValue";
@@ -57,7 +57,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolInstallCommandParser.AddSourceOption).First().Should().Be(expectedSourceValue);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseMultipleSourceOption()
         {
             const string expectedSourceValue1 = "TestSourceValue1";
@@ -73,7 +73,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolInstallCommandParser.AddSourceOption)[1].Should().Be(expectedSourceValue2);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseVerbosityOption()
         {
             const string expectedVerbosityLevel = "diag";
@@ -84,7 +84,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             Enum.GetName(result.GetValue<VerbosityOptions>(ToolInstallCommandParser.VerbosityOption)).Should().Be(expectedVerbosityLevel);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseToolPathOption()
         {
             var result =
@@ -93,7 +93,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolInstallCommandParser.ToolPathOption).Should().Be(@"C:\TestAssetLocalNugetFeed");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseNoCacheOption()
         {
             var result =
@@ -102,7 +102,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolUpdateCommandParser.GetCommand()).Should().ContainSingle("--no-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseNoHttpCacheOption()
         {
             var result =
@@ -111,7 +111,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolUpdateCommandParser.GetCommand()).Should().ContainSingle("--no-http-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseIgnoreFailedSourcesOption()
         {
             var result =
@@ -120,7 +120,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolUpdateCommandParser.GetCommand()).Should().ContainSingle("--ignore-failed-sources");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseDisableParallelOption()
         {
             var result =
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolUpdateCommandParser.GetCommand()).Should().ContainSingle("--disable-parallel");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseInteractiveRestoreOption()
         {
             var result =
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolUpdateCommandParser.GetCommand()).Should().ContainSingle("--interactive");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseVersionOption()
         {
             var result =
@@ -147,7 +147,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolInstallCommandParser.VersionOption).Should().Be("1.2");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseLocalOption()
         {
             var result =
@@ -156,7 +156,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolInstallCommandParser.LocalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToolParserCanParseToolManifestOption()
         {
             var result =

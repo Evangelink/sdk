@@ -9,11 +9,11 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 {
     public class GivenDotnetBuildBuildsCsproj : SdkTest
     {
-        public GivenDotnetBuildBuildsCsproj(ITestOutputHelper log) : base(log)
+        public GivenDotnetBuildBuildsCsproj(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItBuildsARunnableOutput()
         {
             var testAppName = "MSBuildTestApp";
@@ -39,7 +39,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                      .And.HaveStdOutContaining("Hello World");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItBuildsOnlyTheSpecifiedTarget()
         {
             var testAppName = "NonDefaultTarget";
@@ -54,7 +54,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .HaveStdOutContaining("Hello World");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItImplicitlyRestoresAProjectWhenBuilding()
         {
             var testAppName = "MSBuildTestApp";
@@ -66,7 +66,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanBuildAMultiTFMProjectWithImplicitRestore()
         {
             var testInstance = _testAssetsManager.CopyTestAsset(
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotImplicitlyRestoreAProjectWhenBuildingWithTheNoRestoreOption()
         {
             var testAppName = "MSBuildTestApp";
@@ -95,7 +95,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .And.HaveStdOutContaining("project.assets.json");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotImplicitlyRestoreFromResponseFileWithTheNoRestoreOption()
         {
             var testAppName = "MSBuildTestApp";
@@ -113,7 +113,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .And.HaveStdOutContaining("project.assets.json");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRunsWhenRestoringToSpecificPackageDir()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
@@ -148,7 +148,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                      .And.HaveStdOutContaining("Hello World");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPrintsBuildSummary()
         {
             var testAppName = "MSBuildTestApp";
@@ -167,7 +167,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(expectedBuildSummary);
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetBuildDoesNotPrintCopyrightInfo()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
@@ -186,7 +186,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_no_longer_warns_on_rid_without_self_contained_options()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
@@ -203,7 +203,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_warn_on_rid_with_self_contained_set_in_project()
         {
             var testProject = new TestProject()
@@ -225,8 +225,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("build")]
-        [InlineData("run")]
+        [DataRow("build")]
+        [DataRow("run")]
         public void It_does_not_warn_on_rid_with_self_contained_options(string commandName)
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: commandName)
@@ -243,7 +243,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_warn_on_rid_with_self_contained_options_prior_to_net6()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
@@ -260,8 +260,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [Theory]
-        [InlineData("--self-contained")]
+        [TestMethod]
+        [DataRow("--self-contained")]
         public void It_builds_with_implicit_rid_with_SelfContained(string executeOptions)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -315,9 +315,9 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [Theory]
-        [InlineData("roslyn3.9")]
-        [InlineData("roslyn4.0")]
+        [TestMethod]
+        [DataRow("roslyn3.9")]
+        [DataRow("roslyn4.0")]
         public void It_resolves_analyzers_targeting_mulitple_roslyn_versions(string compilerApiVersion)
         {
             var testProject = new TestProject()
@@ -395,9 +395,9 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             throw new InvalidDataException("Expected path to be under a NuGet root: " + absoluteNuGetPath);
         }
 
-        [Theory]
-        [InlineData("build")]
-        [InlineData("run")]
+        [TestMethod]
+        [DataRow("build")]
+        [DataRow("run")]
         public void It_uses_correct_runtime_help_description(string command)
         {
             CliConfiguration sharedConfig = Parser.Instance;

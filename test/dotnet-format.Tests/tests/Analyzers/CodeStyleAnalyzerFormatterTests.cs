@@ -10,12 +10,12 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
     {
         private protected override ICodeFormatter Formatter => AnalyzerFormatter.CodeStyleFormatter;
 
-        public CodeStyleAnalyzerFormatterTests(ITestOutputHelper output)
+        public CodeStyleAnalyzerFormatterTests(MSTestContext testContext)
         {
-            TestOutputHelper = output;
+            TestContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestUseVarCodeStyle_AppliesWhenNotUsingVar()
         {
             var testCode = @"
@@ -56,7 +56,7 @@ class C
             await AssertCodeChangedAsync(testCode, expectedCode, editorConfig, fixCategory: FixCategory.CodeStyle);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestNonFixableCompilerDiagnostics_AreNotReported()
         {
             var testCode = @"

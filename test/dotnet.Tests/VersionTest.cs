@@ -11,11 +11,11 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenDotnetSdk : SdkTest
     {
-        public GivenDotnetSdk(ITestOutputHelper log) : base(log)
+        public GivenDotnetSdk(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void VersionCommandDisplaysCorrectVersion()
         {
             var assemblyMetadata = typeof(GivenDotnetSdk).Assembly
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Tests
             result.StdOut.Trim().Should().Be(expectedVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void VersionIsNotDisplayedFollowingUnrecognizedCommand()
         {
             var result = new DotnetCommand(Log)

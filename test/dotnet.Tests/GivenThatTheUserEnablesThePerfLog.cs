@@ -7,11 +7,11 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenThatTheUserEnablesThePerfLog : SdkTest
     {
-        public GivenThatTheUserEnablesThePerfLog(ITestOutputHelper log) : base(log)
+        public GivenThatTheUserEnablesThePerfLog(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPerfLogDisabledDotNetDoesNotWriteToThePerfLog()
         {
             var dir = _testAssetsManager.CreateTestDirectory();
@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Tests
             Assert.Empty(new DirectoryInfo(dir.Path).GetFiles());
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPerfLogEnabledDotNetWritesToThePerfLog()
         {
             var dir = _testAssetsManager.CreateTestDirectory();
@@ -43,13 +43,13 @@ namespace Microsoft.DotNet.Tests
             Assert.All(logFiles, f => Assert.NotEqual(0, f.Length));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPerfLogEnabledDotNetBuildWritesAPerfLog()
         {
             using (PerfLogTestEventListener listener = new())
             {
                 int exitCode = Cli.Program.Main(new string[] { "--help" });
-                Assert.Equal(0, exitCode);
+                Assert.AreEqual(0, exitCode);
                 Assert.NotEqual(0, listener.EventCount);
             }
         }
@@ -74,7 +74,7 @@ namespace Microsoft.DotNet.Tests
 
         protected override void OnEventWritten(EventWrittenEventArgs eventData)
         {
-            Assert.Equal(PerfLogEventSourceName, eventData.EventSource.Name);
+            Assert.AreEqual(PerfLogEventSourceName, eventData.EventSource.Name);
             EventCount++;
         }
     }

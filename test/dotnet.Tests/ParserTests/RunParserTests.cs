@@ -7,14 +7,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class RunParserTests
     {
-        public RunParserTests(ITestOutputHelper output)
+        public RunParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        [Fact]
+        [TestMethod]
         public void RunParserCanGetArgumentFromDoubleDash()
         {
             var runCommand = RunCommand.FromArgs(new[] { "--project", "foo.csproj", "--", "foo" });

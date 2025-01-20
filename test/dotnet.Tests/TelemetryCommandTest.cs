@@ -18,14 +18,14 @@ namespace Microsoft.DotNet.Tests
 
         public IDictionary<string, string> Properties { get; set; }
 
-        public TelemetryCommandTests(ITestOutputHelper log) : base(log)
+        public TelemetryCommandTests(MSTestContext testContext) : base(testContext)
         {
             _fakeTelemetry = new FakeRecordEventNameTelemetry();
             TelemetryEventEntry.Subscribe(_fakeTelemetry.TrackEvent);
             TelemetryEventEntry.TelemetryFilter = new TelemetryFilter(Sha256Hasher.HashWithNormalizedCasing);
         }
 
-        [Fact]
+        [TestMethod]
         public void NoTelemetryIfCommandIsInvalid()
         {
             string[] args = { "publish", "-r" };
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Tests
             a.Should().NotThrow<ArgumentOutOfRangeException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void NoTelemetryIfCommandIsInvalid2()
         {
             string[] args = { "restore", "-v" };
@@ -41,7 +41,7 @@ namespace Microsoft.DotNet.Tests
             a.Should().NotThrow<ArgumentOutOfRangeException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetry()
         {
             string[] args = { "help" };
@@ -52,7 +52,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("HELP"));
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithPerformanceData()
         {
             string[] args = { "help" };
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.Tests
                               e.Measurement["Parse Time"] > 0);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithoutStartupTime()
         {
             string[] args = { "help" };
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Tests
                               e.Measurement["Parse Time"] > 0);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryZeroStartupTime()
         {
             string[] args = { "help" };
@@ -95,7 +95,7 @@ namespace Microsoft.DotNet.Tests
                               e.Measurement["Parse Time"] > 0);
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetNewCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "console";
@@ -110,7 +110,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NEW"));
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/24190")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/24190")]
         public void DotnetNewCommandFirstArgumentShouldBeSentToTelemetryWithPerformanceData()
         {
             const string argumentToSend = "console";
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.Tests
                               e.Measurement["Parse Time"] > 0);
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetHelpCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "something";
@@ -144,7 +144,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("HELP"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetAddCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "package";
@@ -159,7 +159,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("ADD"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetAddCommandFirstArgumentShouldBeSentToTelemetry2()
         {
             const string argumentToSend = "reference";
@@ -174,7 +174,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("ADD"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetRemoveCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "package";
@@ -189,7 +189,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("REMOVE"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetListCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "reference";
@@ -203,7 +203,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("LIST"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetSlnCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "list";
@@ -218,7 +218,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("SOLUTION"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetNugetCommandFirstArgumentShouldBeSentToTelemetry()
         {
             const string argumentToSend = "push";
@@ -235,7 +235,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NUGET"));
         }
 
-        [Fact(Skip = "dotnet new sends the telemetry inside own commands")]
+        [TestMethod(IgnoreMessage = "dotnet new sends the telemetry inside own commands")]
         public void DotnetNewCommandLanguageOpinionShouldBeSentToTelemetry()
         {
             const string optionKey = "language";
@@ -250,7 +250,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NEW"));
         }
 
-        [Fact]
+        [TestMethod]
         public void AnyDotnetCommandVerbosityOpinionShouldBeSentToTelemetry()
         {
             const string optionKey = "verbosity";
@@ -266,7 +266,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("RESTORE"));
         }
 
-        [Fact]
+        [TestMethod]
         public void AnyDotnetCommandVerbosityOpinionShouldBeSentToTelemetryWithPerformanceData()
         {
             const string optionKey = "verbosity";
@@ -286,7 +286,7 @@ namespace Microsoft.DotNet.Tests
                               e.Measurement["Parse Time"] > 0);
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetBuildAndPublishCommandOpinionsShouldBeSentToTelemetry()
         {
             const string optionKey = "configuration";
@@ -302,7 +302,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("BUILD"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetPublishCommandRuntimeOpinionsShouldBeSentToTelemetry()
         {
             const string optionKey = "runtime";
@@ -318,7 +318,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("PUBLISH"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetBuildAndPublishCommandOpinionsShouldBeSentToTelemetryWhenThereIsMultipleOption()
         {
             string[] args = { "build", "--configuration", "Debug", "--runtime", $"{ToolsetInfo.LatestMacRuntimeIdentifier}-x64" };
@@ -338,7 +338,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("BUILD"));
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetRunCleanTestCommandOpinionsShouldBeSentToTelemetryWhenThereIsMultipleOption()
         {
             string[] args = { "clean", "--configuration", "Debug", "--framework", ToolsetInfo.CurrentTargetFramework };
@@ -372,7 +372,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["exeName"] == Sha256Hasher.Hash("DOTNET-SDK-LATEST-WIN-X64.EXE"));
         }
 
-        [Fact]
+        [TestMethod]
         public void ExceptionShouldBeSentToTelemetry()
         {
             Exception caughtException = null;

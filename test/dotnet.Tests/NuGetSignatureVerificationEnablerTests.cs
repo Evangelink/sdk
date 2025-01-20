@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Tests
             yield return new object[] { "FALSE" };
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenANullForwardingAppThrows()
         {
             ForwardingApp forwardingApp = null!;
@@ -40,10 +40,10 @@ namespace Microsoft.DotNet.Tests
             ArgumentNullException exception = Assert.Throws<ArgumentNullException>(
                 () => NuGetSignatureVerificationEnabler.ConditionallyEnable(forwardingApp));
 
-            Assert.Equal("forwardingApp", exception.ParamName);
+            Assert.AreEqual("forwardingApp", exception.ParamName);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenANullMSBuildForwardingAppThrows()
         {
             MSBuildForwardingApp forwardingApp = null!;
@@ -51,11 +51,11 @@ namespace Microsoft.DotNet.Tests
             ArgumentNullException exception = Assert.Throws<ArgumentNullException>(
                 () => NuGetSignatureVerificationEnabler.ConditionallyEnable(forwardingApp));
 
-            Assert.Equal("forwardingApp", exception.ParamName);
+            Assert.AreEqual("forwardingApp", exception.ParamName);
         }
 
         [LinuxOnlyTheory]
-        [MemberData(nameof(GetNonFalseValues))]
+        [DynamicData(nameof(GetNonFalseValues))]
         public void GivenAForwardingAppAndAnEnvironmentVariableValueThatIsNotFalseSetsTrueOnLinux(string? value)
         {
             Mock<IEnvironmentProvider> environmentProvider = CreateEnvironmentProvider(value);
@@ -69,7 +69,7 @@ namespace Microsoft.DotNet.Tests
         }
 
         [LinuxOnlyTheory]
-        [MemberData(nameof(GetFalseValues))]
+        [DynamicData(nameof(GetFalseValues))]
         public void GivenAForwardingAppAndAnEnvironmentVariableValueThatIsFalseSetsFalseOnLinux(string value)
         {
             Mock<IEnvironmentProvider> environmentProvider = CreateEnvironmentProvider(value);
@@ -83,7 +83,7 @@ namespace Microsoft.DotNet.Tests
         }
 
         [LinuxOnlyTheory]
-        [MemberData(nameof(GetNonFalseValues))]
+        [DynamicData(nameof(GetNonFalseValues))]
         public void GivenAnMSBuildForwardingAppAndAnEnvironmentVariableValueThatIsNotFalseSetsTrueOnLinux(string? value)
         {
             Mock<IEnvironmentProvider> environmentProvider = CreateEnvironmentProvider(value);
@@ -97,7 +97,7 @@ namespace Microsoft.DotNet.Tests
         }
 
         [LinuxOnlyTheory]
-        [MemberData(nameof(GetFalseValues))]
+        [DynamicData(nameof(GetFalseValues))]
         public void GivenAnMSBuildForwardingAppAndAnEnvironmentVariableValueThatIsFalseSetsFalseOnLinux(string value)
         {
             Mock<IEnvironmentProvider> environmentProvider = CreateEnvironmentProvider(value);
@@ -149,13 +149,13 @@ namespace Microsoft.DotNet.Tests
 
         private static void VerifyEnvironmentVariable(ProcessStartInfo startInfo, string expectedValue)
         {
-            Assert.True(startInfo.EnvironmentVariables.ContainsKey(NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification));
-            Assert.Equal(expectedValue, startInfo.EnvironmentVariables[NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification]);
+            Assert.IsTrue(startInfo.EnvironmentVariables.ContainsKey(NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification));
+            Assert.AreEqual(expectedValue, startInfo.EnvironmentVariables[NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification]);
         }
 
         private static void VerifyNoEnvironmentVariable(ProcessStartInfo startInfo)
         {
-            Assert.False(startInfo.EnvironmentVariables.ContainsKey(NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification));
+            Assert.IsFalse(startInfo.EnvironmentVariables.ContainsKey(NuGetSignatureVerificationEnabler.DotNetNuGetSignatureVerification));
         }
     }
 }

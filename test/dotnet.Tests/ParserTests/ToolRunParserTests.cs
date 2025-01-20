@@ -8,14 +8,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class ToolRunParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public ToolRunParserTests(ITestOutputHelper output)
+        public ToolRunParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetToolCommandNameArgument()
         {
             var result = Parser.Instance.Parse("dotnet tool run dotnetsay");
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             packageId.Should().Be("dotnetsay");
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetCommandsArgumentInUnmatchedTokens()
         {
             var result = Parser.Instance.Parse("dotnet tool run dotnetsay hi");
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.ShowHelpOrErrorIfAppropriate(); // Should not throw error
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetCommandsArgumentInUnparsedTokens()
         {
             var result = Parser.Instance.Parse("dotnet tool run dotnetsay -- hi");
@@ -41,7 +41,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.Errors.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetCommandsArgumentInUnparsedTokens2()
         {
             var result = Parser.Instance.Parse("dotnet tool run dotnetsay hi1 -- hi2");
@@ -49,7 +49,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.ShowHelpOrErrorIfAppropriate(); // Should not throw error
         }
 
-        [Fact]
+        [TestMethod]
         public void RootSubCommandIsToolCommand()
         {
             var result = Parser.Instance.Parse("dotnetsay run -v arg");

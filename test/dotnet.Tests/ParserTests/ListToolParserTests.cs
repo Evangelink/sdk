@@ -8,14 +8,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class ListToolParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public ListToolParserTests(ITestOutputHelper output)
+        public ListToolParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetGlobalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool list -g");
@@ -23,7 +23,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolListCommandParser.GlobalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanGetLocalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool list --local");
@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolListCommandParser.LocalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ListToolParserCanParseToolPathOption()
         {
             var result =

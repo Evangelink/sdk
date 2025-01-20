@@ -8,14 +8,14 @@ namespace Microsoft.DotNet.Tests.CommandLineParserTests
 {
     public class RestoreCommandLineParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public RestoreCommandLineParserTests(ITestOutputHelper output)
+        public RestoreCommandLineParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void RestoreCapturesArgumentsToForwardToMSBuildWhenTargetIsSpecified()
         {
             var result = Parser.Instance.Parse(@"dotnet restore .\some.csproj --packages c:\.nuget\packages /p:SkipInvalidConfigurations=true");
@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Tests.CommandLineParserTests
             result.OptionValuesToBeForwarded(RestoreCommandParser.GetCommand()).Should().Contain(@"--property:SkipInvalidConfigurations=true");
         }
 
-        [Fact]
+        [TestMethod]
         public void RestoreCapturesArgumentsToForwardToMSBuildWhenTargetIsNotSpecified()
         {
             var result = Parser.Instance.Parse(@"dotnet restore --packages c:\.nuget\packages /p:SkipInvalidConfigurations=true");
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Tests.CommandLineParserTests
             result.OptionValuesToBeForwarded(RestoreCommandParser.GetCommand()).Should().Contain(@"--property:SkipInvalidConfigurations=true");
         }
 
-        [Fact]
+        [TestMethod]
         public void RestoreDistinguishesRepeatSourceArgsFromCommandArgs()
         {
             var restore =

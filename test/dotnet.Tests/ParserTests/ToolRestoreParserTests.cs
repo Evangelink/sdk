@@ -10,14 +10,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class ToolRestoreParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public ToolRestoreParserTests(ITestOutputHelper output)
+        public ToolRestoreParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanGetManifestFilePath()
         {
             var result = Parser.Instance.Parse("dotnet tool restore --tool-manifest folder/my-manifest.format");
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolRestoreCommandParser.ToolManifestOption).Should().Be("folder/my-manifest.format");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanGetFollowingArguments()
         {
             var result =
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolRestoreCommandParser.ConfigOption).Should().Be(@"C:\TestAssetLocalNugetFeed");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseSourceOption()
         {
             const string expectedSourceValue = "TestSourceValue";
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolRestoreCommandParser.AddSourceOption).First().Should().Be(expectedSourceValue);
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseMultipleSourceOption()
         {
             const string expectedSourceValue1 = "TestSourceValue1";
@@ -62,7 +62,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string[]>(ToolRestoreCommandParser.AddSourceOption)[1].Should().Be(expectedSourceValue2);
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseVerbosityOption()
         {
             const string expectedVerbosityLevel = "diag";
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             Enum.GetName(result.GetValue<VerbosityOptions>(ToolRestoreCommandParser.VerbosityOption)).Should().Be(expectedVerbosityLevel);
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseNoCacheOption()
         {
             var result =
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolRestoreCommandParser.GetCommand()).Should().ContainSingle("--no-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseNoHttpCacheOption()
         {
             var result =
@@ -90,7 +90,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolRestoreCommandParser.GetCommand()).Should().ContainSingle("--no-http-cache");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseIgnoreFailedSourcesOption()
         {
             var result =
@@ -99,7 +99,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolRestoreCommandParser.GetCommand()).Should().ContainSingle("--ignore-failed-sources");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseDisableParallelOption()
         {
             var result =
@@ -108,7 +108,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.OptionValuesToBeForwarded(ToolRestoreCommandParser.GetCommand()).Should().ContainSingle("--disable-parallel");
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolRestoreParserCanParseInteractiveRestoreOption()
         {
             var result =

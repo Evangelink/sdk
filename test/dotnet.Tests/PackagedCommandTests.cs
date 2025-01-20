@@ -11,13 +11,13 @@ namespace Microsoft.DotNet.Tests
 {
     public class PackagedCommandTests : SdkTest
     {
-        public PackagedCommandTests(ITestOutputHelper log) : base(log)
+        public PackagedCommandTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("AppWithDirectAndToolDep")]
-        [InlineData("AppWithToolDependency")]
+        [TestMethod]
+        [DataRow("AppWithDirectAndToolDep")]
+        [DataRow("AppWithToolDependency")]
         public void TestProjectToolIsAvailableThroughDriver(string appName)
         {
             var testInstance = _testAssetsManager.CopyTestAsset(appName)
@@ -37,9 +37,9 @@ namespace Microsoft.DotNet.Tests
                      .And.Pass();
         }
 
-        [RequiresSpecificFrameworkTheory("netcoreapp1.1")]
-        [InlineData(true)]
-        [InlineData(false)]
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
+        [DataRow(true)]
+        [DataRow(false)]
         public void IfPreviousVersionOfSharedFrameworkIsInstalled_ToolsTargetingItRun(bool toolPrefersCLIRuntime)
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppWithToolDependency", identifier: toolPrefersCLIRuntime ? "preferCLIRuntime" : "")
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.Tests
 
         }
 
-        [RequiresSpecificFrameworkFact("netcoreapp1.1")]
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
         public void IfAToolHasNotBeenRestoredForNetCoreApp2_0ItFallsBackToNetCoreApp1_x()
         {
             string toolName = "dotnet-portable-v1";
@@ -150,7 +150,7 @@ namespace Microsoft.DotNet.Tests
                      .And.Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShowsErrorWhenToolIsNotRestored()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppWithNonExistingToolDependency", testAssetSubdirectory: "NonRestoredTestProjects")
@@ -165,7 +165,7 @@ namespace Microsoft.DotNet.Tests
                         string.Format(LocalizableStrings.NoExecutableFoundMatchingCommand, "dotnet-nonexistingtool"));
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRunsToolRestoredToSpecificPackageDir()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("ToolWithRandomPackageName", testAssetSubdirectory: "NonRestoredTestProjects")
@@ -205,7 +205,7 @@ namespace Microsoft.DotNet.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolsCanAccessDependencyContextProperly()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("DependencyContextFromTool")
@@ -221,7 +221,7 @@ namespace Microsoft.DotNet.Tests
                 .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void TestProjectDependencyIsNotAvailableThroughDriver()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppWithDirectDep")

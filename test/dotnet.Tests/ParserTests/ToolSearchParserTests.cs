@@ -9,14 +9,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class ToolSearchParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public ToolSearchParserTests(ITestOutputHelper output)
+        public ToolSearchParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetToolSearchShouldThrowWhenNoSearchTerm()
         {
             var result = Parser.Instance.Parse("dotnet tool search");
@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             a.Should().Throw<CommandParsingException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void ListSearchParserCanGetArguments()
         {
             var result = Parser.Instance.Parse("dotnet tool search mytool --detail --skip 3 --take 4 --prerelease");

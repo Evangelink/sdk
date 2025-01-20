@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.Tests
         public DirectoryInfo DotDotnetFolder;
         public string TestDirectory;
 
-        public TestCommand Setup(ITestOutputHelper log, TestAssetsManager testAssets, [CallerMemberName] string testName = null)
+        public TestCommand Setup(TestContext testContext, TestAssetsManager testAssets, [CallerMemberName] string testName = null)
         {
             TestDirectory = testAssets.CreateTestDirectory(testName).Path;
             var testNuGetHome = Path.Combine(TestDirectory, "nuget_home");
@@ -54,7 +54,7 @@ namespace Microsoft.DotNet.Tests
 
         public Dictionary<string, string> ExtraEnvironmentVariables = new();
 
-        public void Init(ITestOutputHelper log, TestAssetsManager testAssets)
+        public void Init(TestContext testContext, TestAssetsManager testAssets)
         {
             if (TestDirectory == null)
             {
@@ -81,13 +81,13 @@ namespace Microsoft.DotNet.Tests
     {
         DotNetFirstTimeFixture _fixture;
 
-        public GivenThatTheUserIsRunningDotNetForTheFirstTime(ITestOutputHelper log, DotNetFirstTimeFixture fixture) : base(log)
+        public GivenThatTheUserIsRunningDotNetForTheFirstTime(TestContext testContext, DotNetFirstTimeFixture fixture) : base(testContext)
         {
             fixture.Init(log, _testAssetsManager);
             _fixture = fixture;
         }
 
-        [Fact]
+        [TestMethod]
         public void UsingDotnetForTheFirstTimeSucceeds()
         {
             _fixture.FirstDotnetVerbUseCommandResult
@@ -95,7 +95,7 @@ namespace Microsoft.DotNet.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void UsingDotnetForTheFirstTimeWithNonVerbsDoesNotPrintEula()
         {
             string firstTimeNonVerbUseMessage = Cli.Utils.LocalizableStrings.DotNetSdkInfoLabel;
@@ -120,7 +120,7 @@ namespace Microsoft.DotNet.Tests
                 .And.NotContain("Restore completed in");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCreatesAFirstUseSentinelFileUnderTheDotDotNetFolder()
         {
             _fixture.DotDotnetFolder
@@ -128,7 +128,7 @@ namespace Microsoft.DotNet.Tests
                 .HaveFile($"{GetDotnetVersion()}.dotnetFirstUseSentinel");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCreatesAnAspNetCertificateSentinelFileUnderTheDotDotNetFolder()
         {
             _fixture.DotDotnetFolder
@@ -136,7 +136,7 @@ namespace Microsoft.DotNet.Tests
                 .HaveFile($"{GetDotnetVersion()}.aspNetCertificateSentinel");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotCreateAFirstUseSentinelFileNorAnAspNetCertificateSentinelFileUnderTheDotDotNetFolderWhenInternalReportInstallSuccessIsInvoked()
         {
             var dotnetFirstTime = new DotNetFirstTime();
@@ -175,7 +175,7 @@ namespace Microsoft.DotNet.Tests
                 .And.ContainVisuallySameFragment(Configurer.LocalizableStrings.FirstTimeMessageMoreInformation);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShowsTheAspNetCertificateGenerationMessageWhenInvokingACommandAfterInternalReportInstallSuccessHasBeenInvoked()
         {
             var dotnetFirstTime = new DotNetFirstTime();

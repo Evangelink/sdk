@@ -7,12 +7,12 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 {
     public class GivenThatWeWantToBeBackwardsCompatibleWith1xProjects : SdkTest
     {
-        public GivenThatWeWantToBeBackwardsCompatibleWith1xProjects(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBeBackwardsCompatibleWith1xProjects(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresSpecificFrameworkTheory("netcoreapp1.1")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ItRestoresBuildsAndRuns(string target)
         {
 
@@ -39,9 +39,9 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .And.HaveStdOutContaining("Hello World");
         }
 
-        [Theory]
-        [InlineData("netstandard1.3")]
-        [InlineData("netstandard1.6")]
+        [TestMethod]
+        [DataRow("netstandard1.3")]
+        [DataRow("netstandard1.6")]
         public void ItRestoresBuildsAndPacks(string target)
         {
 
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Should().Pass();
         }
 
-        [RequiresSpecificFrameworkFact("netcoreapp1.0")] // https://github.com/dotnet/cli/issues/6087
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.0")] // https://github.com/dotnet/cli/issues/6087
         public void ItRunsABackwardsVersionedTool()
         {
             var testInstance = _testAssetsManager

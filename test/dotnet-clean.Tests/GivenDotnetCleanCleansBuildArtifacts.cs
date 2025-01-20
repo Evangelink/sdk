@@ -5,11 +5,11 @@ namespace Microsoft.DotNet.Cli.Clean.Tests
 {
     public class GivenDotnetCleanCleansBuildArtifacts : SdkTest
     {
-        public GivenDotnetCleanCleansBuildArtifacts(ITestOutputHelper log) : base(log)
+        public GivenDotnetCleanCleansBuildArtifacts(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCleansAProjectBuiltWithRuntimeIdentifier()
         {
             var testAppName = "MSBuildTestApp";

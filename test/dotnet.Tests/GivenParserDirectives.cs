@@ -5,11 +5,11 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenParserDirectives : SdkTest
     {
-        public GivenParserDirectives(ITestOutputHelper log) : base(log)
+        public GivenParserDirectives(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanInvokeDiagramDirective()
         {
             string[] args = new[] { "[diagram]", "build", "-o", "output" };
@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Tests
                 .HaveStdOutContaining("[ dotnet [ build [ -o <output> ] ] ]");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanInvokeSuggestDirective()
         {
             string[] args = new[] { "[suggest]", "--l" };
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.Tests
                 .HaveStdOutContaining("--list-sdks");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanAcceptResponseFiles()
         {
             File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "response.rsp"), "build");

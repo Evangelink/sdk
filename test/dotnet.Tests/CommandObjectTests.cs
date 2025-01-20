@@ -10,18 +10,18 @@ namespace Microsoft.DotNet.Tests
 {
     public class CommandObjectTests : SdkTest
     {
-        public CommandObjectTests(ITestOutputHelper output) : base(output)
+        public CommandObjectTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenItCannotResolveCommandItThrows()
         {
             Action a = () => { CommandFactoryUsingResolver.Create(new ResolveNothingCommandResolverPolicy(), "non-exist-command", Array.Empty<string>()); };
             a.Should().Throw<CommandUnknownException>();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenItCannotResolveCommandButCommandIsInListOfKnownToolsItThrows()
         {
             Action a = () => { CommandFactoryUsingResolver.Create(new ResolveNothingCommandResolverPolicy(), "non-exist-command", Array.Empty<string>()); };

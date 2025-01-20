@@ -7,11 +7,11 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class ResponseFileTests : SdkTest
     {
-        public ResponseFileTests(ITestOutputHelper output) : base(output)
+        public ResponseFileTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void Can_safely_expand_response_file_lines()
         {
             var tempFileDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -36,13 +36,13 @@ namespace Microsoft.DotNet.Tests.ParserTests
                 "VSTestTestAdapterPath=\".;/opt/buildagent/plugins/dotnet/tools/vstest15\""
             };
 
-            Log.WriteLine($"MSbuild Args are {string.Join(" ", bc.MSBuildArguments)}");
-            Log.WriteLine($"Parse Diagram is {parseResult.ToString()}");
-            Log.WriteLine($"Token string is {tokenString}");
+            MSTestContext.WriteLine($"MSbuild Args are {string.Join(" ", bc.MSBuildArguments)}");
+            MSTestContext.WriteLine($"Parse Diagram is {parseResult.ToString()}");
+            MSTestContext.WriteLine($"Token string is {tokenString}");
             tokens.Skip(1).Should().BeEquivalentTo(tokenized);
         }
 
-        [Fact]
+        [TestMethod]
         public void Can_skip_empty_and_commented_lines()
         {
             var tempFileDir = _testAssetsManager.CreateTestDirectory().Path;

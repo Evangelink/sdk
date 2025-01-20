@@ -20,14 +20,14 @@ namespace Microsoft.DotNet.Tests
 
         public IDictionary<string, string> Properties { get; set; }
 
-        public TelemetryFilterTests(ITestOutputHelper log) : base(log)
+        public TelemetryFilterTests(MSTestContext testContext) : base(testContext)
         {
             _fakeTelemetry = new FakeRecordEventNameTelemetry();
             TelemetryEventEntry.Subscribe(_fakeTelemetry.TrackEvent);
             TelemetryEventEntry.TelemetryFilter = new TelemetryFilter(Sha256Hasher.HashWithNormalizedCasing);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithoutPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "build" });
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Tests
                   e.Measurement == null);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "build" });
@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.Tests
                   e.Measurement["Startup Time"] == 12345);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithZeroPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "build" });
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Tests
                   e.Measurement == null);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopLevelCommandNameShouldBeSentToTelemetryWithSomeZeroPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "build" });
@@ -74,7 +74,7 @@ namespace Microsoft.DotNet.Tests
                   e.Measurement["Parse Time"] == 23456);
         }
 
-        [Fact]
+        [TestMethod]
         public void SubLevelCommandNameShouldBeSentToTelemetryWithoutPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "new", "console" });
@@ -89,7 +89,7 @@ namespace Microsoft.DotNet.Tests
                     e.Measurement == null);
         }
 
-        [Fact]
+        [TestMethod]
         public void SubLevelCommandNameShouldBeSentToTelemetryWithPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "new", "console" });
@@ -103,7 +103,7 @@ namespace Microsoft.DotNet.Tests
                     e.Measurement["Startup Time"] == 34567);
         }
 
-        [Fact]
+        [TestMethod]
         public void SubLevelCommandNameShouldBeSentToTelemetryWithZeroPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "new", "console" });
@@ -116,7 +116,7 @@ namespace Microsoft.DotNet.Tests
                     e.Measurement == null);
         }
 
-        [Fact]
+        [TestMethod]
         public void SubLevelCommandNameShouldBeSentToTelemetryWithSomeZeroPerformanceData()
         {
             var parseResult = Parser.Instance.Parse(new List<string>() { "new", "console" });
@@ -131,7 +131,7 @@ namespace Microsoft.DotNet.Tests
                     e.Measurement["Parse Time"] == 45678);
         }
 
-        [Fact]
+        [TestMethod]
         public void WorkloadSubLevelCommandNameAndArgumentShouldBeSentToTelemetry()
         {
             var parseResult =
@@ -147,7 +147,7 @@ namespace Microsoft.DotNet.Tests
                                                             Sha256Hasher.Hash("MICROSOFT-IOS-SDK-FULL"));
         }
 
-        [Fact]
+        [TestMethod]
         public void ToolsSubLevelCommandNameAndArgumentShouldBeSentToTelemetry()
         {
             var parseResult =
@@ -163,7 +163,7 @@ namespace Microsoft.DotNet.Tests
                                                             Sha256Hasher.Hash("DOTNET-FORMAT"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenCalledWithDiagnosticWorkloadSubLevelCommandNameAndArgumentShouldBeSentToTelemetry()
         {
             var parseResult =
@@ -179,7 +179,7 @@ namespace Microsoft.DotNet.Tests
                                                             Sha256Hasher.Hash("MICROSOFT-IOS-SDK-FULL"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenCalledWithMissingArgumentWorkloadSubLevelCommandNameAndArgumentShouldBeSentToTelemetry()
         {
             var parseResult =

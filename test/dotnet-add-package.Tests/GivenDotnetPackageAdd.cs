@@ -9,11 +9,11 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 {
     public class GivenDotnetPackageAdd : SdkTest
     {
-        public GivenDotnetPackageAdd(ITestOutputHelper log) : base(log)
+        public GivenDotnetPackageAdd(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenValidPackageIsPassedBeforeVersionItGetsAdded()
         {
             var testAsset = "TestAppSimple";
@@ -43,8 +43,8 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                     new object[] { new string[] { "1.0.0-preview.1", "1.0.0-preview.2", "1.0.0-preview.3" }, "1.0.0-preview.3" },
             };
 
-        [Theory]
-        [MemberData(nameof(AddPkg_PackageVersionsLatestPrereleaseSucessData))]
+        [TestMethod]
+        [DynamicData(nameof(AddPkg_PackageVersionsLatestPrereleaseSucessData))]
         public void WhenPrereleaseOptionIsPassed(string[] inputVersions, string expectedVersion)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -73,7 +73,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPrereleaseAndVersionOptionIsPassedFails()
         {
             var projectDirectory = _testAssetsManager
@@ -88,7 +88,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.HaveStdOutContaining("The --prerelease and --version options are not supported in the same command.");
         }
 
-        [Fact]
+        [TestMethod]
         public void
             WhenValidProjectAndPackageArePassedItGetsAdded()
         {
@@ -110,7 +110,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void
             WhenValidProjectAndPackageWithPackageDirectoryContainingSpaceArePassedItGetsAdded()
         {
@@ -135,10 +135,10 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 
             var restoredPackageDirectory = Path.Combine(packageDirectory, packageName.ToLowerInvariant(), packageVersion);
             var packageDirectoryExists = Directory.Exists(restoredPackageDirectory);
-            Assert.True(packageDirectoryExists);
+            Assert.IsTrue(packageDirectoryExists);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenValidPackageIsPassedAfterVersionItGetsAdded()
         {
             var testAsset = "TestAppSimple";
@@ -159,7 +159,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenValidPackageIsPassedWithFrameworkItGetsAdded()
         {
             var testAsset = "TestAppSimple";
@@ -181,7 +181,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenValidPackageIsPassedMSBuildDoesNotPrintVersionHeader()
         {
             var testAsset = "TestAppSimple";
@@ -201,7 +201,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .And.NotHaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenMultiplePackagesArePassedCommandFails()
         {
             var projectDirectory = _testAssetsManager
@@ -216,7 +216,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .Fail();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNoPackageisPassedCommandFails()
         {
             var projectDirectory = _testAssetsManager

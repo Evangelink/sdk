@@ -10,11 +10,11 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenThatDotNetRunsCommands : SdkTest
     {
-        public GivenThatDotNetRunsCommands(ITestOutputHelper log) : base(log)
+        public GivenThatDotNetRunsCommands(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void UnresolvedPlatformReferencesFailAsExpected()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestProjectWithUnresolvedPlatformDependency", testAssetSubdirectory: "NonRestoredTestProjects")
@@ -33,9 +33,9 @@ namespace Microsoft.DotNet.Tests
                     .And.HaveStdOutContaining(string.Format(LocalizableStrings.NoExecutableFoundMatchingCommand, "dotnet-crash"));
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
+        [TestMethod]
+        [DataRow("")]
+        [DataRow(null)]
         public void GivenAMissingHomeVariableItExecutesHelpCommandSuccessfully(string value)
         {
             new DotnetCommand(Log)
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.Tests
                 .HaveStdOutContaining(LocalizableStrings.DotNetSdkInfo);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenASpecifiedDotnetCliHomeVariableItPrintsUsageMessage()
         {
             var home = _testAssetsManager.CreateTestDirectory(identifier: "DOTNET_HOME").Path;

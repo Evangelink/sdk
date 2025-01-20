@@ -5,11 +5,11 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 {
     public class GivenDotnetBuildBuildsDcproj : SdkTest
     {
-        public GivenDotnetBuildBuildsDcproj(ITestOutputHelper log) : base(log)
+        public GivenDotnetBuildBuildsDcproj(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPrintsBuildSummary()
         {
             var testAppName = "docker-compose";

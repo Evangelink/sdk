@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Tests
 {
     public class BundledTargetFrameworkTests : SdkTest
     {
-        public BundledTargetFrameworkTests(ITestOutputHelper log) : base(log)
+        public BundledTargetFrameworkTests(MSTestContext testContext) : base(testContext)
         {
         }
 

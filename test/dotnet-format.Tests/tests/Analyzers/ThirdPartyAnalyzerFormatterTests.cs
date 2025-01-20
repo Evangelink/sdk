@@ -20,9 +20,9 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
 
         private Project _analyzerReferencesProject;
 
-        public ThirdPartyAnalyzerFormatterTests(ITestOutputHelper output)
+        public ThirdPartyAnalyzerFormatterTests(MSTestContext testContext)
         {
-            TestOutputHelper = output;
+            TestContext = testContext;
         }
 
         public async Task InitializeAsync()
@@ -32,8 +32,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             try
             {
                 // Restore the Analyzer packages that have been added to `for_analyzer_formatter/analyzer_project/analyzer_project.csproj`
-                var exitCode = await DotNetHelper.PerformRestoreAsync(s_analyzerProjectFilePath, TestOutputHelper);
-                Assert.Equal(0, exitCode);
+                var exitCode = await DotNetHelper.PerformRestoreAsync(s_analyzerProjectFilePath, TestContext);
+                Assert.AreEqual(0, exitCode);
 
                 // Load the analyzer_project into a MSBuildWorkspace.
                 var workspacePath = Path.Combine(TestProjectsPathHelper.GetProjectsDirectory(), s_analyzerProjectFilePath);
@@ -41,14 +41,14 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 MSBuildRegistrar.RegisterInstance();
                 var analyzerWorkspace = await MSBuildWorkspaceLoader.LoadAsync(workspacePath, WorkspaceType.Project, binaryLogPath: null, logWorkspaceWarnings: true, logger, CancellationToken.None);
 
-                TestOutputHelper.WriteLine(logger.GetLog());
+                TestContext.WriteLine(logger.GetLog());
 
                 // From this project we can get valid AnalyzerReferences to add to our test project.
                 _analyzerReferencesProject = analyzerWorkspace.CurrentSolution.Projects.Single();
             }
             catch
             {
-                TestOutputHelper.WriteLine(logger.GetLog());
+                TestContext.WriteLine(logger.GetLog());
                 throw;
             }
         }

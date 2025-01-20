@@ -27,7 +27,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             return new AnalyzersAndFixers(analyzers, codeFixes);
         }
 
-        [Fact]
+        [TestMethod]
         public static async Task TestSingleAnalyzerAndFixerAsync()
         {
             var assemblies = new[]
@@ -42,10 +42,10 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             var fixer = Assert.Single(fixers);
             var analyzerDiagnosticDescriptor = Assert.Single(analyzer.SupportedDiagnostics);
             var fixerDiagnosticId = Assert.Single(fixer.FixableDiagnosticIds);
-            Assert.Equal(analyzerDiagnosticDescriptor.Id, fixerDiagnosticId);
+            Assert.AreEqual(analyzerDiagnosticDescriptor.Id, fixerDiagnosticId);
         }
 
-        [Fact]
+        [TestMethod]
         public static async Task TestMultipleAnalyzersAndFixersAsync()
         {
             var assemblies = new[]
@@ -58,11 +58,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             };
 
             var (analyzers, fixers) = GetAnalyzersAndFixers(assemblies, LanguageNames.CSharp);
-            Assert.Equal(2, analyzers.Length);
-            Assert.Equal(2, fixers.Length);
+            Assert.AreEqual(2, analyzers.Length);
+            Assert.AreEqual(2, fixers.Length);
         }
 
-        [Fact]
+        [TestMethod]
         public static async Task TestMultipleAnalyzersAndFixersFromTwoAssembliesAsync()
         {
             var assemblies = new[]
@@ -75,8 +75,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                     GenerateCodeFix("CodeFixProvider2", "DiagnosticAnalyzerId2")),
             };
             var (analyzers, fixers) = GetAnalyzersAndFixers(assemblies, LanguageNames.CSharp);
-            Assert.Equal(2, analyzers.Length);
-            Assert.Equal(2, fixers.Length);
+            Assert.AreEqual(2, analyzers.Length);
+            Assert.AreEqual(2, fixers.Length);
         }
     }
 }

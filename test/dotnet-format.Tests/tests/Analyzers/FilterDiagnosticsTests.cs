@@ -16,7 +16,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
 
     public class FilterDiagnosticsTests : CSharpFormatterTests
     {
-        [Fact]
+        [TestMethod]
         public async Task TestFilterWarning()
         {
             var (_, solution) = await GetSolutionAsync();
@@ -38,7 +38,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             Assert.Single(analyzers);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestFilterError()
         {
             var (_, solution) = await GetSolutionAsync();
@@ -60,7 +60,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             Assert.Empty(analyzers);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestFilterDiagnostics_NotInDiagnosticsList()
         {
             var (_, solution) = await GetSolutionAsync();
@@ -82,7 +82,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             Assert.Empty(analyzers);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestFilterDiagnostics_InDiagnosticsList()
         {
             var (_, solution) = await GetSolutionAsync();
@@ -104,7 +104,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             Assert.Single(analyzers);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestFilterDiagnostics_ExcludedFromDiagnosticsList()
         {
             var (_, solution) = await GetSolutionAsync();
@@ -126,7 +126,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             Assert.Empty(analyzers);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestFilterDiagnostics_ExcludeTrumpsInclude()
         {
             var (_, solution) = await GetSolutionAsync();

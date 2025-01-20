@@ -8,14 +8,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class UninstallToolParserTests
     {
-        private readonly ITestOutputHelper output;
+        private readonly MSTestContext testContext;
 
-        public UninstallToolParserTests(ITestOutputHelper output)
+        public UninstallToolParserTests(MSTestContext testContext)
         {
-            this.output = output;
+            this.testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void UninstallToolParserCanGetPackageId()
         {
             var result = Parser.Instance.Parse("dotnet tool uninstall -g console.test.app");
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             packageId.Should().Be("console.test.app");
         }
 
-        [Fact]
+        [TestMethod]
         public void UninstallToolParserCanGetGlobalOption()
         {
             var result = Parser.Instance.Parse("dotnet tool uninstall -g console.test.app");
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolUninstallCommandParser.GlobalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void UninstallToolParserCanParseToolPathOption()
         {
             var result =
@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<string>(ToolUninstallCommandParser.ToolPathOption).Should().Be(@"C:\Tools");
         }
 
-        [Fact]
+        [TestMethod]
         public void UninstallToolParserCanParseLocalOption()
         {
             var result =
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
             result.GetValue<bool>(ToolUninstallCommandParser.LocalOption).Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void UninstallToolParserCanParseToolManifestOption()
         {
             var result =

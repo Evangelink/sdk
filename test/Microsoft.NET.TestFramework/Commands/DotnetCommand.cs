@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetCommand : TestCommand
     {
-        public DotnetCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.AddRange(args);
         }

@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
-public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper log)
-    : AspNetSdkBaselineTest(log, GenerateBaselines)
+public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testContext)
+    : AspNetSdkBaselineTest(testContext, GenerateBaselines)
 {
     [GeneratedRegex("""(?'project'[a-zA-Z0-9]+)(?:\.(?'fingerprint'[a-zA-Z0-9]*))?\.bundle\.scp\.css(?'compress'\.(?:gz|br))?$""")]
     private static partial Regex ProjectBundleRegex();
@@ -20,7 +20,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
     [GeneratedRegex("""(?'project'[a-zA-Z0-9]+)(?:\.(?'fingerprint'[a-zA-Z0-9]*))?\.styles\.css(?'compress'\.(?:gz|br))?$""")]
     private static partial Regex AppBundleRegex();
 
-    [Fact]
+    [TestMethod]
     public void Build_CreatesEndpointsForAssets()
     {
         ProjectDirectory = CreateAspNetSdkTestAsset("RazorComponentApp");
@@ -166,7 +166,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
     } && !string.IsNullOrWhiteSpace(fingerprint)
       && (compress == ".gz" || compress == ".br");
 
-    [Fact]
+    [TestMethod]
     public void Publish_CreatesEndpointsForAssets()
     {
         ProjectDirectory = CreateAspNetSdkTestAsset("RazorComponentApp");
@@ -289,7 +289,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
         AssertManifest(manifest, LoadPublishManifest());
     }
 
-    [Fact]
+    [TestMethod]
     public void Publish_CreatesEndpointsForAssets_BuildAndPublish_Assets()
     {
         ProjectDirectory = CreateAspNetSdkTestAsset("RazorComponentApp")
@@ -397,7 +397,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
         AssertManifest(publishManifest, LoadPublishManifest());
     }
 
-    [RequiresMSBuildVersionFact("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Build_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -424,7 +424,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorwasm", readFromDevManifest: true);
     }
 
-    [RequiresMSBuildVersionFact("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void BuildHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -450,7 +450,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorhosted", readFromDevManifest: true);
     }
 
-    [RequiresMSBuildVersionFact("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Publish_EndpointManifestContainsEndpoints()
     {
         // Arrange
@@ -475,7 +475,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(ITestOutputHelper lo
         VerifyEndpointsCollection(publishOutputDirectory, "blazorwasm");
     }
 
-    [RequiresMSBuildVersionFact("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void PublishHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange

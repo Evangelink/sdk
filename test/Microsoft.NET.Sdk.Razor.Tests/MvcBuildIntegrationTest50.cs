@@ -7,12 +7,12 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class MvcBuildIntegrationTest50 : MvcBuildIntegrationTestLegacy
     {
-        public MvcBuildIntegrationTest50(ITestOutputHelper log) : base(log) { }
+        public MvcBuildIntegrationTest50(MSTestContext testContext) : base(testContext) { }
 
         public override string TestProjectName => "SimpleMvc50";
         public override string TargetFramework => "net5.0";
 
-        [Fact]
+        [TestMethod]
         public void BuildComponents_ErrorInGeneratedCode_ReportsMSBuildError_OnIncrementalBuild()
         {
             var testAsset = "RazorMvcWithComponents";
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void IncrementalBuild_WithP2P_WorksWhenBuildProjectReferencesIsDisabled()
         {
             // Simulates building the same way VS does by setting BuildProjectReferences=false.
@@ -66,7 +66,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "ClassLibrary.Views.dll")).Should().Exist();
             new FileInfo(Path.Combine(outputPath, "ClassLibrary.Views.pdb")).Should().Exist();
 
-            var clean = new MSBuildCommand(Log, "Clean", build.FullPathProjectFile);
+            var clean = new MSBuildCommand(MSTestContext, "Clean", build.FullPathProjectFile);
             clean.Execute("/p:BuildProjectReferences=false").Should().Pass();
 
             new FileInfo(Path.Combine(outputPath, "AppWithP2PReference.dll")).Should().NotExist();
@@ -86,7 +86,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "ClassLibrary.Views.pdb")).Should().Exist();
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void CshtmlCss_InNET5App_DoesNotProduceErrors()
         {
             // Regression test for https://github.com/dotnet/aspnetcore/issues/39526

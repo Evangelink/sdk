@@ -10,7 +10,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
     public class CompositeRazorProjectFileSystemTest
     {
-        [Fact]
+        [TestMethod]
         public void EnumerateItems_ReturnsResultsFromAllFileSystems()
         {
             // Arrange
@@ -31,10 +31,10 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = compositeRazorProjectFileSystem.EnumerateItems(basePath);
 
             // Assert
-            Assert.Equal(new[] { file1, file2, file3 }, result);
+            Assert.AreEqual(new[] { file1, file2, file3 }, result);
         }
 
-        [Fact]
+        [TestMethod]
         public void EnumerateItems_ReturnsEmptySequence_IfNoFileSystemReturnsResults()
         {
             // Arrange
@@ -53,7 +53,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             Assert.Empty(result);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetItem_ReturnsFirstInstanceThatExists()
         {
             // Arrange

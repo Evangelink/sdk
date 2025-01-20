@@ -7,9 +7,9 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
     public class DefaultExtensionDependencyCheckerTest : SdkTest
     {
-        public DefaultExtensionDependencyCheckerTest(ITestOutputHelper log) : base(log) { }
+        public DefaultExtensionDependencyCheckerTest(MSTestContext testContext) : base(testContext) { }
 
-        [Fact]
+        [TestMethod]
         public void Check_ReturnsFalse_WithMissingDependency()
         {
             // Arrange
@@ -25,10 +25,10 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = checker.Check(new[] { alphaFilePath, });
 
             // Assert
-            Assert.False(result, "Check should not have passed: " + output.ToString());
+            Assert.IsFalse(result, "Check should not have passed: " + testContext.ToString());
         }
 
-        [Fact]
+        [TestMethod]
         public void Check_ReturnsTrue_WithAllDependenciesProvided()
         {
             // Arrange

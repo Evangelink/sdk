@@ -25,7 +25,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             "Microsoft.AspNetCore.Mvc.ViewFeatures",
         };
 
-        [Fact]
+        [TestMethod]
         public void Resolve_ReturnsEmptySequence_IfNoAssemblyReferencesMvc()
         {
             // Arrange
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             assemblies.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Resolve_ReturnsEmptySequence_IfNoDependencyReferencesMvc()
         {
             // Arrange
@@ -80,7 +80,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             assemblies.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Resolve_ReturnsReferences_ThatReferenceMvc()
         {
             // Arrange
@@ -115,7 +115,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             assemblies.Should().Contain("MyControllers", "MyTagHelpers");
         }
 
-        [Fact]
+        [TestMethod]
         public void Resolve_ReturnsItemsThatTransitivelyReferenceMvc()
         {
             // Arrange
@@ -136,7 +136,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             assemblies.Should().Contain("MyCMS", "MyCMS.Core");
         }
 
-        [Fact]
+        [TestMethod]
         public void Resolve_Works_WhenAssemblyReferencesAreRecursive()
         {
             // Test for https://github.com/dotnet/aspnetcore/issues/12693
@@ -163,7 +163,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             assemblies.Should().Contain("MyCMS", "MyCMS.Core");
         }
 
-        [Fact]
+        [TestMethod]
         public void Resolve_Works_WhenAssemblyReferencesAreRecursive_ButAlsoReferencesMvc()
         {
             // Arrange

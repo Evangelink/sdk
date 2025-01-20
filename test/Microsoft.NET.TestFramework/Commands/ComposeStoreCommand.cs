@@ -6,7 +6,6 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.DotNet.Cli.Utils;
-using Xunit.Abstractions;
 
 namespace Microsoft.NET.TestFramework.Commands
 {
@@ -14,8 +13,8 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private const string PublishSubfolderName = "packages";
 
-        public ComposeStoreCommand(ITestOutputHelper log, string projectPath, string? relativePathToProject = null)
-            : base(log, "ComposeStore", projectPath, relativePathToProject)
+        public ComposeStoreCommand(MSTestContext testContext, string projectPath, string? relativePathToProject = null)
+            : base(testContext, "ComposeStore", projectPath, relativePathToProject)
         {
         }
 

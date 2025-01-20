@@ -9,7 +9,7 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private string? _projectName = null;
 
-        public ListReferenceCommand(ITestOutputHelper log, params string[] args) : base(log, args)
+        public ListReferenceCommand(MSTestContext testContext, params string[] args) : base(testContext, args)
         {
         }
 

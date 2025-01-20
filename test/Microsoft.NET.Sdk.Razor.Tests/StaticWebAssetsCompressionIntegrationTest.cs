@@ -9,9 +9,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class StaticWebAssetsCompressionIntegrationTest : AspNetSdkBaselineTest
     {
-        public StaticWebAssetsCompressionIntegrationTest(ITestOutputHelper log) : base(log, GenerateBaselines) { }
+        public StaticWebAssetsCompressionIntegrationTest(MSTestContext testContext) : base(testContext, GenerateBaselines) { }
 
-        [Fact]
+        [TestMethod]
         public void Build_Detects_PrecompressedAssets()
         {
             var expectedManifest = LoadBuildManifest();
@@ -99,7 +99,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void PublishWorks_With_PrecompressedAssets()
         {
             var expectedManifest = LoadBuildManifest();

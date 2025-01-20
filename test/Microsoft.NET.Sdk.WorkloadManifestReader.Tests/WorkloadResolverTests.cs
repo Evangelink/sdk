@@ -9,11 +9,11 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
     {
         private const string fakeRootPath = "fakeRootPath";
 
-        public WorkloadResolverTests(ITestOutputHelper log) : base(log)
+        public WorkloadResolverTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void GetExtendedWorkloads_SampleDeduplicatedClosureExpected()
         {
             var manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "Sample.json");
@@ -40,7 +40,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
                 "WorkloadResolver should return expected workload infos based on manifest");
         }
 
-        [Fact]
+        [TestMethod]
         public void GetExtendedWorkloads_EmptyInputYieldsEmptyOutput()
         {
             var manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "Sample.json");
@@ -51,7 +51,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
             resultWorkloads.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void GetExtendedWorkloads_ThrowsOnUnknownWorkload()
         {
             var manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "Sample.json");

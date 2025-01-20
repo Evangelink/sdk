@@ -9,12 +9,12 @@ namespace Microsoft.NET.Sdk.Web.Tests
 {
     public class PublishTests : SdkTest
     {
-        public PublishTests(ITestOutputHelper log) : base(log)
+        public PublishTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [MemberData(nameof(SupportedTfms))]
+        [TestMethod]
+        [DynamicData(nameof(SupportedTfms))]
         public void TrimmingOptions_Are_Defaulted_Correctly_On_Trimmed_Apps(string targetFramework)
         {
             var projectName = "HelloWorld";
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Sdk.Web.Tests
                     .Should().BeFalse();
         }
 
-        [Fact]
+        [TestMethod]
         public void TrimMode_Defaulted_Correctly_On_Trimmed_Apps_Pre_Net8()
         {
             var projectName = "HelloWorld";
@@ -71,8 +71,8 @@ namespace Microsoft.NET.Sdk.Web.Tests
             buildProperties["TrimMode"].Should().Be("partial");
         }
 
-        [Theory]
-        [MemberData(nameof(SupportedTfms))]
+        [TestMethod]
+        [DynamicData(nameof(SupportedTfms))]
         public void TrimmingOptions_Are_Defaulted_Correctly_On_Aot_Apps(string targetFramework)
         {
             var projectName = "HelloWorld";
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Sdk.Web.Tests
             testProject.PropertiesToRecord.Add("PublishIISAssets");
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: projectName + targetFramework);
-            var publishCommand = new PublishCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name));
+            var publishCommand = new PublishCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name));
             publishCommand.Execute("/p:SelfContained=true").Should().Pass();
 
             var buildProperties = testProject.GetPropertyValues(testAsset.TestRoot, targetFramework);

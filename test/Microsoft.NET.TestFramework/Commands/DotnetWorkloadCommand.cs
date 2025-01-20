@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands;
 
 public class DotnetWorkloadCommand : DotnetCommand
 {
-    public DotnetWorkloadCommand(ITestOutputHelper log, params string[] args) : base(log)
+    public DotnetWorkloadCommand(MSTestContext testContext, params string[] args) : base(testContext)
     {
         Arguments.Add("workload");
         Arguments.AddRange(args);

@@ -7,9 +7,9 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
     public class DefaultExtensionAssemblyLoaderTest : SdkTest
     {
-        public DefaultExtensionAssemblyLoaderTest(ITestOutputHelper log) : base(log) { }
+        public DefaultExtensionAssemblyLoaderTest(MSTestContext testContext) : base(testContext) { }
 
-        [Fact]
+        [TestMethod]
         public void LoadFromPath_CanLoadAssembly()
         {
             // Arrange
@@ -22,10 +22,10 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var assembly = loader.LoadFromPath(alphaFilePath);
 
             // Assert
-            Assert.NotNull(assembly);
+            Assert.IsNotNull(assembly);
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadFromPath_DoesNotAddDuplicates_AfterLoadingByName()
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             Assert.Same(assembly1, assembly2);
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadFromPath_DoesNotAddDuplicates_AfterLoadingByPath()
         {
             // Arrange
@@ -64,7 +64,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Load_CanLoadAssemblyByName_AfterLoadingByPath()
         {
             // Arrange
@@ -81,7 +81,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             Assert.Same(assembly1, assembly2);
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadFromPath_WithDependencyPathsSpecified_CanLoadAssemblyDependencies()
         {
             // Arrange
@@ -113,7 +113,7 @@ Delta: Gamma: Beta: Test B
 
             var actual = builder.ToString();
 
-            Assert.Equal(expected, actual, ignoreLineEndingDifferences: true);
+            Assert.AreEqual(expected, actual, ignoreLineEndingDifferences: true);
         }
     }
 }

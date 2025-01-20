@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetPackCommand : DotnetCommand
     {
-        public DotnetPackCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetPackCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("pack");
             Arguments.AddRange(args);

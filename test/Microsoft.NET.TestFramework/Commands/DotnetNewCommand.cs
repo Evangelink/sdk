@@ -7,7 +7,7 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private bool _hiveSet;
 
-        public DotnetNewCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetNewCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("new");
             Arguments.AddRange(args);

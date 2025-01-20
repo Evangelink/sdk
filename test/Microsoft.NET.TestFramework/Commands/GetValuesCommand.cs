@@ -31,9 +31,9 @@ namespace Microsoft.NET.TestFramework.Commands
 
         protected override bool ExecuteWithRestoreByDefault => ShouldRestore;
 
-        public GetValuesCommand(ITestOutputHelper log, string projectPath, string targetFramework,
+        public GetValuesCommand(MSTestContext testContext, string projectPath, string targetFramework,
             string valueName, ValueType valueType = ValueType.Property)
-            : base(log, "WriteValuesToFile", projectPath, relativePathToProject: null)
+            : base(testContext, "WriteValuesToFile", projectPath, relativePathToProject: null)
         {
             _targetFramework = targetFramework;
 

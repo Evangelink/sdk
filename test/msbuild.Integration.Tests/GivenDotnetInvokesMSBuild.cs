@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration", identifier: command)
                 .WithSource();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute(command)
                 .Should().Pass();
@@ -37,7 +37,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration", identifier: command)
                 .WithSource();
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute(command);
 
@@ -58,7 +58,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration", identifier: command)
                 .WithSource();
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .WithEnvironmentVariable("HelixAccessToken", "")
                 .WithEnvironmentVariable("SYSTEM_ACCESSTOKEN", "")
@@ -75,7 +75,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration")
                 .WithSource();
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("test");
 
@@ -89,7 +89,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration")
                 .WithSource();
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("msbuild", "-v", "diag");
 
@@ -102,7 +102,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildIntegration")
                 .WithSource();
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .WithEnvironmentVariable("MSBuildSDKsPath", "AnyString")
                 .Execute($"msbuild");

@@ -12,7 +12,7 @@ namespace ManifestReaderTests
         private readonly string ManifestPath;
         private readonly string SampleProjectPath;
 
-        public ManifestTests(ITestOutputHelper log) : base(log)
+        public ManifestTests(MSTestContext testContext) : base(testContext)
         {
             SampleProjectPath = _testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest");
             ManifestPath = GetSampleManifestPath("Sample.json");
@@ -20,7 +20,7 @@ namespace ManifestReaderTests
 
         string GetSampleManifestPath(string name) => Path.Combine(SampleProjectPath, name);
 
-        [Fact]
+        [TestMethod]
         public void ItCanDeserialize()
         {
             using (FileStream fsSource = new(ManifestPath, FileMode.Open, FileAccess.Read))
@@ -36,7 +36,7 @@ namespace ManifestReaderTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void AliasedPackPath()
         {
             var manifestProvider = new FakeManifestProvider(ManifestPath);
@@ -52,7 +52,7 @@ namespace ManifestReaderTests
             buildToolsPack.Path.Should().Be(Path.Combine(fakeRootPath, "packs", "Xamarin.Android.BuildTools.Win64Host", "8.4.7"));
         }
 
-        [Fact]
+        [TestMethod]
         public void UnresolvedAliasedPackPath()
         {
             var manifestProvider = new FakeManifestProvider(ManifestPath);
@@ -65,25 +65,25 @@ namespace ManifestReaderTests
             buildToolsPack.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMultiplePackRoots_ItUsesTheFirstInstallableIfThePackDoesntExist()
         {
             TestMultiplePackRoots(false, false);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMultiplePackRoots_ItUsesTheFirstOneIfBothExist()
         {
             TestMultiplePackRoots(true, true);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMultiplePackRoots_ItUsesTheFirstOneIfOnlyItExists()
         {
             TestMultiplePackRoots(false, true);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenMultiplePackRoots_ItUsesTheSecondOneIfOnlyItExists()
         {
             TestMultiplePackRoots(true, false);
@@ -120,7 +120,7 @@ namespace ManifestReaderTests
             pack!.Path.Should().Be(expectedPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNonExistentPackRoot_ItIgnoresIt()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -140,7 +140,7 @@ namespace ManifestReaderTests
             pack!.Path.Should().Be(defaultPackPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItChecksDependencies()
         {
             static string MakeManifest(string version, params (string id, string version)[] dependsOn)
@@ -197,7 +197,7 @@ namespace ManifestReaderTests
             Assert.StartsWith("Workload manifest dependency 'DDD' version '30.0.0' is lower than version '39.0.0' required by manifest 'BBB'", inconsistentManifestEx.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void WillNotLoadManifestWithNullAlias()
         {
             var manifestPath = GetSampleManifestPath("NullAliasError.json");
@@ -207,7 +207,7 @@ namespace ManifestReaderTests
             Assert.Contains("Expected string value at offset", ex.Message);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanFindLocalizationCatalog()
         {
             string expected = MakePathNative("manifests/My.Manifest/localize/WorkloadManifest.pt-BR.json");
@@ -218,10 +218,10 @@ namespace ManifestReaderTests
                     s => true
                 );
 
-            Assert.Equal(expected, locPath);
+            Assert.AreEqual(expected, locPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanFindParentCultureLocalizationCatalog()
         {
             string expected = MakePathNative("manifests/My.Manifest/localize/WorkloadManifest.pt.json");
@@ -232,12 +232,12 @@ namespace ManifestReaderTests
                     s => s == expected
                 );
 
-            Assert.Equal(expected, locPath);
+            Assert.AreEqual(expected, locPath);
         }
 
         static string MakePathNative(string path) => path.Replace('/', Path.DirectorySeparatorChar);
 
-        [Fact]
+        [TestMethod]
         public void ItCanLocalizeDescriptions()
         {
             var manifest = GetSampleManifestPath("Sample.json");
@@ -250,10 +250,10 @@ namespace ManifestReaderTests
             var workloads = resolver.GetAvailableWorkloads().ToList();
 
             var xamAndroid = workloads.FirstOrDefault(w => w.Id == "xamarin-android");
-            Assert.Equal("Localized description for xamarin-android", xamAndroid?.Description);
+            Assert.AreEqual("Localized description for xamarin-android", xamAndroid?.Description);
 
             var xamAndroidBuild = workloads.FirstOrDefault(w => w.Id == "xamarin-android-build");
-            Assert.Equal("Localized description for xamarin-android-build", xamAndroidBuild?.Description);
+            Assert.AreEqual("Localized description for xamarin-android-build", xamAndroidBuild?.Description);
         }
     }
 }

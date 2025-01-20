@@ -5,8 +5,8 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public sealed class CleanCommand : MSBuildCommand
     {
-        public CleanCommand(ITestOutputHelper log, string projectPath, string? relativePathToProject = null)
-            : base(log, "Clean", projectPath, relativePathToProject)
+        public CleanCommand(MSTestContext testContext, string projectPath, string? relativePathToProject = null)
+            : base(testContext, "Clean", projectPath, relativePathToProject)
         {
         }
 

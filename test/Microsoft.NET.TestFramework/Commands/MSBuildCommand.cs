@@ -19,8 +19,8 @@ namespace Microsoft.NET.TestFramework.Commands
 
         public string FullPathProjectFile => Path.Combine(ProjectRootPath, ProjectFile);
 
-        public MSBuildCommand(ITestOutputHelper log, string target, string projectRootPath, string? relativePathToProject = null)
-            : base(log)
+        public MSBuildCommand(MSTestContext testContext, string target, string projectRootPath, string? relativePathToProject = null)
+            : base(testContext)
         {
             Target = target;
 
@@ -30,7 +30,7 @@ namespace Microsoft.NET.TestFramework.Commands
         }
 
         public MSBuildCommand(TestAsset testAsset, string target, string? relativePathToProject = null)
-            : this(testAsset.Log, target, testAsset.TestRoot, relativePathToProject ?? testAsset.TestProject?.Name)
+            : this(testAsset.TestContext, target, testAsset.TestRoot, relativePathToProject ?? testAsset.TestProject?.Name)
         {
             TestAsset = testAsset;
         }

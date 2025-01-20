@@ -12,7 +12,7 @@ namespace Microsoft.NET.TestFramework.Commands
         private Dictionary<string, string> _environment = new();
         private bool _doNotEscapeArguments;
 
-        public ITestOutputHelper Log { get; }
+        public MSTestContext MSTestContext { get; }
 
         public string? WorkingDirectory { get; set; }
 
@@ -24,9 +24,9 @@ namespace Microsoft.NET.TestFramework.Commands
         public Action<string>? CommandOutputHandler { get; set; }
         public Action<Process>? ProcessStartedHandler { get; set; }
 
-        protected TestCommand(ITestOutputHelper log)
+        protected TestCommand(MSTestContext testContext)
         {
-            Log = log;
+            TestContext = testContext;
         }
 
         protected abstract SdkCommandSpec CreateCommand(IEnumerable<string> args);
@@ -129,39 +129,39 @@ namespace Microsoft.NET.TestFramework.Commands
 
             command.OnOutputLine(line =>
             {
-                Log.WriteLine($"》{line}");
+                MSTestContext.WriteLine($"》{line}");
                 CommandOutputHandler?.Invoke(line);
             });
 
             command.OnErrorLine(line =>
             {
-                Log.WriteLine($"❌{line}");
+                MSTestContext.WriteLine($"❌{line}");
             });
 
             var display = $"dotnet {string.Join(" ", spec.Arguments)}";
 
-            Log.WriteLine($"Executing '{display}':");
+            MSTestContext.WriteLine($"Executing '{display}':");
             var result = ((Command)command).Execute(ProcessStartedHandler);
-            Log.WriteLine($"Command '{display}' exited with exit code {result.ExitCode}.");
+            MSTestContext.WriteLine($"Command '{display}' exited with exit code {result.ExitCode}.");
 
             return result;
         }
 
-        public static void LogCommandResult(ITestOutputHelper log, CommandResult result)
+        public static void LogCommandResult(MSTestContext testContext, CommandResult result)
         {
-            log.WriteLine($"> {result.StartInfo.FileName} {result.StartInfo.Arguments}");
-            log.WriteLine(result.StdOut);
+            testContext.WriteLine($"> {result.StartInfo.FileName} {result.StartInfo.Arguments}");
+            testContext.WriteLine(result.StdOut);
 
             if (!string.IsNullOrEmpty(result.StdErr))
             {
-                log.WriteLine("");
-                log.WriteLine("StdErr:");
-                log.WriteLine(result.StdErr);
+                testContext.WriteLine("");
+                testContext.WriteLine("StdErr:");
+                testContext.WriteLine(result.StdErr);
             }
 
             if (result.ExitCode != 0)
             {
-                log.WriteLine($"Exit Code: {result.ExitCode}");
+                testContext.WriteLine($"Exit Code: {result.ExitCode}");
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Microsoft.NET.TestFramework.Commands
     {
         private string? _runtime;
 
-        public DotnetPublishCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetPublishCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("publish");
             Arguments.AddRange(args);

@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetVSTestCommand : DotnetCommand
     {
-        public DotnetVSTestCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetVSTestCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("vstest");
             Arguments.AddRange(args);

@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetTestCommand : DotnetCommand
     {
-        public DotnetTestCommand(ITestOutputHelper log, bool disableNewOutput, params string[] args) : base(log)
+        public DotnetTestCommand(MSTestContext testContext, bool disableNewOutput, params string[] args) : base(testContext)
         {
             Arguments.Add("test");
             if (disableNewOutput)

@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetToolCommand : DotnetCommand
     {
-        public DotnetToolCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetToolCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("tool");
             Arguments.AddRange(args);

@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetRestoreCommand : DotnetCommand
     {
-        public DotnetRestoreCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetRestoreCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("restore");
             Arguments.AddRange(args);

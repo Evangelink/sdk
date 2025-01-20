@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
-    public class PublishIntegrationTest(ITestOutputHelper log) : AspNetSdkTest(log)
+    public class PublishIntegrationTest(MSTestContext testContext) : AspNetSdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void Publish_RazorCompileOnPublish_IsDefault()
         {
             var testAsset = "RazorSimpleMvc";
@@ -42,13 +42,13 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(publishOutputPath, "wwwroot", ".not-copied", "test.txt")).Should().NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_WithRazorCompileOnBuildFalse_PublishesAssembly()
         {
             var testAsset = "RazorSimpleMvc";
             var projectDirectory = CreateAspNetSdkTestAsset(testAsset);
 
-            var publish = new PublishCommand(Log, projectDirectory.TestRoot);
+            var publish = new PublishCommand(MSTestContext, projectDirectory.TestRoot);
             publish.Execute("/p:RazorCompileOnBuild=false").Should().Pass();
 
             var outputPath = Path.Combine(projectDirectory.Path, "bin", "Debug", DefaultTfm);
@@ -62,7 +62,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new DirectoryInfo(Path.Combine(publishOutputPath, "Views")).Should().NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_NoopsWith_RazorCompileOnPublishFalse()
         {
             var testAsset = "RazorSimpleMvc";
@@ -80,7 +80,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(publishOutputPath, "SimpleMvc.pdb")).Should().Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_IncludeCshtmlAndRefAssemblies_CopiesFiles()
         {
             var testAsset = "RazorSimpleMvc";
@@ -100,7 +100,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new DirectoryInfo(Path.Combine(publishOutputPath, "Views")).Should().NotBeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_WithPreserveCompilationReferencesSetInProjectFile_CopiesRefs()
         {
             var testAsset = "RazorSimpleMvc";
@@ -126,7 +126,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(publishOutputPath, "refs", "mscorlib.dll")).Should().Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_WithP2P_AndRazorCompileOnBuild_CopiesRazorAssembly()
         {
             var testAsset = "RazorAppWithP2PReference";
@@ -148,7 +148,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new DirectoryInfo(Path.Combine(publishOutputPath, "Views")).Should().NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_WithP2P_WorksWhenBuildProjectReferencesIsDisabled()
         {
             // Simulates publishing the same way VS does by setting BuildProjectReferences=false.
@@ -195,7 +195,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(publishOutputPath, "AnotherClassLib.pdb")).Should().Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Publish_WithNoBuild_CopiesAlreadyCompiledViews()
         {
             var testAsset = "RazorSimpleMvc";
@@ -222,7 +222,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
             var publishAssemblyVersion = AssemblyName.GetAssemblyName(publishAssemblyPath).Version;
 
-            Assert.Equal(assemblyVersion, publishAssemblyVersion);
+            Assert.AreEqual(assemblyVersion, publishAssemblyVersion);
         }
     }
 }

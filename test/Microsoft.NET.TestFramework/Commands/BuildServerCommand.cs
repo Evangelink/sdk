@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.Tools.Test.Utilities
 {
     public sealed class BuildServerCommand : DotnetCommand
     {
-        public BuildServerCommand(ITestOutputHelper log, params string[] args) : base(log, args)
+        public BuildServerCommand(MSTestContext testContext, params string[] args) : base(testContext, args)
         {
         }
 

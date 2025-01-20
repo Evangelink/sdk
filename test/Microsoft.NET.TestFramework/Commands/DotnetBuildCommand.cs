@@ -5,7 +5,7 @@ namespace Microsoft.NET.TestFramework.Commands
 {
     public class DotnetBuildCommand : DotnetCommand
     {
-        public DotnetBuildCommand(ITestOutputHelper log, params string[] args) : base(log)
+        public DotnetBuildCommand(MSTestContext testContext, params string[] args) : base(testContext)
         {
             Arguments.Add("build");
             Arguments.AddRange(args);

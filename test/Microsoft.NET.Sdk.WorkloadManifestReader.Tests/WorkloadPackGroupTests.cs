@@ -5,12 +5,12 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
 {
     public class WorkloadPackGroupTests : SdkTest
     {
-        public WorkloadPackGroupTests(ITestOutputHelper log) : base(log)
+        public WorkloadPackGroupTests(MSTestContext testContext) : base(testContext)
         {
         }
 
 
-        [Fact]
+        [TestMethod]
         public void TestGetManifestDirectories()
         {
             var manifestProvider = CreateManifestProvider();
@@ -18,22 +18,22 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
             var manifestDirectories = manifestProvider.GetManifests().Select(m => m.ManifestDirectory);
             foreach (var manifestDirectory in manifestDirectories)
             {
-                Log.WriteLine(manifestDirectory);
+                MSTestContext.WriteLine(manifestDirectory);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGetManifests()
         {
             var manifests = GetManifests();
 
             foreach (var manifest in manifests)
             {
-                Log.WriteLine(manifest.Id + "\t" + manifest.ManifestPath);
+                MSTestContext.WriteLine(manifest.Id + "\t" + manifest.ManifestPath);
             }
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/28759")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/28759")]
         public void GetPackDefinitionLocations()
         {
             var definitionLocations = GetWorkloadPackDefinitionLocations(GetManifests());
@@ -43,7 +43,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
             {
                 sb.Append(kvp.Key + ": ");
                 sb.Append(string.Join(", ", kvp.Value));
-                Log.WriteLine(sb.ToString());
+                MSTestContext.WriteLine(sb.ToString());
                 sb.Clear();
             }
 
@@ -53,32 +53,32 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGetPackGroups()
         {
             var packGroups = GetPackGroups();
             foreach (var group in packGroups)
             {
-                Log.WriteLine(group.Workload.Id);
+                MSTestContext.WriteLine(group.Workload.Id);
                 foreach (var pack in group.Packs)
                 {
                     if (pack.Id != pack.ResolvedPackageId)
                     {
-                        Log.WriteLine($"\t{pack.Id}\t{pack.Version}\t{pack.ResolvedPackageId}");
+                        MSTestContext.WriteLine($"\t{pack.Id}\t{pack.Version}\t{pack.ResolvedPackageId}");
                     }
                     else
                     {
-                        Log.WriteLine($"\t{pack.Id}\t{pack.Version}");
+                        MSTestContext.WriteLine($"\t{pack.Id}\t{pack.Version}");
                     }
                 }
                 foreach (var unavailablePack in group.UnavailablePacks)
                 {
-                    Log.WriteLine($"\tUnavailable: {unavailablePack}");
+                    MSTestContext.WriteLine($"\tUnavailable: {unavailablePack}");
                 }
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGetManifestFeatureBands()
         {
             var manifestProvider = CreateManifestProvider();
@@ -86,7 +86,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
 
             foreach (var manifestInfo in workloadResolver.GetInstalledManifests())
             {
-                Log.WriteLine(manifestInfo.Id + ": " + manifestInfo.ManifestFeatureBand);
+                MSTestContext.WriteLine(manifestInfo.Id + ": " + manifestInfo.ManifestFeatureBand);
             }
         }
 

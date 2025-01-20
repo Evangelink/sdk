@@ -5,10 +5,10 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
-    public class StaticWebAssetsPackIntegrationTest(ITestOutputHelper log)
-        : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(log, nameof(StaticWebAssetsPackIntegrationTest))
+    public class StaticWebAssetsPackIntegrationTest(MSTestContext testContext)
+        : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(StaticWebAssetsPackIntegrationTest))
     {
-        [Fact]
+        [TestMethod]
         public void Pack_FailsWhenStaticWebAssetsHaveConflictingPaths()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
 
         // If you modify this test, make sure you also modify the test below this one to assert that things are not included as content.
-        [Fact]
+        [TestMethod]
         public void Pack_IncludesStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -64,7 +64,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_NoAssets_DoesNothing()
         {
             var testAsset = "PackageLibraryNoStaticAssets";
@@ -91,7 +91,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_NoAssets_Multitargeting_DoesNothing()
         {
             var testAsset = "PackageLibraryNoStaticAssets";
@@ -125,7 +125,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Incremental_IncludesStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -159,7 +159,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_StaticWebAssets_WithoutFileExtension_AreCorrectlyPacked()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -191,7 +191,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_Works()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -231,7 +231,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_NoBuild_IncludesStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -274,7 +274,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_NoBuild_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -315,7 +315,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_GeneratePackageOnBuild_IncludesStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -355,7 +355,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_GeneratePackageOnBuild_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -393,7 +393,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -462,7 +462,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -530,7 +530,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_NoBuild_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -604,7 +604,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_NoBuild_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -677,7 +677,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_GeneratePackageOnBuild_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -746,7 +746,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_BeforeNet60_MultipleTargetFrameworks_GeneratePackageOnBuild_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -814,7 +814,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -881,7 +881,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -947,7 +947,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_NoBuild_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1019,7 +1019,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_NoBuild_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1090,7 +1090,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_GeneratePackageOnBuild_WithScopedCss_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1157,7 +1157,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Net50_GeneratePackageOnBuild_WithScopedCss_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1223,7 +1223,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_WithScopedCssAndJsModules_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1298,7 +1298,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Incremental_MultipleTargetFrameworks_WithScopedCssAndJsModules_IncludesAssetsAndProjectBundle()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1375,7 +1375,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_WithScopedCssAndJsModules_DoesNotIncludeApplicationBundleNorModulesManifest()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1441,7 +1441,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_MultipleTargetFrameworks_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1479,7 +1479,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_DoesNotInclude_TransitiveBundleOrScopedCssAsStaticWebAsset()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1504,7 +1504,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_DoesNotIncludeStaticWebAssetsAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1536,7 +1536,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_NoBuild_IncludesStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1566,7 +1566,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_NoBuild_DoesNotIncludeFilesAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1595,7 +1595,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_DoesNotIncludeAnyCustomPropsFiles_WhenNoStaticAssetsAreAvailable()
         {
             var testAsset = "RazorComponentLibrary";
@@ -1619,7 +1619,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Pack_Incremental_DoesNotRegenerateCacheAndPropsFiles()
         {
             var testAsset = "PackageLibraryTransitiveDependency";
@@ -1662,11 +1662,11 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             foreach (var file in thumbPrintFiles)
             {
                 var thumbprint = FileThumbPrint.Create(file);
-                Assert.Equal(thumbPrints[file], thumbprint);
+                Assert.AreEqual(thumbPrints[file], thumbprint);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void Build_StaticWebAssets_GeneratePackageOnBuild_PacksStaticWebAssets()
         {
             var testAsset = "PackageLibraryDirectDependency";
@@ -1697,7 +1697,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Build_StaticWebAssets_GeneratePackageOnBuild_DoesNotIncludeAssetsAsContent()
         {
             var testAsset = "PackageLibraryDirectDependency";

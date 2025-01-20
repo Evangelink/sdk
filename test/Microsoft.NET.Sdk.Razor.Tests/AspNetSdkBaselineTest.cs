@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
-    [Trait("AspNetCore", "BaselineTest")]
+    [TestProperty("AspNetCore", "BaselineTest")]
     public class AspNetSdkBaselineTest : AspNetSdkTest
     {
         private static readonly JsonSerializerOptions BaselineSerializationOptions = new() { WriteIndented = true };
@@ -27,7 +27,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         private readonly bool _generateBaselines = GenerateBaselines;
 
-        public AspNetSdkBaselineTest(ITestOutputHelper log) : base(log)
+        public AspNetSdkBaselineTest(MSTestContext testContext) : base(testContext)
         {
             TestAssembly = Assembly.GetCallingAssembly();
             var testAssemblyMetadata = TestAssembly.GetCustomAttributes<AssemblyMetadataAttribute>();
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             ExecuteCommand(packDirectDependency).Should().Pass();
         }
 
-        public AspNetSdkBaselineTest(ITestOutputHelper log, bool generateBaselines) : this(log)
+        public AspNetSdkBaselineTest(MSTestContext testContext, bool generateBaselines) : this(testContext)
         {
             _generateBaselines = generateBaselines;
             _comparer = CreateBaselineComparer();

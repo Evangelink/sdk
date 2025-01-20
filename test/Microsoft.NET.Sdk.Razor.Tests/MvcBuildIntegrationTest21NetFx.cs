@@ -10,9 +10,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         private const string TestProjectName = "SimpleMvc21NetFx";
         private const string TargetFramework = "net462";
         public const string OutputFileName = TestProjectName + ".exe";
-        public MvcBuildIntegrationTest21NetFx(ITestOutputHelper log) : base(log) { }
+        public MvcBuildIntegrationTest21NetFx(MSTestContext testContext) : base(testContext) { }
 
-        [Fact]
+        [TestMethod]
         public virtual void Building_Project()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -38,7 +38,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 @"""Name"":""SimpleMvc.SimpleTagHelper""");
         }
 
-        [Fact]
+        [TestMethod]
         public virtual void BuildingProject_CopyToOutputDirectoryFiles()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -57,13 +57,13 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new DirectoryInfo(Path.Combine(outputPath, "refs")).Should().Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public virtual void Publish_Project()
         {
             var testAsset = $"Razor{TestProjectName}";
             var project = CreateAspNetSdkTestAsset(testAsset);
 
-            var publish = new PublishCommand(Log, project.TestRoot);
+            var publish = new PublishCommand(MSTestContext, project.TestRoot);
             publish.Execute().Should().Pass();
 
             var outputPath = publish.GetOutputDirectory(TargetFramework, "Debug").ToString();
@@ -78,13 +78,13 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new DirectoryInfo(Path.Combine(outputPath, "Views")).Should().NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public virtual void Publish_IncludesRefAssemblies_WhenCopyRefAssembliesToPublishDirectoryIsSet()
         {
             var testAsset = $"Razor{TestProjectName}";
             var project = CreateAspNetSdkTestAsset(testAsset);
 
-            var publish = new PublishCommand(Log, project.TestRoot);
+            var publish = new PublishCommand(MSTestContext, project.TestRoot);
             publish.Execute("/p:CopyRefAssembliesToPublishDirectory=true").Should().Pass();
 
             var outputPath = publish.GetOutputDirectory(TargetFramework, "Debug").ToString();
@@ -92,7 +92,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "refs", "System.Threading.Tasks.Extensions.dll")).Should().Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void Build_ProducesDepsFileWithCompilationContext_ButNoReferences()
         {
             var testAsset = $"Razor{TestProjectName}";

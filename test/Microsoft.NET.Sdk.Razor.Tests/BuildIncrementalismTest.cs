@@ -9,10 +9,10 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class BuildIncrementalismTest : AspNetSdkTest
     {
-        public BuildIncrementalismTest(ITestOutputHelper log) : base(log) { }
+        public BuildIncrementalismTest(MSTestContext testContext) : base(testContext) { }
 
 
-        [Fact(Skip = "https://github.com/dotnet/aspnetcore/issues/28780")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/aspnetcore/issues/28780")]
         public void Build_ErrorInGeneratedCode_ReportsMSBuildError_OnIncrementalBuild()
         {
             var testAsset = "RazorSimpleMvc";
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact(Skip = "https://github.com/dotnet/aspnetcore/issues/28780")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/aspnetcore/issues/28780")]
         public void BuildComponents_DoesNotRegenerateComponentDefinition_WhenDefinitionIsUnchanged()
         {
             var testAsset = "RazorMvcWithComponents";
@@ -93,17 +93,17 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             // Assert - 2
             new FileInfo(generatedDefinitionFile).Should().Exist();
             // Definition file remains unchanged.
-            Assert.Equal(generatedDefinitionThumbprint, FileThumbPrint.Create(generatedDefinitionFile));
+            Assert.AreEqual(generatedDefinitionThumbprint, FileThumbPrint.Create(generatedDefinitionFile));
             new FileInfo(generatedFile).Should().Exist();
             // Generated file should change and include the new content.
             Assert.NotEqual(generatedFileThumbprint, FileThumbPrint.Create(generatedFile));
             new FileInfo(generatedFile).Should().Contain(updatedContent);
 
             // TagHelper cache should remain unchanged.
-            Assert.Equal(definitionThumbprint, FileThumbPrint.Create(tagHelperOutputCache));
+            Assert.AreEqual(definitionThumbprint, FileThumbPrint.Create(tagHelperOutputCache));
         }
 
-        [Fact(Skip = "https://github.com/dotnet/aspnetcore/issues/28780")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/aspnetcore/issues/28780")]
         public void Build_TouchesUpToDateMarkerFile()
         {
             var testAsset = "RazorClassLibrary";
@@ -138,8 +138,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 .Pass();
 
             // Verify thumbprint file is unchanged between true incremental builds
-            Assert.Equal(classLibraryThumbPrint, FileThumbPrint.Create(classLibraryDll));
-            Assert.Equal(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
+            Assert.AreEqual(classLibraryThumbPrint, FileThumbPrint.Create(classLibraryDll));
+            Assert.AreEqual(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
             // In practice, this should remain unchanged. However, since our tests reference
             // binaries from other projects, this file gets updated by Microsoft.Common.targets
             Assert.NotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
@@ -152,7 +152,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 .Should()
                 .Pass();
 
-            Assert.Equal(classLibraryThumbPrint, FileThumbPrint.Create(classLibraryDll));
+            Assert.AreEqual(classLibraryThumbPrint, FileThumbPrint.Create(classLibraryDll));
             Assert.NotEqual(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
             Assert.NotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
         }

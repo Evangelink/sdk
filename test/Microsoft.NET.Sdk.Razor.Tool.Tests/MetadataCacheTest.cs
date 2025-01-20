@@ -5,9 +5,9 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
     public class MetadataCacheTest : SdkTest
     {
-        public MetadataCacheTest(ITestOutputHelper log) : base(log) { }
+        public MetadataCacheTest(MSTestContext testContext) : base(testContext) { }
 
-        [Fact]
+        [TestMethod]
         public void GetMetadata_AddsToCache()
         {
             // Arrange
@@ -19,11 +19,11 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(1, metadataCache.Cache.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, metadataCache.Cache.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetMetadata_UsesCache()
         {
             // Arrange
@@ -35,18 +35,18 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert 1
-            Assert.NotNull(result);
-            Assert.Equal(1, metadataCache.Cache.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, metadataCache.Cache.Count);
 
             // Act 2
             var cacheResult = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert 2
             Assert.Same(result, cacheResult);
-            Assert.Equal(1, metadataCache.Cache.Count);
+            Assert.AreEqual(1, metadataCache.Cache.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetMetadata_MultipleFiles_ReturnsDifferentResultsAndAddsToCache()
         {
             // Arrange
@@ -61,10 +61,10 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert
             Assert.NotSame(result1, result2);
-            Assert.Equal(2, metadataCache.Cache.Count);
+            Assert.AreEqual(2, metadataCache.Cache.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetMetadata_ReplacesCache_IfFileTimestampChanged()
         {
             // Arrange
@@ -76,7 +76,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert 1
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             var entry = Assert.Single(metadataCache.Cache.TestingEnumerable);
             Assert.Same(result, entry.Value.Metadata);
 

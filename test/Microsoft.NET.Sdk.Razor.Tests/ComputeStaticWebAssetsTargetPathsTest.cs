@@ -15,7 +15,7 @@ using Moq;
 namespace Microsoft.NET.Sdk.Razor.Tests;
 public class ComputeStaticWebAssetsTargetPathsTest
 {
-    [Fact]
+    [TestMethod]
     public void IncludesFingerprintInFileWhenPreferred()
     {
         var errorMessages = new List<string>();
@@ -43,7 +43,7 @@ public class ComputeStaticWebAssetsTargetPathsTest
         asset.GetMetadata("TargetPath").Should().Be(Path.Combine("wwwroot", "candidate.1234asdf.js"));
     }
 
-    [Fact]
+    [TestMethod]
     public void IncludesFingerprintInFileWhenRequired()
     {
         var errorMessages = new List<string>();
@@ -71,7 +71,7 @@ public class ComputeStaticWebAssetsTargetPathsTest
         asset.GetMetadata("TargetPath").Should().Be(Path.Combine("wwwroot", "candidate.1234asdf.js"));
     }
 
-    [Fact]
+    [TestMethod]
     public void DoesNotIncludeFingerprintInFileWhenNotPreferred()
     {
         var errorMessages = new List<string>();

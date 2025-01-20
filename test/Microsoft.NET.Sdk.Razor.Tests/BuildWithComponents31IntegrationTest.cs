@@ -5,9 +5,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class BuildWithComponents31IntegrationTest : AspNetSdkTest
     {
-        public BuildWithComponents31IntegrationTest(ITestOutputHelper log) : base(log) { }
+        public BuildWithComponents31IntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void Build_Components_WithDotNetCoreMSBuild_Works()
         {
             var testAsset = "Razorblazor31";

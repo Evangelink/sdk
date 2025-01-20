@@ -7,9 +7,9 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
 {
     public class DesignTimeBuildIntegrationTest : AspNetSdkTest
     {
-        public DesignTimeBuildIntegrationTest(ITestOutputHelper log) : base(log) { }
+        public DesignTimeBuildIntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [Fact]
+        [TestMethod]
         public void DesignTimeBuild_DoesNotRunRazorTargets()
         {
             var testAsset = "RazorSimpleMvc";
@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
 
             // Using Compile here instead of CompileDesignTime because the latter is only defined when using
             // the VS targets. This is a close enough simulation for an SDK project
-            var command = new MSBuildCommand(Log, "Compile", projectDirectory.Path);
+            var command = new MSBuildCommand(MSTestContext, "Compile", projectDirectory.Path);
             command.Execute("/clp:PerformanceSummary /p:DesignTimeBuild=true")
                 .Should()
                 .Pass()
@@ -33,13 +33,13 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
             new FileInfo(Path.Combine(outputPath, "SimpleMvc.Views.pdb")).Should().NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void RazorGenerateDesignTime_ReturnsRazorGenerateWithTargetPath()
         {
             var testAsset = "RazorSimpleMvc";
             var projectDirectory = CreateAspNetSdkTestAsset(testAsset);
 
-            var command = new MSBuildCommand(Log, "RazorGenerateDesignTime;_IntrospectRazorGenerateWithTargetPath", projectDirectory.Path);
+            var command = new MSBuildCommand(MSTestContext, "RazorGenerateDesignTime;_IntrospectRazorGenerateWithTargetPath", projectDirectory.Path);
             var result = command.Execute();
             result.Should().Pass();
 
@@ -64,13 +64,13 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void RazorGenerateComponentDesignTime_ReturnsRazorComponentWithTargetPath()
         {
             var testAsset = "RazorComponentLibrary";
             var projectDirectory = CreateAspNetSdkTestAsset(testAsset);
 
-            var command = new MSBuildCommand(Log, "RazorGenerateComponentDesignTime;_IntrospectRazorComponentWithTargetPath", projectDirectory.Path);
+            var command = new MSBuildCommand(MSTestContext, "RazorGenerateComponentDesignTime;_IntrospectRazorComponentWithTargetPath", projectDirectory.Path);
             var result = command.Execute();
             result.Should().Pass();
 

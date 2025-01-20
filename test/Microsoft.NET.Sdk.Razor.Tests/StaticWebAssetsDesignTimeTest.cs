@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
-public class StaticWebAssetsDesignTimeTest(ITestOutputHelper log) : AspNetSdkBaselineTest(log)
+public class StaticWebAssetsDesignTimeTest(MSTestContext testContext) : AspNetSdkBaselineTest(testContext)
 {
 #if DEBUG
     public const string Configuration = "Debug";
@@ -19,7 +19,7 @@ public class StaticWebAssetsDesignTimeTest(ITestOutputHelper log) : AspNetSdkBas
     public const string Configuration = "Release";
 #endif
 
-    [Fact]
+    [TestMethod]
     public void CollectUpToDateCheckInputOutputsDesignTime_ReportsAddedFiles()
     {
         // Arrange
@@ -55,7 +55,7 @@ public class StaticWebAssetsDesignTimeTest(ITestOutputHelper log) : AspNetSdkBas
         Path.GetFileName(outputFiles[0]).Should().Be("staticwebassets.build.json");
     }
 
-    [Fact]
+    [TestMethod]
     public void CollectUpToDateCheckInputOutputsDesignTime_ReportsRemovedFiles_Once()
     {
         // Arrange
@@ -90,7 +90,7 @@ public class StaticWebAssetsDesignTimeTest(ITestOutputHelper log) : AspNetSdkBas
         Path.GetFileName(outputFiles[0]).Should().Be("staticwebassets.build.json");
     }
 
-    [Fact]
+    [TestMethod]
     public void CollectUpToDateCheckInputOutputsDesignTime_IncludesReferencedProjectsManifests()
     {
         // Arrange
@@ -113,7 +113,7 @@ public class StaticWebAssetsDesignTimeTest(ITestOutputHelper log) : AspNetSdkBas
         var inputFilePath = Path.Combine(build.GetIntermediateDirectory().FullName, "StaticWebAssetsUTDCInput.txt");
         new FileInfo(inputFilePath).Should().Exist();
         var inputFiles = File.ReadAllLines(inputFilePath);
-        inputFiles.Should().HaveCount(1);        
+        inputFiles.Should().HaveCount(1);
         inputFiles.Should().Contain(Path.Combine(ProjectDirectory.Path, "ClassLibrary", "obj", "Debug", DefaultTfm, "staticwebassets.build.json"));
 
         var outputFilePath = Path.Combine(build.GetIntermediateDirectory().FullName, "StaticWebAssetsUTDCOutput.txt");

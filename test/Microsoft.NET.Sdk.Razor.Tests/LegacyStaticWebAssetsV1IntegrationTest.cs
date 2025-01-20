@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
-    public class LegacyStaticWebAssetsV1IntegrationTest(ITestOutputHelper log)
-        : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(log, nameof(LegacyStaticWebAssetsV1IntegrationTest))
+    public class LegacyStaticWebAssetsV1IntegrationTest(MSTestContext testContext)
+        : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(LegacyStaticWebAssetsV1IntegrationTest))
     {
-        [Fact]
+        [TestMethod]
         public void PublishProjectWithReferences_WorksWithStaticWebAssetsV1ClassLibraries()
         {
             var testAsset = "RazorAppWithPackageAndP2PReference";
@@ -73,7 +73,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 intermediateOutputPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void BuildProjectWithReferences_WorksWithStaticWebAssetsV1ClassLibraries()
         {
             var testAsset = "RazorAppWithPackageAndP2PReference";

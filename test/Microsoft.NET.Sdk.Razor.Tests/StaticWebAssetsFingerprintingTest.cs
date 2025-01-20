@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
-public class StaticWebAssetsContentFingerprintingIntegrationTest(ITestOutputHelper log) : AspNetSdkBaselineTest(log)
+public class StaticWebAssetsContentFingerprintingIntegrationTest(MSTestContext testContext) : AspNetSdkBaselineTest(testContext)
 {
-    [Fact]
+    [TestMethod]
     public void Build_FingerprintsContent_WhenEnabled()
     {
         var expectedManifest = LoadBuildManifest();

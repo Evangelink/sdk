@@ -5,21 +5,21 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewDetailsTest : BaseIntegrationTest, IClassFixture<DiagnosticFixture>
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
         private readonly IMessageSink _messageSink;
 
-        public DotnetNewDetailsTest(DiagnosticFixture diagnosisFixture, ITestOutputHelper log) : base(log)
+        public DotnetNewDetailsTest(DiagnosticFixture diagnosisFixture, MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
             _messageSink = diagnosisFixture.DiagnosticSink;
         }
 
-        [Fact]
+        [TestMethod]
         public void CanDisplayDetails_LocalPackage()
         {
-            string packageLocation = PackTestNuGetPackage(_log);
+            string packageLocation = PackTestNuGetPackage(_testContext);
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_log, "install", packageLocation)
+            new DotnetNewCommand(_testContext, "install", packageLocation)
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -27,7 +27,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            new DotnetNewCommand(_log, "details", "Microsoft.TemplateEngine.TestTemplates")
+            new DotnetNewCommand(_testContext, "details", "Microsoft.TemplateEngine.TestTemplates")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -37,7 +37,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching($"Microsoft.TemplateEngine.TestTemplates{Environment.NewLine}   Authors:{Environment.NewLine}      Microsoft{Environment.NewLine}   Templates:");
         }
 
-        [Fact]
+        [TestMethod]
         public void CannotDisplayUnknownPackageDetails()
         {
             // skip the test in internal test runs as it will error on the internal feed
@@ -45,7 +45,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             {
                 return;
             }
-            new DotnetNewCommand(_log, "details", "Some package that does not exist")
+            new DotnetNewCommand(_testContext, "details", "Some package that does not exist")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()

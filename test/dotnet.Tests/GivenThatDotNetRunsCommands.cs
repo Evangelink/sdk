@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests
                 .Should()
                 .Fail();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("crash")
                 .Should().Fail()
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Tests
         [DataRow(null)]
         public void GivenAMissingHomeVariableItExecutesHelpCommandSuccessfully(string value)
         {
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithEnvironmentVariable(CliFolderPathCalculator.PlatformHomeVariableName, value)
                 .WithEnvironmentVariable(CliFolderPathCalculator.DotnetHomeVariableName, "")
                 .Execute("--help")
@@ -53,7 +53,7 @@ namespace Microsoft.DotNet.Tests
         {
             var home = _testAssetsManager.CreateTestDirectory(identifier: "DOTNET_HOME").Path;
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithEnvironmentVariable(CliFolderPathCalculator.DotnetHomeVariableName, home)
                 .Execute("-d", "help")
                 .Should()

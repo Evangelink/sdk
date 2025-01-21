@@ -16,12 +16,12 @@ namespace Microsoft.DotNet.Tests
         {
             var dir = _testAssetsManager.CreateTestDirectory();
 
-            var result = new DotnetCommand(Log, "--help")
+            var result = new DotnetCommand(MSTestContext, "--help")
                 .WithEnvironmentVariable("DOTNET_PERFLOG_DIR", dir.Path)
                 .Execute();
 
             result.ExitCode.Should().Be(0);
-            Assert.Empty(new DirectoryInfo(dir.Path).GetFiles());
+            Assert.HasCount(0, new DirectoryInfo(dir.Path).GetFiles());
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Tests
         {
             var dir = _testAssetsManager.CreateTestDirectory();
 
-            var result = new DotnetCommand(Log, "--help")
+            var result = new DotnetCommand(MSTestContext, "--help")
                 .WithEnvironmentVariable("DOTNET_CLI_PERF_LOG", "1")
                 .WithEnvironmentVariable("DOTNET_PERFLOG_DIR", dir.Path)
                 .Execute();

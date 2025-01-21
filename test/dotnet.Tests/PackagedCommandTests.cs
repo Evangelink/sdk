@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Tests
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log, "portable")
+            new DotnetCommand(MSTestContext, "portable")
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().HaveStdOutContaining("Hello Portable World!")
@@ -63,7 +63,7 @@ namespace Microsoft.DotNet.Tests
                 .Execute()
                 .Should().Pass();
 
-            var result = new DotnetCommand(Log)
+            var result = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute(toolPrefersCLIRuntime ? "portable-v1-prefercli" : "portable-v1");
 
@@ -121,7 +121,7 @@ namespace Microsoft.DotNet.Tests
                 .Should()
                 .Pass();
 
-            var result = new DotnetCommand(Log)
+            var result = new DotnetCommand(MSTestContext)
                     .WithWorkingDirectory(testInstance.Path)
                     .Execute("portable-v1");
 
@@ -142,7 +142,7 @@ namespace Microsoft.DotNet.Tests
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("tool-with-output-name")
                 .Should().HaveStdOutContaining("Tool with output name!")
@@ -156,7 +156,7 @@ namespace Microsoft.DotNet.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("AppWithNonExistingToolDependency", testAssetSubdirectory: "NonRestoredTestProjects")
                 .WithSource();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("nonexistingtool")
                 .Should().Fail()
@@ -187,17 +187,17 @@ namespace Microsoft.DotNet.Tests
                                     randomPackageName);
 
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(toolWithRandPkgNameDir.FullName)
                 .Execute("pack", "-o", pkgsDir.FullName, "/p:version=1.0.0")
                 .Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(appWithDepOnToolDir.FullName)
                 .Execute("restore", "--source", pkgsDir.FullName)
                 .Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(appWithDepOnToolDir.FullName)
                 .Execute("randompackage")
                 .Should().Pass()
@@ -215,7 +215,7 @@ namespace Microsoft.DotNet.Tests
 
             testInstance.Restore(Log);
 
-            new DotnetCommand(Log, "dependency-context-test")
+            new DotnetCommand(MSTestContext, "dependency-context-test")
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().Pass();
@@ -235,7 +235,7 @@ namespace Microsoft.DotNet.Tests
 
             var currentDirectory = Directory.GetCurrentDirectory();
 
-            CommandResult result = new DotnetCommand(Log, "hello")
+            CommandResult result = new DotnetCommand(MSTestContext, "hello")
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute();
 

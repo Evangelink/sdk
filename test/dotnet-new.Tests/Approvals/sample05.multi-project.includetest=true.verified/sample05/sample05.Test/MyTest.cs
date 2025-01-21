@@ -6,11 +6,11 @@ namespace sample05.Test
 {
     public class sample05_UnitTest
     {
-        [Fact]
+        [TestMethod]
         public void sample05_Test()
         {
             var name = Sample.GetName();
-            Assert.Equal("Console and unit test demo",name);
+            Assert.AreEqual("Console and unit test demo",name);
         }
     }
 }

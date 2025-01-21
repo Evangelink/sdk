@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             var outputDll = Path.Combine(buildCommand.GetOutputDirectory(target, configuration).FullName, $"{testAppName}.dll");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .Execute(outputDll)
                 .Should().Pass()
                 .And.HaveStdOutContaining("Hello World");
@@ -56,7 +56,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Execute()
                 .Should().Pass();
 
-            new PackCommand(Log, testInstance.Path)
+            new PackCommand(MSTestContext, testInstance.Path)
                 .Execute()
                 .Should().Pass();
         }
@@ -75,7 +75,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("outputsframeworkversion-netcoreapp1.0")
                 .Should()

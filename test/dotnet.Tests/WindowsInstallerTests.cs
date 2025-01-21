@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Tests
         public void MultipleProcessesCanWriteToTheLog()
         {
             var logFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            TimestampedFileLogger logger = new(logFile);
+            TimestampedFileLogger logger = new(testContextFile);
 
             logger.AddNamedPipe("np1");
             logger.AddNamedPipe("np2");
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Tests
             Task.WaitAll(t1, t2, t3);
             logger.Dispose();
 
-            string logContent = File.ReadAllText(logFile);
+            string logContent = File.ReadAllText(testContextFile);
 
             Assert.Contains("Hello from np1", logContent);
             Assert.Contains("Hello from np2", logContent);

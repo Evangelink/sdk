@@ -41,14 +41,14 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 MSBuildRegistrar.RegisterInstance();
                 var analyzerWorkspace = await MSBuildWorkspaceLoader.LoadAsync(workspacePath, WorkspaceType.Project, binaryLogPath: null, logWorkspaceWarnings: true, logger, CancellationToken.None);
 
-                TestContext.WriteLine(logger.GetLog());
+                MSTestContext.WriteLine(logger.GetLog());
 
                 // From this project we can get valid AnalyzerReferences to add to our test project.
                 _analyzerReferencesProject = analyzerWorkspace.CurrentSolution.Projects.Single();
             }
             catch
             {
-                TestContext.WriteLine(logger.GetLog());
+                MSTestContext.WriteLine(logger.GetLog());
                 throw;
             }
         }

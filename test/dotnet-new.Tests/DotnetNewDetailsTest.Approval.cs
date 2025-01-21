@@ -12,11 +12,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         private const string _nuGetPackageId = "Uno.ProjectTemplates.Dotnet";
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "https://github.com/dotnet/templating/issues/6811")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_NuGetFeedWithVersion()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", _nuGetPackageId, "--version", "4.8.0-dev.604")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", _nuGetPackageId, "--version", "4.8.0-dev.604")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -28,12 +28,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanDisplayDetails_RemotePackage_NuGetFeedNoVersion()
         {
             var folder = CreateTemporaryFolder();
 
-            var createCommandResult = () => new DotnetNewCommand(_log, "details", _nuGetPackageId)
+            var createCommandResult = () => new DotnetNewCommand(_testContext, "details", _nuGetPackageId)
                 .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(folder)
                 .Execute();
@@ -57,11 +57,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "https://github.com/dotnet/templating/issues/6811")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_OtherFeedWithVersion()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", "Microsoft.Azure.WebJobs.ItemTemplates", "--version", "4.0.2288")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", "Microsoft.Azure.WebJobs.ItemTemplates", "--version", "4.0.2288")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -73,13 +73,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task CanDisplayDetails_RemotePackage_OtherFeedNoVersion()
         {
             string packageName = "Microsoft.Azure.WebJobs.ItemTemplates";
             string latestVersion = await GetLatestVersion(packageName);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", packageName)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", packageName)
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -93,12 +93,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Be(latestVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanDisplayDetails_InstalledPackage_LocalPackage()
         {
-            string packageLocation = PackTestNuGetPackage(_log);
+            string packageLocation = PackTestNuGetPackage(_testContext);
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_log, "install", packageLocation)
+            new DotnetNewCommand(_testContext, "install", packageLocation)
                 .WithoutBuiltInTemplates()
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", "Microsoft.TemplateEngine.TestTemplates")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", "Microsoft.TemplateEngine.TestTemplates")
                 .WithCustomHive(home)
                 .WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
@@ -121,11 +121,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .UniqueForOSPlatform();
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanDisplayDetails_InstalledPackage_NuGetFeed()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_log, "install", _nuGetPackageId, "--nuget-source", "https://api.nuget.org/v3/index.json")
+            new DotnetNewCommand(_testContext, "install", _nuGetPackageId, "--nuget-source", "https://api.nuget.org/v3/index.json")
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -133,7 +133,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", _nuGetPackageId)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", _nuGetPackageId)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -145,14 +145,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task CanDisplayDetails_InstalledPackage_OtherFeed()
         {
             string packageName = "Microsoft.Azure.WebJobs.ItemTemplates";
             string latestVersion = await GetLatestVersion(packageName);
 
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_log, "install", packageName)
+            new DotnetNewCommand(_testContext, "install", packageName)
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -160,7 +160,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", packageName)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", packageName)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -174,19 +174,19 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Be(latestVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanDisplayDetails_InstalledPackage_FolderInstallation()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string basicFSharp = GetTestTemplateLocation("TemplateResolution/DifferentLanguagesGroup/BasicFSharp");
-            new DotnetNewCommand(_log, "install", basicFSharp)
+            new DotnetNewCommand(_testContext, "install", basicFSharp)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
                 .Should()
                 .ExitWith(0);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "details", basicFSharp)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", basicFSharp)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();

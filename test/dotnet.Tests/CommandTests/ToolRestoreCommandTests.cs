@@ -53,7 +53,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
 
         private int _installCalledCount = 0;
 
-        public ToolRestoreCommandTests(TestContext testContext): base(testContext)
+        public ToolRestoreCommandTests(MSTestContext testContext): base(testContext)
         {
             _packageVersionA = NuGetVersion.Parse("1.0.4");
             _packageVersionWithCommandNameCollisionWithA = NuGetVersion.Parse("1.0.9");
@@ -362,7 +362,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             string CliHome = Path.Combine(testDir, ".home");
             Directory.CreateDirectory(CliHome);
 
-            var toolRestoreCommand = new DotnetCommand(Log, "tool", "restore")
+            var toolRestoreCommand = new DotnetCommand(MSTestContext, "tool", "restore")
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", CliHome)
                 .WithEnvironmentVariable("DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK", "true")
                 .WithWorkingDirectory(testDir);
@@ -417,7 +417,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             string CliHome = Path.Combine(testDir, ".home");
             Directory.CreateDirectory(CliHome);
 
-            var toolRestoreCommand = new DotnetCommand(Log, "tool", "restore")
+            var toolRestoreCommand = new DotnetCommand(MSTestContext, "tool", "restore")
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", CliHome)
                 .WithEnvironmentVariable("DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK", "true")
                 .WithWorkingDirectory(testDir);

@@ -20,7 +20,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource();
 
-            var buildCommand = new DotnetBuildCommand(Log, testInstance.Path);
+            var buildCommand = new DotnetBuildCommand(MSTestContext, testInstance.Path);
 
             buildCommand
                 .Execute()
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             var outputDll = Path.Combine(outputPathCalculator.GetOutputDirectory(configuration: configuration), $"{testAppName}.dll");
 
-            var outputRunCommand = new DotnetCommand(Log);
+            var outputRunCommand = new DotnetCommand(MSTestContext);
 
             outputRunCommand.Execute(outputDll)
                 .Should().Pass()
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource();
 
-            new DotnetBuildCommand(Log, testInstance.Path)
+            new DotnetBuildCommand(MSTestContext, testInstance.Path)
                 .Execute("--no-restore", "--nologo", "/t:PrintMessage")
                 .Should()
                 .Pass()
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource();
 
-            new DotnetBuildCommand(Log, testInstance.Path)
+            new DotnetBuildCommand(MSTestContext, testInstance.Path)
                 .Execute()
                 .Should().Pass();
         }
@@ -76,7 +76,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             string projectDirectory = Path.Combine(testInstance.Path, "MultiTFMTestApp");
 
-            new DotnetBuildCommand(Log, projectDirectory)
+            new DotnetBuildCommand(MSTestContext, projectDirectory)
                 .Execute("--framework", ToolsetInfo.CurrentTargetFramework)
                 .Should().Pass();
         }
@@ -88,7 +88,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource();
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--no-restore")
                 .Should().Fail()
@@ -106,7 +106,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             File.WriteAllText(responseFilePath, @"-restore");
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--no-restore")
                 .Should().Fail()
@@ -122,14 +122,14 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             string dir = "pkgs";
 
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                 .WithWorkingDirectory(rootPath)
                 .Execute("--packages", dir)
                 .Should()
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(rootPath)
                 .Execute("--no-restore")
                 .Should().Pass();
@@ -141,7 +141,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 SearchOption.TopDirectoryOnly)
                 .Single();
 
-            var outputRunCommand = new DotnetCommand(Log);
+            var outputRunCommand = new DotnetCommand(MSTestContext);
 
             outputRunCommand.Execute(outputDll)
                 .Should().Pass()
@@ -160,7 +160,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
     0 Warning(s)
     0 Error(s)";
 
-            var cmd = new DotnetBuildCommand(Log)
+            var cmd = new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute();
             cmd.Should().Pass();
@@ -174,7 +174,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .WithSource()
                 .Restore(Log);
 
-            var cmd = new DotnetBuildCommand(Log)
+            var cmd = new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
                .Execute("--nologo");
 
@@ -194,7 +194,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .WithTargetFrameworkOrFrameworks(ToolsetInfo.CurrentTargetFramework, false)
                 .Restore(Log);
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
                .Execute("-r", "win-x64")
                .Should()
@@ -215,7 +215,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             var testInstance = _testAssetsManager.CreateTestProject(testProject);
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(Path.Combine(testInstance.Path, testProject.Name))
                .Execute("-r", "win-x64")
                .Should()
@@ -234,7 +234,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .WithTargetFrameworkOrFrameworks(ToolsetInfo.CurrentTargetFramework, false)
                 .Restore(Log);
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
                .Execute(commandName, "-r", "win-x64", "--self-contained")
                .Should()
@@ -251,7 +251,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .WithTargetFramework("netcoreapp3.1")
                 .Restore(Log);
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
                .Execute("-r", "win-x64")
                .Should()
@@ -275,7 +275,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
 
-            new DotnetBuildCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name))
+            new DotnetBuildCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name))
                .Execute(executeOptions)
                .Should()
                .Pass()
@@ -306,7 +306,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                .WithWorkingDirectory(Path.Combine(testAsset.Path, testProject.Name))
                .Execute("build", "-r", EnvironmentInfo.GetCompatibleRid(), "--self-contained")
                .Should()

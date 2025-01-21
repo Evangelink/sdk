@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Tests
     /// </summary>
     public class CrossgenTests : SdkTest
     {
-        public CrossgenTests(ITestOutputHelper log) : base(log)
+        public CrossgenTests(MSTestContext testContext) : base(testContext)
         {
         }
 

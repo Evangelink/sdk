@@ -344,7 +344,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.TargetFramework = "net6.0";
             task.Execute();
 
-            Assert.Single(task.PackageDependenciesDesignTime);
+            Assert.HasCount(1, task.PackageDependenciesDesignTime);
 
             // Verify top packages in target
             var item1 = task.PackageDependenciesDesignTime[0];

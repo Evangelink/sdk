@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
     0 Warning(s)
     0 Error(s)";
 
-            var cmd = new DotnetBuildCommand(Log)
+            var cmd = new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute();
             cmd.Should().Pass();

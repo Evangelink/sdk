@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.Tests
         public void ItCanInvokeDiagramDirective()
         {
             string[] args = new[] { "[diagram]", "build", "-o", "output" };
-            new DotnetCommand(Log, args)
+            new DotnetCommand(MSTestContext, args)
                 .Execute()
                 .Should()
                 .Pass()
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests
         public void ItCanInvokeSuggestDirective()
         {
             string[] args = new[] { "[suggest]", "--l" };
-            new DotnetCommand(Log, args)
+            new DotnetCommand(MSTestContext, args)
                 .Execute()
                 .Should()
                 .Pass()
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.Tests
         {
             File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "response.rsp"), "build");
             string[] args = new[] { @"@response.rsp", "-h" };
-            new DotnetCommand(Log, args)
+            new DotnetCommand(MSTestContext, args)
                 .Execute()
                 .Should()
                 .Pass()

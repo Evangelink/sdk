@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Tests.ArgumentForwarding
         private string ReflectorPath { get; set; }
         private string ReflectorCmdPath { get; set; }
 
-        public ArgumentForwardingTests(ITestOutputHelper log) : base(log)
+        public ArgumentForwardingTests(MSTestContext testContext) : base(testContext)
         {
             // This test has a dependency on an argument reflector
             // Make sure it's been binplaced properly

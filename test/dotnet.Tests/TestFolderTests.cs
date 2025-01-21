@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Tests;
 
-public class TestFolderTests(TestContext testContext) : SdkTest(log)
+public class TestFolderTests(MSTestContext testContext) : SdkTest(testContext)
 {
     private const string FailureMessage = """
         the test directory was moved from 'src/Tests' to 'test' in main.

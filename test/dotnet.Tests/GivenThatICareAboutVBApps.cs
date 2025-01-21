@@ -27,7 +27,7 @@ namespace Microsoft.DotNet.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("VBTestApp")
                 .WithSource();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("run")
                 .Should().Pass();
@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.Tests
                 publishCommand.GetOutputDirectory(configuration: configuration).FullName,
                 "VBTestApp.dll");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .Execute(outputDll)
                 .Should().Pass()
                          .And.HaveStdOutContaining("Hello World");

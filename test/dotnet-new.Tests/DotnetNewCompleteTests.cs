@@ -7,21 +7,21 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class DotnetNewCompleteTests : BaseIntegrationTest
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public DotnetNewCompleteTests(ITestOutputHelper log) : base(log)
+        public DotnetNewCompleteTests(MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanDoTabCompletion()
         {
             string homeDir = CreateTemporaryFolder();
-            CommandResult commandResult = new DotnetCommand(_log, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
+            CommandResult commandResult = new DotnetCommand(_testContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
 
             // need to run twice to avoid https://github.com/dotnet/templating/pull/7103
-            commandResult = new DotnetCommand(_log, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
+            commandResult = new DotnetCommand(_testContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
 
             commandResult
                 .Should()
@@ -32,12 +32,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "https://github.com/dotnet/command-line-api/issues/1519")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/command-line-api/issues/1519")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanDoTabCompletionAtGivenPosition()
         {
             string homeDir = CreateTemporaryFolder();
-            CommandResult commandResult = new DotnetCommand(_log, "complete", $"new co --debug:custom-hive {homeDir} --language C#", "--position", "7")
+            CommandResult commandResult = new DotnetCommand(_testContext, "complete", $"new co --debug:custom-hive {homeDir} --language C#", "--position", "7")
                 .Execute();
 
             commandResult

@@ -9,11 +9,11 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
 {
     public class VSTestTests : SdkTest
     {
-        public VSTestTests(ITestOutputHelper log) : base(log)
+        public VSTestTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void TestsFromAGivenContainerShouldRunWithExpectedOutput()
         {
             var testAppName = "VSTestCore";
@@ -34,9 +34,9 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             var outputDll = Path.Combine(buildCommand.GetOutputDirectory(configuration: configuration).FullName, $"{testAppName}.dll");
 
             // Call vstest
-            var result = new DotnetVSTestCommand(Log)
+            var result = new DotnetVSTestCommand(MSTestContext)
                 .Execute(outputDll, "--logger:console;verbosity=normal");
-            if (!TestContext.IsLocalized())
+            if (!MSTestContext.IsLocalized())
             {
                 result.StdOut
                     .Should().Contain("Total tests: 2")
@@ -49,21 +49,21 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenADllAndMultipleTestRunParametersItPassesThemToVStestConsoleInTheCorrectFormat()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp("1");
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
 
-            new BuildCommand(Log, testProjectDirectory)
+            new BuildCommand(MSTestContext, testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
             var outputDll = Path.Combine(OutputPathCalculator.FromProject(testProjectDirectory).GetOutputDirectory(configuration: configuration), "VSTestTestRunParameters.dll");
 
             // Call test
-            CommandResult result = new DotnetVSTestCommand(Log)
+            CommandResult result = new DotnetVSTestCommand(MSTestContext)
                                         .Execute(new[] {
                                             outputDll,
                                             "--logger:console;verbosity=normal",
@@ -88,7 +88,7 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             result.ExitCode.Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShouldSetDotnetRootToLocationOfDotnetExecutable()
         {
             var testAppName = "VSTestCore";
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             var outputDll = Path.Combine(testRoot, "bin", configuration, ToolsetInfo.CurrentTargetFramework, $"{testAppName}.dll");
 
             // Call vstest
-            var result = new DotnetVSTestCommand(Log)
+            var result = new DotnetVSTestCommand(MSTestContext)
                 .Execute(outputDll, "--logger:console;verbosity=normal");
 
             result.ExitCode.Should().Be(1);
@@ -118,14 +118,14 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             result.StartInfo.EnvironmentVariables[dotnetRoot].Should().Be(Path.GetDirectoryName(dotnet));
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShouldAcceptMultipleLoggers()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp();
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
 
-            new BuildCommand(Log, testProjectDirectory)
+            new BuildCommand(MSTestContext, testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
@@ -133,7 +133,7 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
 
             var logFileName = $"{Path.GetTempFileName()}.trx";
             // Call test
-            CommandResult result = new DotnetVSTestCommand(Log)
+            CommandResult result = new DotnetVSTestCommand(MSTestContext)
                                         .Execute(new[] {
                                             outputDll,
                                             "--logger:console;verbosity=normal",
@@ -161,21 +161,21 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             testResultsDirectory.Exists.Should().BeTrue("expected the test results file to be created");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShouldAcceptNoLoggers()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp();
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
 
-            new BuildCommand(Log, testProjectDirectory)
+            new BuildCommand(MSTestContext, testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
             var outputDll = Path.Combine(testProjectDirectory, "bin", configuration, ToolsetInfo.CurrentTargetFramework, "VSTestTestRunParameters.dll");
 
             // Call test
-            CommandResult result = new DotnetVSTestCommand(Log)
+            CommandResult result = new DotnetVSTestCommand(MSTestContext)
                                         .Execute(new[] {
                                             outputDll,
                                             "--",

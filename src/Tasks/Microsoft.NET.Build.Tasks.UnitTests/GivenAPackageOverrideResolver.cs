@@ -30,7 +30,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 
             var resolver = new PackageOverrideResolver<MockConflictItem>(packageOverrides);
 
-            Assert.Single(resolver.PackageOverrides);
+            Assert.HasCount(1, resolver.PackageOverrides);
 
             PackageOverride packageOverride = resolver.PackageOverrides["Platform"];
             Assert.Equal(5, packageOverride.OverriddenPackages.Count);

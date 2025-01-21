@@ -23,13 +23,13 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         private readonly string _manifestSentinelFileName = ".workloadAdvertisingManifestSentinel";
         private readonly ManifestId[] _installedManifests;
 
-        public GivenWorkloadManifestUpdater(ITestOutputHelper log) : base(log)
+        public GivenWorkloadManifestUpdater(MSTestContext testContext) : base(testContext)
         {
             _reporter = new BufferedReporter();
             _installedManifests = new ManifestId[] { new ManifestId("test-manifest-1"), new ManifestId("test-manifest-2"), new ManifestId("test-manifest-3") };
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenWorkloadManifestUpdateItCanUpdateAdvertisingManifests()
         {
             (var manifestUpdater, var nugetDownloader, _) = GetTestUpdater();
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             nugetDownloader.DownloadCallParams.Should().BeEquivalentTo(GetExpectedDownloadedPackages());
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAdvertisingManifestUpdateItUpdatesWhenNoSentinelExists()
         {
             (var manifestUpdater, var nugetDownloader, var sentinelPath) = GetTestUpdater();
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             File.Exists(sentinelPath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAdvertisingManifestUpdateItUpdatesWhenDue()
         {
             Func<string, string> getEnvironmentVariable = (envVar) => envVar.Equals(EnvironmentVariableNames.WORKLOAD_UPDATE_NOTIFY_INTERVAL_HOURS) ? "0" : string.Empty;
@@ -64,7 +64,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             File.GetLastAccessTime(sentinelPath).Should().BeAfter(createTime);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAdvertisingManifestUpdateItDoesNotUpdateWhenNotDue()
         {
             (var manifestUpdater, var nugetDownloader, var sentinelPath) = GetTestUpdater();
@@ -77,7 +77,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             File.GetLastAccessTime(sentinelPath).Should().BeBefore(createTime);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAdvertisingManifestUpdateItHonorsDisablingEnvVar()
         {
             Func<string, string> getEnvironmentVariable = (envVar) => envVar.Equals(EnvironmentVariableNames.WORKLOAD_UPDATE_NOTIFY_DISABLE) ? "true" : string.Empty;
@@ -87,7 +87,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             nugetDownloader.DownloadCallParams.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadManifestUpdateItCanCalculateUpdates()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -133,7 +133,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
 
-        [Fact]
+        [TestMethod]
         public void GivenAdvertisedManifestsItCalculatesCorrectUpdates()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -201,9 +201,9 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             manifestUpdates.Should().BeEquivalentTo(expectedManifestUpdates.Select(u => u.ToManifestVersionUpdate()));
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public async Task ItCanFallbackAndAdvertiseCorrectUpdate(bool useOfflineCache)
         {
             //  Currently installed - 6.0.200 workload manifest
@@ -279,9 +279,9 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public async Task ItCanFallbackWithNoUpdates(bool useOfflineCache)
         {
             //  Currently installed - none
@@ -306,7 +306,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             Directory.CreateDirectory(Path.Combine(emptyInstalledManifestsDir, testManifestName));
             File.WriteAllText(Path.Combine(emptyInstalledManifestsDir, testManifestName, _manifestFileName), GetManifestContent(new ManifestVersion("1.0.0")));
 
-            var workloadManifestProvider = new MockManifestProvider((testManifestName, Path.Combine(emptyInstalledManifestsDir, testManifestName, _manifestFileName), "1.0.0", "6.0.200")) 
+            var workloadManifestProvider = new MockManifestProvider((testManifestName, Path.Combine(emptyInstalledManifestsDir, testManifestName, _manifestFileName), "1.0.0", "6.0.200"))
             {
                 SdkFeatureBand = new SdkFeatureBand(sdkFeatureBand)
             };
@@ -345,9 +345,9 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             _reporter.Lines.Should().Contain(string.Format(Workloads.Workload.Install.LocalizableStrings.AdManifestPackageDoesNotExist, testManifestName));
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public async Task GivenNoUpdatesAreAvailableAndNoRollbackItGivesAppropriateMessage(bool useOfflineCache)
         {
             //  Currently installed - none
@@ -411,7 +411,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             _reporter.Lines.Should().Contain(string.Format(Workloads.Workload.Install.LocalizableStrings.AdManifestPackageDoesNotExist, testManifestName));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadManifestRollbackItCanCalculateUpdates()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -449,7 +449,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             manifestUpdates.Should().BeEquivalentTo(expectedManifestUpdates.Select(u => u.ToManifestVersionUpdate()));
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenFromRollbackDefinitionItErrorsOnInstalledExtraneousManifestId()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -492,7 +492,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain(rollbackDefPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenFromRollbackDefinitionItErrorsOnExtraneousManifestIdInRollbackDefinition()
         {
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
@@ -534,7 +534,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain(rollbackDefPath);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenWorkloadManifestUpdateItChoosesHighestManifestVersionInCache()
         {
             var manifestId = "mock-manifest";
@@ -568,10 +568,10 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installer.ExtractCallParams[0].Item1.Should().Be(Path.Combine(offlineCache, $"{manifestId}.manifest-{featureBand}.3.0.0.nupkg"));
         }
 
-        [Theory]
-        [InlineData("build", true)]
-        [InlineData("publish", true)]
-        [InlineData("run", false)]
+        [TestMethod]
+        [DataRow("build", true)]
+        [DataRow("publish", true)]
+        [DataRow("run", false)]
         public void GivenWorkloadsAreOutOfDateUpdatesAreAdvertisedOnRestoringCommands(string commandName, bool shouldShowUpdateNotification)
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: commandName)
@@ -584,7 +584,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             // Don't check for updates again and overwrite our existing updates file
             File.WriteAllText(Path.Combine(testInstance.Path, ".dotnet", $".workloadAdvertisingManifestSentinel{sdkFeatureBand}"), string.Empty);
 
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             var commandResult = command
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", testInstance.Path)
                 .WithWorkingDirectory(testInstance.Path)
@@ -609,7 +609,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void WorkloadUpdatesForDifferentBandAreNotAdvertised()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
@@ -622,7 +622,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             // Don't check for updates again and overwrite our existing updates file
             File.WriteAllText(Path.Combine(testInstance.Path, ".dotnet", ".workloadAdvertisingManifestSentinel" + sdkFeatureBand.ToString()), string.Empty);
 
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             var commandResult = command
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", testInstance.Path)
                 .WithWorkingDirectory(testInstance.Path)
@@ -640,7 +640,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestSideBySideUpdateChecks()
         {
             // this test checks that different version bands don't interfere with each other's update check timers

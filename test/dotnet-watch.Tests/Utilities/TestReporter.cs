@@ -6,7 +6,7 @@ using Microsoft.Build.Graph;
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    internal class TestReporter(ITestOutputHelper output) : IReporter
+    internal class TestReporter(MSTestContext testContext) : IReporter
     {
         private readonly Dictionary<int, Action> _actions = [];
         public readonly List<string> ProcessOutput = [];
@@ -78,7 +78,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         {
             try
             {
-                output.WriteLine(message);
+                testContext.WriteLine(message);
             }
             catch (InvalidOperationException)
             {

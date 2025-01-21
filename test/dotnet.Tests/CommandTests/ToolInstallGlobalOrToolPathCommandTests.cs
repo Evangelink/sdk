@@ -47,7 +47,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
         private const string ToolCommandName = "SimulatorCommand";
         private readonly string UnlistedPackageId = "elemental.sysinfotool";
 
-        public ToolInstallGlobalOrToolPathCommandTests(TestContext testContext): base(testContext)
+        public ToolInstallGlobalOrToolPathCommandTests(MSTestContext testContext): base(testContext)
         {
             _packageId = new PackageId(PackageId);
             _reporter = new BufferedReporter();
@@ -702,7 +702,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             const string nugetSourcePath = "https://api.nuget.org/v3/index.json";
             var testDir = _testAssetsManager.CreateTestDirectory().Path;
 
-            var toolInstallGlobalOrToolPathCommand = new DotnetCommand(Log, "tool", "install", "-g", UnlistedPackageId, "--add-source", nugetSourcePath)
+            var toolInstallGlobalOrToolPathCommand = new DotnetCommand(MSTestContext, "tool", "install", "-g", UnlistedPackageId, "--add-source", nugetSourcePath)
                 .WithEnvironmentVariable("DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK", "true")
                 .WithWorkingDirectory(testDir);
 

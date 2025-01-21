@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", "package", packageName, "--version", packageVersion);
             cmd.Should().Pass();
@@ -64,7 +64,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: inputVersions.GetHashCode().ToString());
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(Path.Combine(testAsset.TestRoot, testProject.Name))
                 .Execute("add", "package", "--prerelease", "A")
                 .Should()
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"add", "package", "--prerelease", "Newtonsoft.Json", "--version", ToolsetInfo.GetNewtonsoftJsonPackageVersion())
                 .Should().Fail()
@@ -101,7 +101,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
             var csproj = $"{projectDirectory + Path.DirectorySeparatorChar + testAsset}.csproj";
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", csproj, "package", packageName, "--version", packageVersion)
                 .Should()
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
             var csproj = $"{projectDirectory + Path.DirectorySeparatorChar + testAsset}.csproj";
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", csproj, "package", packageName, "--version", packageVersion, "--package-directory", packageDirectory)
                 .Should()
@@ -149,7 +149,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"add", "package", "--version", packageVersion, packageName)
                 .Should()
@@ -171,7 +171,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
             var framework = ToolsetInfo.CurrentTargetFramework;
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"add", "package", packageName, "--version", packageVersion, "--framework", framework)
                 .Should()
@@ -192,7 +192,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
 
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"add", "package", packageName, "--version", packageVersion)
                 .Should()
@@ -209,7 +209,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", "package", "package1", "package2", "package3")
                 .Should()
@@ -224,7 +224,7 @@ namespace Microsoft.DotNet.Cli.Package.Add.Tests
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"add", "package")
                 .Should()

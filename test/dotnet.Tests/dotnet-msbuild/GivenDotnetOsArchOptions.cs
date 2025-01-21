@@ -113,7 +113,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: command)
                 .WithSource();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute(command, "--os", "win")
                 .Should()
@@ -130,7 +130,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: command)
                 .WithSource();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute(command, "--arch", RuntimeInformation.ProcessArchitecture.Equals(Architecture.Arm64) ? "arm64" : Environment.Is64BitOperatingSystem ? "x64" : "x86")
                 .Should()

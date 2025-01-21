@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 EnvironmentOptions = environmentOptions ?? TestOptions.GetEnvironmentOptions(),
             };
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedOnFirstRun()
         {
             var context = CreateContext();
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run"], evaluator.GetProcessArguments(iteration: 0));
         }
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedIfMsBuildRevaluationIsRequired()
         {
             var context = CreateContext();
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedIfOptimizationIsSuppressed()
         {
             var context = CreateContext([], TestOptions.GetEnvironmentOptions() with { SuppressMSBuildIncrementalism = true });
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedIfNoRestoreAlreadyPresent()
         {
             var context = CreateContext(["--no-restore"], TestOptions.GetEnvironmentOptions() with { SuppressMSBuildIncrementalism = true });
@@ -58,7 +58,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run", "--no-restore"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedIfNoRestoreAlreadyPresent_UnlessAfterDashDash1()
         {
             var context = CreateContext(["--", "--no-restore"]);
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run", "--no-restore", "--", "--no-restore"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void LeavesArgumentsUnchangedIfNoRestoreAlreadyPresent_UnlessAfterDashDash2()
         {
             var context = CreateContext(["--", "--", "--no-restore"]);
@@ -78,7 +78,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run", "--no-restore", "--", "--", "--no-restore"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void AddsNoRestoreSwitch()
         {
             var context = CreateContext();
@@ -88,7 +88,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run", "--no-restore"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void AddsNoRestoreSwitch_WithAdditionalArguments()
         {
             var context = CreateContext(["run", "-f", ToolsetInfo.CurrentTargetFramework]);
@@ -98,7 +98,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["run", "--no-restore", "-f", ToolsetInfo.CurrentTargetFramework], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void AddsNoRestoreSwitch_ForTestCommand()
         {
             var context = CreateContext(["test", "--filter SomeFilter"]);
@@ -108,7 +108,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["test", "--no-restore", "--filter SomeFilter"], evaluator.GetProcessArguments(iteration: 1));
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotModifyArgumentsForUnknownCommands()
         {
             var context = CreateContext(["pack"]);

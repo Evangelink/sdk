@@ -22,7 +22,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         private readonly BufferedReporter _reporter;
         private readonly string _manifestPath;
 
-        public GivenDotnetWorkloadInstall(ITestOutputHelper log) : base(log)
+        public GivenDotnetWorkloadInstall(MSTestContext testContext) : base(testContext)
         {
             _reporter = new BufferedReporter();
             _manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "Sample.json");
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         [WindowsOnlyFact]
         public void GivenWorkloadInstallItErrorsOnFakeWorkloadName()
         {
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -43,10 +43,10 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
                 .HaveStdErrContaining(string.Format(Workloads.Workload.Install.LocalizableStrings.WorkloadNotRecognized, "fake"));
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/26624")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/26624")]
         public void ItErrorUsingSkipManifestAndRollback()
         {
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -58,11 +58,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanInstallPacks(bool userLocal, string sdkVersion)
         {
             var mockWorkloadIds = new WorkloadId[] { new WorkloadId("xamarin-android") };
@@ -79,11 +79,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installer.InstalledPacks.Where(pack => pack.Id.ToString().Contains("Android")).Count().Should().Be(8);
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanRollBackPackInstallation(bool userLocal, string sdkVersion)
         {
             var mockWorkloadIds = new WorkloadId[] { new WorkloadId("xamarin-android"), new WorkloadId("xamarin-android-build") };
@@ -102,7 +102,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installer.InstallationRecordRepository.WorkloadInstallRecord.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallOnFailingRollbackItDisplaysTopLevelError()
         {
             var mockWorkloadIds = new WorkloadId[] { new WorkloadId("xamarin-android"), new WorkloadId("xamarin-android-build") };
@@ -120,11 +120,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain("Rollback failure");
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanUpdateAdvertisingManifests(bool userLocal, string sdkVersion)
         {
             var parseResult = Parser.Instance.Parse(new string[] { "dotnet", "workload", "install", "xamarin-android" });
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             manifestUpdater.UpdateAdvertisingManifestsCallCount.Should().Be(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItWarnsOnGarbageCollectionFailure()
         {
             _reporter.Clear();
@@ -157,10 +157,10 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain("Failing garbage collection");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenInfoOptionWorkloadBaseCommandAcceptsThatOption()
         {
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             var commandResult = command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -169,11 +169,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             commandResult.Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenNoWorkloadsInstalledInfoOptionRemarksOnThat()
         {
             // We can't easily mock the end to end process of installing a workload and testing --info on it so we are adding that to the manual testing document.
-            // However, we can test a setup where no workloads are installed and --info is provided. 
+            // However, we can test a setup where no workloads are installed and --info is provided.
 
             _reporter.Clear();
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -186,11 +186,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             _reporter.Lines.Should().Contain("There are no installed workloads to display.");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenBadOptionWorkloadBaseInformsRequiredCommandWasNotProvided()
         {
             _reporter.Clear();
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -201,11 +201,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
                 .HaveStdErrContaining("Required command was not provided.");
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanUpdateInstalledManifests(bool userLocal, string sdkVersion)
         {
             var parseResult =
@@ -228,11 +228,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installer.InstalledManifests[0].offlineCache.Should().Be(null);
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallFromCacheItInstallsCachedManifest(bool userLocal, string sdkVersion)
         {
             var featureBand = new SdkFeatureBand(sdkVersion);
@@ -258,11 +258,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installer.InstalledManifests[0].offlineCache.Should().Be(new DirectoryPath(cachePath));
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanDownloadToOfflineCache(bool userLocal, string sdkVersion)
         {
             var cachePath = Path.Combine(_testAssetsManager.CreateTestDirectory(identifier: AppendForUserLocal("mockCache_", userLocal) + sdkVersion).Path, "mockCachePath");
@@ -281,11 +281,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItCanInstallFromOfflineCache(bool userLocal, string sdkVersion)
         {
             var mockWorkloadIds = new WorkloadId[] { new WorkloadId("xamarin-android") };
@@ -303,11 +303,11 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             nugetDownloader.DownloadCallParams.Count().Should().Be(0);
         }
 
-        [Theory]
-        [InlineData(true, "6.0.100")]
-        [InlineData(true, "6.0.101")]
-        [InlineData(true, "6.0.102-preview1")]
-        [InlineData(false, "6.0.100")]
+        [TestMethod]
+        [DataRow(true, "6.0.100")]
+        [DataRow(true, "6.0.101")]
+        [DataRow(true, "6.0.102-preview1")]
+        [DataRow(false, "6.0.100")]
         public void GivenWorkloadInstallItPrintsDownloadUrls(bool userLocal, string sdkVersion)
         {
             var parseResult = Parser.Instance.Parse(new string[] { "dotnet", "workload", "install", "xamarin-android", "--print-download-link-only" });
@@ -319,7 +319,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain("http://mock-url/mock-manifest-package.1.0.5.nupkg");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItErrorsOnUnsupportedPlatform()
         {
             var mockWorkloadId = "unsupported";
@@ -340,9 +340,9 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             exceptionThrown.Message.Should().Be(String.Format(Workloads.Workload.Install.LocalizableStrings.WorkloadInstallationFailed, String.Format(Workloads.Workload.Install.LocalizableStrings.WorkloadNotSupportedOnPlatform, mockWorkloadId)));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void GivenWorkloadInstallItDoesNotRemoveOldInstallsOnRollback(bool userLocal)
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory(identifier: userLocal ? "userlocal" : "default").Path;
@@ -389,7 +389,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             installPacks.Count().Should().Be(3);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItTreatsPreviewsAsSeparateFeatureBands()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -397,7 +397,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             var userProfileDir = Path.Combine(testDirectory, "user-profile");
             var tmpDir = Path.Combine(testDirectory, "tmp");
             var manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "MockWorkloadsSample.json");
-            
+
             var manifestUpdater = new MockWorkloadManifestUpdater();
             var prev7SdkFeatureVersion = "6.0.100-preview.7.21379.14";
             var prev7FormattedFeatureVersion = "6.0.100-preview.7";
@@ -494,7 +494,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             return (testDirectory, installManager, installer, workloadResolver, manifestUpdater, nugetDownloader);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItErrorsOnInvalidWorkloadRollbackFile()
         {
             _reporter.Clear();
@@ -520,7 +520,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain("Workload installation failed.");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItWarnsWhenManifestFromRollbackFileIsntInstalled()
         {
             _reporter.Clear();
@@ -545,7 +545,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             string.Join(" ", _reporter.Lines).Should().Contain("Invalid rollback definition. The manifest IDs in rollback definition");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadInstallItWarnsWhenTheWorkloadIsAlreadyInstalled()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -582,10 +582,10 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             Directory.GetFiles(installRecordPath).Count().Should().Be(2);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/25175")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
         public void HideManifestUpdateCheckWhenVerbosityIsQuiet()
         {
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -597,12 +597,12 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
 
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/25175")]
-        [InlineData("--verbosity:minimal")]
-        [InlineData("--verbosity:normal")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
+        [DataRow("--verbosity:minimal")]
+        [DataRow("--verbosity:normal")]
         public void HideManifestUpdatesWhenVerbosityIsMinimalOrNormal(string verbosityFlag)
         {
-            var command = new DotnetCommand(Log);
+            var command = new DotnetCommand(MSTestContext);
             command
                 .WithEnvironmentVariable("DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR", string.Empty)
                 .WithEnvironmentVariable("PATH", "fake")
@@ -613,9 +613,9 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
                 .NotHaveStdOutContaining(Workloads.Workload.Install.LocalizableStrings.AdManifestUpdated);
         }
 
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/25175")]
-        [InlineData("--verbosity:detailed")]
-        [InlineData("--verbosity:diagnostic")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
+        [DataRow("--verbosity:detailed")]
+        [DataRow("--verbosity:diagnostic")]
         public void ShowManifestUpdatesWhenVerbosityIsDetailedOrDiagnostic(string verbosityFlag)
         {
             string sdkFeatureBand = "6.0.300";

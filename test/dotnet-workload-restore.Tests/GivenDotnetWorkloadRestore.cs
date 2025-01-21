@@ -5,14 +5,14 @@ namespace Microsoft.DotNet.Cli.Workload.Restore.Tests;
 
 public class GivenDotnetWorkloadRestore : SdkTest
 {
-    public GivenDotnetWorkloadRestore(ITestOutputHelper log) : base(log)
+    public GivenDotnetWorkloadRestore(MSTestContext testContext) : base(testContext)
     {
     }
 
     public static string DcProjAssetName = "SolutionWithAppAndDcProj";
     public static string TransitiveReferenceNoWorkloadsAssetName = "ProjectWithEsProjReference";
 
-    [Fact]
+    [TestMethod]
     public void ProjectsThatDoNotSupportWorkloadsAreNotInspected()
     {
         var projectPath =
@@ -21,7 +21,7 @@ public class GivenDotnetWorkloadRestore : SdkTest
                 .WithSource()
                 .Path;
 
-        new DotnetWorkloadCommand(Log, "restore")
+        new DotnetWorkloadCommand(MSTestContext, "restore")
         .WithWorkingDirectory(projectPath)
         .Execute()
         .Should()
@@ -29,7 +29,7 @@ public class GivenDotnetWorkloadRestore : SdkTest
         .Pass();
     }
 
-    [Fact]
+    [TestMethod]
     public void ProjectsThatDoNotSupportWorkloadsAndAreTransitivelyReferencedDoNotBreakTheBuild()
     {
         var projectPath =
@@ -38,7 +38,7 @@ public class GivenDotnetWorkloadRestore : SdkTest
                 .WithSource()
                 .Path;
 
-        new DotnetWorkloadCommand(Log, "restore")
+        new DotnetWorkloadCommand(MSTestContext, "restore")
         .WithWorkingDirectory(projectPath)
         .Execute()
         .Should()

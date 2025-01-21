@@ -23,12 +23,12 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         private string _testDirectory;
         private string _dotnetRoot;
 
-        public WorkloadGarbageCollectionTests(ITestOutputHelper log) : base(log)
+        public WorkloadGarbageCollectionTests(MSTestContext testContext) : base(testContext)
         {
             _reporter = new BufferedReporter();
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManagedInstallItCanGarbageCollect()
         {
             CreateMockManifest("testmanifest", "1.0.0", "6.0.100", sourceManifestName: @"Sample2.json");
@@ -79,7 +79,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenManagedInstallItCanGarbageCollectPacksMissingFromManifest()
         {
             CreateMockManifest("testmanifest", "1.0.0");
@@ -113,7 +113,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void GarbageCollectManifests()
         {
             //  ARRANGE
@@ -183,7 +183,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void GarbageCollectManifestsWithInstallState()
         {
             //  ARRANGE
@@ -402,7 +402,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             var manifestProvider = new SdkDirectoryWorkloadManifestProvider(_dotnetRoot, sdkVersion, userProfileDir: null, globalJsonPath: null);
 
             var workloadResolver = WorkloadResolver.CreateForTests(manifestProvider, _dotnetRoot);
-            
+
 
             IWorkloadResolver GetResolver(string workloadSetVersion)
             {

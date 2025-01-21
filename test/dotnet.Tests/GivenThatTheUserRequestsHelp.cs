@@ -33,7 +33,7 @@ namespace dotnet.Tests
         [DataRow("test -h")]
         public void TheResponseIsNotAnError(string commandLine)
         {
-            var result = new DotnetCommand(Log)
+            var result = new DotnetCommand(MSTestContext)
                 .Execute(commandLine.Split());
 
             result.ExitCode.Should().Be(0);
@@ -43,7 +43,7 @@ namespace dotnet.Tests
         [DataRow("faketool -h")]
         public void TheResponseIsAnError(string commandLine)
         {
-            var result = new DotnetCommand(Log)
+            var result = new DotnetCommand(MSTestContext)
                 .Execute(commandLine.Split());
 
             result.ExitCode.Should().Be(1);

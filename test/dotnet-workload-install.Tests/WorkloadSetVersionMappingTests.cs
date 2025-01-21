@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
     public class WorkloadSetVersionMappingTests : SdkTest
     {
 
-        public WorkloadSetVersionMappingTests(ITestOutputHelper log) : base(log)
+        public WorkloadSetVersionMappingTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -51,8 +51,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             }
         }
 
-        [Theory]
-        [MemberData(nameof(WorkloadVersionsData))]
+        [TestMethod]
+        [DynamicData(nameof(WorkloadVersionsData))]
         public void TestWorkloadSetVersionParsing(string workloadSetVersion, string expectedFeatureBand, string expectedPackageVersion)
         {
             string packageVersion = WorkloadSetVersion.ToWorkloadSetPackageVersion(workloadSetVersion, out SdkFeatureBand featureBand);
@@ -61,8 +61,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             featureBand.Should().Be(new SdkFeatureBand(expectedFeatureBand));
         }
 
-        [Theory]
-        [MemberData(nameof(WorkloadVersionsData))]
+        [TestMethod]
+        [DynamicData(nameof(WorkloadVersionsData))]
         public void TestWorkloadSetPackageVersionParsing(string expectedWorkloadSetVersion, string packageFeatureBand, string packageVersion)
         {
             string workloadSetVersion = WorkloadSetVersion.FromWorkloadSetPackageVersion(new SdkFeatureBand(packageFeatureBand), packageVersion);

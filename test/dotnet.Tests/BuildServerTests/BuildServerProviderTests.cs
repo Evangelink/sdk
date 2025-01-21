@@ -15,7 +15,7 @@ namespace Microsoft.DotNet.Tests.BuildServerTests
 {
     public class BuildServerProviderTests : SdkTest
     {
-        public BuildServerProviderTests(ITestOutputHelper log) : base(log)
+        public BuildServerProviderTests(MSTestContext testContext) : base(testContext)
         {
 
         }

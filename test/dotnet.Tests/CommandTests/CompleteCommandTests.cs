@@ -8,7 +8,7 @@ namespace Microsoft.DotNet.Tests.Commands
 {
     public class CompleteCommandTests : SdkTest
     {
-        public CompleteCommandTests(ITestOutputHelper log) : base(log)
+        public CompleteCommandTests(MSTestContext testContext) : base(testContext)
         {
         }
 

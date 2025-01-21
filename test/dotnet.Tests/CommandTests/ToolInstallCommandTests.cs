@@ -46,12 +46,12 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             {
                 Directory.SetCurrentDirectory("/tmp/folder");
 
-                new DotnetNewCommand(Log, "tool-manifest").WithCustomHive("/tmp/folder").WithWorkingDirectory("/tmp/folder").Execute().Should().Pass();
+                new DotnetNewCommand(MSTestContext, "tool-manifest").WithCustomHive("/tmp/folder").WithWorkingDirectory("/tmp/folder").Execute().Should().Pass();
                 var parseResult = Parser.Instance.Parse("tool install dotnetsay");
                 new ToolInstallLocalCommand(parseResult, runtimeJsonPathForTests: ridGraphPath).Execute().Should().Be(0);
 
                 Directory.SetCurrentDirectory("/tmp/folder/sub");
-                new DotnetNewCommand(Log, "tool-manifest").WithCustomHive("/tmp/folder/sub").WithWorkingDirectory("/tmp/folder/sub").Execute().Should().Pass();
+                new DotnetNewCommand(MSTestContext, "tool-manifest").WithCustomHive("/tmp/folder/sub").WithWorkingDirectory("/tmp/folder/sub").Execute().Should().Pass();
                 parseResult = Parser.Instance.Parse("tool install dotnetsay");
                 new ToolInstallLocalCommand(parseResult, runtimeJsonPathForTests: ridGraphPath).Execute().Should().Be(0);
 

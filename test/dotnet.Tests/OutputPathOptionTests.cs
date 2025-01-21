@@ -49,13 +49,13 @@ namespace dotnet.Tests
 
             MSTestContext.WriteLine($"Test root: {slnDirectory}");
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(slnDirectory)
                 .Execute("sln")
                 .Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(slnDirectory)
                 .Execute("sln", "add", testProject.Name)
                 .Should().Pass();
@@ -64,13 +64,13 @@ namespace dotnet.Tests
             Microsoft.DotNet.Cli.Utils.CommandResult commandResult;
             if (useOption)
             {
-                commandResult = new DotnetCommand(Log)
+                commandResult = new DotnetCommand(MSTestContext)
                     .WithWorkingDirectory(slnDirectory)
                     .Execute(command, "--output", outputDirectory);
             }
             else
             {
-                commandResult = new DotnetCommand(Log)
+                commandResult = new DotnetCommand(MSTestContext)
                     .WithWorkingDirectory(slnDirectory)
                     .Execute(command, $"--property:OutputPath={outputDirectory}");
             }

@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.Tests.Commands
 {
     public class BuildServerShutdownCommandTests : SdkTest
     {
-        public BuildServerShutdownCommandTests(ITestOutputHelper log) : base(log)
+        public BuildServerShutdownCommandTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -179,7 +179,7 @@ namespace Microsoft.DotNet.Tests.Commands
             var pidFile = RazorPidFile.Read(new FilePath(files.First()));
             pidFile.PipeName.Should().Be(pipeName);
 
-            new BuildServerCommand(Log)
+            new BuildServerCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.TestRoot)
                 .WithEnvironmentVariable(BuildServerProvider.PidFileDirectoryVariableName, pidDirectory)
                 .Execute("shutdown", "--razor")

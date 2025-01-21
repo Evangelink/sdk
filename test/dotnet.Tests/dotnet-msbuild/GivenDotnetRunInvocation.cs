@@ -8,9 +8,9 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
     [Collection(TestConstants.UsesStaticTelemetryState)]
     public class GivenDotnetRunInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
-        public ITestOutputHelper Log { get; }
+        public MSTestContext MSTestContext { get; }
 
-        public GivenDotnetRunInvocation(TestContext testContext)
+        public GivenDotnetRunInvocation(MSTestContext testContext)
         {
             Log = log;
         }

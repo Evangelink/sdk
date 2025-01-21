@@ -11,7 +11,7 @@ public abstract class DotNetWatchTestBase : IDisposable
     internal TestAssetsManager TestAssets { get; }
     internal WatchableApp App { get; }
 
-    public DotNetWatchTestBase(ITestOutputHelper logger)
+    public DotNetWatchTestBase(TestContext logger)
     {
         var debugLogger = new DebugTestOutputLogger(logger);
         App = new WatchableApp(debugLogger);

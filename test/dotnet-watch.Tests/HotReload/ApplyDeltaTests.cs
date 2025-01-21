@@ -5,9 +5,9 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class ApplyDeltaTests(ITestOutputHelper logger) : DotNetWatchTestBase(logger)
+    public class ApplyDeltaTests(TestContext logger) : DotNetWatchTestBase(logger)
     {
-        [Fact]
+        [TestMethod]
         public async Task AddSourceFile()
         {
             Logger.WriteLine("AddSourceFile started");
@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("Changed!");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ChangeFileInDependency()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppWithProjectDeps")
@@ -70,7 +70,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         /// <summary>
         /// Unchanged project doesn't build. Wait for source change and rebuild.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public async Task BaselineCompilationError()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -97,7 +97,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         /// We currently do not support applying project changes.
         /// The workaround is to restart via Ctrl+R.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public async Task ProjectChangeAndRestart()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -136,7 +136,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith(">>> System.Linq.Enumerable", failure: _ => false);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ChangeFileInFSharpProject()
         {
             var testAsset = TestAssets.CopyTestAsset("FSharpTestAppSimple")
@@ -151,7 +151,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("<Updated>");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ChangeFileInFSharpProjectWithLoop()
         {
             var testAsset = TestAssets.CopyTestAsset("FSharpTestAppSimple")
@@ -191,7 +191,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         // Test is timing out on .NET Framework: https://github.com/dotnet/sdk/issues/41669
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public async Task HandleTypeLoadFailure()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppTypeLoadFailure")
@@ -221,7 +221,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("Updated types: Printer");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task MetadataUpdateHandler_NoActions()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchHotReloadApp")
@@ -253,7 +253,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 $"dotnet watch ⚠ [WatchHotReloadApp ({ToolsetInfo.CurrentTargetFramework})] Expected to find a static method 'ClearCache' or 'UpdateApplication' on type 'AppUpdateHandler, WatchHotReloadApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' but neither exists.");
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public async Task MetadataUpdateHandler_Exception(bool verbose)
         {
@@ -302,7 +302,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             }
         }
 
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/45299")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45299")]
         [CombinatorialData]
         public async Task BlazorWasm(bool projectSpecifiesCapabilities)
         {
@@ -329,7 +329,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains(MessageDescriptor.ConfiguredToUseBrowserRefresh);
             App.AssertOutputContains(MessageDescriptor.ConfiguredToLaunchBrowser);
 
-            // Browser is launched based on blazor-devserver output "Now listening on: ...".
+            // Browser is launched based on blazor-devserver testContext "Now listening on: ...".
             await App.WaitUntilOutputContains($"dotnet watch ⌚ Launching browser: http://localhost:{port}/");
 
             // Middleware should have been loaded to blazor-devserver before the browser is launched:
@@ -362,7 +362,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public async Task BlazorWasm_MSBuildWarning()
         {
             var testAsset = TestAssets
@@ -384,7 +384,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertWaitingForChanges();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Razor_Component_ScopedCssAndStaticAssets()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchRazorWithDeps")
@@ -440,13 +440,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var testAsset = TestAssets.CopyTestAsset("WatchMauiBlazor")
                 .WithSource();
 
-            var workloadInstallCommandSpec = new DotnetCommand(Logger, ["workload", "install", "maui", "--include-previews"])
+            var workloadInstallCommandSpec = new DotnetCommand(MSTestContextger, ["workload", "install", "maui", "--include-previews"])
             {
                 WorkingDirectory = testAsset.Path,
             };
 
             var result = workloadInstallCommandSpec.Execute();
-            Assert.Equal(0, result.ExitCode);
+            Assert.AreEqual(0, result.ExitCode);
 
             var platform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "windows10.0.19041.0" : "maccatalyst";
             var tfm = $"{ToolsetInfo.CurrentTargetFramework}-{platform}";
@@ -476,7 +476,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         // Test is timing out on .NET Framework: https://github.com/dotnet/sdk/issues/41669
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public async Task HandleMissingAssemblyFailure()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppMissingAssemblyFailure")
@@ -512,9 +512,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("Updated types: Printer");
         }
 
-        [Theory]
-        [InlineData(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
+        [DataRow(false)]
         public async Task RenameSourceFile(bool useMove)
         {
             Logger.WriteLine("RenameSourceFile started");
@@ -564,9 +564,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("> Renamed.cs");
         }
 
-        [Theory]
-        [InlineData(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
+        [DataRow(false)]
         public async Task RenameDirectory(bool useMove)
         {
             Logger.WriteLine("RenameSourceFile started");
@@ -619,7 +619,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineStartsWith("> NewSubdir");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task Aspire()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -652,7 +652,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains(MessageDescriptor.HotReloadSucceeded, $"WatchAspire.ApiService ({tfm})");
 
             // Only one browser should be launched (dashboard). The child process shouldn't launch a browser.
-            Assert.Equal(1, App.Process.Output.Count(line => line.StartsWith("dotnet watch ⌚ Launching browser: ")));
+            Assert.AreEqual(1, App.Process.Output.Count(line => line.StartsWith("dotnet watch ⌚ Launching browser: ")));
             App.Process.ClearOutput();
 
             // rude edit with build error:

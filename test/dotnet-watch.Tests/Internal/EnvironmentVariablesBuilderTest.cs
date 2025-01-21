@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 {
     public class EnvironmentVariablesBuilderTest
     {
-        [Fact]
+        [TestMethod]
         public void Value()
         {
             var builder = new EnvironmentVariablesBuilder();
@@ -18,7 +18,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual([("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "b")], values.Select(e => (e.Key, e.Value)));
         }
 
-        [Fact]
+        [TestMethod]
         public void MultipleValues()
         {
             var builder = new EnvironmentVariablesBuilder();

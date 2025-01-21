@@ -156,7 +156,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             }
             else
             {
-                Assert.NotNull(actual);
+                Assert.IsNotNull(actual);
             }
 
             if (!expected.SequenceEqual(actual, comparer ?? EqualityComparer<T>.Default))

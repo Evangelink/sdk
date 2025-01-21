@@ -3,9 +3,9 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
-public class CompilationHandlerTests(ITestOutputHelper logger) : DotNetWatchTestBase(logger)
+public class CompilationHandlerTests(TestContext logger) : DotNetWatchTestBase(logger)
 {
-    [Fact]
+    [TestMethod]
     public async Task ReferenceOutputAssembly_False()
     {
         var testAsset = TestAssets.CopyTestAsset("WatchAppMultiProc")

@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.Tests
         public DirectoryInfo DotDotnetFolder;
         public string TestDirectory;
 
-        public TestCommand Setup(TestContext testContext, TestAssetsManager testAssets, [CallerMemberName] string testName = null)
+        public TestCommand Setup(MSTestContext testContext, TestAssetsManager testAssets, [CallerMemberName] string testName = null)
         {
             TestDirectory = testAssets.CreateTestDirectory(testName).Path;
             var testNuGetHome = Path.Combine(TestDirectory, "nuget_home");
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests
             var profiled = Path.Combine(TestDirectory, "profile.d");
             var pathsd = Path.Combine(TestDirectory, "paths.d");
 
-            var command = new DotnetCommand(log)
+            var command = new DotnetCommand(testContext)
                 .WithWorkingDirectory(TestDirectory)
                 .WithEnvironmentVariable("HOME", testNuGetHome)
                 .WithEnvironmentVariable("USERPROFILE", testNuGetHome)
@@ -54,13 +54,13 @@ namespace Microsoft.DotNet.Tests
 
         public Dictionary<string, string> ExtraEnvironmentVariables = new();
 
-        public void Init(TestContext testContext, TestAssetsManager testAssets)
+        public void Init(MSTestContext testContext, TestAssetsManager testAssets)
         {
             if (TestDirectory == null)
             {
                 var dotnetFirstTime = new DotNetFirstTime();
 
-                var command = dotnetFirstTime.Setup(log, testAssets, testName: "Dotnet_first_time_experience_tests");
+                var command = dotnetFirstTime.Setup(testContext, testAssets, testName: "Dotnet_first_time_experience_tests");
 
                 FirstDotnetNonVerbUseCommandResult = command.Execute("--info");
                 FirstDotnetVerbUseCommandResult = command.Execute("new", "--debug:ephemeral-hive");
@@ -81,9 +81,9 @@ namespace Microsoft.DotNet.Tests
     {
         DotNetFirstTimeFixture _fixture;
 
-        public GivenThatTheUserIsRunningDotNetForTheFirstTime(TestContext testContext, DotNetFirstTimeFixture fixture) : base(testContext)
+        public GivenThatTheUserIsRunningDotNetForTheFirstTime(MSTestContext testContext, DotNetFirstTimeFixture fixture) : base(testContext)
         {
-            fixture.Init(log, _testAssetsManager);
+            fixture.Init(testContext, _testAssetsManager);
             _fixture = fixture;
         }
 

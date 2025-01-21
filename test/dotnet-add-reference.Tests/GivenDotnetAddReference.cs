@@ -72,7 +72,7 @@ Commands:
 
             try
             {
-                new DotnetNewCommand(Log, "classlib", "-o", projDir.Path, "--no-restore")
+                new DotnetNewCommand(MSTestContext, "classlib", "-o", projDir.Path, "--no-restore")
                     .WithVirtualHive()
                     .WithWorkingDirectory(projDir.Path)
                     .Execute()
@@ -105,7 +105,7 @@ Commands:
         [DataRow("-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string helpArg)
         {
-            var cmd = new DotnetCommand(Log, "add", "reference").Execute(helpArg);
+            var cmd = new DotnetCommand(MSTestContext, "add", "reference").Execute(helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(HelpText(Directory.GetCurrentDirectory(), "FRAMEWORK"));
         }
@@ -115,7 +115,7 @@ Commands:
         [DataRow("unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string commandName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute($"add", commandName);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
@@ -125,7 +125,7 @@ Commands:
         [TestMethod]
         public void WhenTooManyArgumentsArePassedItPrintsError()
         {
-            var cmd = new DotnetCommand(Log, "add", "one", "two", "three", "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", "one", "two", "three", "reference")
                     .Execute("proj.csproj");
             cmd.ExitCode.Should().NotBe(0);
             cmd.StdErr.Should().BeVisuallyEquivalentTo($@"{string.Format(LocalizableStrings.UnrecognizedCommandOrArgument, "two")}
@@ -139,7 +139,7 @@ Commands:
         {
             var setup = Setup(identifier: projName);
 
-            var cmd = new DotnetCommand(Log, "add", projName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", projName, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute($"\"{setup.ValidRefCsprojPath}\"");
             cmd.ExitCode.Should().NotBe(0);
@@ -167,7 +167,7 @@ Commands:
         <EmbeddedResource Include=""**\*.resx""/>
     <!--intentonally broken-->");
 
-            var cmd = new DotnetCommand(Log, "add", projName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", projName, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute($"\"{setup.ValidRefCsprojPath}\"");
             cmd.ExitCode.Should().NotBe(0);
@@ -181,7 +181,7 @@ Commands:
             var setup = Setup();
 
             var workingDir = Path.Combine(setup.TestRoot, "MoreThanOne");
-            var cmd = new DotnetCommand(Log, "add", "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", "reference")
                     .WithWorkingDirectory(workingDir)
                     .Execute(setup.ValidRefCsprojRelToOtherProjPath);
             cmd.ExitCode.Should().NotBe(0);
@@ -194,7 +194,7 @@ Commands:
         {
             var setup = Setup();
 
-            var cmd = new DotnetCommand(Log, "add", "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute($"\"{setup.ValidRefCsprojPath}\"");
             cmd.ExitCode.Should().NotBe(0);
@@ -215,7 +215,7 @@ Commands:
   <Import Project=""fake.props"" />
 </Project>");
 
-            var cmd = new DotnetCommand(Log, "add", "reference", invalidProjPath)
+            var cmd = new DotnetCommand(MSTestContext, "add", "reference", invalidProjPath)
                 .WithWorkingDirectory(invalidProjDirectory)
                 .Execute();
             cmd.Should().Fail();
@@ -232,7 +232,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -250,7 +250,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int condBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -267,13 +267,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.LibCsprojPath)
                 .Should().Pass();
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjName, "reference")
                 .WithWorkingDirectory(lib.Path)
                 .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -289,13 +289,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.LibCsprojPath)
                 .Should().Pass();
 
             int condBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -311,13 +311,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", ToolsetInfo.CurrentTargetFramework, setup.ValidRefCsprojPath)
                 .Should().Pass();
 
             int condBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -333,13 +333,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.LibCsprojPath)
                 .Should().Pass();
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -355,13 +355,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojPath)
                 .Should().Pass();
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjName, "reference")
                 .WithWorkingDirectory(lib.Path)
                 .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -379,7 +379,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithExistingRefCondOnItem"));
 
             string contentBefore = proj.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjPath, "reference")
                     .WithWorkingDirectory(proj.Path)
                     .Execute("-f", FrameworkNet451, setup.LibCsprojRelPath);
             cmd.Should().Pass();
@@ -393,13 +393,13 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath)
                 .Should().Pass();
 
             var csprojContentBefore = lib.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -414,7 +414,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithExistingRefCondWhitespaces"));
 
             string contentBefore = proj.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjName, "reference")
                     .WithWorkingDirectory(proj.Path)
                     .Execute("-f", FrameworkNet451, setup.LibCsprojRelPath);
             cmd.Should().Pass();
@@ -429,7 +429,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithRefNoCondNonUniform"));
 
             string contentBefore = proj.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjName, "reference")
                     .WithWorkingDirectory(proj.Path)
                     .Execute(setup.LibCsprojRelPath);
             cmd.Should().Pass();
@@ -444,7 +444,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithRefNoCondNonUniform"));
 
             int noCondBefore = proj.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -461,7 +461,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithRefCondNonUniform"));
 
             string contentBefore = proj.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjName, "reference")
                     .WithWorkingDirectory(proj.Path)
                     .Execute("-f", FrameworkNet451, setup.LibCsprojRelPath);
             cmd.Should().Pass();
@@ -476,7 +476,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "WithRefCondNonUniform"));
 
             int condBefore = proj.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute("-f", FrameworkNet451, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -493,7 +493,7 @@ Commands:
             var proj = new ProjDir(Path.Combine(setup.TestRoot, "EmptyItemGroup"));
 
             int noCondBefore = proj.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", proj.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", proj.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -513,7 +513,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.LibCsprojPath, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -534,7 +534,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute("-f", FrameworkNet451, setup.LibCsprojPath, setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -552,7 +552,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", "reference")
                 .WithWorkingDirectory(lib.Path)
                 .Execute(setup.ValidRefCsprojPath);
             cmd.Should().Pass();
@@ -569,7 +569,7 @@ Commands:
             var lib = NewLibWithFrameworks();
 
             var contentBefore = lib.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjName, "reference")
                 .WithWorkingDirectory(lib.Path)
                 .Execute("IDoNotExist.csproj");
             cmd.Should().Fail();
@@ -584,7 +584,7 @@ Commands:
             var setup = Setup();
 
             var contentBefore = lib.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojPath, "IDoNotExist.csproj");
             cmd.Should().Fail();
@@ -599,7 +599,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjName, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjName, "reference")
                 .WithWorkingDirectory(lib.Path)
                 .Execute(setup.ValidRefCsprojPath.Replace('\\', '/'));
             cmd.Should().Pass();
@@ -617,7 +617,7 @@ Commands:
             var proj = new ProjDir(setup.LibDir);
 
             int noCondBefore = proj.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", setup.LibCsprojPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", setup.LibCsprojPath, "reference")
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojRelPath);
             cmd.Should().Pass();
@@ -636,7 +636,7 @@ Commands:
             var net45lib = new ProjDir(Path.Combine(setup.TestRoot, "Net45Lib"));
 
             int condBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                     .Execute("-f", FrameworkNet451, net45lib.CsProjPath);
             cmd.Should().Pass();
             cmd.StdOut.Should().Be(string.Format(CommonLocalizableStrings.ReferenceAddedToTheProject, @"..\Net45Lib\Net45Lib.csproj"));
@@ -653,7 +653,7 @@ Commands:
             var net452netcoreapp10lib = new ProjDir(Path.Combine(setup.TestRoot, "Net452AndNetCoreApp10Lib"));
 
             int noCondBefore = net452netcoreapp10lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new DotnetCommand(Log, "add", net452netcoreapp10lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", net452netcoreapp10lib.CsProjPath, "reference")
                     .Execute(lib.CsProjPath);
             cmd.Should().Pass();
             cmd.Should().Pass();
@@ -675,7 +675,7 @@ Commands:
             var net45lib = new ProjDir(Path.Combine(setup.TestRoot, "Net45Lib"));
 
             var csProjContent = lib.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                     .Execute($"-f", framework, net45lib.CsProjPath);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(string.Format(CommonLocalizableStrings.ProjectDoesNotTargetFramework, setup.LibCsprojPath, framework));
@@ -701,7 +701,7 @@ Commands:
             args.Add(lib.CsProjPath);
 
             var csProjContent = net45lib.CsProjContent();
-            var cmd = new DotnetCommand(Log, "add", net45lib.CsProjPath, "reference")
+            var cmd = new DotnetCommand(MSTestContext, "add", net45lib.CsProjPath, "reference")
                     .Execute(args);
             cmd.Should().Fail();
             cmd.StdErr.Should().MatchRegex(ProjectNotCompatibleErrorMessageRegEx);
@@ -715,7 +715,7 @@ Commands:
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
-            var result = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var result = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(Path.GetDirectoryName(setup.ValidRefCsprojPath));
 
@@ -731,7 +731,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             var reference = "Empty";
-            var result = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var result = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(reference);
 
@@ -747,7 +747,7 @@ Commands:
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             var reference = "MoreThanOne";
-            var result = new DotnetCommand(Log, "add", lib.CsProjPath, "reference")
+            var result = new DotnetCommand(MSTestContext, "add", lib.CsProjPath, "reference")
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(reference);
 

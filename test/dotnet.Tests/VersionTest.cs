@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Tests
 
             var expectedVersion = assemblyMetadata["SdkVersion"];
 
-            CommandResult result = new DotnetCommand(Log)
+            CommandResult result = new DotnetCommand(MSTestContext)
                     .Execute("--version");
 
             result.Should().Pass();
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.Tests
         [TestMethod]
         public void VersionIsNotDisplayedFollowingUnrecognizedCommand()
         {
-            var result = new DotnetCommand(Log)
+            var result = new DotnetCommand(MSTestContext)
                 .Execute(new string[] { "faketool", "--version" });
 
             result.ExitCode.Should().Be(1);

@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Cli.Clean.Tests
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource();
 
-            new DotnetBuildCommand(Log, testInstance.Path)
+            new DotnetBuildCommand(MSTestContext, testInstance.Path)
                 .Execute("-r", $"{ToolsetInfo.LatestWinRuntimeIdentifier}-x64")
                 .Should().Pass();
 
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Cli.Clean.Tests
 
             outputFolder.Should().NotBeEmpty();
 
-            new DotnetCommand(Log, "clean", testInstance.Path)
+            new DotnetCommand(MSTestContext, "clean", testInstance.Path)
                 .Execute("-r", $"{ToolsetInfo.LatestWinRuntimeIdentifier}-x64")
                 .Should().Pass();
 

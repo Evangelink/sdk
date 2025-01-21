@@ -19,9 +19,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
         public bool IsErrorRedirected { get; } = false;
         public ConsoleColor ForegroundColor { get; set; }
 
-        public TestConsole(ITestOutputHelper output)
+        public TestConsole(MSTestContext testContext)
         {
-            _testWriter = new TestOutputWriter(output);
+            _testWriter = new TestOutputWriter(testContext);
             Error = _testWriter;
             Out = _testWriter;
         }
@@ -30,7 +30,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
         public void PressKey(ConsoleKeyInfo key)
         {
-            Assert.NotNull(KeyPressed);
+            Assert.IsNotNull(KeyPressed);
             KeyPressed.Invoke(key);
         }
 
@@ -50,13 +50,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
         private class TestOutputWriter : TextWriter
         {
-            private readonly ITestOutputHelper _output;
+            private readonly MSTestContext _testContext;
             private readonly StringBuilder _sb = new();
             private readonly StringBuilder _currentOutput = new();
 
-            public TestOutputWriter(ITestOutputHelper output)
+            public TestOutputWriter(MSTestContext testContext)
             {
-                _output = output;
+                _testContext = testContext;
             }
 
             public override Encoding Encoding => Encoding.Unicode;
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 {
                     if (_sb.Length > 0)
                     {
-                        _output.WriteLine(_sb.ToString());
+                        _testContext.WriteLine(_sb.ToString());
                         _sb.Clear();
                     }
 

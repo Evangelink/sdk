@@ -5,19 +5,19 @@ namespace Microsoft.DotNet.Tests.Commands
 {
     public class CommandIntegrationTests : SdkTest
     {
-        public CommandIntegrationTests(ITestOutputHelper log) : base(log) { }
+        public CommandIntegrationTests(MSTestContext testContext) : base(testContext) { }
 
         [TestMethod]
         public void GivenNoArgumentsProvided()
         {
-            var cmd = new DotnetCommand(Log).Execute(string.Empty);
+            var cmd = new DotnetCommand(MSTestContext).Execute(string.Empty);
             cmd.StdErr.Should().BeEmpty();
         }
 
         [TestMethod]
         public void GivenOnlyArgumentProvidedIsDiagnosticsFlag()
         {
-            var cmd = new DotnetCommand(Log).Execute("-d");
+            var cmd = new DotnetCommand(MSTestContext).Execute("-d");
             cmd.ExitCode.Should().Be(0);
             cmd.StdErr.Should().BeEmpty();
         }

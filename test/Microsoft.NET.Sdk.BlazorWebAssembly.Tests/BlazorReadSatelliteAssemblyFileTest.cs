@@ -9,7 +9,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
     public class BlazorReadSatelliteAssemblyFileTest
     {
-        [Fact]
+        [TestMethod]
         public void WritesAndReadsRoundTrip()
         {
             // Arrange/Act

@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 {
     public class GivenAnEnvironmentForResolution
     {
-        [Fact]
+        [TestMethod]
         public void ItIgnoresInvalidPath()
         {
             Func<string, string> getPathEnvVarFunc = (string var) => { return $"{Directory.GetCurrentDirectory()}Dir{Path.GetInvalidPathChars().First()}Name"; };
@@ -14,7 +14,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             pathResult.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotReturnNullDotnetRootOnExtraPathSeparator()
         {
             File.Create(Path.Combine(Directory.GetCurrentDirectory(), "dotnet.exe")).Close();

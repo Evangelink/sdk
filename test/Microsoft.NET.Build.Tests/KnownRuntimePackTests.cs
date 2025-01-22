@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class KnownRuntimePackTests : SdkTest
     {
-        public KnownRuntimePackTests(ITestOutputHelper log) : base(log)
+        public KnownRuntimePackTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void BuildSucceedsWithRuntimePackWithDifferentLabel()
         {
             var testProject = new TestProject()
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void DuplicateRuntimePackCausesFailure()
         {
             var testProject = new TestProject()
@@ -62,7 +62,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1133");
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimePackWithLabelIsSelected()
         {
             var testProject = new TestProject()
@@ -100,7 +100,7 @@ namespace Microsoft.NET.Build.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void AspNetRuntimePackIsNotRestoredForAndroid()
         {
             var testProject = new TestProject()

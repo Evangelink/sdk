@@ -9,19 +9,19 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenTransitiveFrameworkReferencesAreDisabled : SdkTest
     {
-        public GivenTransitiveFrameworkReferencesAreDisabled(ITestOutputHelper log) : base(log)
+        public GivenTransitiveFrameworkReferencesAreDisabled(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public void TargetingPacksAreNotDownloadedIfNotDirectlyReferenced(bool referenceAspNet)
         {
             TestPackagesNotDownloaded(referenceAspNet, selfContained: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimePacksAreNotDownloadedIfNotDirectlyReferenced()
         {
             TestPackagesNotDownloaded(referenceAspNet: false, selfContained: true);
@@ -100,7 +100,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should().BeEquivalentTo(expectedPackages);
         }
 
-        [Fact]
+        [TestMethod]
         public void TransitiveFrameworkReferenceGeneratesError()
         {
             string nugetPackagesFolder = _testAssetsManager.CreateTestDirectory(identifier: "packages").Path;
@@ -141,7 +141,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("NETSDK1184:");
         }
 
-        [Fact]
+        [TestMethod]
         public void TransitiveFrameworkReferenceGeneratesRuntimePackError()
         {
             string nugetPackagesFolder = _testAssetsManager.CreateTestDirectory(identifier: "packages").Path;

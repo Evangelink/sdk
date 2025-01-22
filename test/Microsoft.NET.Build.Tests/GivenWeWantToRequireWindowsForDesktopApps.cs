@@ -11,13 +11,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenWeWantToRequireWindowsForDesktopApps : SdkTest
     {
-        public GivenWeWantToRequireWindowsForDesktopApps(ITestOutputHelper log) : base(log)
+        public GivenWeWantToRequireWindowsForDesktopApps(MSTestContext testContext) : base(testContext)
         {
         }
 
         [WindowsOnlyTheory]
-        [InlineData("UseWPF")]
-        [InlineData("UseWindowsForms")]
+        [DataRow("UseWPF")]
+        [DataRow("UseWindowsForms")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk(string uiFrameworkProperty)
         {
             const string ProjectName = "WindowsDesktopSdkTest";
@@ -32,9 +32,9 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificTheory(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
-        [InlineData("UseWPF")]
-        [InlineData("UseWindowsForms")]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [DataRow("UseWPF")]
+        [DataRow("UseWindowsForms")]
         public void It_errors_on_nonwindows_with_the_windows_desktop_sdk(string uiFrameworkProperty)
         {
             const string ProjectName = "WindowsDesktopSdkErrorTest";
@@ -52,9 +52,9 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("Microsoft.WindowsDesktop.App")]
-        [InlineData("Microsoft.WindowsDesktop.App.WindowsForms")]
-        [InlineData("Microsoft.WindowsDesktop.App.WPF")]
+        [DataRow("Microsoft.WindowsDesktop.App")]
+        [DataRow("Microsoft.WindowsDesktop.App.WindowsForms")]
+        [DataRow("Microsoft.WindowsDesktop.App.WPF")]
         public void It_builds_on_windows_with_a_framework_reference(string desktopFramework)
         {
             const string ProjectName = "WindowsDesktopReferenceTest";
@@ -69,10 +69,10 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificTheory(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
-        [InlineData("Microsoft.WindowsDesktop.App")]
-        [InlineData("Microsoft.WindowsDesktop.App.WindowsForms")]
-        [InlineData("Microsoft.WindowsDesktop.App.WPF")]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [DataRow("Microsoft.WindowsDesktop.App")]
+        [DataRow("Microsoft.WindowsDesktop.App.WindowsForms")]
+        [DataRow("Microsoft.WindowsDesktop.App.WPF")]
         public void It_errors_on_nonwindows_with_a_framework_reference(string desktopFramework)
         {
             const string ProjectName = "WindowsDesktopReferenceErrorTest";
@@ -89,7 +89,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.WindowsDesktopFrameworkRequiresWindows);
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
         public void AppTargetingWindows10CanBuildOnNonWindows()
         {
             var testProject = new TestProject()
@@ -107,7 +107,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
         public void AppTargetingWindows10WillProduceWindowsGUISubsystemExe()
         {
             // check subsystem is successfully set as WindowsGUISubsystem
@@ -142,20 +142,20 @@ namespace Microsoft.NET.Build.Tests
             subsystem.Should().Be(WindowsGUISubsystem);
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
         public void WindowsFormsAppCanBuildOnNonWindows()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("WindowsFormsTestApp")
                 .WithSource();
 
-            new BuildCommand(Log, testInstance.Path)
+            new BuildCommand(MSTestContext, testInstance.Path)
                 .WithEnvironmentVariable("EnableWindowsTargeting", "true")
                 .Execute()
                 .Should()
                 .Pass();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk_5_0_with_ProjectSdk_set()
         {
             const string ProjectName = "WindowsDesktopSdkTest_50";
@@ -175,7 +175,7 @@ namespace Microsoft.NET.Build.Tests
 
             var asset = _testAssetsManager.CreateTestProject(testProject);
 
-            var command = new BuildCommand(Log, Path.Combine(asset.Path, ProjectName));
+            var command = new BuildCommand(MSTestContext, Path.Combine(asset.Path, ProjectName));
 
             command
                 .Execute()
@@ -183,7 +183,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk_5_0_without_ProjectSdk_set()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";
@@ -203,7 +203,7 @@ namespace Microsoft.NET.Build.Tests
 
             var asset = _testAssetsManager.CreateTestProject(testProject);
 
-            var command = new BuildCommand(Log, Path.Combine(asset.Path, ProjectName));
+            var command = new BuildCommand(MSTestContext, Path.Combine(asset.Path, ProjectName));
 
             command
                 .Execute()
@@ -211,7 +211,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0")]
         public void When_TargetPlatformVersion_is_set_higher_than_10_It_can_reference_cswinrt_api()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";
@@ -234,7 +234,7 @@ namespace Microsoft.NET.Build.Tests
 
             var asset = _testAssetsManager.CreateTestProject(testProject);
 
-            var buildCommand = new BuildCommand(Log, Path.Combine(asset.Path, ProjectName));
+            var buildCommand = new BuildCommand(MSTestContext, Path.Combine(asset.Path, ProjectName));
 
             buildCommand.Execute()
                 .Should()
@@ -325,7 +325,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0")]
         public void Given_duplicated_ResolvedFileToPublish_It_Can_Publish()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";
@@ -356,7 +356,7 @@ namespace Microsoft.NET.Build.Tests
             });
 
             var publishItemsOutputGroupOutputsCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.Path, testProject.Name),
                 testProject.TargetFrameworks,
                 "PublishItemsOutputGroupOutputs",

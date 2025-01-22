@@ -10,11 +10,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishTrimmedWindowsFormsAndWPFApps : SdkTest
     {
-        public GivenThatWeWantToPublishTrimmedWindowsFormsAndWPFApps(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishTrimmedWindowsFormsAndWPFApps(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_builds_windows_Forms_app_with_error()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -36,7 +36,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1175");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_builds_windows_Forms_app_with_error_suppressed()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -60,7 +60,7 @@ namespace Microsoft.NET.Publish.Tests
                 .NotHaveStdOutContaining(Strings.@TrimmingWindowsFormsIsNotSupported);
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_windows_Forms_app_with_error()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -84,7 +84,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1175");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_windows_Forms_app_with_error_suppressed()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -111,12 +111,12 @@ namespace Microsoft.NET.Publish.Tests
                 .NotHaveStdOutContaining(Strings.@TrimmingWindowsFormsIsNotSupported);
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_and_runs_windows_forms_app_with_no_wpf()
         {
             var testDir = _testAssetsManager.CreateTestDirectory();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDir.Path)
                 .Execute("winforms")
@@ -139,12 +139,12 @@ namespace Microsoft.NET.Publish.Tests
 
             File.WriteAllText(mainWindowXamlCsPath, csContents);
 
-            var restoreCommand = new RestoreCommand(Log, testDir.Path);
+            var restoreCommand = new RestoreCommand(MSTestContext, testDir.Path);
             restoreCommand.Execute($"/p:RuntimeIdentifier={rid}")
                 .Should()
                 .Pass();
 
-            var publishCommand = new PublishCommand(Log, testDir.Path);
+            var publishCommand = new PublishCommand(MSTestContext, testDir.Path);
 
             publishCommand.Execute($"/p:RuntimeIdentifier={rid}", "/p:SelfContained=true")
                 .Should()
@@ -182,13 +182,13 @@ namespace Microsoft.NET.Publish.Tests
             result.ExitCode.Should().Be(0);
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_and_runs_wpf_app_with_no_winforms()
         {
             // It_publishes_and_runs_self_contained_wpf_app also tests a Wpf app run successfully. This test also checks that the right files are present.
             var testDir = _testAssetsManager.CreateTestDirectory();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDir.Path)
                 .Execute("wpf")
@@ -211,12 +211,12 @@ namespace Microsoft.NET.Publish.Tests
 
             File.WriteAllText(mainWindowXamlCsPath, csContents);
 
-            var restoreCommand = new RestoreCommand(Log, testDir.Path);
+            var restoreCommand = new RestoreCommand(MSTestContext, testDir.Path);
             restoreCommand.Execute($"/p:RuntimeIdentifier={rid}")
                 .Should()
                 .Pass();
 
-            var publishCommand = new PublishCommand(Log, testDir.Path);
+            var publishCommand = new PublishCommand(MSTestContext, testDir.Path);
 
             publishCommand.Execute($"/p:RuntimeIdentifier={rid}", "/p:SelfContained=true")
                 .Should()
@@ -254,7 +254,7 @@ namespace Microsoft.NET.Publish.Tests
             result.ExitCode.Should().Be(42);
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_windows_forms_wpf_app()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -288,7 +288,7 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(winFormsDll).Should().BeTrue();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_builds_wpf_app_with_error()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -310,7 +310,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1168");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_builds_wpf_app_with_error_suppressed()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -334,7 +334,7 @@ namespace Microsoft.NET.Publish.Tests
                 .NotHaveStdOutContaining(Strings.@TrimmingWpfIsNotSupported);
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_wpf_app_with_error()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -358,7 +358,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1168");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_wpf_app_with_error_Suppressed()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";

@@ -92,7 +92,7 @@ Global
 EndGlobal
 ";
 
-        public GivenAnSlnFile(ITestOutputHelper log) : base(log)
+        public GivenAnSlnFile(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -105,7 +105,7 @@ EndGlobal
         }
 
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenAValidSlnFileItReadsAndVerifiesContents()
         {
             var tmpFile = CreateFile();
@@ -253,7 +253,7 @@ EndGlobal
                 .Should().Be("FALSE");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenAValidReadOnlySlnFileItReadsContentsWithNoException()
         {
             var tmpFile = CreateFile();
@@ -266,7 +266,7 @@ EndGlobal
             act.Should().NotThrow("Because readonly file is not being modified.");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenAValidSlnFileItModifiesSavesAndVerifiesContents()
         {
             var tmpFile = CreateFile();
@@ -309,11 +309,11 @@ EndGlobal
                 .Should().Be(SolutionModified);
         }
 
-        [Theory]
-        [InlineData("Microsoft Visual Studio Solution File, Format Version ", 1)]
-        [InlineData("First Line\nMicrosoft Visual Studio Solution File, Format Version ", 2)]
-        [InlineData("First Line\nMicrosoft Visual Studio Solution File, Format Version \nThird Line", 2)]
-        [InlineData("First Line\nSecondLine\nMicrosoft Visual Studio Solution File, Format Version \nFourth Line", 3)]
+        [TestMethod]
+        [DataRow("Microsoft Visual Studio Solution File, Format Version ", 1)]
+        [DataRow("First Line\nMicrosoft Visual Studio Solution File, Format Version ", 2)]
+        [DataRow("First Line\nMicrosoft Visual Studio Solution File, Format Version \nThird Line", 2)]
+        [DataRow("First Line\nSecondLine\nMicrosoft Visual Studio Solution File, Format Version \nFourth Line", 3)]
         public void WhenGivenASolutionWithMissingHeaderVersionItThrows(string fileContents, int lineNum)
         {
             var tmpFile = CreateFile(identifier: fileContents.GetHashCode().ToString());
@@ -328,10 +328,10 @@ EndGlobal
                 .WithMessage(FormatError(lineNum, LocalizableStrings.FileHeaderMissingVersionError));
         }
 
-        [Theory]
-        [InlineData("Invalid Solution")]
-        [InlineData("Invalid Solution\nSpanning Multiple Lines")]
-        [InlineData("Microsoft Visual\nStudio Solution File,\nFormat Version ")]
+        [TestMethod]
+        [DataRow("Invalid Solution")]
+        [DataRow("Invalid Solution\nSpanning Multiple Lines")]
+        [DataRow("Microsoft Visual\nStudio Solution File,\nFormat Version ")]
         public void WhenGivenASolutionWithMissingHeaderItThrows(string fileContents)
         {
             var tmpFile = CreateFile(identifier: fileContents.GetHashCode().ToString());
@@ -346,7 +346,7 @@ EndGlobal
                 .WithMessage(LocalizableStrings.FileHeaderMissingError);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithMultipleGlobalSectionsItThrows()
         {
             const string SolutionFile = @"
@@ -368,7 +368,7 @@ EndGlobal
                 .WithMessage(FormatError(5, LocalizableStrings.GlobalSectionMoreThanOnceError));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithGlobalSectionNotClosedItThrows()
         {
             const string SolutionFile = @"
@@ -387,7 +387,7 @@ Global
                 .WithMessage(FormatError(3, LocalizableStrings.GlobalSectionNotClosedError));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithProjectSectionNotClosedItThrows()
         {
             const string SolutionFile = @"
@@ -406,7 +406,7 @@ Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""App"", ""App\App.csproj"
                 .WithMessage(FormatError(3, LocalizableStrings.ProjectSectionNotClosedError));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithInvalidProjectSectionItThrows()
         {
             const string SolutionFile = @"
@@ -427,7 +427,7 @@ EndProject
                 .WithMessage(FormatError(3, LocalizableStrings.ProjectParsingErrorFormatString, "(", 0));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithInvalidSectionTypeItThrows()
         {
             const string SolutionFile = @"
@@ -449,7 +449,7 @@ EndGlobal
                 .WithMessage(FormatError(4, LocalizableStrings.InvalidSectionTypeError, "thisIsUnknown"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithMissingSectionIdTypeItThrows()
         {
             const string SolutionFile = @"
@@ -471,7 +471,7 @@ EndGlobal
                 .WithMessage(FormatError(4, LocalizableStrings.SectionIdMissingError));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithSectionNotClosedItThrows()
         {
             const string SolutionFile = @"
@@ -492,7 +492,7 @@ EndGlobal
                 .WithMessage(FormatError(6, LocalizableStrings.ClosingSectionTagNotFoundError));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenGivenASolutionWithInvalidPropertySetItThrows()
         {
             const string SolutionFile = @"

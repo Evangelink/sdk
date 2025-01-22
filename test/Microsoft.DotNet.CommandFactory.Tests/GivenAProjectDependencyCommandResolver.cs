@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Tests
     {
         private string _configuration;
 
-        public GivenAProjectDependencyCommandResolver(ITestOutputHelper log) : base(log)
+        public GivenAProjectDependencyCommandResolver(MSTestContext testContext) : base(testContext)
         {
             Environment.SetEnvironmentVariable(
                 Constants.MSBUILD_EXE_PATH,
@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Tests
             _configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
         }
 
-        [Fact]
+        [TestMethod]
         public void ItReturnsACommandSpecWhenToolIsInAProjectRef()
         {
             var testAsset =
@@ -30,7 +30,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testAsset.Path, TestContext.Current.TestPackages);
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute("--configuration", _configuration)
                 .Should().Pass();
@@ -56,7 +56,7 @@ namespace Microsoft.DotNet.Tests
             result.Args.Should().Contain(commandResolverArguments.CommandName);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPassesDepsfileArgToHostWhenReturningACommandSpecForMSBuildProject()
         {
             var testAsset =
@@ -65,7 +65,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testAsset.Path, TestContext.Current.TestPackages);
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute("--configuration", _configuration)
                 .Should().Pass();
@@ -87,7 +87,7 @@ namespace Microsoft.DotNet.Tests
             result.Args.Should().Contain("--depsfile");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItReturnsNullWhenCommandNameDoesNotExistInProjectDependenciesForMSBuildProject()
         {
             var testAsset =
@@ -116,7 +116,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItSetsDepsfileToOutputInCommandspecForMSBuild()
         {
             var testAsset =
@@ -143,7 +143,7 @@ namespace Microsoft.DotNet.Tests
                 OutputPath = outputDir
             };
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute($"-o", outputDir)
                 .Should()

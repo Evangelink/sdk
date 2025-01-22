@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.Watch.UnitTests;
 
 public class UpdatePayloadTests
 {
-    [Fact]
+    [TestMethod]
     public async Task Roundtrip()
     {
         var initial = new UpdatePayload(
@@ -36,7 +36,7 @@ public class UpdatePayloadTests
         AssertEqual(initial, read);
     }
 
-    [Fact]
+    [TestMethod]
     public async Task WithLargeDeltas()
     {
         var initial = new UpdatePayload(
@@ -61,19 +61,19 @@ public class UpdatePayloadTests
 
     private static void AssertEqual(UpdatePayload initial, UpdatePayload read)
     {
-        Assert.Equal(initial.Deltas.Count, read.Deltas.Count);
+        Assert.AreEqual(initial.Deltas.Count, read.Deltas.Count);
 
         for (var i = 0; i < initial.Deltas.Count; i++)
         {
             var e = initial.Deltas[i];
             var a = read.Deltas[i];
 
-            Assert.Equal(e.ModuleId, a.ModuleId);
-            Assert.Equal(e.ILDelta, a.ILDelta);
-            Assert.Equal(e.MetadataDelta, a.MetadataDelta);
-            Assert.Equal(e.UpdatedTypes, a.UpdatedTypes);
+            Assert.AreEqual(e.ModuleId, a.ModuleId);
+            Assert.AreEqual(e.ILDelta, a.ILDelta);
+            Assert.AreEqual(e.MetadataDelta, a.MetadataDelta);
+            Assert.AreEqual(e.UpdatedTypes, a.UpdatedTypes);
         }
 
-        Assert.Equal(initial.ResponseLoggingLevel, read.ResponseLoggingLevel);
+        Assert.AreEqual(initial.ResponseLoggingLevel, read.ResponseLoggingLevel);
     }
 }

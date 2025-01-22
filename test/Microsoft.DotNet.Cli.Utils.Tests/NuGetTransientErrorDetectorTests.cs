@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 {
     public class NuGetTransientErrorDetectorTests
     {
-        [Fact]
+        [TestMethod]
         public void Error1()
         {
             string input =
@@ -63,7 +63,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             NuGetTransientErrorDetector.IsTransientError(input).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void Error2()
         {
             string input =
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             NuGetTransientErrorDetector.IsTransientError(input).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void Error3()
         {
             string input =
@@ -100,7 +100,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             NuGetTransientErrorDetector.IsTransientError(input).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void NoTransientError()
         {
             string input =
@@ -125,10 +125,10 @@ Build started 3/10/2021 1:53:51 PM.
          Generating MSBuild file console/obj/console.csproj.nuget.g.targets.
          Writing assets file to disk. Path: console/obj/project.assets.json
          Restored console/console.csproj (in 131 ms).
-         
+
          NuGet Config files used:
              /.nuget/NuGet/NuGet.Config
-         
+
          Feeds used:
              https://api.nuget.org/v3/index.json";
             NuGetTransientErrorDetector.IsTransientError(input).Should().BeFalse();

@@ -14,11 +14,11 @@ namespace Microsoft.NET.Restore.Tests
         private const string ProjectToolVersion = "1.0.0";
         private const string ExpectedProjectToolRestoreTargetFrameworkMoniker = "netcoreapp2.2";
 
-        public GivenThatWeWantToRestoreDotNetCliToolReference(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToRestoreDotNetCliToolReference(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_can_restore_with_netcoreapp2_2()
         {
             TestProject toolProject = new()
@@ -31,7 +31,7 @@ namespace Microsoft.NET.Restore.Tests
 
             var toolProjectInstance = _testAssetsManager.CreateTestProject(toolProject, identifier: toolProject.Name);
 
-            var packCommand = new PackCommand(Log, Path.Combine(toolProjectInstance.TestRoot, toolProject.Name));
+            var packCommand = new PackCommand(MSTestContext, Path.Combine(toolProjectInstance.TestRoot, toolProject.Name));
             packCommand.Execute().Should().Pass();
 
             string nupkgPath = Path.Combine(packCommand.ProjectRootPath, "bin", "Debug");
@@ -55,7 +55,7 @@ namespace Microsoft.NET.Restore.Tests
             NuGetConfigWriter.Write(toolReferenceProjectInstance.TestRoot, nupkgPath);
 
             RestoreCommand restoreCommand =
-                toolReferenceProjectInstance.GetRestoreCommand(log: Log, relativePath: toolReferenceProject.Name);
+                toolReferenceProjectInstance.GetRestoreCommand(testContext: Log, relativePath: toolReferenceProject.Name);
 
             var restoreResult = restoreCommand
                 .Execute("/v:n");

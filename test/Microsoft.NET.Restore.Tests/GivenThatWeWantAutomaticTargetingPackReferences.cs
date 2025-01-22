@@ -12,15 +12,15 @@ namespace Microsoft.NET.Restore.Tests
 {
     public class GivenThatWeWantAutomaticTargetingPackReferences : SdkTest
     {
-        public GivenThatWeWantAutomaticTargetingPackReferences(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantAutomaticTargetingPackReferences(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("4.7.1")]
-        [InlineData("4.7.2")]
-        [InlineData("4.5.2")]
-        [InlineData("4.8")]
+        [TestMethod]
+        [DataRow("4.7.1")]
+        [DataRow("4.7.2")]
+        [DataRow("4.5.2")]
+        [DataRow("4.8")]
         public void It_restores_net_framework_project_successfully(string version)
         {
             var targetFrameworkVersion = (TargetDotNetFrameworkVersion)Enum.Parse(typeof(TargetDotNetFrameworkVersion), "Version" + string.Join("", version.Split('.')));
@@ -40,7 +40,7 @@ namespace Microsoft.NET.Restore.Tests
                 "project.assets.json");
 
             var restoreCommand =
-                testAsset.GetRestoreCommand(Log, relativePath: testProject.Name);
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: testProject.Name);
             restoreCommand.Execute().Should().Pass();
 
             LockFile lockFile = LockFileUtilities.GetLockFile(projectAssetsJsonPath, NullLogger.Instance);
@@ -57,9 +57,9 @@ namespace Microsoft.NET.Restore.Tests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_restores_multitargeted_net_framework_project_successfully(bool includeExplicitReference)
         {
             var testProject = new TestProject()
@@ -92,7 +92,7 @@ namespace Microsoft.NET.Restore.Tests
                 "obj",
                 "project.assets.json");
 
-            var restoreCommand = testAsset.GetRestoreCommand(Log, relativePath: testProject.Name);
+            var restoreCommand = testAsset.GetRestoreCommand(MSTestContext, relativePath: testProject.Name);
             restoreCommand.Execute()
                 .Should()
                 .Pass()
@@ -127,7 +127,7 @@ namespace Microsoft.NET.Restore.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_restores_net_framework_project_with_existing_references()
         {
             var targetFramework = "net471";
@@ -160,7 +160,7 @@ namespace Microsoft.NET.Restore.Tests
                 "project.assets.json");
 
             var restoreCommand =
-                testAsset.GetRestoreCommand(Log, relativePath: testProject.Name);
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: testProject.Name);
             restoreCommand.Execute()
                 .Should()
                 .Pass()
@@ -175,7 +175,7 @@ namespace Microsoft.NET.Restore.Tests
             netFrameworkLibrary.Version.ToFullString().Should().Be("1.0.0");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_without_assembly_pack_reference()
         {
             var targetFramework = "net472";

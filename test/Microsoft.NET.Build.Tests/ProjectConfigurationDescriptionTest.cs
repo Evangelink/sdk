@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class ProjectConfigurationDescription : SdkTest
     {
-        public ProjectConfigurationDescription(ITestOutputHelper log) : base(log)
+        public ProjectConfigurationDescription(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("17.2.1.25201")]
+        [RequiresMSBuildVersionTestMethod("17.2.1.25201")]
         public void ProjectConfigurationDescription_DefaultTest()
         {
             const string errorTargetFramework = "net48";
@@ -38,7 +38,7 @@ namespace Microsoft.NET.Build.Tests
                 }
             }");
 
-            var buildCommand = new BuildCommand(Log, Path.Combine(testAsset.Path, testProj.Name));
+            var buildCommand = new BuildCommand(MSTestContext, Path.Combine(testAsset.Path, testProj.Name));
             buildCommand
                 .Execute()
                 .Should()

@@ -7,7 +7,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAnAppWithLibrariesAndRid : SdkTest
     {
-        public GivenThatWeWantToPublishAnAppWithLibrariesAndRid(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAnAppWithLibrariesAndRid(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Publish.Tests
                 $"apphost{Constants.ExeSuffix}",
             });
 
-            new RunExeCommand(Log, Path.Combine(publishDirectory.FullName, selfContainedExecutable))
+            new RunExeCommand(MSTestContext, Path.Combine(publishDirectory.FullName, selfContainedExecutable))
                 .Execute()
                 .Should().Pass()
                 .And.HaveStdOutContaining($"{LibuvVersion} '{runtimeIdentifier}' {LibuvVersion} '{runtimeIdentifier}' Hello World");
@@ -75,7 +75,7 @@ namespace Microsoft.NET.Publish.Tests
                 $"libuv{FileConstants.DynamicLibSuffix}",
             });
 
-            new DotnetCommand(Log, Path.Combine(publishDirectory.FullName, "App.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(publishDirectory.FullName, "App.dll"))
                 .Execute()
                 .Should().Pass()
                 .And.HaveStdOutContaining($"{LibuvVersion} '{runtimeIdentifier}' {LibuvVersion} '{runtimeIdentifier}' Hello World");

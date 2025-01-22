@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
 {
     public class BodyBlockCSharpSyntaxRewriterTests : CSharpSyntaxRewriterTestBase
     {
-        [Fact]
+        [TestMethod]
         public void TestMethodDeclaration()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter(null),
@@ -35,7 +35,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestMethodDeclarationWithExceptionMessage()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter("Not implemented"),
@@ -63,7 +63,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPropertyDeclaration()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter(null),
@@ -91,7 +91,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPropertyDeclarationWithExceptionMessage()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter("Not implemented"),
@@ -119,7 +119,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestCustomOperatorDeclaration()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter(null),
@@ -143,7 +143,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestCustomOperatorDeclarationWithExceptionMessage()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter("Not implemented"),
@@ -167,7 +167,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestConstructorWithReferenceParameters()
         {
             CompareSyntaxTree(new BodyBlockCSharpSyntaxRewriter("Not implemented"),

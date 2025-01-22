@@ -44,13 +44,13 @@ namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
 
         }
 
-        public GivenDotnetWorkloadUninstall(ITestOutputHelper log) : base(log)
+        public GivenDotnetWorkloadUninstall(MSTestContext testContext) : base(testContext)
         {
             _reporter = new BufferedReporter();
             _manifestPath = Path.Combine(_testAssetsManager.GetAndValidateTestProjectDirectory("SampleManifest"), "MockWorkloadsSample.json");
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadUninstallItErrorsWhenWorkloadIsNotInstalled()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -58,9 +58,9 @@ namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
             exceptionThrown.Message.Should().Contain("mock-1");
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void GivenWorkloadUninstallItCanUninstallWorkload(bool userLocal)
         {
             var installingWorkload = "mock-1";
@@ -80,7 +80,7 @@ namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
             packRecordDirs.Count().Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenWorkloadUninstallItWorksWithVerbosityFlag()
         {
             bool userLocal = true; // The locality doesnt really matter as we just want to make sure the flag(s) are supported.
@@ -95,9 +95,9 @@ namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
             exitCode.Should().Be(0, "The exit code of workload uninstall should be 0 to indicate success when the flag was added.");
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void GivenWorkloadUninstallItCanUninstallOnlySpecifiedWorkload(bool userLocal)
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory(identifier: userLocal ? "userlocal" : "default").Path;
@@ -139,9 +139,9 @@ namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
             packRecordDirs.Count().Should().Be(3);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void GivenWorkloadUninstallItCanUninstallOnlySpecifiedFeatureBand(bool userLocal)
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory(identifier: userLocal ? "userlocal" : "default").Path;

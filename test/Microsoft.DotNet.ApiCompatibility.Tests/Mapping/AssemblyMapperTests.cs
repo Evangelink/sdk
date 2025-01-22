@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
     public class AssemblyMapperTests
     {
-        [Fact]
+        [TestMethod]
         public void AssemblyMapper_Ctor_PropertiesSet()
         {
             IRuleRunner ruleRunner = Mock.Of<IRuleRunner>();
@@ -24,19 +24,19 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
             AssemblyMapper assemblyMapper = new(ruleRunner, mapperSettings, rightSetSize, assemblySetMapper);
 
             Assert.Null(assemblyMapper.Left);
-            Assert.Equal(mapperSettings, assemblyMapper.Settings);
-            Assert.Equal(rightSetSize, assemblyMapper.Right.Length);
-            Assert.Equal(assemblySetMapper, assemblyMapper.ContainingAssemblySet);
+            Assert.AreEqual(mapperSettings, assemblyMapper.Settings);
+            Assert.AreEqual(rightSetSize, assemblyMapper.Right.Length);
+            Assert.AreEqual(assemblySetMapper, assemblyMapper.ContainingAssemblySet);
         }
 
-        [Fact]
+        [TestMethod]
         public void AssemblyMapper_GetNamespacesWithoutLeftAndRight_EmptyResult()
         {
             AssemblyMapper assemblyMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1);
-            Assert.Empty(assemblyMapper.GetNamespaces());
+            Assert.HasCount(0, assemblyMapper.GetNamespaces());
         }
 
-        [Fact]
+        [TestMethod]
         public void AssemblyMapper_GetNamespaces_ReturnsExpected()
         {
             string leftSyntax = @"
@@ -73,9 +73,9 @@ namespace AssemblyMapperTestNamespace3
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
 
-            Assert.Equal(3, namespaceMappers.Count());
-            Assert.Equal(new string[] { "AssemblyMapperTestNamespace1", "AssemblyMapperTestNamespace2", null }, namespaceMappers.Select(n => n.Left?.Name));
-            Assert.Equal(new string[] { "AssemblyMapperTestNamespace1", "AssemblyMapperTestNamespace2", "AssemblyMapperTestNamespace3" }, namespaceMappers.SelectMany(n => n.Right).Select(r => r?.Name));
+            Assert.AreEqual(3, namespaceMappers.Count());
+            Assert.AreEqual(new string[] { "AssemblyMapperTestNamespace1", "AssemblyMapperTestNamespace2", null }, namespaceMappers.Select(n => n.Left?.Name));
+            Assert.AreEqual(new string[] { "AssemblyMapperTestNamespace1", "AssemblyMapperTestNamespace2", "AssemblyMapperTestNamespace3" }, namespaceMappers.SelectMany(n => n.Right).Select(r => r?.Name));
         }
     }
 }

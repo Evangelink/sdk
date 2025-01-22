@@ -15,7 +15,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatAPublishedDepsJsonShouldContainVersionInformation : SdkTest
     {
-        public GivenThatAPublishedDepsJsonShouldContainVersionInformation(ITestOutputHelper log) : base(log)
+        public GivenThatAPublishedDepsJsonShouldContainVersionInformation(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -33,7 +33,7 @@ namespace Microsoft.NET.Publish.Tests
             return testProject;
         }
 
-        [Fact]
+        [TestMethod]
         public void Versions_are_included_in_deps_json()
         {
             var testProject = GetTestProject();
@@ -53,14 +53,14 @@ namespace Microsoft.NET.Publish.Tests
             CheckVersionsInDepsFile(depsFilePath);
         }
 
-        [Fact]
+        [TestMethod]
         public void Inbox_version_of_assembly_is_loaded_over_applocal_version()
         {
             var (coreDir, publishDir, immutableDir) = TestConflictResult();
             immutableDir.Should().BeEquivalentTo(coreDir, "immutable collections library from Framework should win");
         }
 
-        [Fact]
+        [TestMethod]
         public void Inbox_version_is_loaded_if_runtime_file_versions_arent_in_deps()
         {
             static void testProjectChanges(TestProject testProject)
@@ -72,7 +72,7 @@ namespace Microsoft.NET.Publish.Tests
             immutableDir.Should().BeEquivalentTo(coreDir, "inbox immutable collections library from should win");
         }
 
-        [Fact]
+        [TestMethod]
         public void Local_version_of_assembly_with_higher_version_is_loaded_over_inbox_version()
         {
             static void publishFolderChanges(string publishFolder)
@@ -137,7 +137,7 @@ static class Program
 
             string rollForwardVersion = "8.0.0";
 
-            var runAppCommand = new DotnetCommand(Log, "exec", "--fx-version", rollForwardVersion, exePath);
+            var runAppCommand = new DotnetCommand(MSTestContext, "exec", "--fx-version", rollForwardVersion, exePath);
 
             var runAppResult = runAppCommand
                 .Execute();
@@ -182,13 +182,13 @@ static class Program
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void Versions_are_included_for_self_contained_apps()
         {
             Versions_are_included(build: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void Versions_are_included_for_build()
         {
             Versions_are_included(build: true);

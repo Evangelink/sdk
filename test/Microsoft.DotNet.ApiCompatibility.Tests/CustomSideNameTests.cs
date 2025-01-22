@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new MembersMustExist(settings, context));
 
-        [Fact]
+        [TestMethod]
         public void CustomSideNameAreNotSpecified()
         {
             string leftSyntax = @"
@@ -39,11 +39,11 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.Single(differences);
+            Assert.HasCount(1, differences);
             AssertNames(differences.First(), expectedLeftName, expectedRightName);
         }
 
-        [Fact]
+        [TestMethod]
         public void CustomSideNamesAreUsed()
         {
             string leftSyntax = @"
@@ -73,16 +73,16 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.Single(differences);
+            Assert.HasCount(1, differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString);
 
             // Use the single assembly override
             differences = differ.GetDifferences(left, right);
-            Assert.Single(differences);
+            Assert.HasCount(1, differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString);
         }
 
-        [Fact]
+        [TestMethod]
         public void CustomSideNamesAreUsedStrictMode()
         {
             string leftSyntax = @"
@@ -112,11 +112,11 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.Single(differences);
+            Assert.HasCount(1, differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString, leftFirst: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void MultipleRightsMetadataInformationIsUsedAsName()
         {
             string leftSyntax = @"
@@ -195,7 +195,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.Equal(right.Count, differences.Count());
+            Assert.AreEqual(right.Count, differences.Count());
             foreach (CompatDifference difference in differences)
             {
                 AssertNames(difference, difference.Left.AssemblyId, difference.Right.AssemblyId);

@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
 
         private Mock<BaseStorageService> StorageBaseMock { get; }
 
-        public SenderTests(ITestOutputHelper log) : base(log)
+        public SenderTests(MSTestContext testContext) : base(testContext)
         {
             StorageBaseMock = new Mock<BaseStorageService>();
             TransmissionMock = new Mock<StorageTransmission>(string.Empty, new Uri("http://some/url"), new byte[] { },
@@ -27,7 +27,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
                 .Callback(() => _deleteCount++);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenServerReturn503TransmissionWillBeRetried()
         {
             var Sender = GetSenderUnderTest();
@@ -48,13 +48,13 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
                     }
                 });
 
-            // Act 
+            // Act
             Sender.SendLoop();
             _deleteCount.Should().Be(0,
                 "delete is not expected to be called on 503, request is expected to be send forever.");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenServerReturn400IntervalWillBe10Seconds()
         {
             var Sender = GetSenderUnderTest();
@@ -79,14 +79,14 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             TimeSpan intervalOnSixIteration = TimeSpan.Zero;
             Sender.OnSend = interval => intervalOnSixIteration = interval;
 
-            // Act 
+            // Act
             Sender.SendLoop();
 
             intervalOnSixIteration.TotalSeconds.Should().Be(5);
             _deleteCount.Should().Be(10, "400 should not be retried so delete should always be called.");
         }
 
-        [Fact]
+        [TestMethod]
         public void DisposeDoesNotThrow()
         {
             new Sender(StorageBaseMock.Object,
@@ -96,7 +96,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
                 .Dispose();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenServerReturnDnsErrorRequestWillBeRetried()
         {
             var Sender = GetSenderUnderTest();
@@ -121,7 +121,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
                     }
                 });
 
-            // Act 
+            // Act
             Sender.SendLoop();
 
             _deleteCount.Should().Be(0,

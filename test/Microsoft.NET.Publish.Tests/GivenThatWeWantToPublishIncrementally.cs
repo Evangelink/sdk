@@ -7,11 +7,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishIncrementally : SdkTest
     {
-        public GivenThatWeWantToPublishIncrementally(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishIncrementally(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_before_single_file_publish()
         {
             var testProject = new TestProject()
@@ -50,7 +50,7 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir, expectedSingleExeFiles.Append("UserData.txt"), expectedNonSingleExeFiles);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_between_renames()
         {
             var testProject = new TestProject()
@@ -92,7 +92,7 @@ namespace Microsoft.NET.Publish.Tests
                 expectedSingleExeFileExtensions.Select(ending => testProject.Name + ending));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_between_single_file_publishes()
         {
             var testProject = new TestProject()
@@ -127,7 +127,7 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir, expectedSingleExeFiles.Append(testProject.Name + ".dll"), null);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_before_trimmed_single_file_publish()
         {
             var testProject = new TestProject()
@@ -167,14 +167,14 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir, expectedSingleExeFiles.Append("UserData.txt"), expectedNonSingleExeFiles);
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void It_cleans_for_mvc_projects()
         {
             // Create new mvc app from template
             var testDir = _testAssetsManager.CreateTestDirectory();
             var assetName = "MVCPublishProject";
             var runtimeId = "win-x86";
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDir.Path)
                 .Execute("mvc", "-n", assetName)
@@ -187,7 +187,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Concat(new string[] { "appsettings.json", "appsettings.Development.json", "web.config" });
 
             // Publish normally
-            new PublishCommand(Log, Path.Combine(testDir.Path, assetName))
+            new PublishCommand(MSTestContext, Path.Combine(testDir.Path, assetName))
                 .Execute(@"/p:RuntimeIdentifier=" + runtimeId)
                 .Should()
                 .Pass();
@@ -198,7 +198,7 @@ namespace Microsoft.NET.Publish.Tests
             File.WriteAllText(Path.Combine(publishDir, "UserData.txt"), string.Empty);
 
             // Publish as a single file
-            new PublishCommand(Log, Path.Combine(testDir.Path, assetName))
+            new PublishCommand(MSTestContext, Path.Combine(testDir.Path, assetName))
                 .Execute(@"/p:RuntimeIdentifier=win-x86;PublishSingleFile=true")
                 .Should()
                 .Pass();
@@ -206,7 +206,7 @@ namespace Microsoft.NET.Publish.Tests
             Directory.Exists(Path.Combine(publishDir, "wwwroot"));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_with_custom_output_dir()
         {
             var testProject = new TestProject()
@@ -241,7 +241,7 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir, expectedSingleExeFiles.Append("UserData.txt"), expectedNonSingleExeFiles);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_with_multiple_output_dirs()
         {
             var testProject = new TestProject()
@@ -290,8 +290,8 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir2, expectedSingleExeFiles, expectedNonSingleExeFiles);
         }
 
-        [Theory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void GeneratePublishDependencyFile_runs_incrementally(string targetFramework)
         {
             var rid = EnvironmentInfo.GetCompatibleRid(targetFramework);

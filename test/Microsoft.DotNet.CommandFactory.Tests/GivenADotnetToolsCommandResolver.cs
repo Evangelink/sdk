@@ -12,13 +12,13 @@ namespace Microsoft.DotNet.Tests
     {
         private readonly DotnetToolsCommandResolver _dotnetToolsCommandResolver;
 
-        public GivenADotnetToolsCommandResolver(ITestOutputHelper log) : base(log)
+        public GivenADotnetToolsCommandResolver(MSTestContext testContext) : base(testContext)
         {
             var dotnetToolPath = Path.Combine(TestContext.Current.ToolsetUnderTest.SdkFolderUnderTest, "DotnetTools");
             _dotnetToolsCommandResolver = new DotnetToolsCommandResolver(dotnetToolPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItReturnsNullWhenCommandNameIsNull()
         {
             var commandResolverArguments = new CommandResolverArguments()
@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItReturnsNullWhenCommandNameDoesNotExistInProjectTools()
         {
             var commandResolverArguments = new CommandResolverArguments()
@@ -44,7 +44,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItReturnsACommandSpec()
         {
             var commandResolverArguments = new CommandResolverArguments()

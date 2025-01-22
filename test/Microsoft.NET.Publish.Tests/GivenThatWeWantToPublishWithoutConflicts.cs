@@ -7,7 +7,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishWithoutConflicts : SdkTest
     {
-        public GivenThatWeWantToPublishWithoutConflicts(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishWithoutConflicts(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -15,7 +15,7 @@ namespace Microsoft.NET.Publish.Tests
         public void It_solves_conflicts_between_package_and_implicit_references()
         {
             // Test case from https://github.com/dotnet/sdk/issues/3904.
-            // This dll is included in both the explicit package reference and Microsoft.NET.Build.Extensions. We prevent a double write in 
+            // This dll is included in both the explicit package reference and Microsoft.NET.Build.Extensions. We prevent a double write in
             // _ComputeResolvedCopyLocalPublishAssets by removing dlls duplicated between package references and implicitly expanded .NET references.
             var reference = "System.Runtime.InteropServices.RuntimeInformation";
             var targetFramework = "net462";
@@ -29,7 +29,7 @@ namespace Microsoft.NET.Publish.Tests
             testProject.PackageReferences.Add(new TestPackageReference("Microsoft.AspNetCore", "2.1.4"));
             var testAsset = _testAssetsManager.CreateTestProject(testProject, testProject.Name);
 
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), targetFramework, "ResolvedFileToPublish", GetValuesCommand.ValueType.Item)
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), targetFramework, "ResolvedFileToPublish", GetValuesCommand.ValueType.Item)
             {
                 DependsOnTargets = "Publish"
             };
@@ -47,9 +47,9 @@ namespace Microsoft.NET.Publish.Tests
             files.FirstOrDefault().Contains(@"Microsoft.NET.Build.Extensions\net462\lib\System.Runtime.InteropServices.RuntimeInformation.dll").Should().BeTrue();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_has_consistent_behavior_when_publishing_single_file(bool shouldPublishSingleFile)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -63,12 +63,12 @@ namespace Microsoft.NET.Publish.Tests
                 SelfContained = "true"
             };
 
-            // The Microsoft.TestPlatform.CLI package contains System.Runtime.CompilerServices.Unsafe.dll as content, which could cause a double write with the same dll originating from the 
+            // The Microsoft.TestPlatform.CLI package contains System.Runtime.CompilerServices.Unsafe.dll as content, which could cause a double write with the same dll originating from the
             // runtime package. Without _HandleFileConflictsForPublish this would be caught when by the bundler when publishing single file, but a normal publish would succeed with double writes.
             testProject.PackageReferences.Add(new TestPackageReference("Microsoft.TestPlatform.CLI", "16.5.0"));
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: shouldPublishSingleFile.ToString());
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), targetFramework, "ResolvedFileToPublish", GetValuesCommand.ValueType.Item)
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), targetFramework, "ResolvedFileToPublish", GetValuesCommand.ValueType.Item)
             {
                 DependsOnTargets = "Publish"
             };

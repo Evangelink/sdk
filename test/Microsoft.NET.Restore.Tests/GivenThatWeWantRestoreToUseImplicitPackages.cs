@@ -11,11 +11,11 @@ namespace Microsoft.NET.Restore.Tests
 {
     public class GivenThatWeWantToRestoreToUseImplicitPackages : SdkTest
     {
-        public GivenThatWeWantToRestoreToUseImplicitPackages(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToRestoreToUseImplicitPackages(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_uses_NetstandardLibrary20x_as_the_implicit_version_for_NetStandard20()
         {
             const string testProjectName = "NetStandard2Library";
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Restore.Tests
                 "project.assets.json");
 
             var restoreCommand =
-                testAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             restoreCommand.Execute().Should().Pass();
 
             LockFile lockFile = LockFileUtilities.GetLockFile(
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Restore.Tests
             netStandardLibrary.Version.ToString().Should().Be("2.0.3");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_uses_MicrosoftNETCoreApp20x_as_the_implicit_version_for_NetCoreApp20()
         {
             const string testProjectName = "NetCoreApp2";
@@ -69,7 +69,7 @@ namespace Microsoft.NET.Restore.Tests
                 "project.assets.json");
 
             var restoreCommand =
-                testAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             restoreCommand.Execute().Should().Pass();
 
             LockFile lockFile = LockFileUtilities.GetLockFile(

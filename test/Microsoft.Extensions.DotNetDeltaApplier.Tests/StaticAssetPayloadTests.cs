@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.Watch.UnitTests;
 
 public class StaticAssetPayloadTests
 {
-    [Fact]
+    [TestMethod]
     public async Task Roundtrip()
     {
         var initial = new StaticAssetPayload(
@@ -27,9 +27,9 @@ public class StaticAssetPayloadTests
 
     private static void AssertEqual(StaticAssetPayload initial, StaticAssetPayload read)
     {
-        Assert.Equal(initial.AssemblyName, read.AssemblyName);
-        Assert.Equal(initial.RelativePath, read.RelativePath);
-        Assert.Equal(initial.IsApplicationProject, read.IsApplicationProject);
-        Assert.Equal(initial.Contents, read.Contents);
+        Assert.AreEqual(initial.AssemblyName, read.AssemblyName);
+        Assert.AreEqual(initial.RelativePath, read.RelativePath);
+        Assert.AreEqual(initial.IsApplicationProject, read.IsApplicationProject);
+        Assert.AreEqual(initial.Contents, read.Contents);
     }
 }

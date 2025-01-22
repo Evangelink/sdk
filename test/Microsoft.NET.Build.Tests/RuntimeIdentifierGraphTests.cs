@@ -21,15 +21,15 @@ namespace Microsoft.NET.Build.Tests
 {
     public class RuntimeIdentifierGraphTests : SdkTest
     {
-        public RuntimeIdentifierGraphTests(ITestOutputHelper log) : base(log)
+        public RuntimeIdentifierGraphTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("net7.0", null, true)]
-        [InlineData("net8.0", null, false)]
-        [InlineData("net7.0", "false", false)]
-        [InlineData("net8.0", "true", true)]
+        [TestMethod]
+        [DataRow("net7.0", null, true)]
+        [DataRow("net8.0", null, false)]
+        [DataRow("net7.0", "false", false)]
+        [DataRow("net8.0", "true", true)]
         public void ItUsesCorrectRuntimeIdentifierGraph(string targetFramework, string useRidGraphValue, bool shouldUseFullRidGraph)
         {
             var testProject = new TestProject()

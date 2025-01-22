@@ -5,27 +5,27 @@ namespace Microsoft.DotNet.Watch.UnitTests
 {
     public class StartupHookTests
     {
-        [Fact]
+        [TestMethod]
         public void ClearHotReloadEnvironmentVariables_ClearsStartupHook()
         {
-            Assert.Equal("", StartupHook.RemoveCurrentAssembly(typeof(StartupHook).Assembly.Location));
+            Assert.AreEqual("", StartupHook.RemoveCurrentAssembly(typeof(StartupHook).Assembly.Location));
         }
 
-        [Fact]
+        [TestMethod]
         public void ClearHotReloadEnvironmentVariables_PreservedOtherStartupHooks()
         {
             var customStartupHook = "/path/mycoolstartup.dll";
-            Assert.Equal(customStartupHook, StartupHook.RemoveCurrentAssembly(typeof(StartupHook).Assembly.Location + Path.PathSeparator + customStartupHook));
+            Assert.AreEqual(customStartupHook, StartupHook.RemoveCurrentAssembly(typeof(StartupHook).Assembly.Location + Path.PathSeparator + customStartupHook));
         }
 
-        [Fact]
+        [TestMethod]
         public void ClearHotReloadEnvironmentVariables_RemovesHotReloadStartup_InCaseInvariantManner()
         {
             var customStartupHook = "/path/mycoolstartup.dll";
-            Assert.Equal(customStartupHook, StartupHook.RemoveCurrentAssembly(customStartupHook + Path.PathSeparator + typeof(StartupHook).Assembly.Location.ToUpperInvariant()));
+            Assert.AreEqual(customStartupHook, StartupHook.RemoveCurrentAssembly(customStartupHook + Path.PathSeparator + typeof(StartupHook).Assembly.Location.ToUpperInvariant()));
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void IsMatchingProcess_Matching_SimpleName(
             [CombinatorialValues("", ".dll", ".exe")] string extension,
@@ -36,10 +36,10 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var processPath = Path.Combine(dir, name + extension);
             var targetProcessPath = Path.Combine(dir, "a" + targetExtension);
 
-            Assert.True(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
+            Assert.IsTrue(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void IsMatchingProcess_Matching_DotInName(
             [CombinatorialValues("", ".dll", ".exe")] string extension,
@@ -50,10 +50,10 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var processPath = Path.Combine(dir, name + extension);
             var targetProcessPath = Path.Combine(dir, name + targetExtension);
 
-            Assert.True(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
+            Assert.IsTrue(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void IsMatchingProcess_Matching_DotDllInName(
             [CombinatorialValues("", ".dll", ".exe")] string extension,
@@ -64,10 +64,10 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var processPath = Path.Combine(dir, name + extension);
             var targetProcessPath = Path.Combine(dir, name + targetExtension);
 
-            Assert.True(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
+            Assert.IsTrue(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void IsMatchingProcess_NotMatching(
             [CombinatorialValues("", ".dll", ".exe")] string extension,
@@ -77,7 +77,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var processPath = Path.Combine(dir, "a" + extension);
             var targetProcessPath = Path.Combine(dir, "b" + targetExtension);
 
-            Assert.False(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
+            Assert.IsFalse(StartupHook.IsMatchingProcess(processPath, targetProcessPath));
         }
     }
 }

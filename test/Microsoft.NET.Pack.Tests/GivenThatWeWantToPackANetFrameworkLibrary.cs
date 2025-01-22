@@ -7,7 +7,7 @@ namespace Microsoft.NET.Pack.Tests
 {
     public class GivenThatWeWantToPackANetFrameworkLibrary : SdkTest
     {
-        public GivenThatWeWantToPackANetFrameworkLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackANetFrameworkLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -76,7 +76,7 @@ namespace Microsoft.NET.Pack.Tests
                 testProjectInstance = testProjectInstance.WithProjectChanges(xmlAction);
             }
 
-            var packCommand = new PackCommand(Log, testProjectInstance.TestRoot, testProject.Name);
+            var packCommand = new PackCommand(MSTestContext, testProjectInstance.TestRoot, testProject.Name);
 
             packCommand.Execute()
                 .Should()

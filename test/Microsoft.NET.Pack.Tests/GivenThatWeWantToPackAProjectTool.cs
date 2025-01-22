@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToPackAProjectTool : SdkTest
     {
-        public GivenThatWeWantToPackAProjectTool(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackAProjectTool(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_packs_project_tools_targeting_netcoreapp2_2()
         {
             TestProject toolProject = new()
@@ -26,11 +26,11 @@ namespace Microsoft.NET.Build.Tests
             var asset = _testAssetsManager
                        .CreateTestProject(toolProject, toolProject.Name);
 
-            var packCommand = new PackCommand(Log, Path.Combine(asset.TestRoot, toolProject.Name));
+            var packCommand = new PackCommand(MSTestContext, Path.Combine(asset.TestRoot, toolProject.Name));
             packCommand.Execute().Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_to_pack_project_tools_targeting_netcoreapp3_0()
         {
             TestProject toolProject = new()
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Build.Tests
             var asset = _testAssetsManager
                        .CreateTestProject(toolProject, toolProject.Name);
 
-            var result = new PackCommand(Log, Path.Combine(asset.TestRoot, toolProject.Name)).Execute();
+            var result = new PackCommand(MSTestContext, Path.Combine(asset.TestRoot, toolProject.Name)).Execute();
             result
                 .Should()
                 .Fail()

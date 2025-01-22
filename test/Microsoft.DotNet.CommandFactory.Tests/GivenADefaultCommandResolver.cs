@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenADefaultCommandResolver
     {
-        [Fact]
+        [TestMethod]
         public void It_contains_resolvers_in_the_right_order()
         {
             var defaultCommandResolver = DefaultCommandResolverPolicy.Create();

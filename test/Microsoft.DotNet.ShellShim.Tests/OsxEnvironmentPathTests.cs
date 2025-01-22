@@ -65,8 +65,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
         }
 
         [UnixOnlyTheory]
-        [InlineData("/home/user/.dotnet/tools")]
-        [InlineData("~/.dotnet/tools")]
+        [DataRow("/home/user/.dotnet/tools")]
+        [DataRow("~/.dotnet/tools")]
         public void GivenPathSetItPrintsNothing(string toolsDirectoryOnPath)
         {
             var reporter = new BufferedReporter();

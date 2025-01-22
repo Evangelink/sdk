@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new MembersMustExist(settings, context));
 
-        [Fact]
+        [TestMethod]
         public static void MissingMembersOnLeftAreReported()
         {
             string leftSyntax = @"
@@ -55,10 +55,10 @@ namespace CompatTests
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.remove_ShouldReportMissingEvent(CompatTests.EventHandler)"),
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "F:CompatTests.First.ReportMissingField"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void HiddenMemberInRightIsNotReported()
         {
             string leftSyntax = @"
@@ -99,10 +99,10 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.Empty(differences);
+            Assert.HasCount(0, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void MultipleOverridesMissingInLeftAreReported()
         {
             string rightSyntax = @"
@@ -140,12 +140,12 @@ namespace CompatTests
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.MultipleOverrides(System.String,System.String)"),
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.MultipleOverrides(System.String,System.Int32,System.String)"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public static void IncludeInternalsIsRespectedForMembers_IndividualAssemblies(bool includeInternals)
         {
             string rightSyntax = @"
@@ -190,15 +190,15 @@ namespace CompatTests
                     CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.MultipleOverrides(System.String,System.Int32,System.Int32)"),
                     CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.set_InternalProperty(System.Int32)"),
                 };
-                Assert.Equal(expected, differences);
+                Assert.AreEqual(expected, differences);
             }
             else
             {
-                Assert.Empty(differences);
+                Assert.HasCount(0, differences);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public static void MissingMembersOnBothSidesAreReported()
         {
             string leftSyntax = @"
@@ -232,10 +232,10 @@ namespace CompatTests
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Removed, "M:CompatTests.First.MissingMethodRight"),
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "M:CompatTests.First.MissingMethodLeft(System.String,System.String)"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void MultipleRightsMissingMembersOnLeftAreReported()
         {
             string leftSyntax = @"
@@ -329,10 +329,10 @@ namespace CompatTests
                 new CompatDifference(left.MetadataInformation, right.ElementAt(0).MetadataInformation, DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "F:CompatTests.First.FirstNested.SecondNested.ThirdNested.MyField"),
                 new CompatDifference(left.MetadataInformation, right.ElementAt(1).MetadataInformation, DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "F:CompatTests.First.FirstNested.SecondNested.ThirdNested.MyField"),
             };
-            Assert.Equal(expectedDiffs, differences);
+            Assert.AreEqual(expectedDiffs, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void MissingMembersOnEnumReported()
         {
             string leftSyntax = @"
@@ -372,7 +372,7 @@ namespace CompatTests
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "F:CompatTests.First.F"),
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Added, "F:CompatTests.First.E"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
     }
 }

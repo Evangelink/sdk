@@ -7,11 +7,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class PublishDepsFilePathTests : SdkTest
     {
-        public PublishDepsFilePathTests(ITestOutputHelper log) : base(log)
+        public PublishDepsFilePathTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void PublishDepsFilePathIsSetAsExpectedForNormalApps()
         {
             var testProject = SetupProject(singleFile: false);
@@ -28,7 +28,7 @@ namespace Microsoft.NET.Publish.Tests
             publishDepsFilePath.Should().Be(expectedDepsFilePath);
         }
 
-        [Fact]
+        [TestMethod]
         public void PublishDepsFilePathIsEmptyForSingleFileApps()
         {
             var testProject = SetupProject(singleFile: true);
@@ -48,7 +48,7 @@ namespace Microsoft.NET.Publish.Tests
 
         string GetPropertyValue(string projectPath, string targetFramework, string property)
         {
-            var getValuesCommand = new GetValuesCommand(Log, projectPath, targetFramework, property)
+            var getValuesCommand = new GetValuesCommand(MSTestContext, projectPath, targetFramework, property)
             {
                 DependsOnTargets = "GeneratePublishDependencyFile"
             };

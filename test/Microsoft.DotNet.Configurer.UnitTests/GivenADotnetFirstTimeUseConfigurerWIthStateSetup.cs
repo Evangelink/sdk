@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Configurer.UnitTests
         private Mock<IEnvironmentPath> _pathAdderMock;
         private Mock<IEnvironmentProvider> _environmentProvider;
 
-        public GivenADotnetFirstTimeUseConfigurerWithStateSetup(ITestOutputHelper output)
+        public GivenADotnetFirstTimeUseConfigurerWithStateSetup(MSTestContext testContext)
         {
             ResetObjectState();
         }
@@ -38,23 +38,23 @@ namespace Microsoft.DotNet.Configurer.UnitTests
             _environmentProvider = new Mock<IEnvironmentProvider>(MockBehavior.Strict);
         }
 
-        [Theory]
-        [InlineData(false, false, false, false, Never, FirstRun, FirstRun, true, true)]
-        [InlineData(true, false, false, false, FirstRun, FirstRun, FirstRun, true, true)]
-        [InlineData(false, true, false, false, Never, FirstRun, Never, false, false)]
-        [InlineData(true, true, false, false, FirstRun, FirstRun, Never, false, false)]
-        [InlineData(false, false, true, false, Never, Never, Never, true, true)]
-        [InlineData(true, false, true, false, FirstRun, Never, Never, true, true)]
-        [InlineData(false, true, true, false, Never, Never, Never, false, false)]
-        [InlineData(true, true, true, false, FirstRun, Never, Never, false, false)]
-        [InlineData(false, false, false, true, Never, SecondRun, SecondRun, true, true)]
-        [InlineData(true, false, false, true, SecondRun, SecondRun, SecondRun, true, true)]
-        [InlineData(false, true, false, true, Never, SecondRun, Never, false, false)]
-        [InlineData(true, true, false, true, SecondRun, SecondRun, Never, false, false)]
-        [InlineData(false, false, true, true, Never, Never, Never, true, true)]
-        [InlineData(true, false, true, true, SecondRun, Never, Never, true, true)]
-        [InlineData(false, true, true, true, Never, Never, Never, false, false)]
-        [InlineData(true, true, true, true, SecondRun, Never, Never, false, false)]
+        [TestMethod]
+        [DataRow(false, false, false, false, Never, FirstRun, FirstRun, true, true)]
+        [DataRow(true, false, false, false, FirstRun, FirstRun, FirstRun, true, true)]
+        [DataRow(false, true, false, false, Never, FirstRun, Never, false, false)]
+        [DataRow(true, true, false, false, FirstRun, FirstRun, Never, false, false)]
+        [DataRow(false, false, true, false, Never, Never, Never, true, true)]
+        [DataRow(true, false, true, false, FirstRun, Never, Never, true, true)]
+        [DataRow(false, true, true, false, Never, Never, Never, false, false)]
+        [DataRow(true, true, true, false, FirstRun, Never, Never, false, false)]
+        [DataRow(false, false, false, true, Never, SecondRun, SecondRun, true, true)]
+        [DataRow(true, false, false, true, SecondRun, SecondRun, SecondRun, true, true)]
+        [DataRow(false, true, false, true, Never, SecondRun, Never, false, false)]
+        [DataRow(true, true, false, true, SecondRun, SecondRun, Never, false, false)]
+        [DataRow(false, false, true, true, Never, Never, Never, true, true)]
+        [DataRow(true, false, true, true, SecondRun, Never, Never, true, true)]
+        [DataRow(false, true, true, true, Never, Never, Never, false, false)]
+        [DataRow(true, true, true, true, SecondRun, Never, Never, false, false)]
         public void FlagsCombinationAndAction(
             // Inputs
             bool DOTNET_GENERATE_ASPNET_CERTIFICATE,

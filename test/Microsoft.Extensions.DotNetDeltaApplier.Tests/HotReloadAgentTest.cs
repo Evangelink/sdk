@@ -9,7 +9,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 {
     public class HotReloadAgentTest
     {
-        [Fact]
+        [TestMethod]
         public void TopologicalSort_Works()
         {
             // Arrange
@@ -21,10 +21,10 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var sortedList = MetadataUpdateHandlerInvoker.TopologicalSort(new[] { assembly2, assembly4, assembly1, assembly3 });
 
             // Assert
-            Assert.Equal(new[] { assembly1, assembly2, assembly3, assembly4 }, sortedList);
+            Assert.AreEqual(new[] { assembly1, assembly2, assembly3, assembly4 }, sortedList);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopologicalSort_IgnoresUnknownReferencedAssemblies()
         {
             // Arrange
@@ -36,10 +36,10 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var sortedList = MetadataUpdateHandlerInvoker.TopologicalSort(new[] { assembly2, assembly4, assembly1, assembly3 });
 
             // Assert
-            Assert.Equal(new[] { assembly1, assembly2, assembly3, assembly4 }, sortedList);
+            Assert.AreEqual(new[] { assembly1, assembly2, assembly3, assembly4 }, sortedList);
         }
 
-        [Fact]
+        [TestMethod]
         public void TopologicalSort_WithCycles()
         {
             // Arrange
@@ -52,46 +52,46 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var sortedList = MetadataUpdateHandlerInvoker.TopologicalSort(new[] { assembly2, assembly4, assembly1, assembly3, assembly5 });
 
             // Assert
-            Assert.Equal(new[] { assembly1, assembly3, assembly2, assembly4, assembly5 }, sortedList);
+            Assert.AreEqual(new[] { assembly1, assembly3, assembly2, assembly4, assembly5 }, sortedList);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHandlerActions_DiscoversActionsOnTypeWithClearCache()
         {
             var reporter = new AgentReporter();
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithClearCache)]);
 
-            Assert.Empty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.Single(actions.ClearCache);
-            Assert.Empty(actions.UpdateApplication);
+            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.HasCount(1, actions.ClearCache);
+            Assert.HasCount(0, actions.UpdateApplication);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHandlerActions_DiscoversActionsOnTypeWithUpdateApplication()
         {
             var reporter = new AgentReporter();
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithUpdateApplication)]);
 
-            Assert.Empty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.Empty(actions.ClearCache);
-            Assert.Single(actions.UpdateApplication);
+            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.HasCount(0, actions.ClearCache);
+            Assert.HasCount(1, actions.UpdateApplication);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHandlerActions_DiscoversActionsOnTypeWithBothActions()
         {
             var reporter = new AgentReporter();
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithBothActions)]);
 
-            Assert.Empty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.Single(actions.ClearCache);
-            Assert.Single(actions.UpdateApplication);
+            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.HasCount(1, actions.ClearCache);
+            Assert.HasCount(1, actions.UpdateApplication);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHandlerActions_LogsMessageIfMethodHasIncorrectSignature()
         {
             var reporter = new AgentReporter();
@@ -101,14 +101,14 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.Single(log);
-            Assert.Equal($"Type '{handlerType}' has method 'Void ClearCache()' that does not match the required signature.", logEntry.message);
-            Assert.Equal(AgentMessageSeverity.Warning, logEntry.severity);
-            Assert.Empty(actions.ClearCache);
-            Assert.Single(actions.UpdateApplication);
+            var logEntry = Assert.HasCount(1, testContext);
+            Assert.AreEqual($"Type '{handlerType}' has method 'Void ClearCache()' that does not match the required signature.", logEntry.message);
+            Assert.AreEqual(AgentMessageSeverity.Warning, logEntry.severity);
+            Assert.HasCount(0, actions.ClearCache);
+            Assert.HasCount(1, actions.UpdateApplication);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHandlerActions_LogsMessageIfNoActionsAreDiscovered()
         {
             var reporter = new AgentReporter();
@@ -118,13 +118,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.Single(log);
-            Assert.Equal(
+            var logEntry = Assert.HasCount(1, testContext);
+            Assert.AreEqual(
                 $"Expected to find a static method 'ClearCache' or 'UpdateApplication' on type '{handlerType.AssemblyQualifiedName}' but neither exists.", logEntry.message);
 
-            Assert.Equal(AgentMessageSeverity.Warning, logEntry.severity);
-            Assert.Empty(actions.ClearCache);
-            Assert.Empty(actions.UpdateApplication);
+            Assert.AreEqual(AgentMessageSeverity.Warning, logEntry.severity);
+            Assert.HasCount(0, actions.ClearCache);
+            Assert.HasCount(0, actions.UpdateApplication);
         }
 
         private static Assembly GetAssembly(string fullName, AssemblyName[] dependencies)

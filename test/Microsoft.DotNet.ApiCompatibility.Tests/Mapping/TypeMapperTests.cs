@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
     public class TypeMapperTests
     {
-        [Fact]
+        [TestMethod]
         public void TypeMapper_Ctor_PropertiesSet()
         {
             IRuleRunner ruleRunner = Mock.Of<IRuleRunner>();
@@ -26,27 +26,27 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
             TypeMapper typeMapper = new(ruleRunner, mapperSettings, rightSetSize, containingNamespace, containingType);
 
             Assert.Null(typeMapper.Left);
-            Assert.Equal(mapperSettings, typeMapper.Settings);
-            Assert.Equal(rightSetSize, typeMapper.Right.Length);
-            Assert.Equal(containingNamespace, typeMapper.ContainingNamespace);
-            Assert.Equal(containingType, typeMapper.ContainingType);
+            Assert.AreEqual(mapperSettings, typeMapper.Settings);
+            Assert.AreEqual(rightSetSize, typeMapper.Right.Length);
+            Assert.AreEqual(containingNamespace, typeMapper.ContainingNamespace);
+            Assert.AreEqual(containingType, typeMapper.ContainingType);
         }
 
-        [Fact]
+        [TestMethod]
         public void TypeMapper_GetNestedTypesWithoutLeftAndRight_EmptyResult()
         {
             TypeMapper typeMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1, Mock.Of<INamespaceMapper>());
-            Assert.Empty(typeMapper.GetNestedTypes());
+            Assert.HasCount(0, typeMapper.GetNestedTypes());
         }
 
-        [Fact]
+        [TestMethod]
         public void TypeMapper_GetMembersWithoutLeftAndRight_EmptyResult()
         {
             TypeMapper typeMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1, Mock.Of<INamespaceMapper>());
-            Assert.Empty(typeMapper.GetMembers());
+            Assert.HasCount(0, typeMapper.GetMembers());
         }
 
-        [Fact]
+        [TestMethod]
         public void TypeMapper_GetNestedTypes_ReturnsExpected()
         {
             string leftSyntax = @"
@@ -73,19 +73,19 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.Single(namespaceMappers);
+            Assert.HasCount(1, namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.Single(typeMappers);
+            Assert.HasCount(1, typeMappers);
 
             IEnumerable<ITypeMapper> nestedTypeMappers = typeMappers.Single().GetNestedTypes();
 
-            Assert.Equal(3, nestedTypeMappers.Count());
-            Assert.Equal(new string[] { "B", "C", null }, nestedTypeMappers.Select(n => n.Left?.Name));
-            Assert.Equal(new string[] { "B", "C", "D" }, nestedTypeMappers.SelectMany(n => n.Right).Select(r => r?.Name));
+            Assert.AreEqual(3, nestedTypeMappers.Count());
+            Assert.AreEqual(new string[] { "B", "C", null }, nestedTypeMappers.Select(n => n.Left?.Name));
+            Assert.AreEqual(new string[] { "B", "C", "D" }, nestedTypeMappers.SelectMany(n => n.Right).Select(r => r?.Name));
         }
 
-        [Fact]
+        [TestMethod]
         public void TypeMapper_GetMembers_ReturnsExpected()
         {
             string leftSyntax = @"
@@ -114,19 +114,19 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.Single(namespaceMappers);
+            Assert.HasCount(1, namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.Single(typeMappers);
+            Assert.HasCount(1, typeMappers);
 
             IEnumerable<IMemberMapper> memberMappers = typeMappers.Single().GetMembers();
 
-            Assert.Equal(4, memberMappers.Count());
-            Assert.Equal(new string[] { ".ctor", "B", "C", null }, memberMappers.Select(n => n.Left?.Name));
-            Assert.Equal(new string[] { ".ctor", "B", "C", "D" }, memberMappers.SelectMany(n => n.Right).Select(r => r?.Name));
+            Assert.AreEqual(4, memberMappers.Count());
+            Assert.AreEqual(new string[] { ".ctor", "B", "C", null }, memberMappers.Select(n => n.Left?.Name));
+            Assert.AreEqual(new string[] { ".ctor", "B", "C", "D" }, memberMappers.SelectMany(n => n.Right).Select(r => r?.Name));
         }
 
-        [Fact]
+        [TestMethod]
         public void TypeMapper_GetMembersAndGetNestedTypesWithOnlyEffectivelySealedMembersAndTypes_ReturnsEmpty()
         {
             string leftSyntax = @"
@@ -154,16 +154,16 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.Single(namespaceMappers);
+            Assert.HasCount(1, namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.Single(typeMappers);
+            Assert.HasCount(1, typeMappers);
 
             IEnumerable<IMemberMapper> memberMappers = typeMappers.Single().GetMembers();
-            Assert.Empty(memberMappers);
+            Assert.HasCount(0, memberMappers);
 
             IEnumerable<ITypeMapper> nestedTypeMappers = typeMappers.Single().GetNestedTypes();
-            Assert.Empty(nestedTypeMappers);
+            Assert.HasCount(0, nestedTypeMappers);
         }
     }
 }

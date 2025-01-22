@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
 {
     public class ApiCompatWorkItemTests
     {
-        [Fact]
+        [TestMethod]
         public void Ctor_ValidArguments_PropertiesSet()
         {
             ApiCompatRunnerOptions apiCompatOptions = new(enableStrictMode: true, isBaselineComparison: true);
@@ -14,13 +14,13 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
 
             ApiCompatRunnerWorkItem workItem = new(left, apiCompatOptions, right);
 
-            Assert.Equal(new MetadataInformation[] { left }, workItem.Left);
-            Assert.Equal(apiCompatOptions, workItem.Options);
-            Assert.Single(workItem.Right);
-            Assert.Equal(new MetadataInformation[] { right }, workItem.Right[0]);
+            Assert.AreEqual(new MetadataInformation[] { left }, workItem.Left);
+            Assert.AreEqual(apiCompatOptions, workItem.Options);
+            Assert.HasCount(1, workItem.Right);
+            Assert.AreEqual(new MetadataInformation[] { right }, workItem.Right[0]);
         }
 
-        [Fact]
+        [TestMethod]
         public void Equals_SameWorkItems_IsEqual()
         {
             ApiCompatRunnerOptions apiCompatOptions = new(enableStrictMode: true, isBaselineComparison: true);
@@ -30,12 +30,12 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             ApiCompatRunnerWorkItem workItem1 = new(left, apiCompatOptions, right);
             ApiCompatRunnerWorkItem workItem2 = new(left, apiCompatOptions, right);
 
-            Assert.True(workItem1.Equals((object)workItem2));
-            Assert.True(workItem1.Equals(workItem2));
-            Assert.True(workItem1 == workItem2);
+            Assert.IsTrue(workItem1.Equals((object)workItem2));
+            Assert.IsTrue(workItem1.Equals(workItem2));
+            Assert.IsTrue(workItem1 == workItem2);
         }
 
-        [Fact]
+        [TestMethod]
         public void Equals_DifferentWorkItems_NotEqual()
         {
             ApiCompatRunnerOptions apiCompatOptions1 = new(enableStrictMode: true, isBaselineComparison: true);
@@ -48,12 +48,12 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             ApiCompatRunnerWorkItem workItem1 = new(left1, apiCompatOptions1, right1);
             ApiCompatRunnerWorkItem workItem2 = new(left2, apiCompatOptions2, right2);
 
-            Assert.False(workItem1.Equals((object)workItem2));
-            Assert.False(workItem1.Equals(workItem2));
-            Assert.True(workItem1 != workItem2);
+            Assert.IsFalse(workItem1.Equals((object)workItem2));
+            Assert.IsFalse(workItem1.Equals(workItem2));
+            Assert.IsTrue(workItem1 != workItem2);
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHashCode_SameWorkItems_Equal()
         {
             ApiCompatRunnerOptions apiCompatOptions = new(enableStrictMode: true, isBaselineComparison: true);
@@ -63,10 +63,10 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             ApiCompatRunnerWorkItem workItem1 = new(left, apiCompatOptions, right);
             ApiCompatRunnerWorkItem workItem2 = new(left, apiCompatOptions, right);
 
-            Assert.Equal(workItem1.GetHashCode(), workItem2.GetHashCode());
+            Assert.AreEqual(workItem1.GetHashCode(), workItem2.GetHashCode());
         }
 
-        [Fact]
+        [TestMethod]
         public void GetHashCode_DifferentWorkItems_NotEqual()
         {
             ApiCompatRunnerOptions apiCompatOptions1 = new(enableStrictMode: true, isBaselineComparison: true);

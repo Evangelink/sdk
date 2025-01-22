@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new CannotAddMemberToInterface(settings, context));
 
-        [Fact]
+        [TestMethod]
         public void AddedMembersAreReported()
         {
             string leftSyntax = @"
@@ -52,11 +52,11 @@ namespace CompatTests
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.CannotAddMemberToInterface, string.Empty, DifferenceType.Added, "P:CompatTests.IFoo.MyPropertyWithoutDefaultImplementation"),
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.CannotAddMemberToInterface, string.Empty, DifferenceType.Added, "E:CompatTests.IFoo.MyEventWithoutImplementation"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Theory]
-        [MemberData(nameof(NoDifferencesShouldBeReportedData))]
+        [TestMethod]
+        [DynamicData(nameof(NoDifferencesShouldBeReportedData))]
         public void NoDifferencesShouldBeReported(string leftSyntax, string rightSyntax)
         {
             IAssemblySymbol left = SymbolFactory.GetAssemblyFromSyntax(leftSyntax);
@@ -65,10 +65,10 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.Empty(differences);
+            Assert.HasCount(0, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public void StrictModeRuleShouldNotRun()
         {
             string leftSyntax = @"
@@ -110,7 +110,7 @@ namespace CompatTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void MultipleRightsAreReported()
         {
             string leftSyntax = @"
@@ -192,7 +192,7 @@ namespace CompatTests
                 new CompatDifference(left.MetadataInformation, right[2].MetadataInformation, DiagnosticIds.CannotAddMemberToInterface, string.Empty, DifferenceType.Added, "M:CompatTests.IFoo.MyOtherMethod"),
             };
 
-            Assert.Equal(expectedDiffs, differences);
+            Assert.AreEqual(expectedDiffs, differences);
         }
 
         public static IEnumerable<object[]> NoDifferencesShouldBeReportedData()

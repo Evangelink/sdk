@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class Net50Targeting : SdkTest
     {
-        public Net50Targeting(ITestOutputHelper log) : base(log)
+        public Net50Targeting(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void Net50TargetFrameworkParsesAsNetCoreAppTargetFrameworkIdentifier()
         {
             var testProject = new TestProject()
@@ -26,7 +26,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should()
                 .Pass();
 
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, "TargetFrameworkIdentifier");
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, "TargetFrameworkIdentifier");
             getValuesCommand.Execute()
                 .Should()
                 .Pass();

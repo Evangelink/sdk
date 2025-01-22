@@ -5,7 +5,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishASingleFileLibrary : SdkTest
     {
-        public GivenThatWeWantToPublishASingleFileLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishASingleFileLibrary(MSTestContext testContext) : base(testContext)
         {
 
         }
@@ -41,8 +41,8 @@ namespace Microsoft.NET.Publish.Tests
 
             var referencedProjProperties = referencedProject.GetPropertyValues(testAsset.TestRoot, targetFramework: targetFramework);
             var mainProjProperties = testProject.GetPropertyValues(testAsset.TestRoot, targetFramework: targetFramework);
-            Assert.True(mainProjProperties["RuntimeIdentifier"] == rid);
-            Assert.True(referencedProjProperties["RuntimeIdentifier"] == "");
+            Assert.IsTrue(mainProjProperties["RuntimeIdentifier"] == rid);
+            Assert.IsTrue(referencedProjProperties["RuntimeIdentifier"] == "");
         }
     }
 

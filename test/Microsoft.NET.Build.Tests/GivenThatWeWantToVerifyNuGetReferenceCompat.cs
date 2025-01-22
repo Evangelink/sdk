@@ -9,30 +9,30 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToVerifyNuGetReferenceCompat : SdkTest, IClassFixture<DeleteNuGetArtifactsFixture>
     {
-        public GivenThatWeWantToVerifyNuGetReferenceCompat(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToVerifyNuGetReferenceCompat(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("net45", "Full", "netstandard1.0 netstandard1.1 net45", true, true)]
-        [InlineData("net451", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 net45 net451", true, true)]
-        [InlineData("net46", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 net45 net451 net46", true, true)]
-        [InlineData("net461", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 net45 net451 net46 net461", true, true)]
-        [InlineData("net462", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 net45 net451 net46 net461 net462", true, true)]
-        [InlineData("netstandard1.0", "Full", "netstandard1.0", true, true)]
-        [InlineData("netstandard1.1", "Full", "netstandard1.0 netstandard1.1", true, true)]
-        [InlineData("netstandard1.2", "Full", "netstandard1.0 netstandard1.1 netstandard1.2", true, true)]
-        [InlineData("netstandard1.3", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3", true, true)]
-        [InlineData("netstandard1.4", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4", true, true)]
-        [InlineData("netstandard1.5", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5", true, true)]
-        [InlineData("netstandard1.6", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6", true, true)]
-        [InlineData("netstandard2.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0", true, true)]
-        [InlineData("netcoreapp1.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netcoreapp1.0", true, true)]
-        [InlineData("netcoreapp1.1", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netcoreapp1.0 netcoreapp1.1", true, true)]
-        [InlineData("netcoreapp2.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 netcoreapp1.0 netcoreapp1.1 netcoreapp2.0", true, true)]
+        [TestMethod]
+        [DataRow("net45", "Full", "netstandard1.0 netstandard1.1 net45", true, true)]
+        [DataRow("net451", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 net45 net451", true, true)]
+        [DataRow("net46", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 net45 net451 net46", true, true)]
+        [DataRow("net461", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 net45 net451 net46 net461", true, true)]
+        [DataRow("net462", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 net45 net451 net46 net461 net462", true, true)]
+        [DataRow("netstandard1.0", "Full", "netstandard1.0", true, true)]
+        [DataRow("netstandard1.1", "Full", "netstandard1.0 netstandard1.1", true, true)]
+        [DataRow("netstandard1.2", "Full", "netstandard1.0 netstandard1.1 netstandard1.2", true, true)]
+        [DataRow("netstandard1.3", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3", true, true)]
+        [DataRow("netstandard1.4", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4", true, true)]
+        [DataRow("netstandard1.5", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5", true, true)]
+        [DataRow("netstandard1.6", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6", true, true)]
+        [DataRow("netstandard2.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0", true, true)]
+        [DataRow("netcoreapp1.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netcoreapp1.0", true, true)]
+        [DataRow("netcoreapp1.1", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netcoreapp1.0 netcoreapp1.1", true, true)]
+        [DataRow("netcoreapp2.0", "Full", "netstandard1.0 netstandard1.1 netstandard1.2 netstandard1.3 netstandard1.4 netstandard1.5 netstandard1.6 netstandard2.0 netcoreapp1.0 netcoreapp1.1 netcoreapp2.0", true, true)]
 
-        [InlineData("netstandard2.0", "OptIn", "net45 net451 net46 net461", true, true)]
-        [InlineData("netcoreapp2.0", "OptIn", "net45 net451 net46 net461", true, true)]
+        [DataRow("netstandard2.0", "OptIn", "net45 net451 net46 net461", true, true)]
+        [DataRow("netcoreapp2.0", "OptIn", "net45 net451 net46 net461", true, true)]
 
         public void Nuget_reference_compat(string referencerTarget, string testDescription, string rawDependencyTargets,
                 bool restoreSucceeds, bool buildSucceeds)
@@ -64,10 +64,10 @@ namespace Microsoft.NET.Build.Tests
                     {
                         //  Create the NuGet packages
                         var dependencyTestAsset = _testAssetsManager.CreateTestProject(dependencyProject, identifier: referencerTarget + testDescription + rawDependencyTargets);
-                        var dependencyRestoreCommand = dependencyTestAsset.GetRestoreCommand(Log, relativePath: dependencyProject.Name).Execute().Should().Pass();
+                        var dependencyRestoreCommand = dependencyTestAsset.GetRestoreCommand(MSTestContext, relativePath: dependencyProject.Name).Execute().Should().Pass();
                         var dependencyProjectDirectory = Path.Combine(dependencyTestAsset.TestRoot, dependencyProject.Name);
 
-                        var dependencyPackCommand = new PackCommand(Log, dependencyProjectDirectory);
+                        var dependencyPackCommand = new PackCommand(MSTestContext, dependencyProjectDirectory);
                         var dependencyPackResult = dependencyPackCommand.Execute().Should().Pass();
                     }
 
@@ -90,7 +90,7 @@ namespace Microsoft.NET.Build.Tests
 
             //  Create the referencing app and run the compat test
             var referencerTestAsset = _testAssetsManager.CreateTestProject(referencerProject, ConstantStringValues.TestDirectoriesNamePrefix, referencerDirectoryNamePostfix);
-            var referencerRestoreCommand = referencerTestAsset.GetRestoreCommand(Log, relativePath: referencerProject.Name);
+            var referencerRestoreCommand = referencerTestAsset.GetRestoreCommand(MSTestContext, relativePath: referencerProject.Name);
 
             List<string> referencerRestoreSources = new();
 
@@ -126,15 +126,15 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("netstandard2.0")]
-        [InlineData("netcoreapp2.0")]
+        [DataRow("netstandard2.0")]
+        [DataRow("netcoreapp2.0")]
         public void Netfx_is_implicit_for_Netstandard_and_Netcore_20(string targetFramework)
         {
             var testProjectName = targetFramework.Replace(".", "_") + "implicit_atf";
 
             var (testProjectTestAsset, testPackageReference) = CreateTestAsset(testProjectName, targetFramework, "net461", identifer: targetFramework);
 
-            var restoreCommand = testProjectTestAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testProjectTestAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
 
             var source = Path.Combine(testPackageReference.NupkgPath, testPackageReference.ID, "bin", "Debug");
             NuGetConfigWriter.Write(testProjectTestAsset.TestRoot, source);
@@ -146,15 +146,15 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("netstandard1.6")]
-        [InlineData("netcoreapp1.1")]
+        [DataRow("netstandard1.6")]
+        [DataRow("netcoreapp1.1")]
         public void Netfx_is_not_implicit_for_Netstandard_and_Netcore_less_than_20(string targetFramework)
         {
             var testProjectName = targetFramework.Replace(".", "_") + "non_implicit_atf";
 
             var (testProjectTestAsset, testPackageReference) = CreateTestAsset(testProjectName, targetFramework, "net461", identifer: targetFramework);
 
-            var restoreCommand = testProjectTestAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testProjectTestAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             NuGetConfigWriter.Write(testProjectTestAsset.TestRoot, Path.GetDirectoryName(testPackageReference.NupkgPath));
             restoreCommand.Execute().Should().Fail();
         }
@@ -170,7 +170,7 @@ namespace Microsoft.NET.Build.Tests
                 "net461",
                 new Dictionary<string, string> { { "DisableImplicitAssetTargetFallback", "true" } });
 
-            var restoreCommand = testProjectTestAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testProjectTestAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             NuGetConfigWriter.Write(testProjectTestAsset.TestRoot, Path.GetDirectoryName(testPackageReference.NupkgPath));
             restoreCommand.Execute().Should().Fail();
         }
@@ -190,7 +190,7 @@ namespace Microsoft.NET.Build.Tests
             var source = Path.Combine(testPackageReference.NupkgPath, testPackageReference.ID, "bin", "Debug");
             NuGetConfigWriter.Write(testProjectTestAsset.TestRoot, source);
 
-            var restoreCommand = testProjectTestAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testProjectTestAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             restoreCommand.Execute().Should().Pass();
 
             var buildCommand = new BuildCommand(testProjectTestAsset);
@@ -259,10 +259,10 @@ namespace Microsoft.NET.Build.Tests
                         callingMethod,
                         identifier);
                 var packageRestoreCommand =
-                    testAsset.GetRestoreCommand(Log, relativePath: project.Name).Execute().Should().Pass();
+                    testAsset.GetRestoreCommand(MSTestContext, relativePath: project.Name).Execute().Should().Pass();
                 var dependencyProjectDirectory = Path.Combine(testAsset.TestRoot, project.Name);
                 var packagePackCommand =
-                    new PackCommand(Log, dependencyProjectDirectory).Execute().Should().Pass();
+                    new PackCommand(MSTestContext, dependencyProjectDirectory).Execute().Should().Pass();
             }
 
             return packageReference;

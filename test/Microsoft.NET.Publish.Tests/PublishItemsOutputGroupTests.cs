@@ -9,7 +9,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class PublishItemsOutputGroupTests : SdkTest
     {
-        public PublishItemsOutputGroupTests(ITestOutputHelper log) : base(log)
+        public PublishItemsOutputGroupTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -20,10 +20,10 @@ namespace Microsoft.NET.Publish.Tests
             "WindowsBase.dll",
         };
 
-        [Theory]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
+        [TestMethod]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
+        [DataRow(false, false)]
         public void RunPublishItemsOutputGroupTest(bool specifyRid, bool singleFile)
         {
             var testProject = SetupProject(specifyRid, singleFile);
@@ -55,10 +55,10 @@ namespace Microsoft.NET.Publish.Tests
                             IsKeyOutput = item.metadata["IsKeyOutput"]
                         };
 
-            Log.WriteLine("PublishItemsOutputGroup contains '{0}' items:", items.Count());
+            MSTestContext.WriteLine("PublishItemsOutputGroup contains '{0}' items:", items.Count());
             foreach (var item in items)
             {
-                Log.WriteLine("    '{0}': TargetPath = '{1}', IsKeyOutput = '{2}'", item.Identity, item.TargetPath, item.IsKeyOutput);
+                MSTestContext.WriteLine("    '{0}': TargetPath = '{1}', IsKeyOutput = '{2}'", item.Identity, item.TargetPath, item.IsKeyOutput);
             }
 
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -88,7 +88,7 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void GroupBuildsWithoutPublish()
         {
             var testProject = SetupProject();

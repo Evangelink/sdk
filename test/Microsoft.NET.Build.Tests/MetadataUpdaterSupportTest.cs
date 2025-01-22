@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class MetadataUpdaterSupportTest : SdkTest
     {
-        public MetadataUpdaterSupportTest(ITestOutputHelper log) : base(log)
+        public MetadataUpdaterSupportTest(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [CoreMSBuildOnlyFact] // Running on desktop causes failures attempting to restore M.NETCore.App.WinHost.
+        [CoreMSBuildOnlyTestMethod] // Running on desktop causes failures attempting to restore M.NETCore.App.WinHost.
         public void It_Configures_MetadataUpdaterSupport_InReleaseBuilds()
         {
             var targetFramework = "net6.0";
@@ -33,7 +33,7 @@ namespace Microsoft.NET.Build.Tests
             fileContents.Should().Contain("\"System.Reflection.Metadata.MetadataUpdater.IsSupported\": false");
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void It_Configures_MetadataUpdaterSupport_InDebugBuilds()
         {
             var targetFramework = "net6.0";

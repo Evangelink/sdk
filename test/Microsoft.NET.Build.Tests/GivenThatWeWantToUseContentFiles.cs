@@ -8,12 +8,12 @@ namespace Microsoft.NET.Build.Tests
 
     public class GivenThatWeWantToUseContentFiles : SdkTest
     {
-        public GivenThatWeWantToUseContentFiles(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToUseContentFiles(MSTestContext testContext) : base(testContext)
         {
         }
 
 
-        [Fact]
+        [TestMethod]
         public void It_handles_content_files_correctly()
         {
             const string targetFramework = ToolsetInfo.CurrentTargetFramework;

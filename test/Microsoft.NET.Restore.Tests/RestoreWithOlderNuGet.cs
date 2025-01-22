@@ -5,7 +5,7 @@ namespace Microsoft.NET.Restore.Tests
 {
     public class RestoreWithOlderNuGet : SdkTest
     {
-        public RestoreWithOlderNuGet(ITestOutputHelper log) : base(log)
+        public RestoreWithOlderNuGet(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -21,7 +21,7 @@ namespace Microsoft.NET.Restore.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var restoreCommand = new NuGetExeRestoreCommand(Log, testAsset.Path, testProject.Name)
+            var restoreCommand = new NuGetExeRestoreCommand(MSTestContext, testAsset.Path, testProject.Name)
             {
                 NuGetExeVersion = "5.7.0"
             };

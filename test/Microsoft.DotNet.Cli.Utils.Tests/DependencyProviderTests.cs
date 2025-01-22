@@ -11,15 +11,15 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
     public class DependencyProviderTests
     {
         [WindowsOnlyTheory]
-        [InlineData(false, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_CURRENT_USER")]
-        [InlineData(true, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_LOCAL_MACHINE")]
+        [DataRow(false, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_CURRENT_USER")]
+        [DataRow(true, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_LOCAL_MACHINE")]
         public void ProviderProperties(bool allUsers, string providerKeyName, string expectedDependentsKeyPath, string expectedBaseKeyName)
         {
             DependencyProvider dep = new(providerKeyName, allUsers);
 
-            Assert.Equal(expectedDependentsKeyPath, dep.DependentsKeyPath);
-            Assert.Equal(expectedBaseKeyName, dep.BaseKey.Name);
-            Assert.Equal(providerKeyName, dep.ProviderKeyName);
+            Assert.AreEqual(expectedDependentsKeyPath, dep.DependentsKeyPath);
+            Assert.AreEqual(expectedBaseKeyName, dep.BaseKey.Name);
+            Assert.AreEqual(providerKeyName, dep.ProviderKeyName);
         }
 
         [WindowsOnlyFact]
@@ -32,12 +32,12 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             try
             {
                 // We should not have any dependents
-                Assert.Empty(dep.Dependents);
+                Assert.HasCount(0, dep.Dependents);
 
                 dep.AddDependent("Microsoft.NET.SDK,v6.0.100");
 
-                Assert.Single(dep.Dependents);
-                Assert.Equal("Microsoft.NET.SDK,v6.0.100", dep.Dependents.First());
+                Assert.HasCount(1, dep.Dependents);
+                Assert.AreEqual("Microsoft.NET.SDK,v6.0.100", dep.Dependents.First());
             }
             finally
             {
@@ -53,12 +53,12 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             try
             {
                 // We should not have any dependents
-                Assert.Empty(dep.Dependents);
+                Assert.HasCount(0, dep.Dependents);
 
                 // Write the VS dependents key
                 dep.AddDependent(DependencyProvider.VisualStudioDependentKeyName);
 
-                Assert.True(dep.HasVisualStudioDependency);
+                Assert.IsTrue(dep.HasVisualStudioDependency);
             }
             finally
             {
@@ -77,11 +77,11 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
                 dep.AddDependent(DependencyProvider.VisualStudioDependentKeyName);
                 dep.AddDependent("Microsoft.NET.SDK,v6.0.100");
 
-                Assert.Equal(2, dep.Dependents.Count());
+                Assert.AreEqual(2, dep.Dependents.Count());
 
                 dep.RemoveDependent("Microsoft.NET.SDK,v6.0.100", removeProvider: true);
 
-                Assert.True(dep.HasVisualStudioDependency);
+                Assert.IsTrue(dep.HasVisualStudioDependency);
             }
             finally
             {
@@ -117,7 +117,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 
             try
             {
-                Assert.Equal(productCode, dep.ProductCode);
+                Assert.AreEqual(productCode, dep.ProductCode);
             }
             finally
             {

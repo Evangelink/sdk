@@ -7,18 +7,18 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToPublishACppCliAppProject : SdkTest
     {
-        public GivenThatWeWantToPublishACppCliAppProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishACppCliAppProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager
                 .CopyTestAsset("NETCoreCppClApp")
                 .WithSource();
 
-            new PublishCommand(Log, Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest.sln"))
+            new PublishCommand(MSTestContext, Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest.sln"))
                 .Execute("/p:NoBuild=true")
                 .Should()
                 .Fail()

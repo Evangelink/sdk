@@ -5,11 +5,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class PublishNetFrameworkApp : SdkTest
     {
-        public PublishNetFrameworkApp(ITestOutputHelper log) : base(log)
+        public PublishNetFrameworkApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void NetStandardFacadesArePublished()
         {
             var netStandardProject = new TestProject()

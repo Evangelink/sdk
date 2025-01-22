@@ -8,7 +8,7 @@ namespace Microsoft.NET.Rebuild.Tests
 {
     public class GivenThatWeWantToRebuildAHelloWorldProject : SdkTest
     {
-        public GivenThatWeWantToRebuildAHelloWorldProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToRebuildAHelloWorldProject(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -32,7 +32,7 @@ namespace Microsoft.NET.Rebuild.Tests
 
             new LockFileFormat().Write(lockFilePath, lockFile);
 
-            var rebuildCommand = new RebuildCommand(Log, testAsset.TestRoot);
+            var rebuildCommand = new RebuildCommand(MSTestContext, testAsset.TestRoot);
 
             rebuildCommand
                 .ExecuteWithoutRestore()

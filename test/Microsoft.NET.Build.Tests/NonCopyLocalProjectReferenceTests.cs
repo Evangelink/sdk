@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class NonCopyLocalProjectReferenceTests : SdkTest
     {
-        public NonCopyLocalProjectReferenceTests(ITestOutputHelper log) : base(log)
+        public NonCopyLocalProjectReferenceTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void NonCopyLocalProjectReferenceDoesNotGoToDeps()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

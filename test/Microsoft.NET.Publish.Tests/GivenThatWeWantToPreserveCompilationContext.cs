@@ -9,16 +9,16 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPreserveCompilationContext : SdkTest
     {
-        public GivenThatWeWantToPreserveCompilationContext(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPreserveCompilationContext(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("net46", "netstandard1.3", false)]
-        [InlineData("netcoreapp2.0", "netstandard2.0", false)]
-        [InlineData("netcoreapp2.0", "netstandard2.0", true)]
-        [InlineData("netcoreapp3.0", "netstandard2.0", false)]
-        [InlineData("netcoreapp3.0", "netstandard2.0", true)]
+        [TestMethod]
+        [DataRow("net46", "netstandard1.3", false)]
+        [DataRow("netcoreapp2.0", "netstandard2.0", false)]
+        [DataRow("netcoreapp2.0", "netstandard2.0", true)]
+        [DataRow("netcoreapp3.0", "netstandard2.0", false)]
+        [DataRow("netcoreapp3.0", "netstandard2.0", true)]
         public void It_publishes_the_project_with_a_refs_folder_and_correct_deps_file(string appTargetFramework, string libraryTargetFramework, bool withoutCopyingRefs)
         {
             if (appTargetFramework == "net46" && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -119,11 +119,11 @@ namespace Microsoft.NET.Publish.Tests
 
                 if (extraCompileLibraryNames.Any())
                 {
-                    Log.WriteLine("Unexpected compile libraries: " + string.Join(' ', extraCompileLibraryNames));
+                    MSTestContext.WriteLine("Unexpected compile libraries: " + string.Join(' ', extraCompileLibraryNames));
                 }
                 if (missingCompileLibraryNames.Any())
                 {
-                    Log.WriteLine("Missing compile libraries: " + string.Join(' ', missingCompileLibraryNames));
+                    MSTestContext.WriteLine("Missing compile libraries: " + string.Join(' ', missingCompileLibraryNames));
                 }
 
                 compileLibraryAssemblyNames.Should().BeEquivalentTo(expectedCompileLibraryNames);
@@ -160,7 +160,7 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_excludes_runtime_store_packages_from_the_refs_folder()
         {
             var targetFramework = "netcoreapp2.0";
@@ -192,7 +192,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var appProjectDirectory = Path.Combine(testAsset.TestRoot, "TestApp");
 
-            var publishCommand = new PublishCommand(Log, appProjectDirectory);
+            var publishCommand = new PublishCommand(MSTestContext, appProjectDirectory);
             publishCommand
                 .ExecuteWithoutRestore($"/p:TargetFramework={targetFramework}", $"/p:TargetManifestFiles={manifestFile}")
                 .Should()

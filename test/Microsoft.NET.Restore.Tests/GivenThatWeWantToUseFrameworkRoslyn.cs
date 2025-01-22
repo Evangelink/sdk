@@ -7,11 +7,11 @@ namespace Microsoft.NET.Restore.Tests
 {
     public class GivenThatWeWantToUseFrameworkRoslyn : SdkTest
     {
-        public GivenThatWeWantToUseFrameworkRoslyn(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToUseFrameworkRoslyn(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_downloads_Microsoft_Net_Compilers_Toolset_Framework_when_requested()
         {
             const string testProjectName = "NetCoreApp";
@@ -30,13 +30,13 @@ namespace Microsoft.NET.Restore.Tests
 
             var customPackagesDir = Path.Combine(testAsset.Path, "nuget-packages");
 
-            testAsset.GetRestoreCommand(Log, relativePath: testProjectName)
+            testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName)
                 .WithEnvironmentVariable("NUGET_PACKAGES", customPackagesDir)
                 .Execute().Should().Pass();
 
             var toolsetPackageDir = Path.Combine(customPackagesDir, "microsoft.net.sdk.compilers.toolset");
 
-            Assert.True(Directory.Exists(toolsetPackageDir));
+            Assert.IsTrue(Directory.Exists(toolsetPackageDir));
 
             var toolsetPackageVersion = Directory.EnumerateDirectories(toolsetPackageDir).Should().ContainSingle().Subject;
 
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Restore.Tests
                 .HaveStdOutContaining(Path.Combine(toolsetPackageDir, toolsetPackageVersion, "csc.exe") + " /noconfig");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_downloads_Microsoft_Net_Compilers_Toolset_Framework_when_MSBuild_is_torn()
         {
             const string testProjectName = "NetCoreApp";
@@ -66,13 +66,13 @@ namespace Microsoft.NET.Restore.Tests
 
             var customPackagesDir = Path.Combine(testAsset.Path, "nuget-packages");
 
-            testAsset.GetRestoreCommand(Log, relativePath: testProjectName)
+            testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName)
                 .WithEnvironmentVariable("NUGET_PACKAGES", customPackagesDir)
                 .Execute().Should().Pass();
 
             var toolsetPackageDir = Path.Combine(customPackagesDir, "microsoft.net.sdk.compilers.toolset");
 
-            Assert.True(Directory.Exists(toolsetPackageDir));
+            Assert.IsTrue(Directory.Exists(toolsetPackageDir));
 
             var toolsetPackageVersion = Directory.EnumerateDirectories(toolsetPackageDir).Should().ContainSingle().Subject;
 
@@ -82,7 +82,7 @@ namespace Microsoft.NET.Restore.Tests
                 .HaveStdOutContaining(Path.Combine(toolsetPackageDir, toolsetPackageVersion, "csc.exe") + " /noconfig");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_throws_a_warning_when_adding_the_PackageReference_directly()
         {
             const string testProjectName = "NetCoreApp";
@@ -98,13 +98,13 @@ namespace Microsoft.NET.Restore.Tests
                 .CreateTestProject(project);
 
             var restoreCommand =
-                testAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             var result = restoreCommand.Execute();
             result.Should().Pass();
             result.Should().HaveStdOutContaining("NETSDK1205");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_throws_an_error_when_the_package_is_not_downloaded()
         {
             const string testProjectName = "NetCoreApp";
@@ -121,7 +121,7 @@ namespace Microsoft.NET.Restore.Tests
 
             var customPackagesDir = Path.Combine(testAsset.Path, "nuget-packages");
 
-            testAsset.GetRestoreCommand(Log, relativePath: testProjectName)
+            testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName)
                 .WithEnvironmentVariable("NUGET_PACKAGES", customPackagesDir)
                 .Execute().Should().Pass();
 
@@ -131,7 +131,7 @@ namespace Microsoft.NET.Restore.Tests
                 .Should().Fail().And.HaveStdOutContaining("NETSDK1216");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_throws_a_warning_when_NuGetPackageRoot_is_empty()
         {
             const string testProjectName = "NetCoreApp";
@@ -163,7 +163,7 @@ namespace Microsoft.NET.Restore.Tests
             new DirectoryInfo(toolsetPackageDir).Should().Exist();
         }
 
-        [FullMSBuildOnlyFact] // https://github.com/dotnet/sdk/issues/44605
+        [FullMSBuildOnlyTestMethod] // https://github.com/dotnet/sdk/issues/44605
         public void It_does_not_throw_a_warning_when_NuGetPackageRoot_is_empty_in_wpftmp()
         {
             var testAsset = _testAssetsManager
@@ -181,7 +181,7 @@ namespace Microsoft.NET.Restore.Tests
             buildCommand.Execute("-p:_IsDisjointMSBuildVersion=true")
                 .Should().Pass().And.NotHaveStdOutContaining("NETSDK1221");
 
-            Assert.True(File.Exists(Path.Combine(testAsset.Path, "obj", "net472", "MainWindow.g.cs")));
+            Assert.IsTrue(File.Exists(Path.Combine(testAsset.Path, "obj", "net472", "MainWindow.g.cs")));
         }
     }
 }

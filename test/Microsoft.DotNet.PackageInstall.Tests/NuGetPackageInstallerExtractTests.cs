@@ -12,11 +12,11 @@ namespace Microsoft.DotNet.PackageInstall.Tests
 {
     public class NuGetPackageInstallerExtractTests : SdkTest
     {
-        public NuGetPackageInstallerExtractTests(ITestOutputHelper log) : base(log)
+        public NuGetPackageInstallerExtractTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ItCanExtractNugetPackage()
         {
             string packageId = "Newtonsoft.Json";

@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToPackACppCliProject : SdkTest
     {
-        public GivenThatWeWantToPackACppCliProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackACppCliProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_cannot_pack_the_cppcliproject()
         {
             var testAsset = _testAssetsManager
@@ -20,7 +20,7 @@ namespace Microsoft.NET.Build.Tests
                 .WithProjectChanges((projectPath, project) => AddPackageReference(projectPath, project, "NewtonSoft.Json", ToolsetInfo.GetNewtonsoftJsonPackageVersion()))
                 .WithProjectChanges((projectPath, project) => AddBuildProperty(projectPath, project, "EnableManagedpackageReferenceSupport", "true"));
 
-            new PackCommand(Log, Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest", "NETCoreCppCliTest.vcxproj"))
+            new PackCommand(MSTestContext, Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest", "NETCoreCppCliTest.vcxproj"))
                 .Execute("-p:Platform=x64", "-p:EnableManagedpackageReferenceSupport=true")
                 .Should()
                 .Fail()

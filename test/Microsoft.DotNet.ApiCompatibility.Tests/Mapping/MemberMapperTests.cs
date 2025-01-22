@@ -9,7 +9,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
     public class MemberMapperTests
     {
-        [Fact]
+        [TestMethod]
         public void MemberMapper_Ctor_PropertiesSet()
         {
             IRuleRunner ruleRunner = Mock.Of<IRuleRunner>();
@@ -20,9 +20,9 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
             MemberMapper memberMapper = new(ruleRunner, mapperSettings, rightSetSize, containingType);
 
             Assert.Null(memberMapper.Left);
-            Assert.Equal(mapperSettings, memberMapper.Settings);
-            Assert.Equal(rightSetSize, memberMapper.Right.Length);
-            Assert.Equal(containingType, memberMapper.ContainingType);
+            Assert.AreEqual(mapperSettings, memberMapper.Settings);
+            Assert.AreEqual(rightSetSize, memberMapper.Right.Length);
+            Assert.AreEqual(containingType, memberMapper.ContainingType);
         }
     }
 }

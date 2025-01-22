@@ -23,11 +23,11 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
     /// </remarks>
     public class StorageTests : SdkTest
     {
-        public StorageTests(ITestOutputHelper log) : base(log)
+        public StorageTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public async Task EnqueuedContentIsEqualToPeekedContent()
         {
             // Setup
@@ -47,7 +47,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             enqueuedContent.Should().Be(peekedContent);
         }
 
-        [Fact]
+        [TestMethod]
         public void DeletedItemIsNotReturnedInCallsToPeek()
         {
             // Setup - create a storage with one item
@@ -58,8 +58,8 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             // Act
             StorageTransmission firstPeekedTransmission;
 
-            // if item is not disposed,peek will not return it (regardless of the call to delete). 
-            // So for this test to actually test something, using 'using' is required.  
+            // if item is not disposed,peek will not return it (regardless of the call to delete).
+            // So for this test to actually test something, using 'using' is required.
             using (firstPeekedTransmission = storage.Peek())
             {
                 storage.Delete(firstPeekedTransmission);
@@ -67,12 +67,12 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
 
             StorageTransmission secondPeekedTransmission = storage.Peek();
 
-            // Asserts            
+            // Asserts
             firstPeekedTransmission.Should().NotBeNull();
             secondPeekedTransmission.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void PeekedItemIsOnlyReturnedOnce()
         {
             // Setup - create a storage with one item
@@ -85,12 +85,12 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             StorageTransmission firstPeekedTransmission = storage.Peek();
             StorageTransmission secondPeekedTransmission = storage.Peek();
 
-            // Asserts            
+            // Asserts
             firstPeekedTransmission.Should().NotBeNull();
             secondPeekedTransmission.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PeekedItemIsReturnedAgainAfterTheItemInTheFirstCallToPeekIsDisposed()
         {
             // Setup - create a storage with one item
@@ -108,12 +108,12 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
 
             StorageTransmission secondPeekedTransmission = storage.Peek();
 
-            // Asserts            
+            // Asserts
             firstPeekedTransmission.Should().NotBeNull();
             secondPeekedTransmission.Should().NotBeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenStorageHasTwoItemsThenTwoCallsToPeekReturns2DifferentItems()
         {
             // Setup - create a storage with 2 items
@@ -127,7 +127,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             StorageTransmission firstPeekedTransmission = storage.Peek();
             StorageTransmission secondPeekedTransmission = storage.Peek();
 
-            // Asserts            
+            // Asserts
             firstPeekedTransmission.Should().NotBeNull();
             secondPeekedTransmission.Should().NotBeNull();
 
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             first.Should().NotBe(second);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenMaxFilesIsOneThenSecondTransmissionIsDropped()
         {
             // Setup
@@ -151,12 +151,12 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             CreateTransmissionAndEnqueueIt(storage);
             CreateTransmissionAndEnqueueIt(storage);
 
-            // Asserts - Second Peek should be null 
+            // Asserts - Second Peek should be null
             storage.Peek().Should().NotBeNull();
             storage.Peek().Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenMaxSizeIsReachedThenEnqueuedTransmissionsAreDropped()
         {
             // Setup - create a storage with 2 items
@@ -169,7 +169,7 @@ namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
             CreateTransmissionAndEnqueueIt(storage);
             CreateTransmissionAndEnqueueIt(storage);
 
-            // Asserts - Second Peek should be null 
+            // Asserts - Second Peek should be null
             storage.Peek().Should().NotBeNull();
             storage.Peek().Should().BeNull();
         }

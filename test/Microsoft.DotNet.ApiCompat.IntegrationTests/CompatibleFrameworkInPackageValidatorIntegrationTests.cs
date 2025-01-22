@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.ApiCompat.IntegrationTests
 {
     public class CompatibleFrameworkInPackageValidatorIntegrationTests : SdkTest
     {
-        public CompatibleFrameworkInPackageValidatorIntegrationTests(ITestOutputHelper log) : base(log)
+        public CompatibleFrameworkInPackageValidatorIntegrationTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -57,7 +57,7 @@ namespace PackageValidationTests
             TestAsset asset = _testAssetsManager.CreateTestProject(testProject, testProject.Name);
             PackCommand packCommand = new(Log, Path.Combine(asset.TestRoot, testProject.Name));
             var result = packCommand.Execute();
-            Assert.Equal(string.Empty, result.StdErr);
+            Assert.AreEqual(string.Empty, result.StdErr);
             Package package = Package.Create(packCommand.GetNuGetPackage(), null);
             (SuppressibleTestLog log, CompatibleFrameworkInPackageValidator validator) = CreateLoggerAndValidator();
 
@@ -98,7 +98,7 @@ namespace PackageValidationTests
             TestAsset asset = _testAssetsManager.CreateTestProject(testProject, testProject.Name);
             PackCommand packCommand = new(Log, Path.Combine(asset.TestRoot, testProject.Name));
             var result = packCommand.Execute();
-            Assert.Equal(string.Empty, result.StdErr);
+            Assert.AreEqual(string.Empty, result.StdErr);
             Package package = Package.Create(packCommand.GetNuGetPackage(), null);
             (SuppressibleTestLog log, CompatibleFrameworkInPackageValidator validator) = CreateLoggerAndValidator();
 

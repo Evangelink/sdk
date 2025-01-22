@@ -5,11 +5,11 @@ namespace Microsoft.NET.Pack.Tests
 {
     public class GivenThatWeWantToPackASimpleLibrary : SdkTest
     {
-        public GivenThatWeWantToPackASimpleLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackASimpleLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("17.1.0.60101")]
+        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
         public void It_packs_successfully()
         {
             var testAsset = _testAssetsManager

@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.ShellShim.Tests
     {
         const ushort WindowsGUISubsystem = 0x2;
 
-        public AppHostShellShimMakerTests(ITestOutputHelper log) : base(log)
+        public AppHostShellShimMakerTests(MSTestContext testContext) : base(testContext)
         {
         }
 

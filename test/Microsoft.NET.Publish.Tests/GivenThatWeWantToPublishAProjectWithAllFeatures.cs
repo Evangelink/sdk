@@ -12,12 +12,12 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAProjectWithAllFeatures : SdkTest
     {
-        public GivenThatWeWantToPublishAProjectWithAllFeatures(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAProjectWithAllFeatures(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [MemberData(nameof(PublishData))]
+        [TestMethod]
+        [DynamicData(nameof(PublishData))]
         public void It_publishes_the_project_correctly(string targetFramework, string[] expectedPublishFiles)
         {
             PublishCommand publishCommand = GetPublishCommand(targetFramework);
@@ -124,21 +124,21 @@ namespace Microsoft.NET.Publish.Tests
                 .BeEquivalentTo(baselineConfigJsonObject);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_when_nobuild_is_set_and_build_was_not_performed_previously()
         {
             var publishCommand = GetPublishCommand(ToolsetInfo.CurrentTargetFramework).Execute("/p:NoBuild=true");
             publishCommand.Should().Fail().And.HaveStdOutContaining("MSB3030"); // "Could not copy ___ because it was not found."
         }
 
-        [Theory]
-        [MemberData(nameof(PublishData))]
+        [TestMethod]
+        [DynamicData(nameof(PublishData))]
         public void It_does_not_build_when_nobuild_is_set(string targetFramework, string[] expectedPublishFiles)
         {
             var publishCommand = GetPublishCommand(targetFramework);
 
             // do a separate build invocation before publish
-            var buildCommand = new BuildCommand(Log, publishCommand.ProjectRootPath);
+            var buildCommand = new BuildCommand(MSTestContext, publishCommand.ProjectRootPath);
             buildCommand.Execute().Should().Pass();
 
             // modify all project files, which would force recompilation if we were to build during publish
@@ -200,7 +200,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var appProjectDirectory = Path.Combine(testAsset.TestRoot, "TestApp");
 
-            return new PublishCommand(Log, appProjectDirectory);
+            return new PublishCommand(MSTestContext, appProjectDirectory);
         }
 
         private static void VerifyDependency(

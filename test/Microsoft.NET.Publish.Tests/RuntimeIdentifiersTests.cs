@@ -10,12 +10,12 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class RuntimeIdentifiersTests : SdkTest
     {
-        public RuntimeIdentifiersTests(ITestOutputHelper log) : base(log)
+        public RuntimeIdentifiersTests(MSTestContext testContext) : base(testContext)
         {
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void BuildWithRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -63,7 +63,7 @@ namespace Microsoft.NET.Publish.Tests
                     var selfContainedExecutable = $"{testProject.Name}{Constants.ExeSuffix}";
                     string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
 
-                    new RunExeCommand(Log, selfContainedExecutableFullPath)
+                    new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                         .Execute()
                         .Should()
                         .Pass()
@@ -73,7 +73,7 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void BuildWithUseCurrentRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -105,7 +105,7 @@ namespace Microsoft.NET.Publish.Tests
             var selfContainedExecutable = $"{testProject.Name}{Constants.ExeSuffix}";
             string selfContainedExecutableFullPath = Path.Combine(buildCommand.GetOutputDirectory(runtimeIdentifier: runtimeIdentifier).FullName, selfContainedExecutable);
 
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -114,10 +114,10 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [CoreMSBuildOnlyTheory]
-        [InlineData(false)]
+        [CoreMSBuildOnlyTestMethod]
+        [DataRow(false)]
         //  "No build" scenario doesn't currently work: https://github.com/dotnet/sdk/issues/2956
-        //[InlineData(true)]
+        //[DataRow(true)]
         public void PublishWithRuntimeIdentifier(bool publishNoBuild)
         {
             var testProject = new TestProject()
@@ -172,7 +172,7 @@ namespace Microsoft.NET.Publish.Tests
                     var selfContainedExecutable = $"{testProject.Name}{Constants.ExeSuffix}";
                     string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
 
-                    new RunExeCommand(Log, selfContainedExecutableFullPath)
+                    new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                         .Execute()
                         .Should()
                         .Pass()
@@ -183,10 +183,10 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [Theory]
-        [InlineData(false, false)] // publish rid overrides rid in project file if publishing
-        [InlineData(true, false)] // publish rid doesnt override global rid
-        [InlineData(true, true)] // publish rid doesnt override global rid, even if global
+        [TestMethod]
+        [DataRow(false, false)] // publish rid overrides rid in project file if publishing
+        [DataRow(true, false)] // publish rid doesnt override global rid
+        [DataRow(true, true)] // publish rid doesnt override global rid, even if global
         public void PublishRuntimeIdentifierSetsRuntimeIdentifierAndDoesOrDoesntOverrideRID(bool runtimeIdentifierIsGlobal, bool publishRuntimeIdentifierIsGlobal)
         {
             string tfm = ToolsetInfo.CurrentTargetFramework;
@@ -212,7 +212,7 @@ namespace Microsoft.NET.Publish.Tests
 
             string identifier = $"PublishRuntimeIdentifierOverrides-{publishRuntimeIdentifierIsGlobal}-{runtimeIdentifierIsGlobal}";
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: identifier);
-            var publishCommand = new DotnetPublishCommand(Log);
+            var publishCommand = new DotnetPublishCommand(MSTestContext);
             publishCommand
                 .WithWorkingDirectory(Path.Combine(testAsset.TestRoot, testProject.Name))
                 .Execute(args.ToArray())
@@ -223,7 +223,7 @@ namespace Microsoft.NET.Publish.Tests
             var properties = testProject.GetPropertyValues(testAsset.TestRoot, configuration: "Release", targetFramework: tfm);
             var finalRid = properties["RuntimeIdentifier"];
 
-            Assert.True(finalRid == expectedRid);
+            Assert.IsTrue(finalRid == expectedRid);
         }
 
         [WindowsOnlyFact]
@@ -243,7 +243,7 @@ namespace Microsoft.NET.Publish.Tests
             testProject.RecordProperties("NETCoreSdkPortableRuntimeIdentifier");
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
-            var publishCommand = new DotnetPublishCommand(Log);
+            var publishCommand = new DotnetPublishCommand(MSTestContext);
             publishCommand
                 .WithWorkingDirectory(Path.Combine(testAsset.TestRoot, MethodBase.GetCurrentMethod().Name))
                 .Execute()
@@ -254,18 +254,18 @@ namespace Microsoft.NET.Publish.Tests
             var finalRid = properties["RuntimeIdentifier"];
             var ucrRid = properties["NETCoreSdkPortableRuntimeIdentifier"];
 
-            Assert.True(finalRid == publishRid);
-            Assert.True(ucrRid != finalRid);
+            Assert.IsTrue(finalRid == publishRid);
+            Assert.IsTrue(ucrRid != finalRid);
         }
 
-        [Theory]
-        [InlineData("PublishReadyToRun", true)]
-        [InlineData("PublishSingleFile", true)]
-        [InlineData("PublishTrimmed", true)]
-        [InlineData("PublishAot", true)]
-        [InlineData("PublishReadyToRun", false)]
-        [InlineData("PublishSingleFile", false)]
-        [InlineData("PublishTrimmed", false)]
+        [TestMethod]
+        [DataRow("PublishReadyToRun", true)]
+        [DataRow("PublishSingleFile", true)]
+        [DataRow("PublishTrimmed", true)]
+        [DataRow("PublishAot", true)]
+        [DataRow("PublishReadyToRun", false)]
+        [DataRow("PublishSingleFile", false)]
+        [DataRow("PublishTrimmed", false)]
         public void SomePublishPropertiesInferSelfContained(string property, bool useFrameworkDependentDefaultTargetFramework)
         {
             // Note: there is a bug with PublishAot I think where this test will fail for Aot if the testname is too long. Do not make it longer.
@@ -280,7 +280,7 @@ namespace Microsoft.NET.Publish.Tests
             testProject.RecordProperties("SelfContained");
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: $"{property}-{useFrameworkDependentDefaultTargetFramework}");
 
-            var publishCommand = new DotnetPublishCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name));
+            var publishCommand = new DotnetPublishCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name));
             if (property == "PublishTrimmed" && !useFrameworkDependentDefaultTargetFramework)
             {
                 publishCommand
@@ -310,7 +310,7 @@ namespace Microsoft.NET.Publish.Tests
             properties["SelfContained"].Should().Be(expectedSelfContainedValue);
         }
 
-        [Fact]
+        [TestMethod]
         public void ImplicitRuntimeIdentifierOptOutCorrectlyOptsOut()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -326,7 +326,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var publishCommand = new DotnetPublishCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name));
+            var publishCommand = new DotnetPublishCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name));
             publishCommand
                 .Execute()
                 .Should()
@@ -335,7 +335,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1191");
         }
 
-        [Fact]
+        [TestMethod]
         public void DuplicateRuntimeIdentifiers()
         {
             var testProject = new TestProject()
@@ -361,7 +361,7 @@ namespace Microsoft.NET.Publish.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void PublishSuccessfullyWithRIDRequiringPropertyAndRuntimeIdentifiersNoRuntimeIdentifier()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -376,7 +376,7 @@ namespace Microsoft.NET.Publish.Tests
             testProject.AdditionalProperties["PublishReadyToRun"] = "true";
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var publishCommand = new DotnetPublishCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name));
+            var publishCommand = new DotnetPublishCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name));
             publishCommand
                 .Execute()
                 .Should()

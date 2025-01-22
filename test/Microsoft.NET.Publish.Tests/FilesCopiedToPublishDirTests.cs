@@ -7,7 +7,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class FilesCopiedToPublishDirTests : SdkTest
     {
-        public FilesCopiedToPublishDirTests(ITestOutputHelper log) : base(log)
+        public FilesCopiedToPublishDirTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -18,10 +18,10 @@ namespace Microsoft.NET.Publish.Tests
             "WindowsBase.dll",
         };
 
-        [Theory]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
+        [TestMethod]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
+        [DataRow(false, false)]
         public void RunFilesCopiedToPublishDirTest(bool specifyRid, bool singleFile)
         {
             var testProject = new TestProject()
@@ -70,10 +70,10 @@ namespace Microsoft.NET.Publish.Tests
                             RelativePath = item.metadata["RelativePath"]
                         };
 
-            Log.WriteLine("FilesCopiedToPublishDir contains '{0}' items:", items.Count());
+            MSTestContext.WriteLine("FilesCopiedToPublishDir contains '{0}' items:", items.Count());
             foreach (var item in items)
             {
-                Log.WriteLine("    '{0}': RelativePath = '{1}'", item.Identity, item.RelativePath);
+                MSTestContext.WriteLine("    '{0}': RelativePath = '{1}'", item.Identity, item.RelativePath);
             }
 
             // Check for the main exe
@@ -93,7 +93,7 @@ namespace Microsoft.NET.Publish.Tests
                 FrameworkAssemblies.ForEach(fa => items.Should().NotContain(i => i.RelativePath.Equals(fa, StringComparison.OrdinalIgnoreCase)));
             }
 
-            // FilesCopiedToPublishDir should never contain the deps.json file 
+            // FilesCopiedToPublishDir should never contain the deps.json file
             items.Should().NotContain(i => i.RelativePath.Equals($"{testProject.Name}.deps.json", StringComparison.OrdinalIgnoreCase));
         }
     }

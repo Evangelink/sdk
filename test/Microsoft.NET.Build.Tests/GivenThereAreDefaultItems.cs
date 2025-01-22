@@ -11,11 +11,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThereAreDefaultItems : SdkTest
     {
-        public GivenThereAreDefaultItems(ITestOutputHelper log) : base(log)
+        public GivenThereAreDefaultItems(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_ignores_excluded_folders()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_excludes_items_in_a_custom_outputpath()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_excluded_folders_to_be_overridden()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -133,7 +133,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_items_outside_project_root_to_be_included()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -171,7 +171,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_a_project_subfolder_to_be_excluded()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -206,7 +206,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_files_in_the_obj_folder_to_be_explicitly_included()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -244,7 +244,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_a_CSharp_file_to_be_used_as_an_EmbeddedResource()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -292,7 +292,7 @@ namespace Microsoft.NET.Build.Tests
             embeddedResourceItems.Should().BeEquivalentTo(expectedEmbeddedResourceItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_allows_a_CSharp_file_to_be_used_as_Content()
         {
             Action<GetValuesCommand> setup = getValuesCommand =>
@@ -354,7 +354,7 @@ namespace Microsoft.NET.Build.Tests
             noneItems.Should().BeEquivalentTo(expectedNoneItems);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_include_items_in_any_group_if_group_specific_default_include_properties_are_false()
         {
             var testProject = new TestProject()
@@ -391,7 +391,7 @@ namespace Microsoft.NET.Build.Tests
             File.WriteAllText(Path.Combine(projectFolder, "TestImage.jpg"), "");
 
             // Validate Compile items.
-            var getCompileItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Compile", GetValuesCommand.ValueType.Item);
+            var getCompileItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Compile", GetValuesCommand.ValueType.Item);
             getCompileItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -401,7 +401,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(new[] { testProject.Name + ".cs", testProject.Name + "Program.cs" });
 
             // Validate None items.
-            var getNoneItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
+            var getNoneItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
             getNoneItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -410,7 +410,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should().BeEmpty();
 
             // Validate Resource items.
-            var getResourceItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Resource", GetValuesCommand.ValueType.Item);
+            var getResourceItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Resource", GetValuesCommand.ValueType.Item);
             getResourceItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -419,7 +419,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should().BeEmpty();
 
             // Validate PRIResource items.
-            var getPRIResourceItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
+            var getPRIResourceItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
             getPRIResourceItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -428,7 +428,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should().BeEmpty();
 
             // Validate Content items.
-            var getContentItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
+            var getContentItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
             getContentItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -437,7 +437,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Default_items_have_the_correct_relative_paths()
         {
             Action<XDocument> projectChanges = project =>
@@ -484,7 +484,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [RequiresMSBuildVersionFact("17.1.0.60101")]
+        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
         public void Compile_items_can_be_explicitly_specified_while_default_EmbeddedResource_items_are_used()
         {
             Action<XDocument> projectChanges = project =>
@@ -508,7 +508,7 @@ namespace Microsoft.NET.Build.Tests
             GivenThatWeWantAllResourcesInSatellite.TestSatelliteResources(Log, _testAssetsManager, projectChanges, setup, "ExplicitCompileDefaultEmbeddedResource");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_gives_an_error_message_if_duplicate_compile_items_are_included()
         {
             var testProject = new TestProject()
@@ -539,7 +539,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("EnableDefaultCompileItems");
         }
 
-        [Fact]
+        [TestMethod]
         public void Implicit_package_references_are_overridden_by_PackageReference_includes_in_the_project_file()
         {
             var testProject = new TestProject()
@@ -577,7 +577,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("'NETStandard.Library'");
         }
 
-        [Fact]
+        [TestMethod]
         public void ImplicitFrameworkReferencesAreOverriddenByProjectFile()
         {
             var testProject = new TestProject()
@@ -615,7 +615,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("NETSDK1086");
         }
 
-        [Fact]
+        [TestMethod]
         public void DuplicateFrameworkReferencesCauseError()
         {
             var testProject = new TestProject()
@@ -651,9 +651,9 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("NETSDK1087");
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public void Implicit_NetCoreApp_reference_can_be_overridden(bool disableImplicitFrameworkReferences)
         {
             var testProject = new TestProject()
@@ -690,7 +690,7 @@ namespace Microsoft.NET.Build.Tests
             netCoreAppLibrary.Version.ToString().Should().Be(explicitPackageVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void DuplicatePackageReferencesCanBeUsed()
         {
             var testProject = new TestProject()
@@ -724,7 +724,7 @@ public class Class1
             //  but not the command line, apparently due to differences in how the different restores handle
             //  duplicate package references.  So for this test, check the metadata.
 
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name),
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name),
                 testProject.TargetFrameworks, "PackageReference", GetValuesCommand.ValueType.Item);
 
             getValuesCommand.MetadataNames.Add("PrivateAssets");
@@ -747,7 +747,7 @@ public class Class1
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_Windows_App_SDK_items_in_the_correct_groups_if_Windows_App_SDK_is_present()
         {
             var testProject = new TestProject()
@@ -772,7 +772,7 @@ public class Class1
             }
 
             // Validate None items.
-            var getNoneItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
+            var getNoneItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
             getNoneItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -782,7 +782,7 @@ public class Class1
                 .BeEmpty();
 
             // Validate PRIResource items.
-            var getPRIResourceItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
+            var getPRIResourceItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
             getPRIResourceItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -791,7 +791,7 @@ public class Class1
             getPRIResourceItems.Should().BeEquivalentTo(new[] { "ResourcesResw.resw" });
 
             // Validate Content items.
-            var getContentItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
+            var getContentItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
             getContentItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -800,7 +800,7 @@ public class Class1
             getContentItems.Should().BeEquivalentTo(imageFiles);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_include_Windows_App_SDK_items_if_Windows_App_SDK_is_absent()
         {
             var testProject = new TestProject()
@@ -823,7 +823,7 @@ public class Class1
             }
 
             // Validate None items.
-            var getNoneItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
+            var getNoneItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "None", GetValuesCommand.ValueType.Item);
             getNoneItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -834,7 +834,7 @@ public class Class1
             getNoneItems.Should().BeEquivalentTo(expectedFiles.ToArray());
 
             // Validate PRIResource items.
-            var getPRIResourceItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
+            var getPRIResourceItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "PRIResource", GetValuesCommand.ValueType.Item);
             getPRIResourceItemsCommand.Execute()
                 .Should()
                 .Pass();
@@ -844,7 +844,7 @@ public class Class1
                 .BeEmpty();
 
             // Validate Content items.
-            var getContentItemsCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
+            var getContentItemsCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Content", GetValuesCommand.ValueType.Item);
             getContentItemsCommand.Execute()
                 .Should()
                 .Pass();

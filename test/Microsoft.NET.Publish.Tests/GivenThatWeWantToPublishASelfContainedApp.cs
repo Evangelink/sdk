@@ -12,11 +12,11 @@ namespace Microsoft.NET.Publish.Tests
         private const string TestProjectName = "HelloWorld";
         private const string TargetFramework = "netcoreapp2.1";
 
-        public GivenThatWeWantToPublishASelfContainedApp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishASelfContainedApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_errors_when_publishing_self_contained_without_apphost()
         {
             var runtimeIdentifier = RuntimeInformation.RuntimeIdentifier;
@@ -39,7 +39,7 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         // repro https://github.com/dotnet/sdk/issues/2466
-        [Fact]
+        [TestMethod]
         public void It_does_not_fail_publishing_a_self_twice()
         {
             var runtimeIdentifier = RuntimeInformation.RuntimeIdentifier;
@@ -103,7 +103,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Be(2);
         }
 
-        [RequiresMSBuildVersionFact("17.4.0.41702")]
+        [RequiresMSBuildVersionTestMethod("17.4.0.41702")]
         public void It_publishes_an_app_with_a_netcoreapp_lib_reference()
         {
             var testAsset = _testAssetsManager
@@ -219,7 +219,7 @@ namespace Microsoft.NET.Publish.Tests
                 });
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void NoStaticLibs()
         {
             var testAsset = _testAssetsManager

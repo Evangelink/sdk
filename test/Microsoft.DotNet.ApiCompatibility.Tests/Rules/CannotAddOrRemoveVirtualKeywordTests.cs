@@ -159,10 +159,10 @@ namespace CompatTests {{
             };
         }
 
-        [Theory]
-        [MemberData(nameof(RemovedCases))]
-        [MemberData(nameof(AddedCases))]
-        [MemberData(nameof(AddedCasesStrictMode))]
+        [TestMethod]
+        [DynamicData(nameof(RemovedCases))]
+        [DynamicData(nameof(AddedCases))]
+        [DynamicData(nameof(AddedCasesStrictMode))]
         public static void EnsureDiagnosticIsReported(string leftSyntax, string rightSyntax, bool strictMode, CompatDifference[] expected)
         {
             IAssemblySymbol left = SymbolFactory.GetAssemblyFromSyntax(leftSyntax);
@@ -171,10 +171,10 @@ namespace CompatTests {{
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void EnsureNoCrashWhenMembersDoNotExist()
         {
             string leftSyntax = @"
@@ -204,12 +204,12 @@ namespace CompatTests
             {
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.MemberMustExist, string.Empty, DifferenceType.Removed, "M:CompatTests.First.F"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
         // Don't run this test on .NET Framework, because default interface methods weren't introduced until C# 8.
 #if !NETFRAMEWORK
-        [Fact]
+        [TestMethod]
         public static void EnsureDiagnosticWhenAddingSealedToInterfaceMember()
         {
             string leftSyntax = @"
@@ -234,7 +234,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.Equal(new CompatDifference[]
+            Assert.AreEqual(new CompatDifference[]
             {
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.CannotAddSealedToInterfaceMember, string.Empty, DifferenceType.Added, "M:CompatTests.First.F")
             }, differences);

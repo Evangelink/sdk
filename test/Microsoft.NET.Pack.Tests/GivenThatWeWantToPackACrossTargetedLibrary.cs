@@ -5,11 +5,11 @@ namespace Microsoft.NET.Pack.Tests
 {
     public class GivenThatWeWantToPackACrossTargetedLibrary : SdkTest
     {
-        public GivenThatWeWantToPackACrossTargetedLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPackACrossTargetedLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("17.1.0.60101")]
+        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
         public void It_packs_nondesktop_library_successfully_on_all_platforms()
         {
             var testAsset = _testAssetsManager
@@ -18,7 +18,7 @@ namespace Microsoft.NET.Pack.Tests
 
             var libraryProjectDirectory = Path.Combine(testAsset.TestRoot, "NetStandardAndNetCoreApp");
 
-            new PackCommand(Log, libraryProjectDirectory)
+            new PackCommand(MSTestContext, libraryProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();

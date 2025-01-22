@@ -11,7 +11,7 @@ namespace Microsoft.NET.Build.Tests
 
     public class GivenThatWeWantToTargetNet471 : SdkTest
     {
-        public GivenThatWeWantToTargetNet471(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToTargetNet471(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -324,7 +324,7 @@ public static class Program
                 .Pass();
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void ZipFileCanBeSharedWithNetStandard16()
         {
             TestZipFileSharing(false);
@@ -479,7 +479,7 @@ public static class NS16LibClass
 
             var exePath = Path.Combine(buildCommand.GetOutputDirectory(testProject.TargetFrameworks).FullName, testProject.Name + ".exe");
 
-            new RunExeCommand(Log, exePath)
+            new RunExeCommand(MSTestContext, exePath)
                 .Execute()
                 .Should()
                 .Pass();
@@ -488,7 +488,7 @@ public static class NS16LibClass
         }
 
         //  Regression test for https://github.com/dotnet/sdk/issues/2479
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void HttpClient_can_be_used_in_project_references()
         {
             var referencedProject = new TestProject()

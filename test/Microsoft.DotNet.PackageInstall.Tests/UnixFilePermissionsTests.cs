@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
 {
     public class UnixFilePermissionsTests
     {
-        [Fact]
+        [TestMethod]
         public void GivenXmlPathItShouldDeserialize()
         {
             var fileList = FileList.Deserialize("UnixFilePermissionsSample.xml");

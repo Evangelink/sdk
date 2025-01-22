@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
     public class AssemblySetMapperTests
     {
-        [Fact]
+        [TestMethod]
         public void AssemblySetMapper_Ctor_PropertiesSet()
         {
             IRuleRunner ruleRunner = Mock.Of<IRuleRunner>();
@@ -22,20 +22,20 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
             AssemblySetMapper assemblySetMapper = new(ruleRunner, mapperSettings, rightSetSize);
 
             Assert.Null(assemblySetMapper.Left);
-            Assert.Equal(mapperSettings, assemblySetMapper.Settings);
-            Assert.Equal(rightSetSize, assemblySetMapper.Right.Length);
-            Assert.Equal(0, assemblySetMapper.AssemblyCount);
+            Assert.AreEqual(mapperSettings, assemblySetMapper.Settings);
+            Assert.AreEqual(rightSetSize, assemblySetMapper.Right.Length);
+            Assert.AreEqual(0, assemblySetMapper.AssemblyCount);
         }
 
-        [Fact]
+        [TestMethod]
         public void AssemblySetMapper_GetAssembliesWithoutLeftAndRight_EmptyResult()
         {
             AssemblySetMapper assemblySetMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1);
-            Assert.Empty(assemblySetMapper.GetAssemblies());
-            Assert.Equal(0, assemblySetMapper.AssemblyCount);
+            Assert.HasCount(0, assemblySetMapper.GetAssemblies());
+            Assert.AreEqual(0, assemblySetMapper.AssemblyCount);
         }
 
-        [Fact]
+        [TestMethod]
         public void AssemblySetMapper_GetAssemblies_ReturnsExpected()
         {
             string[] leftSyntaxes = new[]
@@ -121,12 +121,12 @@ namespace NamespaceInAssemblyD
             assemblySetMapper.AddElement(right1, ElementSide.Right);
             assemblySetMapper.AddElement(right2, ElementSide.Right, 1);
 
-            Assert.Equal(0, assemblySetMapper.AssemblyCount);
+            Assert.AreEqual(0, assemblySetMapper.AssemblyCount);
             IEnumerable<IAssemblyMapper> assemblyMappers = assemblySetMapper.GetAssemblies();
-            Assert.Equal(4, assemblySetMapper.AssemblyCount);
+            Assert.AreEqual(4, assemblySetMapper.AssemblyCount);
 
-            Assert.Equal(4, assemblyMappers.Count());
-            Assert.Equal(new string[] {
+            Assert.AreEqual(4, assemblyMappers.Count());
+            Assert.AreEqual(new string[] {
                     nameof(AssemblySetMapper_GetAssemblies_ReturnsExpected) + "-0",
                     nameof(AssemblySetMapper_GetAssemblies_ReturnsExpected) + "-1",
                     nameof(AssemblySetMapper_GetAssemblies_ReturnsExpected) + "-2",
@@ -142,8 +142,8 @@ namespace NamespaceInAssemblyD
             {
                 string expectedAssemblyName = nameof(AssemblySetMapper_GetAssemblies_ReturnsExpected) + $"-{counter}";
 
-                Assert.Equal(2, assemblyMapper.Right.Length);
-                Assert.True(assemblyMapper.Right.All(r => r?.Element.Name == expectedAssemblyName));
+                Assert.AreEqual(2, assemblyMapper.Right.Length);
+                Assert.IsTrue(assemblyMapper.Right.All(r => r?.Element.Name == expectedAssemblyName));
 
                 counter++;
             }

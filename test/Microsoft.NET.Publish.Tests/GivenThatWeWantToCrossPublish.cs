@@ -5,11 +5,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToCrossPublish : SdkTest
     {
-        public GivenThatWeWantToCrossPublish(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToCrossPublish(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void There_should_be_no_unresolved_conflicts()
         {
             var testProject = new TestProject()

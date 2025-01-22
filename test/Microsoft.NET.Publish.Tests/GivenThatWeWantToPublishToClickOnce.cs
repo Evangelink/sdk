@@ -9,13 +9,13 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAClickOnceProject : SdkTest
     {
-        public GivenThatWeWantToPublishAClickOnceProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAClickOnceProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyTheory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [FullMSBuildOnlyTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public void PublishClickOnceWithPublishProfile(bool? publishSingleFile)
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

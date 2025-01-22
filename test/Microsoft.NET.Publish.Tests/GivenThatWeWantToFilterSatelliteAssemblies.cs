@@ -7,13 +7,13 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToFilterSatelliteAssemblies : SdkTest
     {
-        public GivenThatWeWantToFilterSatelliteAssemblies(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToFilterSatelliteAssemblies(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("netcoreapp2.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
 
         public void It_only_publishes_selected_ResourceLanguages(string tfm)
         {
@@ -53,7 +53,7 @@ namespace Microsoft.NET.Publish.Tests
 
             publishDirectory.Should().OnlyHaveFiles(files);
         }
-        [Fact]
+        [TestMethod]
         public void It_publishes_all_satellites_when_not_filtered()
         {
             var testProject = new TestProject()

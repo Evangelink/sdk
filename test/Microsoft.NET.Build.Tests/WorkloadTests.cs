@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class WorkloadTests : SdkTest
     {
-        public WorkloadTests(ITestOutputHelper log) : base(log)
+        public WorkloadTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_build_with_workload()
         {
             var testProject = new TestProject()
@@ -31,7 +31,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_without_workload()
         {
             var testProject = new TestProject()
@@ -51,7 +51,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1147");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_create_suggested_workload_items()
         {
             var testProject = new TestProject()
@@ -84,7 +84,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo(new[] { ("microsoft-net-sdk-missingtestworkload", "microsoft.net.sdk.missingtestworkload") });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_to_restore_without_workload_when_multitargeted()
         {
             var testProject = new TestProject()
@@ -111,7 +111,7 @@ namespace Microsoft.NET.Build.Tests
             //  .HaveStdOutContaining("android");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_to_build_without_workload_when_multitargeted()
         {
             var testProject = new TestProject()
@@ -133,7 +133,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("android");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_to_build_when_multitargeted_to_unknown_platforms()
         {
             var testProject = new TestProject()
@@ -154,7 +154,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [Fact]
+        [TestMethod]
         public void It_should_fail_with_resolver_disabled()
         {
             var testProject = new TestProject()
@@ -176,7 +176,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1208");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_import_AutoImports_for_installed_workloads()
         {
             var testProject = new TestProject()
@@ -202,7 +202,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("true");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_import_aliased_pack()
         {
             var testProject = new TestProject()
@@ -231,7 +231,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("true");
         }
 
-        [Fact(Skip="https://github.com/dotnet/sdk/issues/45516")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45516")]
         public void It_should_get_suggested_workload_by_GetRequiredWorkloads_target()
         {
             var mainProject = new TestProject()
@@ -261,11 +261,11 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("android");
         }
 
-        [Theory(Skip="https://github.com/dotnet/sdk/issues/45516")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android", "android;ios")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFramework, null)]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45516")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android", "android;ios")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFramework, null)]
         public void Given_multi_target_It_should_get_suggested_workload_by_GetRequiredWorkloads_target(string mainTfm, string referencingTfm, string expected)
         {
             // Skip Test if SDK is < 6.0.400

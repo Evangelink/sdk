@@ -10,7 +10,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class ReferenceExeTests : SdkTest
     {
-        public ReferenceExeTests(ITestOutputHelper log) : base(log)
+        public ReferenceExeTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -146,7 +146,7 @@ public class ReferencedExeProgram
 
                 var referencedExePath = Path.Combine(outputDirectory, ReferencedProject.Name + Constants.ExeSuffix);
 
-                new RunExeCommand(Log, mainExePath)
+                new RunExeCommand(MSTestContext, mainExePath)
                     .Execute()
                     .Should()
                     .Pass()
@@ -154,7 +154,7 @@ public class ReferencedExeProgram
                     .HaveStdOut("Main project");
 
 
-                var referencedExeResult = new RunExeCommand(Log, referencedExePath)
+                var referencedExeResult = new RunExeCommand(MSTestContext, referencedExePath)
                     .Execute();
 
                 // If we're trimming and didn't reference the exe in source we would expect it to be trimmed from the output
@@ -186,9 +186,9 @@ public class ReferencedExeProgram
             }
         }
 
-        [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(true, true)]
         public void ReferencedExeCanRun(bool mainSelfContained, bool referencedSelfContained)
         {
             MainSelfContained = mainSelfContained;
@@ -199,7 +199,7 @@ public class ReferencedExeProgram
             RunTest();
         }
 
-        [Fact]
+        [TestMethod]
         public void ReferencedExeWithLowerTargetFrameworkCanRun()
         {
             MainSelfContained = false;
@@ -215,9 +215,9 @@ public class ReferencedExeProgram
 
         //  Having a self-contained and a framework-dependent app in the same folder is not supported (due to the way the host works).
         //  The referenced app will fail to run.  See here for more details: https://github.com/dotnet/sdk/pull/14488#issuecomment-725406998
-        [Theory]
-        [InlineData(true, false, "NETSDK1150")]
-        [InlineData(false, true, "NETSDK1151")]
+        [TestMethod]
+        [DataRow(true, false, "NETSDK1150")]
+        [DataRow(false, true, "NETSDK1151")]
         public void ReferencedExeFailsToBuildOnOlderTargetFrameworks(bool mainSelfContained, bool referencedSelfContained, string expectedFailureCode)
         {
             MainSelfContained = mainSelfContained;
@@ -230,7 +230,7 @@ public class ReferencedExeProgram
             RunTest(expectedFailureCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void ReferencedExeDoesNotFailToBuildWith8PlusTargetFrameworks()
         {
             MainSelfContained = false;
@@ -240,7 +240,7 @@ public class ReferencedExeProgram
             RunTest();
         }
 
-        [Fact]
+        [TestMethod]
         public void ReferencedExeCanRunWhenReferencesExeWithSelfContainedMismatchForDifferentTargetFramework()
         {
             MainSelfContained = true;
@@ -267,7 +267,7 @@ public class ReferencedExeProgram
             RunTest();
         }
 
-        [Fact]
+        [TestMethod]
         public void ReferencedExeFailsToBuildWhenReferencesExeWithSelfContainedMismatchForSameTargetFramework()
         {
             MainSelfContained = true;
@@ -288,9 +288,9 @@ public class ReferencedExeProgram
             RunTest("NETSDK1150");
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public void ReferencedExeCanRunWhenPublished(bool selfContained)
         {
             MainSelfContained = selfContained;
@@ -303,9 +303,9 @@ public class ReferencedExeProgram
             RunTest();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ReferencedExeCanRunWhenPublishedWithTrimming(bool referenceExeInCode)
         {
             MainSelfContained = true;
@@ -323,8 +323,8 @@ public class ReferencedExeProgram
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("xunit")]
-        [InlineData("mstest")]
+        [DataRow("xunit")]
+        [DataRow("mstest")]
         public void TestProjectCanReferenceExe(string testTemplateName)
         {
             var testConsoleProject = new TestProject("ConsoleApp")
@@ -339,20 +339,20 @@ public class ReferencedExeProgram
             var testProjectDirectory = Path.Combine(testAsset.TestRoot, "TestProject");
             Directory.CreateDirectory(testProjectDirectory);
 
-            new DotnetNewCommand(Log, testTemplateName)
+            new DotnetNewCommand(MSTestContext, testTemplateName)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log, "add", "reference", ".." + Path.DirectorySeparatorChar + testConsoleProject.Name)
+            new DotnetCommand(MSTestContext, "add", "reference", ".." + Path.DirectorySeparatorChar + testConsoleProject.Name)
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new BuildCommand(Log, testProjectDirectory)
+            new BuildCommand(MSTestContext, testProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();
@@ -360,8 +360,8 @@ public class ReferencedExeProgram
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("xunit")]
-        [InlineData("mstest")]
+        [DataRow("xunit")]
+        [DataRow("mstest")]
         public void ExeProjectCanReferenceTestProject(string testTemplateName)
         {
             var testConsoleProject = new TestProject("ConsoleApp")
@@ -376,7 +376,7 @@ public class ReferencedExeProgram
             var testProjectDirectory = Path.Combine(testAsset.TestRoot, "TestProject");
             Directory.CreateDirectory(testProjectDirectory);
 
-            new DotnetNewCommand(Log, testTemplateName)
+            new DotnetNewCommand(MSTestContext, testTemplateName)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute()
@@ -385,13 +385,13 @@ public class ReferencedExeProgram
 
             string consoleProjectDirectory = Path.Combine(testAsset.Path, testConsoleProject.Name);
 
-            new DotnetCommand(Log, "add", "reference", ".." + Path.DirectorySeparatorChar + "TestProject")
+            new DotnetCommand(MSTestContext, "add", "reference", ".." + Path.DirectorySeparatorChar + "TestProject")
                 .WithWorkingDirectory(consoleProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new BuildCommand(Log, consoleProjectDirectory)
+            new BuildCommand(MSTestContext, consoleProjectDirectory)
                 .Execute()
                 .Should()
                 .Pass();

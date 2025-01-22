@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         private readonly string _testTargetframework = BundledTargetFramework.GetTargetFrameworkMoniker();
         private readonly NuGetTestLogger _logger;
 
-        public NuGetPackageInstallerTests(ITestOutputHelper log) : base(log)
+        public NuGetPackageInstallerTests(MSTestContext testContext) : base(testContext)
         {
             _tempDirectory = GetUniqueTempProjectPathEachTest();
             _logger = new NuGetTestLogger();
@@ -43,12 +43,12 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                     restoreActionConfig: new RestoreActionConfig(NoCache: true), timer: () => ExponentialRetry.Timer(ExponentialRetry.TestingIntervals), shouldUsePackageSourceMapping: true);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenNoFeedInstallFailsWithException() =>
             await Assert.ThrowsAsync<NuGetPackageNotFoundException>(() =>
                 _installer.DownloadPackageAsync(TestPackageId, new NuGetVersion(TestPackageVersion)));
 
-        [Fact]
+        [TestMethod]
         public async Task GivenASourceInstallSucceeds()
         {
             string packagePath = await _installer.DownloadPackageAsync(
@@ -59,7 +59,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             packagePath.Should().Contain(_tempDirectory.Value, "Package should be downloaded to the input folder");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAFailedSourceItShouldError()
         {
             DirectoryPath nonExistFeed =
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                     new PackageSourceLocation(sourceFeedOverrides: new[] { nonExistFeed.Value })));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAFailedSourceAndIgnoreFailedSourcesItShouldNotThrowFatalProtocolException()
         {
             var installer =
@@ -92,7 +92,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                     })));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenNugetConfigInstallSucceeds()
         {
             FilePath nugetConfigPath = GenerateRandomNugetConfigFilePath();
@@ -106,7 +106,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAValidNugetConfigAndFailedSourceItShouldError()
         {
             DirectoryPath nonExistFeed =
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                         sourceFeedOverrides: new[] { nonExistFeed.Value })));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenAConfigFileRootDirectoryPackageInstallSucceedsViaFindingNugetConfigInParentDir()
         {
             FilePath nugetConfigPath = GenerateRandomNugetConfigFilePath();
@@ -142,7 +142,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenNoPackageVersionItCanInstallLatestVersionOfPackage()
         {
             NuGetVersion packageVersion = null;
@@ -154,12 +154,12 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenARelativeSourcePathInstallSucceeds()
         {
             string getTestLocalFeedPath = GetTestLocalFeedPath();
             string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, getTestLocalFeedPath);
-            Log.WriteLine(relativePath);
+            MSTestContext.WriteLine(relativePath);
             string packagePath = await _installer.DownloadPackageAsync(
                 TestPackageId,
                 new NuGetVersion(TestPackageVersion),
@@ -168,12 +168,12 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             packagePath.Should().Contain(_tempDirectory.Value, "Package should be downloaded to the input folder");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenNoPackageSourceMappingItShouldError()
         {
             string getTestLocalFeedPath = GetTestLocalFeedPath();
             string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, getTestLocalFeedPath);
-            Log.WriteLine(relativePath);
+            MSTestContext.WriteLine(relativePath);
             var dictionary = new Dictionary<string, IReadOnlyList<string>>
             {
                 { "sourceA", new List<string>() { "a" } }
@@ -189,12 +189,12 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             (await a.Should().ThrowAsync<NuGetPackageInstallerException>()).And.Message.Should().Contain(string.Format(LocalizableStrings.FailedToFindSourceUnderPackageSourceMapping, TestPackageId));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task GivenPackageSourceMappingFeedNotFoundItShouldError()
         {
             string getTestLocalFeedPath = GetTestLocalFeedPath();
             string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, getTestLocalFeedPath);
-            Log.WriteLine(relativePath);
+            MSTestContext.WriteLine(relativePath);
             var dictionary = new Dictionary<string, IReadOnlyList<string>>
             {
                 { "nonexistentfeed", new List<string>() { TestPackageId.ToString() } }
@@ -210,12 +210,12 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             (await a.Should().ThrowAsync<NuGetPackageInstallerException>()).And.Message.Should().Contain(string.Format(LocalizableStrings.FailedToMapSourceUnderPackageSourceMapping, TestPackageId));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task WhenPassedIncludePreviewItInstallSucceeds()
         {
             string getTestLocalFeedPath = GetTestLocalFeedPath();
             string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, getTestLocalFeedPath);
-            Log.WriteLine(relativePath);
+            MSTestContext.WriteLine(relativePath);
             string packagePath = await _installer.DownloadPackageAsync(
                 TestPackageId,
                 packageSourceLocation: new PackageSourceLocation(sourceFeedOverrides: new[] { relativePath }),

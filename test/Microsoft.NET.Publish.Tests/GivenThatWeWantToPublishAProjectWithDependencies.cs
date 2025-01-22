@@ -10,11 +10,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAProjectWithDependencies : SdkTest
     {
-        public GivenThatWeWantToPublishAProjectWithDependencies(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAProjectWithDependencies(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_projects_with_simple_dependencies()
         {
             string targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -41,7 +41,7 @@ namespace Microsoft.NET.Publish.Tests
 
             string appPath = publishCommand.GetPublishedAppPath("SimpleDependencies", targetFramework);
 
-            TestCommand runAppCommand = new DotnetCommand(Log, appPath, "one", "two");
+            TestCommand runAppCommand = new DotnetCommand(MSTestContext, appPath, "one", "two");
 
             string expectedOutput =
 @"{
@@ -79,7 +79,7 @@ namespace Microsoft.NET.Publish.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_projects_targeting_netcoreapp11_with_p2p_targeting_netcoreapp11()
         {
             // Microsoft.NETCore.App 1.1.0 added a dependency on Microsoft.DiaSymReader.Native.
@@ -99,7 +99,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_projects_with_simple_dependencies_with_filter_profile()
         {
             string project = "SimpleDependencies";
@@ -146,7 +146,7 @@ namespace Microsoft.NET.Publish.Tests
             // See https://github.com/dotnet/cli/blob/358568b07f16749108dd33e7fea2f2c84ccf4563/test/dotnet-store.Tests/GivenDotnetStoresAndPublishesProjects.cs
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_projects_with_filter_and_rid()
         {
             string project = "SimpleDependencies";
@@ -192,11 +192,11 @@ namespace Microsoft.NET.Publish.Tests
             });
         }
 
-        [Theory]
-        [InlineData("GenerateDocumentationFile=true", true, true)]
-        [InlineData("GenerateDocumentationFile=true;PublishDocumentationFile=false", false, true)]
-        [InlineData("GenerateDocumentationFile=true;PublishReferencesDocumentationFiles=false", true, false)]
-        [InlineData("GenerateDocumentationFile=true;PublishDocumentationFiles=false", false, false)]
+        [TestMethod]
+        [DataRow("GenerateDocumentationFile=true", true, true)]
+        [DataRow("GenerateDocumentationFile=true;PublishDocumentationFile=false", false, true)]
+        [DataRow("GenerateDocumentationFile=true;PublishReferencesDocumentationFiles=false", true, false)]
+        [DataRow("GenerateDocumentationFile=true;PublishDocumentationFiles=false", false, false)]
         public void It_publishes_documentation_files(string properties, bool expectAppDocPublished, bool expectLibProjectDocPublished)
         {
             var kitchenSinkAsset = _testAssetsManager
@@ -230,9 +230,9 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [Theory]
-        [InlineData("PublishReferencesDocumentationFiles=false", false)]
-        [InlineData("PublishReferencesDocumentationFiles=true", true)]
+        [TestMethod]
+        [DataRow("PublishReferencesDocumentationFiles=false", false)]
+        [DataRow("PublishReferencesDocumentationFiles=true", true)]
         public void It_publishes_referenced_assembly_documentation(string property, bool expectAssemblyDocumentationFilePublished)
         {
             var identifier = property.Replace("=", "");
@@ -245,7 +245,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var libAsset = _testAssetsManager.CreateTestProject(libProject, identifier: identifier);
 
-            var libPublishCommand = new PublishCommand(Log, Path.Combine(libAsset.TestRoot, "NetStdLib"));
+            var libPublishCommand = new PublishCommand(MSTestContext, Path.Combine(libAsset.TestRoot, "NetStdLib"));
             var libPublishResult = libPublishCommand.Execute("/t:Publish", "/p:GenerateDocumentationFile=true");
             libPublishResult.Should().Pass();
             var publishedLibPath = Path.Combine(libPublishCommand.GetOutputDirectory("netstandard1.0").FullName, "NetStdLib.dll");

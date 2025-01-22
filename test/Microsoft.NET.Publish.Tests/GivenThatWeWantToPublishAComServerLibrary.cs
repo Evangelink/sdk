@@ -5,7 +5,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAComServerLibrary : SdkTest
     {
-        public GivenThatWeWantToPublishAComServerLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAComServerLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 

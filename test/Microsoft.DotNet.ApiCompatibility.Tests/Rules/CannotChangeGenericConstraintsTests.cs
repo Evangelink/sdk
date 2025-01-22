@@ -112,7 +112,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
                 VirtualMethodsWithoutConstraints,
                 RemovedMethodConstraintDifferences
             },
-            
+
             // removing constraints sealed class
             {
                 SealedClassesWithConstraints,
@@ -127,7 +127,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
                 Array.Empty<CompatDifference>()
             },
 
-            // adding constraints to class          
+            // adding constraints to class
             {
                 ClassesWithoutConstraints,
                 ClassesWithConstraints,
@@ -141,7 +141,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
                 AddedMethodConstraintDifferences
             },
 
-            // adding constraint to sealed class           
+            // adding constraint to sealed class
             {
                 SealedClassesWithoutConstraints,
                 SealedClassesWithConstraints,
@@ -194,7 +194,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
         public static TheoryData<string, string, CompatDifference[]> StrictMode => new()
         {
             // in strict mode we don't allow removals even on sealed classes / virtual methods
-            
+
             // removing constraints sealed class
             {
                 SealedClassesWithConstraints,
@@ -210,8 +210,8 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             },
         };
 
-        [Theory]
-        [MemberData(nameof(TestCases))]
+        [TestMethod]
+        [DynamicData(nameof(TestCases))]
         public void EnsureDiagnosticIsReported(string leftSyntax, string rightSyntax, CompatDifference[] expected)
         {
             IAssemblySymbol left = SymbolFactory.GetAssemblyFromSyntax(leftSyntax);
@@ -220,11 +220,11 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             IEnumerable<CompatDifference> actual = differ.GetDifferences(left, right);
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Theory]
-        [MemberData(nameof(StrictMode))]
+        [TestMethod]
+        [DynamicData(nameof(StrictMode))]
         public void EnsureDiagnosticIsReportedInStrictMode(string leftSyntax, string rightSyntax, CompatDifference[] expected)
         {
             IAssemblySymbol left = SymbolFactory.GetAssemblyFromSyntax(leftSyntax);
@@ -235,7 +235,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             IEnumerable<CompatDifference> actual = differ.GetDifferences(left, right);
 
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

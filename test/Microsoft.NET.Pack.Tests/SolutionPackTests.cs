@@ -5,11 +5,11 @@ namespace Microsoft.NET.Pack.Tests
 {
     public class SolutionPackTests : SdkTest
     {
-        public SolutionPackTests(ITestOutputHelper log) : base(log)
+        public SolutionPackTests(MSTestTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanPackASolutionWithOutputPath()
         {
             var testProject1 = new TestProject()
@@ -28,7 +28,7 @@ namespace Microsoft.NET.Pack.Tests
 
             string packageOutputPath = Path.Combine(testAsset.Path, "output", "packages");
 
-            new DotnetCommand(Log, "pack", "--output", packageOutputPath)
+            new DotnetCommand(MSTestContext, "pack", "--output", packageOutputPath)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()

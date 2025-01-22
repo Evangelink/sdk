@@ -136,7 +136,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             MSBuildRegistrar.RegisterInstance();
             using var workspace = (MSBuildWorkspace)await MSBuildWorkspaceLoader.LoadAsync(projectFilePath, WorkspaceType.Project, binaryLogPath, logWorkspaceWarnings: true, logger, CancellationToken.None);
 
-            Assert.Empty(workspace.Diagnostics);
+            Assert.HasCount(0, workspace.Diagnostics);
 
             var project = workspace.CurrentSolution.Projects.Single();
             var compilation = await project.GetCompilationAsync();
@@ -145,7 +145,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             var diagnostics = compilation.GetDiagnostics()
                 .Where(diagnostic => diagnostic.Severity > DiagnosticSeverity.Hidden && ignoredDiagnostics?.Contains(diagnostic.Id) != true);
 
-            Assert.Empty(diagnostics);
+            Assert.HasCount(0, diagnostics);
         }
 
         private static void CleanupProject(string templateName, string languageName)

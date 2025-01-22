@@ -5,11 +5,11 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 {
     public class GivenAppThrowingException : SdkTest
     {
-        public GivenAppThrowingException(ITestOutputHelper log) : base(log)
+        public GivenAppThrowingException(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresSpecificFrameworkFact("netcoreapp1.1")]
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
         public void ItShowsStackTraceWhenRun()
         {
             var root = _testAssetsManager.CopyTestAsset("AppThrowingException", testAssetSubdirectory: TestAssetSubdirectories.NonRestoredTestProjects)
@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             string msg1 = "Unhandled exception. AppThrowing.MyException: "
                 + "Exception of type 'AppThrowing.MyException' was thrown.";
             string msg2 = "at AppThrowing.MyException.Main(String[] args)";
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(appRoot)
                 .Execute("run")
                 .Should().Fail()
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
                          .And.HaveStdErrContaining(msg2);
         }
 
-        [RequiresSpecificFrameworkFact("netcoreapp1.1")]
+        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
         public void ItShowsStackTraceWhenRunAsTool()
         {
             var root = _testAssetsManager.CopyTestAsset("AppThrowingException", testAssetSubdirectory: TestAssetSubdirectories.NonRestoredTestProjects)
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 
             var appRoot = Path.Combine(root, "App");
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(appRoot)
                 .Execute("-o", "../pkgs")
                 .Should()
@@ -46,14 +46,14 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 
             var appWithToolDepRoot = Path.Combine(root, "AppDependingOnOtherAsTool");
 
-            new RestoreCommand(Log, appWithToolDepRoot)
+            new RestoreCommand(MSTestContext, appWithToolDepRoot)
                 .Execute()
                 .Should().Pass();
 
             string msg1 = "Unhandled exception. AppThrowing.MyException: "
                 + "Exception of type 'AppThrowing.MyException' was thrown.";
             string msg2 = "at AppThrowing.MyException.Main(String[] args)";
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(appWithToolDepRoot)
                 .Execute("throwingtool")
                 .Should().Fail()

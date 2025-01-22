@@ -7,16 +7,16 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class PublishWpfApp : SdkTest
     {
-        public PublishWpfApp(ITestOutputHelper log) : base(log)
+        public PublishWpfApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_publishes_and_runs_self_contained_wpf_app()
         {
             var testDir = _testAssetsManager.CreateTestDirectory();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDir.Path)
                 .Execute("wpf")
@@ -39,12 +39,12 @@ namespace Microsoft.NET.Publish.Tests
 
             File.WriteAllText(mainWindowXamlCsPath, csContents);
 
-            var restoreCommand = new RestoreCommand(Log, testDir.Path);
+            var restoreCommand = new RestoreCommand(MSTestContext, testDir.Path);
             restoreCommand.Execute($"/p:RuntimeIdentifier={rid}")
                 .Should()
                 .Pass();
 
-            var publishCommand = new PublishCommand(Log, testDir.Path);
+            var publishCommand = new PublishCommand(MSTestContext, testDir.Path);
 
             publishCommand.Execute($"/p:RuntimeIdentifier={rid}", "/p:SelfContained=true")
                 .Should()

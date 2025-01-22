@@ -17,13 +17,13 @@ namespace Microsoft.DotNet.PackageInstall.Tests
 {
     public class ToolPackageInstallToManagedLocationInstaller : SdkTest
     {
-        public ToolPackageInstallToManagedLocationInstaller(ITestOutputHelper log) : base(log)
+        public ToolPackageInstallToManagedLocationInstaller(MSTestContext testContext) : base(testContext)
         {
         }
 
         [WindowsOnlyTheory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [DataRow(false)]
+        [DataRow(true)]
         public void GivenNugetConfigInstallSucceeds(bool testMockBehaviorIsInSync)
         {
             string testDirectory = _testAssetsManager.CreateTestDirectory(identifier: testMockBehaviorIsInSync.ToString()).Path;
@@ -60,14 +60,14 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             {
                 foreach (var line in reporter.Lines)
                 {
-                    Log.WriteLine(line);
+                    MSTestContext.WriteLine(line);
                 }
             }
         }
 
         [WindowsOnlyTheory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [DataRow(false)]
+        [DataRow(true)]
         public void GivenNugetConfigVersionRangeInstallSucceeds(bool testMockBehaviorIsInSync)
         {
             string testDirectory = _testAssetsManager.CreateTestDirectory(identifier: testMockBehaviorIsInSync.ToString()).Path;

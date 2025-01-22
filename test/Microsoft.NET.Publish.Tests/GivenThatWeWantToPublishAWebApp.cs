@@ -7,11 +7,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishAWebApp : SdkTest
     {
-        public GivenThatWeWantToPublishAWebApp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishAWebApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_as_framework_dependent_by_default()
         {
             var testAsset = _testAssetsManager
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Publish.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_should_publish_self_contained_for_2x()
         {
             var tfm = "netcoreapp2.2";
@@ -104,9 +104,9 @@ namespace Microsoft.NET.Publish.Tests
         }
 
 
-        [Theory]
-        [InlineData("Microsoft.AspNetCore.App")]
-        [InlineData("Microsoft.AspNetCore.All")]
+        [TestMethod]
+        [DataRow("Microsoft.AspNetCore.App")]
+        [DataRow("Microsoft.AspNetCore.All")]
         public void It_should_publish_framework_dependent_for_2x(string platformLibrary)
         {
             var tfm = "netcoreapp2.2";
@@ -147,16 +147,16 @@ namespace Microsoft.NET.Publish.Tests
             });
         }
 
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData(false, null)]
-        [InlineData(true, null)]
-        [InlineData(null, false)]
-        [InlineData(null, true)]
-        [InlineData(false, false)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(true, true)]
+        [TestMethod]
+        [DataRow(null, null)]
+        [DataRow(false, null)]
+        [DataRow(true, null)]
+        [DataRow(null, false)]
+        [DataRow(null, true)]
+        [DataRow(false, false)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(true, true)]
         public void PublishWebAppWithPublishProfile(bool? selfContained, bool? useAppHost)
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

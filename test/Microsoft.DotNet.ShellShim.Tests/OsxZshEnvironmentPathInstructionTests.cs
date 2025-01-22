@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.ShellShim.Tests
         }
 
         [UnixOnlyTheory]
-        [InlineData("/home/user/.dotnet/tools")]
+        [DataRow("/home/user/.dotnet/tools")]
         public void GivenPathSetItPrintsNothing(string toolsDirectoryOnPath)
         {
             BufferedReporter reporter = new();
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.ShellShim.Tests
         }
 
         [UnixOnlyTheory]
-        [InlineData("~/.dotnet/tools")]
+        [DataRow("~/.dotnet/tools")]
         public void GivenPathSetItPrintsInstruction(string toolsDirectoryOnPath)
         {
             BufferedReporter reporter = new();

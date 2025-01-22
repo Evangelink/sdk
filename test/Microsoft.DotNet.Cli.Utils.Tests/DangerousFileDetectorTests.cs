@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
     {
         private const int REGDB_E_CLASSNOTREG = unchecked((int)0x80040154);
 
-        public DangerousFileDetectorTests(ITestOutputHelper log) : base(log)
+        public DangerousFileDetectorTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenThereIsNoFileItReturnsFalse()
         {
             var testFile = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, Path.GetRandomFileName());

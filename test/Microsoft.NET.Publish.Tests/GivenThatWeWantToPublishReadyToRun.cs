@@ -13,14 +13,14 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToPublishReadyToRun : SdkTest
     {
-        public GivenThatWeWantToPublishReadyToRun(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToPublishReadyToRun(MSTestContext testContext) : base(testContext)
         {
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("netcoreapp3.0")]
-        [InlineData("net5.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("netcoreapp3.0")]
+        [DataRow("net5.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_only_runs_readytorun_compiler_when_switch_is_enabled(string targetFramework)
         {
             var projectName = "CrossgenTest1";
@@ -47,7 +47,7 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_creates_readytorun_images_for_all_assemblies_except_excluded_ones(string targetFramework)
         {
             var projectName = "CrossgenTest2";
@@ -91,23 +91,23 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_creates_readytorun_symbols_when_switch_is_used(string targetFramework)
         {
             TestProjectPublishing_Internal("CrossgenTest3", targetFramework, emitNativeSymbols: true, composite: false, identifier: targetFramework);
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_supports_framework_dependent_publishing(string targetFramework)
         {
             TestProjectPublishing_Internal("FrameworkDependent", targetFramework, isSelfContained: false, composite: false, emitNativeSymbols: true, identifier: targetFramework);
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.0")]
-        [InlineData("net5.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("netcoreapp3.0")]
+        [DataRow("net5.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_does_not_support_cross_platform_readytorun_compilation(string targetFramework)
         {
             var ridToUse = EnvironmentInfo.GetCompatibleRid(targetFramework);
@@ -160,7 +160,7 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContainingIgnoreCase("NETSDK1095");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_warns_when_targetting_netcoreapp_2_x_readytorun()
         {
             var testProject = new TestProject()
@@ -183,22 +183,22 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_readytorun_for_library_projects(string targetFramework)
         {
             TestProjectPublishing_Internal("LibraryProject1", targetFramework, isSelfContained: false, composite: false, makeExeProject: false, identifier: targetFramework);
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_readytorun_for_selfcontained_library_projects(string targetFramework)
         {
             TestProjectPublishing_Internal("LibraryProject2", targetFramework, isSelfContained: true, composite: true, makeExeProject: false, identifier: targetFramework);
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("net6.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("net6.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         void It_can_publish_readytorun_using_crossgen2(string targetFramework)
         {
             // In .NET 5 Crossgen2 supported Linux/Windows x64 only
@@ -210,8 +210,8 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("net6.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("net6.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         void It_can_publish_readytorun_using_crossgen2_composite_mode(string targetFramework)
         {
             // In .NET 5 Crossgen2 supported Linux/Windows x64 only
@@ -223,8 +223,8 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("net6.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("net6.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_supports_libraries_when_using_crossgen2(string targetFramework)
         {
             // In .NET 5 Crossgen2 supported Linux/Windows x64 only
@@ -245,18 +245,18 @@ namespace Microsoft.NET.Publish.Tests
 
             var testProjectInstance = _testAssetsManager.CreateTestProject(testProject, targetFramework);
 
-            var publishCommand = new PublishCommand(Log, Path.Combine(testProjectInstance.Path, testProject.Name));
+            var publishCommand = new PublishCommand(MSTestContext, Path.Combine(testProjectInstance.Path, testProject.Name));
             publishCommand.Execute().Should().Pass();
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "_", "_")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "composite", "selfcontained")] // Composite in .NET 6.0 is only supported for self-contained builds
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "_", "_")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "composite", "selfcontained")] // Composite in .NET 6.0 is only supported for self-contained builds
         // In .NET 6.0 building targeting Windows on linux or osx doesn't support emitting native symbols.
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "win-x64", "windows", "X64,Arm64", "composite", "selfcontained")] // Composite in .NET 6.0 is only supported for self-contained builds
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "osx-arm64", "windows,linux,osx", "X64,Arm64", "_", "_")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "win-x64", "windows", "X64,Arm64", "composite", "selfcontained")] // Composite in .NET 6.0 is only supported for self-contained builds
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "osx-arm64", "windows,linux,osx", "X64,Arm64", "_", "_")]
         // In .NET 6.0 building targeting Windows on linux or osx doesn't support emitting native symbols.
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "win-x86", "windows", "X86,X64,Arm64,Arm", "_", "_")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "win-x86", "windows", "X86,X64,Arm64,Arm", "_", "_")]
         public void It_supports_crossos_arch_compilation(string targetFramework, string runtimeIdentifier, string sdkSupportedOs, string sdkSupportedArch, string composite, string selfcontained)
         {
             var projectName = $"CrossArchOs{targetFramework}{runtimeIdentifier.Replace("-", ".")}{composite}{selfcontained}";
@@ -275,19 +275,19 @@ namespace Microsoft.NET.Publish.Tests
             }
 
             Assert.NotEqual("NOTHING", sdkOs); // We should know which OS we are running on
-            Log.WriteLine($"sdkOs = {sdkOs}");
+            MSTestContext.WriteLine($"sdkOs = {sdkOs}");
             if (!sdkSupportedOs.Contains(sdkOs))
             {
-                Log.WriteLine("Running test on OS that doesn't support this cross platform build");
+                MSTestContext.WriteLine("Running test on OS that doesn't support this cross platform build");
                 return;
             }
 
             string sdkArch = RuntimeInformation.ProcessArchitecture.ToString();
-            Log.WriteLine($"sdkArch = {sdkArch}");
+            MSTestContext.WriteLine($"sdkArch = {sdkArch}");
             Assert.Contains(sdkArch, new string[] { "Arm", "Arm64", "X64", "X86" }); // Assert that the Architecture in use is a known architecture
             if (!sdkSupportedArch.Split(',').Contains(sdkArch))
             {
-                Log.WriteLine("Running test on processor architecture that doesn't support this cross platform build");
+                MSTestContext.WriteLine("Running test on processor architecture that doesn't support this cross platform build");
                 return;
             }
 
@@ -389,7 +389,7 @@ namespace Microsoft.NET.Publish.Tests
             NuGetFramework framework = NuGetFramework.Parse(targetFramework);
             if (emitNativeSymbols && (!IsTargetOsOsX(testProject.RuntimeIdentifier) || framework.Version.Major >= 6))
             {
-                Log.WriteLine("Checking for symbol files");
+                MSTestContext.WriteLine("Checking for symbol files");
                 IEnumerable<string> pdbFiles;
 
                 if (composite)
@@ -406,7 +406,7 @@ namespace Microsoft.NET.Publish.Tests
 
                 foreach (string s in pdbFiles)
                 {
-                    Log.WriteLine($"{publishDirectory.FullName} {s}");
+                    MSTestContext.WriteLine($"{publishDirectory.FullName} {s}");
                 }
 
                 publishDirectory.Should().HaveFiles(pdbFiles);

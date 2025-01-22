@@ -20,12 +20,12 @@ namespace Microsoft.DotNet.Tools.Tool.Install
         private readonly IReporter _reporter;
         private readonly IReporter _errorReporter;
         private readonly IEnumerable<string> _additionalRestoreArguments;
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public Stage2ProjectRestorer(ITestOutputHelper log, IReporter reporter = null,
+        public Stage2ProjectRestorer(MSTestContext testContext, IReporter reporter = null,
             IEnumerable<string> additionalRestoreArguments = null)
         {
-            _log = log;
+            _testContext = testContext;
             _additionalRestoreArguments = additionalRestoreArguments;
             _reporter = reporter ?? Reporter.Output;
             _errorReporter = reporter ?? Reporter.Error;
@@ -57,7 +57,7 @@ namespace Microsoft.DotNet.Tools.Tool.Install
             }
 
             var command =
-                new DotnetRestoreCommand(_log).
+                new DotnetRestoreCommand(_testContext).
                 Execute(argsToPassToRestore);
 
             if (!string.IsNullOrWhiteSpace(command.StdOut) && (_reporter != null))

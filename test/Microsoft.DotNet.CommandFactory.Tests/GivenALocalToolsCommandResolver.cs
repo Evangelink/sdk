@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Tests
         private readonly LocalToolsResolverCache _localToolsResolverCache;
         private readonly IFileSystem _fileSystem;
 
-        public GivenALocalToolsCommandResolver(ITestOutputHelper log) : base(log)
+        public GivenALocalToolsCommandResolver(MSTestContext testContext) : base(testContext)
         {
             _fileSystem = new FileSystemMockBuilder().UseCurrentSystemTemporaryDirectory().Build();
             _nugetGlobalPackagesFolder = new DirectoryPath(NuGetGlobalPackagesFolder.GetLocation());
@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Tests
                 new DirectoryPath(Path.Combine(temporaryDirectory, "cache")));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenResolveStrictItCanFindToolExecutable()
         {
             (FilePath fakeExecutable, LocalToolsCommandResolver localToolsCommandResolver) = DefaultSetup(toolCommand: "a");
@@ -49,9 +49,9 @@ namespace Microsoft.DotNet.Tests
             commandPath.Should().Be(fakeExecutable.Value);
         }
 
-        [Theory]
-        [InlineData("a")]
-        [InlineData("dotnet-a")]
+        [TestMethod]
+        [DataRow("a")]
+        [DataRow("dotnet-a")]
         public void WhenResolveItCanFindToolExecutable(string toolCommand)
         {
             (FilePath fakeExecutable, LocalToolsCommandResolver localToolsCommandResolver) = DefaultSetup(toolCommand);
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Tests
             commandPath.Should().Be(fakeExecutable.Value);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenResolveWithNoArgumentsItReturnsNull()
         {
             (FilePath fakeExecutable, LocalToolsCommandResolver localToolsCommandResolver) = DefaultSetup("-d");
@@ -112,7 +112,7 @@ namespace Microsoft.DotNet.Tests
             return (fakeExecutable, localToolsCommandResolver);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNuGetGlobalPackageLocationIsCleanedAfterRestoreItShowError()
         {
             ToolCommandName toolCommandNameA = new("a");
@@ -153,7 +153,7 @@ namespace Microsoft.DotNet.Tests
                 toolCommandNameA.ToString()));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNuGetGlobalPackageLocationIsNotRestoredItThrowsGracefulException()
         {
             ToolCommandName toolCommandNameA = new("a");
@@ -177,7 +177,7 @@ namespace Microsoft.DotNet.Tests
                 toolCommandNameA.ToString()));
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanResolveAmbiguityCausedByPrefixDotnetDash()
         {
             _fileSystem.File.WriteAllText(Path.Combine(_testDirectoryRoot, ManifestFilename),

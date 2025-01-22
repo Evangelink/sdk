@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Tests
 {
     public class GivenAnAppBaseCommandResolver
     {
-        [Fact]
+        [TestMethod]
         public void It_returns_null_when_CommandName_is_null()
         {
             var appBaseCommandResolver = SetupPlatformAppBaseCommandResolver(forceGeneric: true);
@@ -26,7 +26,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_returns_null_when_CommandName_does_not_exist_applocal()
         {
             var appBaseCommandResolver = SetupPlatformAppBaseCommandResolver(forceGeneric: true);
@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_returns_a_CommandSpec_with_CommandName_as_FileName_when_CommandName_exists_applocal()
         {
             var environment = CommandResolverTestUtils.SetupEnvironmentProviderWhichFindsExtensions(".exe");
@@ -65,7 +65,7 @@ namespace Microsoft.DotNet.Tests
             commandFile.Should().Be("appbasetestcommand1");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_returns_null_when_CommandName_exists_applocal_in_a_subdirectory()
         {
             var environment = CommandResolverTestUtils.SetupEnvironmentProviderWhichFindsExtensions(".exe");
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Tests
             result.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_escapes_CommandArguments_when_returning_a_CommandSpec()
         {
             var environment = CommandResolverTestUtils.SetupEnvironmentProviderWhichFindsExtensions(".exe");
@@ -105,7 +105,7 @@ namespace Microsoft.DotNet.Tests
             result.Args.Should().Be("\"arg with space\"");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_returns_a_CommandSpec_with_Args_as_stringEmpty_when_returning_a_CommandSpec_and_CommandArguments_are_null()
         {
             var environment = CommandResolverTestUtils.SetupEnvironmentProviderWhichFindsExtensions(".exe");
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.Tests
             result.Args.Should().Be(string.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_prefers_EXE_over_CMD_when_two_command_candidates_exist_and_using_WindowsExePreferredCommandSpecFactory()
         {
             var environment = CommandResolverTestUtils.SetupEnvironmentProviderWhichFindsExtensions(".exe");

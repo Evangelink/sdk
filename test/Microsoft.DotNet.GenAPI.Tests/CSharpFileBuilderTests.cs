@@ -83,11 +83,11 @@ namespace Microsoft.DotNet.GenAPI.Tests
             SyntaxTree expectedSyntaxTree = GetSyntaxTree(expected);
 
             // compare SyntaxTree and not string representation
-            Assert.True(resultedSyntaxTree.IsEquivalentTo(expectedSyntaxTree),
+            Assert.IsTrue(resultedSyntaxTree.IsEquivalentTo(expectedSyntaxTree),
                 $"Expected:\n{expected}\nResulted:\n{resultedString}");
         }
 
-        [Fact]
+        [TestMethod]
         public void TestNamespaceDeclaration()
         {
             RunTest(original: """
@@ -103,7 +103,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestClassDeclaration()
         {
             RunTest(original: """
@@ -133,7 +133,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestStructDeclaration()
         {
             RunTest(original: """
@@ -229,7 +229,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestRecordDeclaration()
         {
             RunTest(original: """
@@ -342,7 +342,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestRecordStructDeclaration()
         {
             RunTest(original: """
@@ -562,7 +562,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInterfaceGeneration()
         {
             RunTest(original: """
@@ -593,7 +593,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestEnumGeneration()
         {
             RunTest(original: """
@@ -620,7 +620,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPropertyGeneration()
         {
             RunTest(original: """
@@ -649,7 +649,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestAbstractPropertyGeneration()
         {
             RunTest(original: """
@@ -674,7 +674,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExplicitInterfaceImplementation()
         {
             RunTest(original: """
@@ -719,7 +719,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPartiallySpecifiedGenericClassGeneration()
         {
             RunTest(original: """
@@ -744,7 +744,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGenericClassWitConstraintsParameterGeneration()
         {
             RunTest(original: """
@@ -767,7 +767,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPublicMembersGeneration()
         {
             RunTest(original: """
@@ -817,7 +817,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestDelegateGeneration()
         {
             RunTest(original: """
@@ -834,7 +834,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestAbstractEventGeneration()
         {
             RunTest(original: """
@@ -867,7 +867,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestCustomAttributeGeneration()
         {
             RunTest(original: """
@@ -937,7 +937,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestFullyQualifiedNamesForDefaultEnumParameters()
         {
             RunTest(original: """
@@ -983,7 +983,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestCustomComparisonOperatorGeneration()
         {
             RunTest(original: """
@@ -1014,7 +1014,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestNestedClassGeneration()
         {
             RunTest(original: """
@@ -1044,7 +1044,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 }
                 """);
         }
-        [Fact]
+        [TestMethod]
         public void TestExplicitInterfaceImplementationMethodGeneration()
         {
             RunTest(original: """
@@ -1067,7 +1067,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestNullabilityGeneration()
         {
             RunTest(original: """
@@ -1096,7 +1096,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExtensionMethodsGeneration()
         {
             RunTest(original: """
@@ -1119,7 +1119,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestMethodsWithVariableNumberOfArgumentsGeneration()
         {
             RunTest(original: """
@@ -1142,7 +1142,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestConversionOperatorGeneration()
         {
             RunTest(original: """
@@ -1178,7 +1178,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestDestructorGeneration()
         {
             RunTest(original: """
@@ -1201,7 +1201,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExplicitInterfaceImplementationPropertyGeneration()
         {
             RunTest(original: """
@@ -1240,7 +1240,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestAccessibilityGenerationForPropertyAccessors()
         {
             RunTest(original: """
@@ -1263,7 +1263,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestConstantFieldGeneration()
         {
             RunTest(original: """
@@ -1287,7 +1287,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public void TestTypeParameterVarianceGeneration()
         {
             RunTest(original: """
@@ -1311,7 +1311,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public void TestRefMembersGeneration()
         {
             RunTest(original: """
@@ -1343,7 +1343,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public void TestDefaultConstraintOnOverrideGeneration()
         {
             RunTest(original: """
@@ -1381,7 +1381,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsForValueTypes()
         {
             RunTest(original: """
@@ -1407,7 +1407,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsForReferenceTypes()
         {
             RunTest(original: """
@@ -1432,7 +1432,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsForGenericTypes()
         {
             RunTest(original: """
@@ -1456,7 +1456,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsForNestedGenericTypes()
         {
             RunTest(original: """
@@ -1484,7 +1484,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsAngleBrackets()
         {
             RunTest(original: """
@@ -1512,7 +1512,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSynthesizePrivateFieldsForInaccessibleNestedGenericTypes()
         {
             RunTest(original: """
@@ -1542,7 +1542,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeWithoutExplicitDefault()
         {
             RunTest(original: """
@@ -1572,7 +1572,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeWithExplicitDefaultConstructor()
         {
             RunTest(original: """
@@ -1603,7 +1603,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalParameterlessConstructors()
         {
             RunTest(original: """
@@ -1637,7 +1637,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalParameterizedConstructors()
         {
             RunTest(original: """
@@ -1695,7 +1695,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalParameterizedConstructorsPreserveInternals()
         {
             RunTest(original: """
@@ -1761,7 +1761,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     includeInternalSymbols: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalConstructorCallingProtected()
         {
             RunTest(original: """
@@ -1795,7 +1795,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeWithoutDefaultConstructor()
         {
             RunTest(original: """
@@ -1836,7 +1836,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeWithMultipleNonDefaultConstructors()
         {
             RunTest(original: """
@@ -1881,7 +1881,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeWithAmbiguousNonDefaultConstructors()
         {
             RunTest(original: """
@@ -1918,7 +1918,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact()]
+        [TestMethod]
         public void TestBaseTypeWithAmbiguousNonDefaultConstructorsRegression31655()
         {
             RunTest(original: """
@@ -1965,7 +1965,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseTypeConstructorWithObsoleteAttribute()
         {
             RunTest(original: """
@@ -2002,7 +2002,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestObsoleteBaseTypeConstructorWithoutErrorParameter()
         {
             RunTest(original: """
@@ -2039,7 +2039,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestObsoleteBaseTypeConstructorWithoutMessageParameter()
         {
             RunTest(original: """
@@ -2076,7 +2076,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestFilterOutInternalExplicitInterfaceImplementation()
         {
             RunTest(original: """
@@ -2106,7 +2106,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestMethodsWithReferenceParameterGeneration()
         {
             RunTest(original: """
@@ -2130,7 +2130,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/roslyn/issues/74109")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithOperatorGeneration()
         {
             RunTest(original: """
@@ -2154,7 +2154,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                  includeInternalSymbols: false);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/roslyn/issues/74109")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithCheckedOperatorGeneration()
         {
             RunTest(original: """
@@ -2182,7 +2182,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                  includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestUnsafeFieldGeneration()
         {
             RunTest(original: """
@@ -2211,7 +2211,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 allowUnsafe: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestUnsafeMethodGeneration()
         {
             RunTest(original: """
@@ -2246,7 +2246,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 allowUnsafe: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestUnsafeConstructorGeneration()
         {
             RunTest(original: """
@@ -2281,7 +2281,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 allowUnsafe: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestUnsafeBaseConstructorGeneration()
         {
             RunTest(original: """
@@ -2316,7 +2316,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 allowUnsafe: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalDefaultConstructorGeneration()
         {
             RunTest(original: """
@@ -2374,7 +2374,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPrivateDefaultConstructorGeneration()
         {
             RunTest(original: """
@@ -2409,7 +2409,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeEffectivelyPrivateSymbols: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestInternalDefaultConstructorGenerationForGenericType()
         {
             RunTest(original: """
@@ -2443,7 +2443,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExplicitParameterlessConstructorNotRemoved()
         {
             RunTest(original: """
@@ -2469,7 +2469,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestBaseClassWithExplicitDefaultConstructor()
         {
             RunTest(original: """
@@ -2500,7 +2500,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGenericBaseInterfaceWithInaccessibleTypeArguments()
         {
             RunTest(original: """
@@ -2545,7 +2545,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void NewKeywordWhenBaseMethodIsHidden()
         {
             RunTest(original: """
@@ -2696,9 +2696,9 @@ namespace Microsoft.DotNet.GenAPI.Tests
                     """);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void TestAttributeWithInternalTypeArgumentOmitted(bool includeInternalSymbols)
         {
             string expected = includeInternalSymbols ? """
@@ -2761,7 +2761,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: includeInternalSymbols);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestAttributesExcludedWithFilter()
         {
             using TempDirectory root = new();
@@ -2806,7 +2806,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 excludedAttributeFile: filePath);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestGenericClassImplementsGenericInterface()
         {
             RunTest(original: """
@@ -2858,7 +2858,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestTypeForwardsToGenericTypesRegression31250()
         {
             RunTest(original: """
@@ -2904,7 +2904,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void ReservedAttributesAreOmitted()
         {
             RunTest(original: """
@@ -2938,7 +2938,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExplicitInterfaceIndexer()
         {
             RunTest(original: """
@@ -2976,7 +2976,7 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestExplicitInterfaceNonGenericCollections()
         {
             RunTest(original: """

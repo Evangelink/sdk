@@ -26,7 +26,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             int ppid = parentProcess.Id;
             childProcess.Kill();
 
-            Assert.Equal(expectedParentProcessId, ppid);
+            Assert.AreEqual(expectedParentProcessId, ppid);
         }
     }
 }

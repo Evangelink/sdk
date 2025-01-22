@@ -13,16 +13,16 @@ namespace Microsoft.DotNet.Cli.Utils
         [WindowsOnlyFact]
         public void GetRelativePathWithCaseInsensitiveDrives()
         {
-            Assert.Equal(@"bar\", PathUtility.GetRelativePath(@"C:\foo\", @"C:\foo\bar\"));
-            Assert.Equal(@"Bar\Baz\", PathUtility.GetRelativePath(@"c:\foo\", @"C:\Foo\Bar\Baz\"));
-            Assert.Equal(@"baz\Qux\", PathUtility.GetRelativePath(@"C:\fOO\bar\", @"c:\foo\BAR\baz\Qux\"));
-            Assert.Equal(@"d:\foo\", PathUtility.GetRelativePath(@"C:\foo\", @"d:\foo\"));
+            Assert.AreEqual(@"bar\", PathUtility.GetRelativePath(@"C:\foo\", @"C:\foo\bar\"));
+            Assert.AreEqual(@"Bar\Baz\", PathUtility.GetRelativePath(@"c:\foo\", @"C:\Foo\Bar\Baz\"));
+            Assert.AreEqual(@"baz\Qux\", PathUtility.GetRelativePath(@"C:\fOO\bar\", @"c:\foo\BAR\baz\Qux\"));
+            Assert.AreEqual(@"d:\foo\", PathUtility.GetRelativePath(@"C:\foo\", @"d:\foo\"));
         }
 
         [WindowsOnlyFact]
         public void GetRelativePathForFilePath()
         {
-            Assert.Equal(
+            Assert.AreEqual(
                 $@"mytool\1.0.1\mytool\1.0.1\tools\{ToolsetInfo.CurrentTargetFramework}\any\mytool.dll",
                 PathUtility.GetRelativePath(
                     @"C:\Users\myuser\.dotnet\tools\mytool.exe",
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Cli.Utils
                     @"C:\Users\myuser\.dotnet\tools",
                     $@"C:\Users\myuser\.dotnet\tools\mytool\1.0.1\mytool\1.0.1\tools\{ToolsetInfo.CurrentTargetFramework}\any\mytool.dll"));
 
-            Assert.Equal(
+            Assert.AreEqual(
                 $@"mytool\1.0.1\mytool\1.0.1\tools\{ToolsetInfo.CurrentTargetFramework}\any\mytool.dll",
                 PathUtility.GetRelativePath(
                     @"C:\Users\myuser\.dotnet\tools\",
@@ -51,8 +51,8 @@ namespace Microsoft.DotNet.Cli.Utils
         [WindowsOnlyFact]
         public void RemoveExtraPathSeparatorsWithDrives()
         {
-            Assert.Equal(@"c:\foo\bar\baz\", PathUtility.RemoveExtraPathSeparators(@"c:\\\foo\\\\bar\baz\\"));
-            Assert.Equal(@"D:\QUX\", PathUtility.RemoveExtraPathSeparators(@"D:\\\\\QUX\"));
+            Assert.AreEqual(@"c:\foo\bar\baz\", PathUtility.RemoveExtraPathSeparators(@"c:\\\foo\\\\bar\baz\\"));
+            Assert.AreEqual(@"D:\QUX\", PathUtility.RemoveExtraPathSeparators(@"D:\\\\\QUX\"));
         }
     }
 }

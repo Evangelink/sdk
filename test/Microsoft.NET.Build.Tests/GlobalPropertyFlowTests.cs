@@ -12,7 +12,7 @@ namespace Microsoft.NET.Build.Tests
         TestProject _testProject;
         TestProject _referencedProject;
 
-        public GlobalPropertyFlowTests(ITestOutputHelper log) : base(log)
+        public GlobalPropertyFlowTests(MSTestContext testContext) : base(testContext)
         {
             _referencedProject = new TestProject("ReferencedProject")
             {
@@ -64,10 +64,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.4.0.41702")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowToLibrary(bool passSelfContained, bool passRuntimeIdentifier)
         {
             var testAsset = Build(passSelfContained, passRuntimeIdentifier, identifier: passSelfContained.ToString() + "_" + passRuntimeIdentifier);
@@ -79,10 +79,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.4.0.41702")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowToExe(bool passSelfContained, bool passRuntimeIdentifier)
         {
             _referencedProject.IsExe = true;
@@ -97,10 +97,10 @@ namespace Microsoft.NET.Build.Tests
 
 
         [RequiresMSBuildVersionTheory("17.4.0.41702")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowToExeWithSelfContainedFalse(bool passSelfContained, bool passRuntimeIdentifier)
         {
             _referencedProject.IsExe = true;
@@ -118,10 +118,10 @@ namespace Microsoft.NET.Build.Tests
 
 
         [RequiresMSBuildVersionTheory("17.4.0.41702")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowToLibraryWithRuntimeIdentifier(bool passSelfContained, bool passRuntimeIdentifier)
         {
             //  Set a RuntimeIdentifier in the referenced project that is different from what is passed in on the command line
@@ -138,10 +138,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.4.0.41702")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowToMultitargetedProject(bool passSelfContained, bool passRuntimeIdentifier)
         {
             _testProject.TargetFrameworks = $"net6.0;{ToolsetInfo.CurrentTargetFramework}";
@@ -171,30 +171,30 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.4.0.41702", Skip = "https://github.com/dotnet/msbuild/issues/8154")]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(true, false)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void TestGlobalPropertyFlowInSolution(bool passSelfContained, bool passRuntimeIdentifier)
         {
             var identifier = passSelfContained.ToString() + "_" + passRuntimeIdentifier;
 
             var testAsset = _testAssetsManager.CreateTestProject(_testProject, identifier: identifier);
 
-            new DotnetNewCommand(Log, "sln")
+            new DotnetNewCommand(MSTestContext, "sln")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log, "sln", "add", _testProject.Name)
+            new DotnetCommand(MSTestContext, "sln", "add", _testProject.Name)
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log, "sln", "add", _referencedProject.Name)
+            new DotnetCommand(MSTestContext, "sln", "add", _referencedProject.Name)
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
@@ -204,7 +204,7 @@ namespace Microsoft.NET.Build.Tests
 
             if (passRuntimeIdentifier)
             {
-                new DotnetBuildCommand(Log, arguments.ToArray())
+                new DotnetBuildCommand(MSTestContext, arguments.ToArray())
                     .WithWorkingDirectory(testAsset.TestRoot)
                     .Execute()
                     .Should()
@@ -214,7 +214,7 @@ namespace Microsoft.NET.Build.Tests
             }
             else
             {
-                new DotnetBuildCommand(Log, arguments.ToArray())
+                new DotnetBuildCommand(MSTestContext, arguments.ToArray())
                     .WithWorkingDirectory(testAsset.TestRoot)
                     .Execute()
                     .Should()

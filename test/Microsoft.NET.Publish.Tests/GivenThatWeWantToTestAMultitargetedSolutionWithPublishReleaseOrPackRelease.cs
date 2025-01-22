@@ -20,7 +20,7 @@ namespace Microsoft.NET.Publish.Tests
         private const string Release = nameof(Release);
         private const string Debug = nameof(Debug);
 
-        public GivenThatWeWantToTestAMultitargetedSolutionWithPublishReleaseOrPackRelease(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToTestAMultitargetedSolutionWithPublishReleaseOrPackRelease(MSTestContext testContext) : base(testContext)
         {
 
         }
@@ -70,9 +70,9 @@ namespace Microsoft.NET.Publish.Tests
             return (testAsset, testProjects);
         }
 
-        [InlineData("-f", $"{ToolsetInfo.CurrentTargetFramework}")]
-        [InlineData($"-p:TargetFramework={ToolsetInfo.CurrentTargetFramework}")]
-        [Theory]
+        [DataRow("-f", $"{ToolsetInfo.CurrentTargetFramework}")]
+        [DataRow($"-p:TargetFramework={ToolsetInfo.CurrentTargetFramework}")]
+        [TestMethod]
         public void ItUsesReleaseWithATargetFrameworkOptionNet8ForNet6AndNet7MultitargetingProjectWithPReleaseUndefined(params string[] args)
         {
             var secondProjectTfm = ToolsetInfo.CurrentTargetFramework; // Net8 here is a 'net 8+' project
@@ -81,7 +81,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, testProjects) = Setup(new List<string> { "net6.0", "net7.0", "net8.0", "net9.0", "net10.0" }, new List<string> { secondProjectTfm }, PublishRelease, "", "", identifier: string.Join('-', args));
 
-            var dotnetCommand = new DotnetCommand(Log, publish);
+            var dotnetCommand = new DotnetCommand(MSTestContext, publish);
             dotnetCommand
                 .Execute(args.Append(testAsset.Path))
                 .Should()
@@ -96,14 +96,14 @@ namespace Microsoft.NET.Publish.Tests
             VerifyCorrectConfiguration(finalPropertyResults, expectedConfiguration);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPacksDebugWithSolutionWithNet8ProjectAndNet8tNet7ProjectThatDefinePackReleaseFalse()
         {
             var expectedConfiguration = Debug;
 
             var (testAsset, testProjects) = Setup(new List<string> { "net8.0" }, new List<string> { "net7.0", "net8.0" }, PackRelease, "false", "false");
 
-            var dotnetCommand = new DotnetCommand(Log, pack);
+            var dotnetCommand = new DotnetCommand(MSTestContext, pack);
             dotnetCommand
                 .Execute(testAsset.Path)
                 .Should()
@@ -118,7 +118,7 @@ namespace Microsoft.NET.Publish.Tests
             VerifyCorrectConfiguration(finalPropertyResults, expectedConfiguration);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPacksReleaseWithANet8ProjectAndNet7ProjectSolutionWherePackReleaseUndefined()
         {
             var firstProjectTfm = "net7.0";
@@ -127,7 +127,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, testProjects) = Setup(new List<string> { firstProjectTfm }, new List<string> { secondProjectTfm }, PackRelease, "", "");
 
-            var dotnetCommand = new DotnetCommand(Log, pack);
+            var dotnetCommand = new DotnetCommand(MSTestContext, pack);
             dotnetCommand
                 .Execute(testAsset.Path)
                 .Should()
@@ -142,9 +142,9 @@ namespace Microsoft.NET.Publish.Tests
             VerifyCorrectConfiguration(finalPropertyResults, expectedConfiguration);
         }
 
-        [InlineData("net7.0", true)]
-        [InlineData("-p:TargetFramework=net7.0", false)]
-        [Theory]
+        [DataRow("net7.0", true)]
+        [DataRow("-p:TargetFramework=net7.0", false)]
+        [TestMethod]
         public void ItPublishesDebugWithATargetFrameworkOptionNet7ForNet8Net7ProjectAndNet7Net6ProjectSolutionWithPublishReleaseUndefined(string args, bool passDashF)
         {
             var expectedTfm = "net7.0";
@@ -152,7 +152,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, testProjects) = Setup(new List<string> { "net6.0", "net7.0" }, new List<string> { "net7.0", "net8.0" }, PublishRelease, "", "");
 
-            var dotnetCommand = new DotnetCommand(Log, publish);
+            var dotnetCommand = new DotnetCommand(MSTestContext, publish);
             dotnetCommand
                 .Execute(passDashF ? "-f" : "", args, testAsset.Path)
                 .Should()
@@ -167,7 +167,7 @@ namespace Microsoft.NET.Publish.Tests
             VerifyCorrectConfiguration(finalPropertyResults, expectedConfiguration);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPublishesReleaseIfNet7DefinesPublishReleaseTrueNet8PlusDefinesNothing()
         {
             var firstProjectTfm = "net7.0";
@@ -176,7 +176,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, testProjects) = Setup(new List<string> { firstProjectTfm }, new List<string> { secondProjectTfm }, PublishRelease, "true", "");
 
-            var dotnetCommand = new DotnetCommand(Log, publish);
+            var dotnetCommand = new DotnetCommand(MSTestContext, publish);
             dotnetCommand
                 .Execute(testAsset.Path)
                 .Should()
@@ -192,13 +192,13 @@ namespace Microsoft.NET.Publish.Tests
         }
 
 
-        [InlineData("true", PublishRelease)]
-        [InlineData("false", PublishRelease)]
-        [InlineData("", PublishRelease)]
-        [InlineData("true", PackRelease)]
-        [InlineData("false", PackRelease)] // This case we would expect to fail as PackRelease is enabled regardless of TFM.
-        [InlineData("", PackRelease)]
-        [Theory]
+        [DataRow("true", PublishRelease)]
+        [DataRow("false", PublishRelease)]
+        [DataRow("", PublishRelease)]
+        [DataRow("true", PackRelease)]
+        [DataRow("false", PackRelease)] // This case we would expect to fail as PackRelease is enabled regardless of TFM.
+        [DataRow("", PackRelease)]
+        [TestMethod]
         public void ItPassesWithNet8ProjectAndNet7ProjectSolutionWithPublishReleaseOrPackReleaseUndefined(string releasePropertyValue, string property)
         {
             var firstProjectTfm = "net7.0";
@@ -214,7 +214,7 @@ namespace Microsoft.NET.Publish.Tests
 
             if (releasePropertyValue == "false" && property == PackRelease)
             {
-                var dotnetCommand = new DotnetCommand(Log);
+                var dotnetCommand = new DotnetCommand(MSTestContext);
                 dotnetCommand
                     .Execute("pack", testAsset.Path)
                     .Should()
@@ -222,7 +222,7 @@ namespace Microsoft.NET.Publish.Tests
             }
             else
             {
-                var dotnetCommand = new DotnetCommand(Log);
+                var dotnetCommand = new DotnetCommand(MSTestContext);
                 dotnetCommand
                     .Execute(property == PublishRelease ? "publish" : "pack", testAsset.Path)
                     .Should()
@@ -238,10 +238,10 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [InlineData("true")]
-        [InlineData("false")]
-        [InlineData("")]
-        [Theory]
+        [DataRow("true")]
+        [DataRow("false")]
+        [DataRow("")]
+        [TestMethod]
         public void ItFailsWithLazyEnvironmentVariableNet8ProjectAndNet7ProjectSolutionWithPublishReleaseUndefined(string publishReleaseValue)
         {
             var firstProjectTfm = "net7.0";
@@ -249,7 +249,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, testProjects) = Setup(new List<string> { firstProjectTfm }, new List<string> { secondProjectTfm }, PublishRelease, "", publishReleaseValue, identifier: publishReleaseValue);
 
-            var dotnetCommand = new DotnetPublishCommand(Log);
+            var dotnetCommand = new DotnetPublishCommand(MSTestContext);
             dotnetCommand
                 .WithEnvironmentVariable("DOTNET_CLI_LAZY_PUBLISH_AND_PACK_RELEASE_FOR_SOLUTIONS", "true")
                 .Execute(testAsset.Path)
@@ -259,7 +259,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining("NETSDK1197");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItFailsIfNet7DefinesPublishReleaseFalseButNet8PlusDefinesNone()
         {
             var firstProjectTfm = "net7.0";
@@ -267,7 +267,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, _) = Setup(new List<string> { firstProjectTfm }, new List<string> { secondProjectTfm }, PublishRelease, "false", "");
 
-            var dotnetCommand = new DotnetCommand(Log, publish);
+            var dotnetCommand = new DotnetCommand(MSTestContext, publish);
             dotnetCommand
                 .Execute(testAsset.Path)
                 .Should()
@@ -276,7 +276,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdErrContaining(string.Format(Strings.SolutionProjectConfigurationsConflict, PublishRelease, "")); ;
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotErrorWithLegacyNet7ProjectAndNet6ProjectSolutionWithNoPublishRelease()
         {
             var firstProjectTfm = "net7.0";
@@ -284,16 +284,16 @@ namespace Microsoft.NET.Publish.Tests
 
             var (testAsset, _) = Setup(new List<string> { firstProjectTfm }, new List<string> { secondProjectTfm }, PublishRelease, "", "");
 
-            var dotnetCommand = new DotnetCommand(Log, publish);
+            var dotnetCommand = new DotnetCommand(MSTestContext, publish);
             dotnetCommand
                 .Execute(testAsset.Path)
                 .Should()
                 .Pass();
         }
 
-        [Theory]
-        [InlineData(PublishRelease)]
-        [InlineData(PackRelease)]
+        [TestMethod]
+        [DataRow(PublishRelease)]
+        [DataRow(PackRelease)]
         public void It_fails_with_conflicting_PublishRelease_or_PackRelease_values_in_solution_file(string pReleaseVar)
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -301,7 +301,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var expectedError = string.Format(Strings.SolutionProjectConfigurationsConflict, pReleaseVar, "");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .Execute("dotnet", pReleaseVar == PublishRelease ? "publish" : "pack", testAsset.Path)
                 .Should()
                 .Fail()
@@ -309,13 +309,13 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdErrContaining(expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_sees_PublishRelease_values_of_hardcoded_sln_argument()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
             var (testAsset, _) = Setup(new List<string> { tfm }, new List<string> { tfm }, PublishRelease, "true", "false");
 
-            new DotnetPublishCommand(Log)
+            new DotnetPublishCommand(MSTestContext)
                 .WithWorkingDirectory(Directory.GetParent(testAsset.Path).FullName) // code under test looks in CWD, ensure coverage outside this scenario
                 .Execute(testAsset.Path)
                 .Should()
@@ -324,14 +324,14 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdErrContaining(string.Format(Strings.SolutionProjectConfigurationsConflict, PublishRelease, ""));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_doesnt_error_if_environment_variable_opt_out_enabled_but_PublishRelease_conflicts()
         {
             var expectedConfiguration = Debug;
             var tfm = ToolsetInfo.CurrentTargetFramework;
             var (testAsset, testProjects) = Setup(new List<string> { tfm }, new List<string> { tfm }, PublishRelease, "true", "false");
 
-            new DotnetPublishCommand(Log)
+            new DotnetPublishCommand(MSTestContext)
                 .WithEnvironmentVariable("DOTNET_CLI_DISABLE_PUBLISH_AND_PACK_RELEASE", "true")
                 .Execute(testAsset.Path) // This property won't be set in VS, make sure the error doesn't occur because of this by mimicking behavior.
                 .Should()
@@ -347,7 +347,7 @@ namespace Microsoft.NET.Publish.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void It_packs_with_Release_on_all_TargetFrameworks_If_8_or_above_is_included()
         {
             var testProject = new TestProject()
@@ -359,7 +359,7 @@ namespace Microsoft.NET.Publish.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(Path.Combine(testAsset.TestRoot, testProject.Name))
                 .Execute()
                 .Should()
@@ -379,11 +379,11 @@ namespace Microsoft.NET.Publish.Tests
             }
 
 
-            Assert.Equal(expectedOptimizeValue, finalProperties[0][Optimize]);
-            Assert.Equal(expectedConfiguration, finalProperties[0][Configuration]);
+            Assert.AreEqual(expectedOptimizeValue, finalProperties[0][Optimize]);
+            Assert.AreEqual(expectedConfiguration, finalProperties[0][Configuration]);
 
-            Assert.Equal(expectedOptimizeValue, finalProperties[1][Optimize]);
-            Assert.Equal(expectedConfiguration, finalProperties[1][Configuration]);
+            Assert.AreEqual(expectedOptimizeValue, finalProperties[1][Optimize]);
+            Assert.AreEqual(expectedConfiguration, finalProperties[1][Configuration]);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new EnumsMustMatch(settings, context));
 
-        [Fact]
+        [TestMethod]
         public static void DifferencesReported()
         {
             string leftSyntax = @"
@@ -47,10 +47,10 @@ namespace CompatTests
             {
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.EnumValuesMustMatch, string.Empty, DifferenceType.Changed, "F:CompatTests.First.A"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void RemovedEnum()
         {
             string leftSyntax = @"
@@ -86,7 +86,7 @@ namespace CompatTests
             Assert.NotEmpty(differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void AddedEnum()
         {
             string leftSyntax = @"
@@ -118,10 +118,10 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.Empty(differences);
+            Assert.HasCount(0, differences);
         }
 
-        [Fact]
+        [TestMethod]
         public static void BackingStoreChanged()
         {
             string leftSyntax = @"
@@ -156,7 +156,7 @@ namespace CompatTests
             {
                 CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.EnumTypesMustMatch, string.Empty, DifferenceType.Changed, "T:CompatTests.First"),
             };
-            Assert.Equal(expected, differences);
+            Assert.AreEqual(expected, differences);
         }
     }
 }

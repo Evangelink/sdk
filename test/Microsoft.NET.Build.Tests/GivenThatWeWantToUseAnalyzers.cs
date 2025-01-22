@@ -7,14 +7,14 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToUseAnalyzers : SdkTest
     {
-        public GivenThatWeWantToUseAnalyzers(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToUseAnalyzers(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("WebApp", false)]
-        [InlineData("WebApp", true)]
-        [InlineData("WebApp", null)]
+        [TestMethod]
+        [DataRow("WebApp", false)]
+        [DataRow("WebApp", true)]
+        [DataRow("WebApp", null)]
         public void It_resolves_requestdelegategenerator_correctly(string testAssetName, bool? isEnabled)
         {
             var asset = _testAssetsManager
@@ -33,10 +33,10 @@ namespace Microsoft.NET.Build.Tests
             VerifyInterceptorsFeatureProperties(asset, isEnabled, "Microsoft.AspNetCore.Http.Generated");
         }
 
-        [Theory]
-        [InlineData("WebApp", false)]
-        [InlineData("WebApp", true)]
-        [InlineData("WebApp", null)]
+        [TestMethod]
+        [DataRow("WebApp", false)]
+        [DataRow("WebApp", true)]
+        [DataRow("WebApp", null)]
         public void It_resolves_configbindinggenerator_correctly(string testAssetName, bool? isEnabled)
         {
             var asset = _testAssetsManager
@@ -55,7 +55,7 @@ namespace Microsoft.NET.Build.Tests
             VerifyInterceptorsFeatureProperties(asset, isEnabled, "Microsoft.Extensions.Configuration.Binder.SourceGeneration");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_enables_requestdelegategenerator_and_configbindinggenerator_for_PublishAot()
         {
             var asset = _testAssetsManager
@@ -72,7 +72,7 @@ namespace Microsoft.NET.Build.Tests
             VerifyInterceptorsFeatureProperties(asset, expectEnabled: true, "Microsoft.AspNetCore.Http.Generated", "Microsoft.Extensions.Configuration.Binder.SourceGeneration");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_enables_requestdelegategenerator_and_configbindinggenerator_for_PublishTrimmed()
         {
             var asset = _testAssetsManager
@@ -105,7 +105,7 @@ namespace Microsoft.NET.Build.Tests
 
             var analyzers = command.GetValues();
 
-            Assert.Equal(expectEnabled ?? false, analyzers.Any(analyzer => analyzer.Contains(generatorName)));
+            Assert.AreEqual(expectEnabled ?? false, analyzers.Any(analyzer => analyzer.Contains(generatorName)));
         }
 
         private void VerifyRequestDelegateGeneratorIsUsed(TestAsset asset, bool? expectEnabled)
@@ -130,13 +130,13 @@ namespace Microsoft.NET.Build.Tests
 
             var namespaces = command.GetValues();
 
-            Assert.Equal(expectEnabled ?? false, expectedNamespaces.All(expectedNamespace => namespaces.Contains(expectedNamespace)));
+            Assert.AreEqual(expectEnabled ?? false, expectedNamespaces.All(expectedNamespace => namespaces.Contains(expectedNamespace)));
         }
 
-        [Theory]
-        [InlineData("C#", "AppWithLibrary")]
-        [InlineData("VB", "AppWithLibraryVB")]
-        [InlineData("F#", "AppWithLibraryFS")]
+        [TestMethod]
+        [DataRow("C#", "AppWithLibrary")]
+        [DataRow("VB", "AppWithLibraryVB")]
+        [DataRow("F#", "AppWithLibraryFS")]
         public void It_resolves_analyzers_correctly(string language, string testAssetName)
         {
             var asset = _testAssetsManager
@@ -210,7 +210,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_resolves_multitargeted_analyzers()
         {
             var testProject = new TestProject()

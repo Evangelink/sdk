@@ -18,7 +18,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
             StringBuilder stringBuilder = _stringWriter.GetStringBuilder();
             string resulted = stringBuilder.ToString();
 
-            Assert.True(resulted.Equals(expected),
+            Assert.IsTrue(resulted.Equals(expected),
                 $"Expected:\n{expected}\nResulted:\n{resulted}");
         }
 
@@ -36,7 +36,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
             SyntaxTree expectedSyntaxTree = CSharpSyntaxTree.ParseText(expected);
 
             // compare SyntaxTree and not string representation
-            Assert.True(resultedSyntaxTree.IsEquivalentTo(expectedSyntaxTree),
+            Assert.IsTrue(resultedSyntaxTree.IsEquivalentTo(expectedSyntaxTree),
                 $"Expected:\n{expected}\nResulted:\n{resulted}");
         }
     }

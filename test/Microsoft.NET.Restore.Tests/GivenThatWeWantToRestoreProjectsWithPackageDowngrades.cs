@@ -5,11 +5,11 @@ namespace Microsoft.NET.Restore.Tests
 {
     public class GivenThatWeWantToRestoreProjectsWithPackageDowngrades : SdkTest
     {
-        public GivenThatWeWantToRestoreProjectsWithPackageDowngrades(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToRestoreProjectsWithPackageDowngrades(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void DowngradeWarningsAreErrorsByDefault()
         {
             const string testProjectName = "ProjectWithDowngradeWarning";
@@ -26,7 +26,7 @@ namespace Microsoft.NET.Restore.Tests
 
             var packagesFolder = Path.Combine(TestContext.Current.TestExecutionDirectory, "packages", testProjectName);
 
-            var restoreCommand = testAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             restoreCommand
                 .Execute($"/p:RestorePackagesPath={packagesFolder}")
                 .Should().Fail()
@@ -39,7 +39,7 @@ namespace Microsoft.NET.Restore.Tests
                 .And.HaveStdOutContaining("NU1605");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItIsPossibleToTurnOffDowngradeWarningsAsErrors()
         {
             const string testProjectName = "ProjectWithDowngradeWarning";
@@ -57,7 +57,7 @@ namespace Microsoft.NET.Restore.Tests
 
             var packagesFolder = Path.Combine(TestContext.Current.TestExecutionDirectory, "packages", testProjectName);
 
-            var restoreCommand = testAsset.GetRestoreCommand(Log, relativePath: testProjectName);
+            var restoreCommand = testAsset.GetRestoreCommand(MSTestContext, relativePath: testProjectName);
             restoreCommand
                 .Execute($"/p:RestorePackagesPath={packagesFolder}")
                 .Should().Pass(); ;

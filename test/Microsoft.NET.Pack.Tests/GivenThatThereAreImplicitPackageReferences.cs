@@ -7,11 +7,11 @@ namespace Microsoft.NET.Pack.Tests
 {
     public class GivenThatThereAreImplicitPackageReferences : SdkTest
     {
-        public GivenThatThereAreImplicitPackageReferences(ITestOutputHelper log) : base(log)
+        public GivenThatThereAreImplicitPackageReferences(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netstandard_1_x_library_includes_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -30,7 +30,7 @@ namespace Microsoft.NET.Pack.Tests
                 .Should().Be("1.6.1");
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netstandard_2_0_library_does_not_include_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Pack.Tests
             dependencies.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netcoreapp_1_1_library_includes_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -66,7 +66,7 @@ namespace Microsoft.NET.Pack.Tests
                 .Should().StartWith("1.1.");
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netcoreapp_2_0_library_does_not_include_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -81,7 +81,7 @@ namespace Microsoft.NET.Pack.Tests
             dependencies.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netcoreapp_1_1_app_includes_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -124,9 +124,9 @@ namespace Microsoft.NET.Pack.Tests
             dependencies.Single().Attribute("assemblyName").Value.Should().Be("System.Web");
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0")]
-        [InlineData("netcoreapp3.0")]
+        [TestMethod]
+        [DataRow("netcoreapp2.0")]
+        [DataRow("netcoreapp3.0")]
         public void Packing_a_netcoreapp_2_0_app_includes_no_dependencies(string targetFramework)
         {
             TestProject testProject = new()
@@ -141,9 +141,9 @@ namespace Microsoft.NET.Pack.Tests
             dependencies.Should().BeEmpty();
         }
 
-        [Theory]
-        [InlineData("Microsoft.AspNetCore.App")]
-        [InlineData("Microsoft.AspNetCore.All")]
+        [TestMethod]
+        [DataRow("Microsoft.AspNetCore.App")]
+        [DataRow("Microsoft.AspNetCore.All")]
         public void Package_an_aspnetcore_2_1_app_does_not_include_the_implicit_dependency(string packageId)
         {
             TestProject testProject = new()
@@ -161,7 +161,7 @@ namespace Microsoft.NET.Pack.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_netcoreapp_2_0_DotnetCliTool_app_includes_the_implicit_dependency()
         {
             TestProject testProject = new()
@@ -184,7 +184,7 @@ namespace Microsoft.NET.Pack.Tests
                 .Should().StartWith("2.0.");
         }
 
-        [Fact]
+        [TestMethod]
         public void Packing_a_multitargeted_library_includes_implicit_dependencies_when_appropriate()
         {
             TestProject testProject = new()
@@ -257,7 +257,7 @@ namespace Microsoft.NET.Pack.Tests
         {
             var testProjectInstance = _testAssetsManager.CreateTestProject(testProject, testProject.Name, identifier);
 
-            var packCommand = new PackCommand(Log, testProjectInstance.TestRoot, testProject.Name);
+            var packCommand = new PackCommand(MSTestContext, testProjectInstance.TestRoot, testProject.Name);
 
             packCommand.Execute()
                 .Should()

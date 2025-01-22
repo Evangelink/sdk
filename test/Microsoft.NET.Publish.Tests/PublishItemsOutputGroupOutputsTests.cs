@@ -7,7 +7,7 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class PublishItemsOutputGroupOutputsTests : SdkTest
     {
-        public PublishItemsOutputGroupOutputsTests(ITestOutputHelper log) : base(log)
+        public PublishItemsOutputGroupOutputsTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -18,10 +18,10 @@ namespace Microsoft.NET.Publish.Tests
             "WindowsBase.dll",
         };
 
-        [Theory]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
+        [TestMethod]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
+        [DataRow(false, false)]
         public void RunPublishItemsOutputGroupOutputsTest(bool specifyRid, bool singleFile)
         {
             var testProject = new TestProject()
@@ -70,10 +70,10 @@ namespace Microsoft.NET.Publish.Tests
                             OutputPath = Path.GetFileName(Path.GetFullPath(Path.Combine(testAsset.Path, testProject.Name, item.metadata["OutputPath"])))
                         };
 
-            Log.WriteLine("PublishItemsOutputGroupOutputs contains '{0}' items:", items.Count());
+            MSTestContext.WriteLine("PublishItemsOutputGroupOutputs contains '{0}' items:", items.Count());
             foreach (var item in items)
             {
-                Log.WriteLine("    '{0}': OutputPath = '{1}'", item.Identity, item.OutputPath);
+                MSTestContext.WriteLine("    '{0}': OutputPath = '{1}'", item.Identity, item.OutputPath);
             }
 
             // Check for the main exe

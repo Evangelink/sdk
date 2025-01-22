@@ -12,13 +12,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class ImplicitAspNetVersions : SdkTest
     {
-        public ImplicitAspNetVersions(ITestOutputHelper log) : base(log)
+        public ImplicitAspNetVersions(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("Microsoft.AspNetCore.App")]
-        [InlineData("Microsoft.AspNetCore.All")]
+        [TestMethod]
+        [DataRow("Microsoft.AspNetCore.App")]
+        [DataRow("Microsoft.AspNetCore.All")]
         public void AspNetCoreVersionIsSetImplicitly(string aspnetPackageName)
         {
             var testProject = new TestProject()
@@ -46,9 +46,9 @@ namespace Microsoft.NET.Build.Tests
             aspnetVersion.ToString().Should().Be("2.1.1");
         }
 
-        [Theory]
-        [InlineData("Microsoft.AspNetCore.App")]
-        [InlineData("Microsoft.AspNetCore.All")]
+        [TestMethod]
+        [DataRow("Microsoft.AspNetCore.App")]
+        [DataRow("Microsoft.AspNetCore.All")]
         public void AspNetCoreVersionRollsForward(string aspnetPackageName)
         {
             var testProject = new TestProject()
@@ -79,9 +79,9 @@ namespace Microsoft.NET.Build.Tests
             aspnetVersion.CompareTo(new SemanticVersion(2, 1, 1)).Should().BeGreaterThan(0);
         }
 
-        [Theory]
-        [InlineData("Microsoft.AspNetCore.App")]
-        [InlineData("Microsoft.AspNetCore.All")]
+        [TestMethod]
+        [DataRow("Microsoft.AspNetCore.App")]
+        [DataRow("Microsoft.AspNetCore.All")]
         public void ExplicitVersionsOfAspNetCoreWarn(string aspnetPackageName)
         {
             var testProject = new TestProject()
@@ -111,7 +111,7 @@ namespace Microsoft.NET.Build.Tests
             aspnetVersion.ToString().Should().Be(explicitVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void MultipleWarningsAreGeneratedForMultipleExplicitReferences()
         {
             var testProject = new TestProject()
@@ -147,10 +147,10 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1023");
         }
 
-        [Theory]
-        [InlineData(true, null)]
-        [InlineData(true, "2.1.1")]
-        [InlineData(false, null)]
+        [TestMethod]
+        [DataRow(true, null)]
+        [DataRow(true, "2.1.1")]
+        [DataRow(false, null)]
         public void WhenTargetingNetCore3_0AspNetCoreAllPackageReferenceErrors(bool useWebSdk, string packageVersion)
         {
             var testProject = new TestProject()
@@ -182,10 +182,10 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1079");
         }
 
-        [Theory]
-        [InlineData(true, null)]
-        [InlineData(true, "2.1.1")]
-        [InlineData(false, null)]
+        [TestMethod]
+        [DataRow(true, null)]
+        [DataRow(true, "2.1.1")]
+        [DataRow(false, null)]
         public void WhenTargetingNetCore3_0AspNetCoreAppPackageReferenceWarns(bool useWebSdk, string packageVersion)
         {
             var testProject = new TestProject()

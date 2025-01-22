@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
 {
     public class SingleLineStatementCSharpSyntaxRewriterTests : CSharpSyntaxRewriterTestBase
     {
-        [Fact]
+        [TestMethod]
         public void TestEmptyMethodBody()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestMethodBodyWithSingleStatement()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -57,7 +57,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestConstructorPostProcessing()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestMethodBodyWithSingleStatementInOneLine()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -105,7 +105,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestPropertyPostProcessing()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -135,7 +135,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestOperatorPostProcessing()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),
@@ -161,7 +161,7 @@ namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
                 """);
         }
 
-        [Fact]
+        [TestMethod]
         public void TestConversionOperatorPostProcessing()
         {
             Compare(new SingleLineStatementCSharpSyntaxRewriter(),

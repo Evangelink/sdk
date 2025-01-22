@@ -7,18 +7,18 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToTargetNotRecommendedFrameworks : SdkTest
     {
-        public GivenThatWeWantToTargetNotRecommendedFrameworks(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToTargetNotRecommendedFrameworks(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("NetStandard1.0")]
-        [InlineData("NetStandard1.1")]
-        [InlineData("NetStandard1.2")]
-        [InlineData("NetStandard1.3")]
-        [InlineData("NetStandard1.4")]
-        [InlineData("NetStandard1.5")]
-        [InlineData("NetStandard1.6")]
+        [TestMethod]
+        [DataRow("NetStandard1.0")]
+        [DataRow("NetStandard1.1")]
+        [DataRow("NetStandard1.2")]
+        [DataRow("NetStandard1.3")]
+        [DataRow("NetStandard1.4")]
+        [DataRow("NetStandard1.5")]
+        [DataRow("NetStandard1.6")]
         public void It_warns_that_framework_is_not_recommended(string targetFrameworks)
         {
             var testProject = new TestProject()
@@ -42,9 +42,9 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1215");
         }
 
-        [Theory]
-        [InlineData("NetStandard2.0")]
-        [InlineData("NetStandard2.1")]
+        [TestMethod]
+        [DataRow("NetStandard2.0")]
+        [DataRow("NetStandard2.1")]
         public void It_should_not_warn_when_framework_not_recommended(string targetFrameworks)
         {
             var testProject = new TestProject()
@@ -68,7 +68,7 @@ namespace Microsoft.NET.Build.Tests
                 .NotHaveStdOutContaining("NETSDK1215");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_only_checks_for_netcoreapp_not_recommended_frameworks()
         {
             var testProject = new TestProject()
@@ -87,12 +87,12 @@ namespace Microsoft.NET.Build.Tests
 
             var lines = (result.StdOut.Split(Environment.NewLine)).Where(line => line.Contains("NETSDK1215"));
 
-            Assert.NotNull(lines.FirstOrDefault(line => line.IndexOf("netstandard1.6") >= 0));
+            Assert.IsNotNull(lines.FirstOrDefault(line => line.IndexOf("netstandard1.6") >= 0));
             Assert.All(lines, line => Assert.DoesNotContain(ToolsetInfo.CurrentTargetFramework, line));
             Assert.All(lines, line => Assert.DoesNotContain("net472", line));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_warn_when_deactivating_check()
         {
             var testProject = new TestProject()

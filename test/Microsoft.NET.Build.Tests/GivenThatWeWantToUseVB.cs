@@ -10,7 +10,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToUseVB : SdkTest
     {
-        public GivenThatWeWantToUseVB(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToUseVB(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -22,12 +22,12 @@ namespace Microsoft.NET.Build.Tests
             Referenced
         }
 
-        [Theory]
-        [InlineData("net472", true)]
-        [InlineData("netstandard2.0", false)]
-        [InlineData("netcoreapp2.1", true)]
-        [InlineData("netcoreapp3.0", true)]
-        [InlineData("netcoreapp3.0", false)]
+        [TestMethod]
+        [DataRow("net472", true)]
+        [DataRow("netstandard2.0", false)]
+        [DataRow("netcoreapp2.1", true)]
+        [DataRow("netcoreapp3.0", true)]
+        [DataRow("netcoreapp3.0", false)]
         public void It_builds_a_simple_vb_project(string targetFramework, bool isExe)
         {
             var (expectedVBRuntime, expectedOutputFiles) = GetExpectedOutputs(targetFramework, isExe);
@@ -176,14 +176,14 @@ namespace Microsoft.NET.Build.Tests
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
 
-            new DotnetNewCommand(Log, "wpf", "-lang", "vb")
+            new DotnetNewCommand(MSTestContext, "wpf", "-lang", "vb")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDirectory)
                 .Execute()
                 .Should()
                 .Pass();
 
-            var buildCommand = new BuildCommand(Log, testDirectory);
+            var buildCommand = new BuildCommand(MSTestContext, testDirectory);
             buildCommand.Execute().Should().Pass();
         }
     }

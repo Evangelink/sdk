@@ -19,8 +19,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
     public class ToolPackageUninstallerTests : SdkTest
     {
         [WindowsOnlyTheory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [DataRow(false)]
+        [DataRow(true)]
         public void GivenAnInstalledPackageUninstallRemovesThePackage(bool testMockBehaviorIsInSync)
         {
             var source = GetTestLocalFeedPath();
@@ -124,7 +124,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         private const string TestPackageVersion = "1.0.4";
         private static readonly PackageId TestPackageId = new("global.tool.console.demo.with.shim");
         private static readonly VerbosityOptions TestVerbosity = new VerbosityOptions();
-        public ToolPackageUninstallerTests(ITestOutputHelper log) : base(log)
+        public ToolPackageUninstallerTests(MSTestContext testContext) : base(testContext)
         {
         }
     }

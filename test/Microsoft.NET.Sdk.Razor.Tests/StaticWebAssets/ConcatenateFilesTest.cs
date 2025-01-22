@@ -49,7 +49,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
 }
 ";
 
-        [Fact]
+        [TestMethod]
         public void BundlesScopedCssFiles_ProducesEmpyBundleIfNoFilesAvailable()
         {
             // Arrange
@@ -70,7 +70,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             File.ReadAllText(expectedFile).Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void BundlesScopedCssFiles_ProducesBundle()
         {
             // Arrange
@@ -129,7 +129,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
                     ["CopyToPublishDirectory"] = "PreserveNewest"
                 });
 
-        [Fact]
+        [TestMethod]
         public void BundlesScopedCssFiles_IncludesOtherBundles()
         {
             // Arrange
@@ -167,21 +167,21 @@ namespace Microsoft.NET.Sdk.Razor.Test
             actualContents.Should().Contain(BundleWithImportsContent);
         }
 
-        [Theory]
-        [InlineData("", "", "TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/", "/", "TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/app", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/app", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/app", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app/", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app/", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("app/", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/company/app/", "_content", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/company/app/", "/_content", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
-        [InlineData("/company/app/", "/_content/", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [TestMethod]
+        [DataRow("", "", "TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/", "/", "TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/app", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/app", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/app", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app/", "_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app/", "/_content", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("app/", "/_content/", "../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/company/app/", "_content", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/company/app/", "/_content", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
+        [DataRow("/company/app/", "/_content/", "../../_content/TestFiles/Generated/lib.bundle.scp.css")]
         public void BundlesScopedCssFiles_HandlesBasePathCombinationsCorrectly(string finalBasePath, string libraryBasePath, string expectedImport)
         {
             // Arrange
@@ -224,7 +224,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             actualContents.Should().BeVisuallyEquivalentTo(expectedContent);
         }
 
-        [Fact]
+        [TestMethod]
         public void BundlesScopedCssFiles_BundlesFilesInOrder()
         {
             // Arrange
@@ -257,7 +257,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             actualContents.Should().Contain(BundleContent);
         }
 
-        [Fact]
+        [TestMethod]
         public void BundlesScopedCssFiles_DoesNotOverrideBundleForSameContents()
         {
             // Arrange
@@ -295,7 +295,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             lastModified.Should().BeSameDateAs(File.GetLastWriteTimeUtc(expectedFile));
         }
 
-        [Fact]
+        [TestMethod]
         public async System.Threading.Tasks.Task BundlesScopedCssFiles_UpdatesBundleWhenContentsChange()
         {
             // Arrange

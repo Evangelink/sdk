@@ -5,14 +5,14 @@ namespace Microsoft.DotNet.Cli.Install.Tests
 {
     public class GivenDotnetInstallTool : SdkTest
     {
-        public GivenDotnetInstallTool(ITestOutputHelper log) : base(log)
+        public GivenDotnetInstallTool(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRunsWithQuietVerbosityByDefault()
         {
-            var result = new DotnetToolCommand(Log)
+            var result = new DotnetToolCommand(MSTestContext)
                 .Execute("install", "-g", "nonexistent_tool_package");
 
             result
@@ -22,10 +22,10 @@ namespace Microsoft.DotNet.Cli.Install.Tests
                 .NotHaveStdOutContaining("Restoring");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRunsWithTheSpecifiedVerbosity()
         {
-            var result = new DotnetToolCommand(Log)
+            var result = new DotnetToolCommand(MSTestContext)
                 .Execute("install -g -v:n nonexistent_tool_package".Split());
 
             result

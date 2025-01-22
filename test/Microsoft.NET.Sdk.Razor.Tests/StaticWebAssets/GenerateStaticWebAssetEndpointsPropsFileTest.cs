@@ -14,7 +14,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
 public class GenerateStaticWebAssetEndpointsPropsFileTest
 {
-    [Fact]
+    [TestMethod]
     public void Generates_ValidEndpointsDefinitions()
     {
         // Arrange
@@ -112,7 +112,7 @@ public class GenerateStaticWebAssetEndpointsPropsFileTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void Fails_WhenEndpointWithoutAssetExists()
     {
         // Arrange

@@ -5,9 +5,9 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class ProgramTests(ITestOutputHelper logger) : DotNetWatchTestBase(logger)
+    public class ProgramTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
     {
-        [Fact]
+        [TestMethod]
         public async Task ConsoleCancelKey()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchKitchenSink")
@@ -26,8 +26,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 reporter,
                 out var errorCode);
 
-            Assert.Equal(0, errorCode);
-            Assert.NotNull(program);
+            Assert.AreEqual(0, errorCode);
+            Assert.IsNotNull(program);
 
             var run = program.RunAsync();
 
@@ -36,23 +36,23 @@ namespace Microsoft.DotNet.Watch.UnitTests
             console.PressKey(new ConsoleKeyInfo('C', ConsoleKey.C, shift: false, alt: false, control: true));
 
             var exitCode = await run;
-            Assert.Equal(0, exitCode);
+            Assert.AreEqual(0, exitCode);
 
             await shutdownRequested.WaitAsync();
         }
 
-        [Theory]
-        [InlineData(new[] { "--no-hot-reload", "run" }, "")]
-        [InlineData(new[] { "--no-hot-reload", "run", "args" }, "args")]
-        [InlineData(new[] { "--no-hot-reload", "--", "run", "args" }, "run,args")]
-        [InlineData(new[] { "--no-hot-reload" }, "")]
-        [InlineData(new string[] { }, "")]
-        [InlineData(new[] { "run" }, "")]
-        [InlineData(new[] { "run", "args" }, "args")]
-        [InlineData(new[] { "--", "run", "args" }, "run,args")]
-        [InlineData(new[] { "--", "test", "args" }, "test,args")]
-        [InlineData(new[] { "--", "build", "args" }, "build,args")]
-        [InlineData(new[] { "abc" }, "abc")]
+        [TestMethod]
+        [DataRow(new[] { "--no-hot-reload", "run" }, "")]
+        [DataRow(new[] { "--no-hot-reload", "run", "args" }, "args")]
+        [DataRow(new[] { "--no-hot-reload", "--", "run", "args" }, "run,args")]
+        [DataRow(new[] { "--no-hot-reload" }, "")]
+        [DataRow(new string[] { }, "")]
+        [DataRow(new[] { "run" }, "")]
+        [DataRow(new[] { "run", "args" }, "args")]
+        [DataRow(new[] { "--", "run", "args" }, "run,args")]
+        [DataRow(new[] { "--", "test", "args" }, "test,args")]
+        [DataRow(new[] { "--", "build", "args" }, "build,args")]
+        [DataRow(new[] { "abc" }, "abc")]
         public async Task Arguments(string[] arguments, string expectedApplicationArgs)
         {
             var testAsset = TestAssets.CopyTestAsset("WatchHotReloadApp", identifier: string.Join(",", arguments))
@@ -60,16 +60,16 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             App.Start(testAsset, arguments);
 
-            Assert.Equal(expectedApplicationArgs, await App.AssertOutputLineStartsWith("Arguments = "));
+            Assert.AreEqual(expectedApplicationArgs, await App.AssertOutputLineStartsWith("Arguments = "));
         }
 
-        [Theory]
-        [InlineData(new[] { "--no-hot-reload", "--", "run", "args" }, "Argument Specified in Props,run,args")]
-        [InlineData(new[] { "--", "run", "args" }, "Argument Specified in Props,run,args")]
+        [TestMethod]
+        [DataRow(new[] { "--no-hot-reload", "--", "run", "args" }, "Argument Specified in Props,run,args")]
+        [DataRow(new[] { "--", "run", "args" }, "Argument Specified in Props,run,args")]
         // if arguments specified on command line the ones from launch profile are ignored
-        [InlineData(new[] { "-lp", "P1", "--", "run", "args" },"Argument Specified in Props,run,args")]
+        [DataRow(new[] { "-lp", "P1", "--", "run", "args" },"Argument Specified in Props,run,args")]
         // arguments specified in build file override arguments in launch profile
-        [InlineData(new[] { "-lp", "P1" }, "Argument Specified in Props")]
+        [DataRow(new[] { "-lp", "P1" }, "Argument Specified in Props")]
         public async Task Arguments_HostArguments(string[] arguments, string expectedApplicationArgs)
         {
             var testAsset = TestAssets.CopyTestAsset("WatchHotReloadAppCustomHost", identifier: string.Join(",", arguments))
@@ -80,7 +80,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.Equal(expectedApplicationArgs, await App.AssertOutputLineStartsWith("Arguments = "));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task RunArguments_NoHotReload()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchHotReloadAppMultiTfm")
@@ -99,22 +99,22 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 "-v",
                 "minimal",
                 "--",         // the following args are application args
-                "-v",         
+                "-v",
             ]);
 
-            Assert.Equal("-v", await App.AssertOutputLineStartsWith("Arguments = "));
-            Assert.Equal("WatchHotReloadAppMultiTfm, Version=1.2.3.4, Culture=neutral, PublicKeyToken=null", await App.AssertOutputLineStartsWith("AssemblyName = "));
-            Assert.Equal("' | A=B'\tC | '", await App.AssertOutputLineStartsWith("AssemblyTitle = "));
-            Assert.Equal(".NETCoreApp,Version=v6.0", await App.AssertOutputLineStartsWith("TFM = "));
+            Assert.AreEqual("-v", await App.AssertOutputLineStartsWith("Arguments = "));
+            Assert.AreEqual("WatchHotReloadAppMultiTfm, Version=1.2.3.4, Culture=neutral, PublicKeyToken=null", await App.AssertOutputLineStartsWith("AssemblyName = "));
+            Assert.AreEqual("' | A=B'\tC | '", await App.AssertOutputLineStartsWith("AssemblyTitle = "));
+            Assert.AreEqual(".NETCoreApp,Version=v6.0", await App.AssertOutputLineStartsWith("TFM = "));
 
-            // expected output from build (-v minimal):
+            // expected testContext from build (-v minimal):
             Assert.Contains(App.Process.Output, l => l.Contains("Determining projects to restore..."));
 
-            // not expected to find verbose output of dotnet watch
+            // not expected to find verbose testContext of dotnet watch
             Assert.DoesNotContain(App.Process.Output, l => l.Contains("Working directory:"));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task RunArguments_HotReload()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchHotReloadAppMultiTfm")
@@ -135,19 +135,19 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 "minimal"
             ]);
 
-            Assert.Equal("WatchHotReloadAppMultiTfm, Version=1.2.3.4, Culture=neutral, PublicKeyToken=null", await App.AssertOutputLineStartsWith("AssemblyName = "));
-            Assert.Equal("' | A=B'\tC | '", await App.AssertOutputLineStartsWith("AssemblyTitle = "));
-            Assert.Equal(".NETCoreApp,Version=v6.0", await App.AssertOutputLineStartsWith("TFM = "));
+            Assert.AreEqual("WatchHotReloadAppMultiTfm, Version=1.2.3.4, Culture=neutral, PublicKeyToken=null", await App.AssertOutputLineStartsWith("AssemblyName = "));
+            Assert.AreEqual("' | A=B'\tC | '", await App.AssertOutputLineStartsWith("AssemblyTitle = "));
+            Assert.AreEqual(".NETCoreApp,Version=v6.0", await App.AssertOutputLineStartsWith("TFM = "));
 
-            // not expected to find verbose output of dotnet watch
+            // not expected to find verbose testContext of dotnet watch
             Assert.DoesNotContain(App.Process.Output, l => l.Contains("Working directory:"));
 
             Assert.Contains(App.Process.Output, l => l.Contains("Hot reload enabled."));
         }
 
-        [Theory]
-        [InlineData("P1", "argP1")]
-        [InlineData("P and Q and \"R\"", "argPQR")]
+        [TestMethod]
+        [DataRow("P1", "argP1")]
+        [DataRow("P and Q and \"R\"", "argPQR")]
         public async Task ArgumentsFromLaunchSettings_Watch(string profileName, string expectedArgs)
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppWithLaunchSettings", identifier: profileName)
@@ -161,15 +161,15 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 profileName
             });
 
-            Assert.Equal(expectedArgs, await App.AssertOutputLineStartsWith("Arguments: "));
+            Assert.AreEqual(expectedArgs, await App.AssertOutputLineStartsWith("Arguments: "));
 
             Assert.Contains(App.Process.Output, l => l.Contains($"Found named launch profile '{profileName}'."));
             Assert.Contains(App.Process.Output, l => l.Contains("Hot Reload disabled by command line switch."));
         }
 
-        [Theory]
-        [InlineData("P1", "argP1")]
-        [InlineData("P and Q and \"R\"", "argPQR")]
+        [TestMethod]
+        [DataRow("P1", "argP1")]
+        [DataRow("P and Q and \"R\"", "argPQR")]
         public async Task ArgumentsFromLaunchSettings_HotReload(string profileName, string expectedArgs)
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppWithLaunchSettings", identifier: profileName)
@@ -182,12 +182,12 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 profileName
             });
 
-            Assert.Equal(expectedArgs, await App.AssertOutputLineStartsWith("Arguments: "));
+            Assert.AreEqual(expectedArgs, await App.AssertOutputLineStartsWith("Arguments: "));
 
             Assert.Contains(App.Process.Output, l => l.Contains($"Found named launch profile '{profileName}'."));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("XunitCore")
@@ -212,7 +212,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains("    TestNamespace.VSTestXunitTests.VSTestXunitPassTest2");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TestCommand_MultiTargeting()
         {
             var testAsset = TestAssets.CopyTestAsset("XunitMulti")
@@ -224,7 +224,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineEquals("    TestNamespace.VSTestXunitTests.VSTestXunitFailTestNetCoreApp");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task BuildCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -242,7 +242,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains("warning : The value of property is '123'");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task MSBuildCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -260,7 +260,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains("warning : The value of property is '123'");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PackCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -280,7 +280,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains($"Successfully created package '{packagePath}'");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PublishCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -292,14 +292,14 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             // evaluation affected by -c option:
             Assert.Contains("-property:Configuration=Release", App.Process.Output.Single(line => line.Contains("/t:GenerateWatchList")));
-            
+
             App.AssertOutputContains("dotnet watch ⌚ Command 'publish' does not support Hot Reload.");
             App.AssertOutputContains("dotnet watch ⌚ Command 'publish' does not support browser refresh.");
 
             App.AssertOutputContains(Path.Combine("Release", ToolsetInfo.CurrentTargetFramework, "publish"));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task FormatCommand()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchNoDepsApp")
@@ -317,7 +317,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             App.AssertOutputContains("Format complete in");
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ProjectGraphLoadFailure()
         {
             var testAsset = TestAssets

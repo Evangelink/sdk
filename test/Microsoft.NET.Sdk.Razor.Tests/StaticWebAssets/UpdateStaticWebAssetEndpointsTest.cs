@@ -12,7 +12,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
 public class UpdateStaticWebAssetEndpointsTest
 {
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_AppendResponseHeaders()
     {
         // Arrrange
@@ -57,7 +57,7 @@ public class UpdateStaticWebAssetEndpointsTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_RemoveResponseHeaders()
     {
         // Arrrange
@@ -98,7 +98,7 @@ public class UpdateStaticWebAssetEndpointsTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_RemoveAllResponseHeaders()
     {
         // Arrrange
@@ -143,7 +143,7 @@ public class UpdateStaticWebAssetEndpointsTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_RemoveAllResponseHeadersWithValue()
     {
         // Arrrange
@@ -189,7 +189,7 @@ public class UpdateStaticWebAssetEndpointsTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_ReplaceResponseHeaders()
     {
         // Arrrange
@@ -230,7 +230,7 @@ public class UpdateStaticWebAssetEndpointsTest
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanUpdateEndpoint_RetainsNonModifiedEndpointsWithSameRoute()
     {
         // Arrrange

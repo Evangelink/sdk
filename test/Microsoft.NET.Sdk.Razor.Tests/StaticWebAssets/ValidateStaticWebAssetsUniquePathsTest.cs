@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
 {
     public class ValidateStaticWebAssetsUniquePathsTest
     {
-        [Fact]
+        [TestMethod]
         public void ReturnsError_WhenStaticWebAssetsWebRootPathMatchesExistingContentItemPath()
         {
             // Arrange
@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
             errorMessages.Should().Contain(expectedMessage);
         }
 
-        [Fact]
+        [TestMethod]
         public void AllowsAssetsHavingTheSameBasePathAcrossDifferentSources_WhenTheirFinalDestinationPathIsDifferent()
         {
             // Arrange
@@ -92,7 +92,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
             result.Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void AllowsAssetsHavingTheSameContentRootAndDifferentBasePathsAcrossDifferentSources_WhenTheirFinalDestinationPathIsDifferent()
         {
             // Arrange
@@ -125,7 +125,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
             result.Should().Be(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ReturnsError_WhenMultipleStaticWebAssetsHaveTheSameWebRootPath()
         {
             // Arrange
@@ -161,7 +161,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
             errorMessages.Should().Contain($"Conflicting assets with the same path '/wwwroot/sample.js' for content root paths '{Path.Combine(".", "Library", "bin", "dist", "sample.js")}' and '{Path.Combine(".", "Library", "wwwroot", "sample.js")}'.");
         }
 
-        [Fact]
+        [TestMethod]
         public void ReturnsSuccess_WhenStaticWebAssetsDontConflictWithApplicationContentItems()
         {
             // Arrange

@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
     {
         internal VirtualMachine VM { get; }
 
-        public VMTestBase(ITestOutputHelper log) : base(log)
+        public VMTestBase(MSTestContext testContext) : base(testContext)
         {
             VM = new VirtualMachine(Log);
             _sdkInstallerVersion = new Lazy<string>(() =>
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
             var installedSdkFolder = $@"c:\Program Files\dotnet\sdk\{existingVersionToOverwrite}";
 
-            Log.WriteLine($"Deploying SDK from {TestContext.Current.ToolsetUnderTest.SdkFolderUnderTest} to {installedSdkFolder} on VM.");
+            MSTestContext.WriteLine($"Deploying SDK from {TestContext.Current.ToolsetUnderTest.SdkFolderUnderTest} to {installedSdkFolder} on VM.");
 
             //  TODO: It would be nice if the description included the date/time of the SDK build, to distinguish different snapshots
             VM.CreateActionGroup("Deploy Stage 2 SDK",

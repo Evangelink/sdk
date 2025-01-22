@@ -9,7 +9,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
 {
     public class ComputeCssScopesTests
     {
-        [Fact]
+        [TestMethod]
         public void ComputesScopes_ComputesUniqueScopes_ForCssFiles()
         {
             // Arrange
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.ScopedCss.Select(s => s.GetMetadata("CssScope")).Should().HaveCount(3).And.OnlyHaveUniqueItems();
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputesScopes_ScopeVariesByTargetName()
         {
             // Arrange
@@ -61,7 +61,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.ScopedCss.Should().OnlyContain(newScoped => !existing.Contains(newScoped.GetMetadata("ScopedCss")));
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputesScopes_IsDeterministic()
         {
             // Arrange
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             computed.Should().Equal(existing);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputesScopes_VariesByPath()
         {
             // Arrange
@@ -110,7 +110,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.ScopedCss[0].GetMetadata("CssScope").Should().NotBe(taskInstance.ScopedCss[1].GetMetadata("CssScope"));
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputesScopes_PreservesUserDefinedScopes()
         {
             // Arrange

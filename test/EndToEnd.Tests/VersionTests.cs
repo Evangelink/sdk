@@ -5,12 +5,12 @@
 
 namespace EndToEnd.Tests
 {
-    public class VersionTests(ITestOutputHelper log) : SdkTest(log)
+    public class VersionTests(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void DotnetVersionReturnsCorrectVersion()
         {
-            var result = new DotnetCommand(Log).Execute("--version");
+            var result = new DotnetCommand(MSTestContext).Execute("--version");
             result.Should().Pass();
 
             var dotnetFolder = Path.GetDirectoryName(TestContext.Current.ToolsetUnderTest.DotNetHostPath);

@@ -3,11 +3,11 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class NoDepsAppTests(ITestOutputHelper logger) : DotNetWatchTestBase(logger)
+    public class NoDepsAppTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
     {
         private const string AppName = "WatchNoDepsApp";
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task RestartProcessOnFileChange()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Assert.NotEqual(processIdentifier, processIdentifier2);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task RestartProcessThatTerminatesAfterFileChange()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)

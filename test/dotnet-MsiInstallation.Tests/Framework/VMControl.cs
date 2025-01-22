@@ -17,7 +17,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
         string _psExecPath;
 
-        public ITestOutputHelper Log { get; }
+        public MSTestContext MSTestContext { get; }
 
         private CimSession _session;
         private CimInstance VMInstance
@@ -29,14 +29,14 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             }
         }
 
-        public VMControl(ITestOutputHelper log, string vMName, string vMMachineName)
+        public VMControl(MSTestContext testContext, string vMName, string vMMachineName)
         {
             if (!WindowsUtils.IsAdministrator())
             {
                 throw new Exception("Must be running as admin to control virtual machines");
             }
 
-            Log = log;
+            MSTestContext = testContext;
             VMName = vMName;
             VMMachineName = vMMachineName;
 
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             }
         }
 
-        public static List<string> GetVirtualMachines(ITestOutputHelper log)
+        public static List<string> GetVirtualMachines(MSTestContext testContext)
         {
             if (!WindowsUtils.IsAdministrator())
             {
@@ -71,7 +71,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
         public CommandResult RunCommandOnVM(string[] args, string workingDirectory = null)
         {
-            var remoteCommand = new RemoteCommand(Log, VMMachineName, _psExecPath, workingDirectory, args);
+            var remoteCommand = new RemoteCommand(MSTestContext, VMMachineName, _psExecPath, workingDirectory, args);
 
             for (int i = 0; i < 3; i++)
             {
@@ -80,7 +80,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 {
                     return result;
                 }
-                Log.WriteLine("PsExec failed, retrying...");
+                MSTestContext.WriteLine("PsExec failed, retrying...");
                 Thread.Sleep(500);
             }
 
@@ -116,7 +116,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
             snapshot.CimInstanceProperties["ElementName"].Value = newName;
 
-            Log.WriteLine("Renaming snapshot " + snapshotId + " to " + newName);
+            MSTestContext.WriteLine("Renaming snapshot " + snapshotId + " to " + newName);
 
             CimSerializer serializer = CimSerializer.Create();
             var snapshotString = Encoding.Unicode.GetString(serializer.Serialize(snapshot, InstanceSerializationOptions.None));
@@ -142,7 +142,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             };
 
 
-            Log.WriteLine("Creating snapshot " + snapshotName);
+            MSTestContext.WriteLine("Creating snapshot " + snapshotName);
 
             var result = _session.InvokeMethod(virtNamespace, snapshotService, "CreateSnapshot", cimMethodParameters);
 
@@ -157,7 +157,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 await RenameSnapshotAsync(newSnapshot.id, snapshotName);
             }
 
-            Log.WriteLine($"Created snapshot {snapshotName} ({newSnapshot.id})");
+            MSTestContext.WriteLine($"Created snapshot {snapshotName} ({newSnapshot.id})");
 
             return newSnapshot.id;
         }
@@ -190,7 +190,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 CimMethodParameter.Create("Snapshot", snapshot, CimType.Reference, CimFlags.In),
             };
 
-            Log.WriteLine($"Applying snapshot {snapshot.CimInstanceProperties["ElementName"].Value} ({snapshot.CimInstanceProperties["ConfigurationID"].Value})");
+            MSTestContext.WriteLine($"Applying snapshot {snapshot.CimInstanceProperties["ElementName"].Value} ({snapshot.CimInstanceProperties["ConfigurationID"].Value})");
 
             var result = _session.InvokeMethod(virtNamespace, snapshotService, "ApplySnapshot", cimMethodParameters);
 
@@ -216,7 +216,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 return;
             }
 
-            Log.WriteLine($"Changing EnabledState from {getCurrentState()} to {targetState}");
+            MSTestContext.WriteLine($"Changing EnabledState from {getCurrentState()} to {targetState}");
 
             var methodParameters = new CimMethodParametersCollection()
             {
@@ -230,7 +230,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
             for (int i = 0; i < 10 && getCurrentState() != targetState; i++)
             {
-                Log.WriteLine("Waiting for state change...");
+                MSTestContext.WriteLine("Waiting for state change...");
                 await Task.Delay(250);
             }
         }
@@ -255,7 +255,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 var jobState = (JobState)(ushort)job.CimInstanceProperties["JobState"].Value;
                 if (jobState != JobState.Completed && jobState != JobState.CompletedWithWarnings)
                 {
-                    Log.WriteLine("Job failed: " + jobState);
+                    MSTestContext.WriteLine("Job failed: " + jobState);
 
                     string exceptionText = "Job failed: " + jobState;
 
@@ -325,8 +325,8 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             string _workingDirectory;
 
 
-            public RemoteCommand(ITestOutputHelper log, string targetMachineName, string psExecPath, string workingDirectory, string[] args)
-                : base(log)
+            public RemoteCommand(MSTestContext testContext, string targetMachineName, string psExecPath, string workingDirectory, string[] args)
+                : base(testContext)
             {
                 _targetMachineName = targetMachineName;
                 _psExecPath = psExecPath;

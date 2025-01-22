@@ -11,7 +11,7 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 public class UpdateExternallyDefinedStaticWebAssetsTest
 {
-    [Fact]
+    [TestMethod]
     public void Execute_UpdatesAssetsWithoutFingerprint()
     {
         // Arrange
@@ -85,7 +85,7 @@ public class UpdateExternallyDefinedStaticWebAssetsTest
         task.UpdatedAssets[1].GetMetadata("Integrity").Should().NotBeNullOrEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void Execute_DoesNotAddAssets_WithEndpointsTo_AssetsWithoutEndpoints()
     {
         // Arrange
@@ -171,7 +171,7 @@ public class UpdateExternallyDefinedStaticWebAssetsTest
         task.UpdatedAssets[1].GetMetadata("Integrity").Should().NotBeNullOrEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void Execute_InfersFingerprint_ForMatchingAssets()
     {
         // Arrange

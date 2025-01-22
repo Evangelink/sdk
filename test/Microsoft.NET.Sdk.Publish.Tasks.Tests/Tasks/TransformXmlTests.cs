@@ -46,7 +46,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 </configuration>");
 
 
-        [Fact]
+        [TestMethod]
         public void XmlTransform_AppliesRemoveAllTransform()
         {
             // Arrange
@@ -74,12 +74,12 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 
 
                 // Assert
-                Assert.True(success);
-                Assert.True(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("handlers").Count() == 1);
-                Assert.True(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("aspNetCore").Count() == 1);
+                Assert.IsTrue(success);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("handlers").Count() == 1);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("aspNetCore").Count() == 1);
 
-                Assert.True(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("handlers").Count() == 0);
-                Assert.True(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("aspNetCore").Count() == 0);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("handlers").Count() == 0);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("aspNetCore").Count() == 0);
             }
             finally
             {
@@ -91,7 +91,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
         }
 
 
-        [Fact]
+        [TestMethod]
         public void XmlTransform_AppliesAdd()
         {
             // Arrange
@@ -119,9 +119,9 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 
 
                 // Assert
-                Assert.True(success);
-                Assert.True(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("environmentVariable").Count() == 0);
-                Assert.True(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("environmentVariable").Count() == 1);
+                Assert.IsTrue(success);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("environmentVariable").Count() == 0);
+                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("environmentVariable").Count() == 1);
             }
             finally
             {

@@ -8,14 +8,14 @@ using NuGet.Versioning;
 
 namespace EndToEnd.Tests
 {
-    public partial class GivenUsingDefaultRuntimeFrameworkVersions(ITestOutputHelper log) : SdkTest(log)
+    public partial class GivenUsingDefaultRuntimeFrameworkVersions(MSTestContext testContext) : SdkTest(testContext)
     {
         private static readonly IEnumerable<string> frameworks = new string[] {"Microsoft.NETCore.App", "Microsoft.WindowsDesktop.App",
             "Microsoft.WindowsDesktop.App.WPF", "Microsoft.WindowsDesktop.App.WindowsForms", "Microsoft.AspNetCore.App" };
 
         private static readonly IEnumerable<string> versions = SupportedNetCoreAppVersions.Versions.Where(version => NuGetVersion.Parse(version).Major >= 3);
 
-        [Fact]
+        [TestMethod]
         public void DefaultRuntimeVersionsAreUpToDate()
         {
             var outputFile = "resolvedVersions.txt";

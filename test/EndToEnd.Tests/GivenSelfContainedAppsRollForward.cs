@@ -7,16 +7,16 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
-    public partial class GivenSelfContainedAppsRollForward(ITestOutputHelper log) : SdkTest(log)
+    public partial class GivenSelfContainedAppsRollForward(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void WeCoverLatestNetCoreAppRollForward()
         {
             //  Run "dotnet new console", get TargetFramework property, and make sure it's covered in SupportedNetCoreAppVersions
             var directory = _testAssetsManager.CreateTestDirectory();
             string projectDirectory = directory.Path;
 
-            new DotnetNewCommand(Log, "web", "--no-restore")
+            new DotnetNewCommand(MSTestContext, "web", "--no-restore")
                 .WithVirtualHive()
                 .WithWorkingDirectory(projectDirectory)
                 .Execute().Should().Pass();
@@ -35,7 +35,7 @@ namespace EndToEnd.Tests
                 "of .NET Core created by \"dotnet new\"");
         }
 
-        [Fact]
+        [TestMethod]
         public void WeCoverLatestAspNetCoreAppRollForward()
         {
             var directory = _testAssetsManager.CreateTestDirectory();
@@ -43,7 +43,7 @@ namespace EndToEnd.Tests
 
             //  Run "dotnet new web", get TargetFramework property, and make sure it's covered in SupportedAspNetCoreAppVersions
 
-            new DotnetNewCommand(Log, "web", "--no-restore")
+            new DotnetNewCommand(MSTestContext, "web", "--no-restore")
                 .WithVirtualHive()
                 .WithWorkingDirectory(projectDirectory)
                 .Execute().Should().Pass();

@@ -6,12 +6,12 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
     public class TransformWebConfigTests
     {
 
-        [Theory]
-        [InlineData("Web.config")]
-        [InlineData("web.config")]
-        [InlineData("web.Config")]
-        [InlineData("wEb.CoNfIg")]
-        [InlineData("WEB.CONFIG")]
+        [TestMethod]
+        [DataRow("Web.config")]
+        [DataRow("web.config")]
+        [DataRow("web.Config")]
+        [DataRow("wEb.CoNfIg")]
+        [DataRow("WEB.CONFIG")]
         public void TransformWebConfig_FindWebConfig(string webConfigToSearchFor)
         {
 
@@ -28,7 +28,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
                 var webConfig = transformWebConfigTask.GetWebConfigFileOrDefault(projectFile, "web.config");
 
                 //Assert
-                Assert.Equal(Path.Combine(projectFolder, webConfigToSearchFor), webConfig);
+                Assert.AreEqual(Path.Combine(projectFolder, webConfigToSearchFor), webConfig);
             }
             finally
             {
@@ -39,7 +39,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void TransformWebConfig_ReturnDefaultWebConfig()
         {
             string projectFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -56,7 +56,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
                 var webConfig = transformWebConfigTask.GetWebConfigFileOrDefault(projectFile, "web.config");
 
                 //Assert
-                Assert.Equal(Path.Combine(projectFolder, "web.config"), webConfig);
+                Assert.AreEqual(Path.Combine(projectFolder, "web.config"), webConfig);
             }
             finally
             {

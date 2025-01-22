@@ -7,12 +7,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewSearchTests
     {
-        [Theory]
-        [InlineData("--search")]
-        [InlineData("search")]
+        [TestMethod]
+        [DataRow("--search")]
+        [DataRow("search")]
         public Task CannotExecuteEmptyCriteria(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, testCase)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -23,13 +23,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowMessageInCaseShortNameConflict()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("TemplateWithConflictShortName", _log, customHivePath);
+            InstallTestTemplate("TemplateWithConflictShortName", _testContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "do-not-exist")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", "do-not-exist")
                   .WithCustomHive(customHivePath)
                   .WithoutBuiltInTemplates()
                   .Execute();

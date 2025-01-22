@@ -13,7 +13,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
 public class GenerateStaticWebAssetEndpointsManifestTest
 {
-    [Fact]
+    [TestMethod]
     public void GeneratesManifest_ForEndpointsWithTokens()
     {
         StaticWebAssetEndpoint[] expectedEndpoints =

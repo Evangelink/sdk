@@ -24,8 +24,8 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
         }
 
 #if NET472
-        [Theory]
-        [MemberData(nameof(EFMigrations))]
+        [TestMethod]
+        [DynamicData(nameof(EFMigrations))]
         public void GenerateEFScripts_ReturnsFalse_forInValidContexts(ITaskItem[] efMigrationsData)
         {
             //Arrange
@@ -47,7 +47,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
             bool isSucces = task.GenerateEFSQLScriptsInternal(false);
 
             // Assert
-            Assert.False(isSucces);
+            Assert.IsFalse(isSucces);
         }
 #endif
     }

@@ -13,7 +13,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
 {
     public class GenerateStaticWebAssetsPropsFileTest
     {
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_DoesNotContainSourceType()
         {
             // Arrange
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_DoesNotContainSourceId()
         {
             // Arrange
@@ -79,7 +79,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_DoesNotContainContentRoot()
         {
             // Arrange
@@ -112,7 +112,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_DoesNotContainBasePath()
         {
             // Arrange
@@ -145,7 +145,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_DoesNotContainRelativePath()
         {
             // Arrange
@@ -186,7 +186,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_HasInvalidSourceType()
         {
             // Arrange
@@ -246,7 +246,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void Fails_WhenStaticWebAsset_HaveDifferentSourceId()
         {
             // Arrange
@@ -307,7 +307,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             errorMessages.Should().ContainSingle(message => message == expectedError);
         }
 
-        [Fact]
+        [TestMethod]
         public void WritesPropsFile_WhenThereIsAtLeastOneStaticAsset()
         {
             // Arrange
@@ -384,7 +384,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void WritesIndividualItems_WithTheirRespectiveBaseAndRelativePaths()
         {
             // Arrange
@@ -485,9 +485,9 @@ namespace Microsoft.NET.Sdk.Razor.Test
                 var result = task.Execute();
 
                 // Assert
-                Assert.True(result);
+                Assert.IsTrue(result);
                 var document = File.ReadAllText(file);
-                Assert.Equal(expectedDocument, document, ignoreLineEndingDifferences: true);
+                Assert.AreEqual(expectedDocument, document, ignoreLineEndingDifferences: true);
             }
             finally
             {

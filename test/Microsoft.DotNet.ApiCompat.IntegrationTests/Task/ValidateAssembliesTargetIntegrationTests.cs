@@ -5,7 +5,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
 {
     public class ValidateAssembliesTargetIntegrationTests : SdkTest
     {
-        public ValidateAssembliesTargetIntegrationTests(ITestOutputHelper log) : base(log)
+        public ValidateAssembliesTargetIntegrationTests(MSTestContext testContext) : base(testContext)
         {
         }
     }

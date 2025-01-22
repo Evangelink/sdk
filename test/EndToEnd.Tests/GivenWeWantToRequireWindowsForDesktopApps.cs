@@ -7,9 +7,9 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
-    public class GivenWeWantToRequireWindowsForDesktopApps(ITestOutputHelper log) : SdkTest(log)
+    public class GivenWeWantToRequireWindowsForDesktopApps(MSTestContext testContext) : SdkTest(testContext)
     {
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD, Skip = "https://github.com/dotnet/sdk/issues/42230")]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD, Skip = "https://github.com/dotnet/sdk/issues/42230")]
         public void It_does_not_download_desktop_targeting_packs_on_unix()
         {
             var testProjectCreator = new TestProjectCreator()
@@ -29,7 +29,7 @@ namespace EndToEnd.Tests
             Directory.Exists(packagesPath).Should().BeFalse(packagesPath + " should not exist");
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
         public void It_does_not_download_desktop_runtime_packs_on_unix()
         {
             const string Rid = "win-x64";

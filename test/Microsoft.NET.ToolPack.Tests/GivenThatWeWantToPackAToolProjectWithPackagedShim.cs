@@ -165,12 +165,12 @@ namespace Microsoft.NET.ToolPack.Tests
             File.Exists(osxShimPath).Should().BeTrue($"Shim {osxShimPath} should exist");
         }
 
-        public void It_uses_outputs_to_bin_by_default(bool multiTarget, string targetFramework)
         [TestMethod]
         [DataRow(true, "netcoreapp2.1")]
         [DataRow(false, "netcoreapp2.1")]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
+        public void It_uses_outputs_to_bin_by_default(bool multiTarget, string targetFramework)
         {
             TestAsset helloWorldAsset = CreateTestAsset(
                 multiTarget,
@@ -191,12 +191,12 @@ namespace Microsoft.NET.ToolPack.Tests
             File.Exists(osxShimPath).Should().BeTrue($"Shim {osxShimPath} should exist");
         }
 
-        public void Clean_should_remove_bin_output(bool multiTarget, string targetFramework)
         [TestMethod]
         [DataRow(true, "netcoreapp2.1")]
         [DataRow(false, "netcoreapp2.1")]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
+        public void Clean_should_remove_bin_output(bool multiTarget, string targetFramework)
         {
             TestAsset helloWorldAsset = CreateTestAsset(
                 multiTarget,

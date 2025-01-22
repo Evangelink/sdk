@@ -11,7 +11,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class ComputeReferenceStaticWebAssetItemsTest
     {
-        [Fact]
+        [TestMethod]
         public void IncludesAssetsFromCurrentProjectAsReferencedAssets()
         {
             var errorMessages = new List<string>();
@@ -37,7 +37,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void IncludesPatternsFromCurrentProject()
         {
             var errorMessages = new List<string>();
@@ -63,7 +63,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.DiscoveryPatterns.Should().HaveCount(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void FiltersPatternsFromReferencedProjects()
         {
             var errorMessages = new List<string>();
@@ -89,7 +89,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.DiscoveryPatterns.Should().HaveCount(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void PrefersSpecificKindAssetsOverAllKindAssets()
         {
             var errorMessages = new List<string>();
@@ -120,7 +120,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets[0].ItemSpec.Should().Be(Path.GetFullPath(Path.Combine("wwwroot", "candidate.other.js")));
         }
 
-        [Fact]
+        [TestMethod]
         public void AllAssetGetsIgnoredWhenBuildAndPublishAssetsAreDefined()
         {
             var errorMessages = new List<string>();
@@ -152,9 +152,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets[0].ItemSpec.Should().Be(Path.GetFullPath(Path.Combine("wwwroot", "candidate.other.js")));
         }
 
-        [Theory]
-        [InlineData("Build", "Publish")]
-        [InlineData("Publish", "Build")]
+        [TestMethod]
+        [DataRow("Build", "Publish")]
+        [DataRow("Publish", "Build")]
         public void FiltersAssetsForOppositeKind(string assetKind, string manifestKind)
         {
             var errorMessages = new List<string>();
@@ -180,7 +180,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void FiltersCurrentProjectOnlyAssetsInDefaultMode()
         {
             var errorMessages = new List<string>();
@@ -206,7 +206,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void IncludesReferenceAssetsInDefaultMode()
         {
             var errorMessages = new List<string>();
@@ -232,7 +232,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void IncludesCurrentProjectAssetsInRootMode()
         {
             var errorMessages = new List<string>();
@@ -258,7 +258,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void FiltersReferenceOnlyAssetsInRootMode()
         {
             var errorMessages = new List<string>();
@@ -284,7 +284,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void FiltersAssetsFromOtherProjects()
         {
             var errorMessages = new List<string>();
@@ -310,7 +310,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.StaticWebAssets.Should().HaveCount(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void FiltersAssetsFromPackages()
         {
             var errorMessages = new List<string>();

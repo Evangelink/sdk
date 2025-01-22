@@ -7,18 +7,18 @@ namespace Microsoft.NET.Sdk.Razor.Tests;
 
 public class RewriteCssTest
 {
-    [Fact]
+    [TestMethod]
     public void HandlesEmptyFile()
     {
         // Arrange/act
         var result = RewriteCss.AddScopeToSelectors("file.css", string.Empty, "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(string.Empty, result);
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(string.Empty, result);
     }
 
-    [Fact]
+    [TestMethod]
     public void AddsScopeAfterSelector()
     {
         // Arrange/act
@@ -27,13 +27,13 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .myclass[TestScope] { color: red; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesMultipleSelectors()
     {
         // Arrange/act
@@ -46,8 +46,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .first[TestScope], .second[TestScope] { color: red; }
     .third[TestScope] { color: blue; }
     :root[TestScope] { color: green; }
@@ -56,7 +56,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesComplexSelectors()
     {
         // Arrange/act
@@ -65,13 +65,13 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .first div > li[TestScope], body .second:not(.fancy)[attr~=whatever][TestScope] { color: red; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesSpacesAndCommentsWithinSelectors()
     {
         // Arrange/act
@@ -80,13 +80,13 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .first /* space at end {} */ div[TestScope] , .myclass[TestScope] /* comment at end */ { color: red; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesPseudoClasses()
     {
         // Arrange/act
@@ -100,8 +100,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a:fake-pseudo-class[TestScope] { color: red; }
     a:focus b:hover[TestScope] { color: green; }
     tr:nth-child(4n + 1)[TestScope] { color: blue; }
@@ -111,7 +111,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesPseudoElements()
     {
         // Arrange/act
@@ -126,8 +126,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a[TestScope]::before { content: ""✋""; }
     a[TestScope]::after::placeholder { content: ""🐯""; }
     custom-element[TestScope]::part(foo) { content: ""🤷‍""; }
@@ -138,7 +138,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesSingleColonPseudoElements()
     {
         // Arrange/act
@@ -152,8 +152,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a[TestScope]:after { content: ""x""; }
     a[TestScope]:before { content: ""x""; }
     a[TestScope]:first-letter { content: ""x""; }
@@ -163,7 +163,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RespectsDeepCombinator()
     {
         // Arrange/act
@@ -173,14 +173,14 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .first[TestScope]  .second { color: red; }
     a[TestScope]  b, c[TestScope]  d { color: blue; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RespectsDeepCombinatorWithDirectDescendant()
     {
         // Arrange/act
@@ -190,14 +190,14 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a[TestScope]  >   b { color: red; }
     c[TestScope]   >  d { color: blue; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RespectsDeepCombinatorWithAdjacentSibling()
     {
         // Arrange/act
@@ -207,14 +207,14 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a[TestScope] +  b { color: red; }
     c[TestScope]  + d { color: blue; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RespectsDeepCombinatorWithGeneralSibling()
     {
         // Arrange/act
@@ -224,14 +224,14 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     a[TestScope] ~  b { color: red; }
     c[TestScope]  ~ d { color: blue; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void IgnoresMultipleDeepCombinators()
     {
         // Arrange/act
@@ -240,13 +240,13 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .first[TestScope]  .second ::deep .third { color:red; }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RespectsDeepCombinatorWithSpacesAndComments()
     {
         // Arrange/act
@@ -257,15 +257,15 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .a .b[TestScope] /* comment ::deep 1 */    /* comment ::deep 2 */  .c /* ::deep */ .d { color: red; }
     [TestScope] * { color: blue; } /* Leading deep combinator */
     another[TestScope]  { color: green }  /* Trailing deep combinator */
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void HandlesAtBlocks()
     {
         // Arrange/act
@@ -280,8 +280,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .myclass[TestScope] { color: red; }
 
     @media only screen and (max-width: 600px) {
@@ -292,7 +292,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void AddsScopeToKeyframeNames()
     {
         // Arrange/act
@@ -301,13 +301,13 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     @keyframes my-animation-TestScope { /* whatever */ }
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RewritesAnimationNamesWhenMatchingKnownKeyframes()
     {
         // Arrange/act
@@ -327,8 +327,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .myclass[TestScope] {
         color: red;
         animation: /* ignore comment */ my-animation-TestScope 1s infinite;
@@ -344,7 +344,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RewritesMultipleAnimationNames()
     {
         // Arrange/act
@@ -356,8 +356,8 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.Empty(errors);
-        Assert.Equal(@"
+        Assert.HasCount(0, errors);
+        Assert.AreEqual(@"
     .myclass1[TestScope] { animation-name: my-animation-TestScope , different-animation-TestScope }
     .myclass2[TestScope] { animation: 4s linear 0s alternate my-animation-TestScope infinite, different-animation-TestScope 0s }
     @keyframes my-animation-TestScope { }
@@ -365,7 +365,7 @@ public class RewriteCssTest
 ", result);
     }
 
-    [Fact]
+    [TestMethod]
     public void RejectsImportStatements()
     {
         // Arrange/act
@@ -381,9 +381,9 @@ public class RewriteCssTest
 
         // Assert
         Assert.Collection(errors,
-            error => Assert.Equal("file.css(2,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
-            error => Assert.Equal("file.css(3,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
-            error => Assert.Equal("file.css(4,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
-            error => Assert.Equal("file.css(5,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()));
+            error => Assert.AreEqual("file.css(2,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
+            error => Assert.AreEqual("file.css(3,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
+            error => Assert.AreEqual("file.css(4,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()),
+            error => Assert.AreEqual("file.css(5,5): @import rules are not supported within scoped CSS files because the loading order would be undefined. @import may only be placed in non-scoped CSS files.", error.ToString()));
     }
 }

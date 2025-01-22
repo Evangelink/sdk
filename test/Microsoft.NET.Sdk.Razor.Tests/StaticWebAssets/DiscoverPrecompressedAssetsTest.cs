@@ -24,7 +24,7 @@ public class DiscoverPrecompressedAssetsTest
         OriginalItemSpec = Path.Combine(OutputBasePath, Guid.NewGuid().ToString("N") + ".tmp");
     }
 
-    [Fact]
+    [TestMethod]
     public void DiscoversPrecompressedAssetsCorrectly()
     {
         var errorMessages = new List<string>();

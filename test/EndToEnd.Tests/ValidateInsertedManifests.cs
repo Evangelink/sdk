@@ -7,9 +7,9 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace EndToEnd.Tests
 {
-    public class ValidateInsertedManifests(ITestOutputHelper log) : SdkTest(log)
+    public class ValidateInsertedManifests(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void ManifestReaderCanReadManifests()
         {
             var sdkManifestDir = Path.Combine(Path.GetDirectoryName(TestContext.Current.ToolsetUnderTest.DotNetHostPath), "sdk-manifests");

@@ -17,7 +17,7 @@ namespace ManifestReaderTests
         private string? _manifestVersionBandDirectory;
         private string? _fakeDotnetRootDirectory;
 
-        public SdkDirectoryWorkloadManifestProviderTests(TestContext logger) : base(logger)
+        public SdkDirectoryWorkloadManifestProviderTests(MSTestContext testContext) : base(logger)
         {
         }
 

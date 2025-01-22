@@ -28,7 +28,7 @@ public class ResolveCompressedAssetsTest
         OriginalItemSpec = Path.Combine(OutputBasePath, Guid.NewGuid().ToString("N") + ".tmp");
     }
 
-    [Fact]
+    [TestMethod]
     public void ResolvesExplicitlyProvidedAssets()
     {
         // Arrange
@@ -74,7 +74,7 @@ public class ResolveCompressedAssetsTest
         task.AssetsToCompress[1].ItemSpec.Should().EndWith(".br");
     }
 
-    [Fact]
+    [TestMethod]
     public void InfersPreCompressedAssetsCorrectly()
     {
         var errorMessages = new List<string>();
@@ -142,7 +142,7 @@ public class ResolveCompressedAssetsTest
         task.AssetsToCompress.Should().HaveCount(0);
     }
 
-    [Fact]
+    [TestMethod]
     public void ResolvesAssetsMatchingIncludePattern()
     {
         // Arrange
@@ -185,7 +185,7 @@ public class ResolveCompressedAssetsTest
         task.AssetsToCompress[1].ItemSpec.Should().EndWith(".br");
     }
 
-    [Fact]
+    [TestMethod]
     public void ResolvesAssets_WithFingerprint_MatchingIncludePattern()
     {
         // Arrange
@@ -240,7 +240,7 @@ public class ResolveCompressedAssetsTest
         relativePath.Should().EndWith("#[.{fingerprint=v1}]");
     }
 
-    [Fact]
+    [TestMethod]
     public void ExcludesAssetsMatchingExcludePattern()
     {
         // Arrange
@@ -282,7 +282,7 @@ public class ResolveCompressedAssetsTest
         task.AssetsToCompress.Should().HaveCount(0);
     }
 
-    [Fact]
+    [TestMethod]
     public void DeduplicatesAssetsResolvedBothExplicitlyAndFromPattern()
     {
         // Arrange
@@ -329,7 +329,7 @@ public class ResolveCompressedAssetsTest
         buildTask.AssetsToCompress[1].ItemSpec.Should().EndWith(".br");
     }
 
-    [Fact]
+    [TestMethod]
     public void IgnoresAssetsCompressedInPreviousTaskRun_Gzip()
     {
         // Arrange
@@ -392,7 +392,7 @@ public class ResolveCompressedAssetsTest
         task2.AssetsToCompress[0].ItemSpec.Should().EndWith(".br");
     }
 
-    [Fact]
+    [TestMethod]
     public void IgnoresAssetsCompressedInPreviousTaskRun_Brotli()
     {
         // Arrange

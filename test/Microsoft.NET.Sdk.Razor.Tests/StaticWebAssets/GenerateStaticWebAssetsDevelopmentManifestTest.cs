@@ -12,7 +12,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class GenerateStaticWebAssetsDevelopmentManifestTest
     {
-        [Fact]
+        [TestMethod]
         public void SkipsManifestGenerationWhen_ThereAreNoAssetsNorDiscoveryPatterns()
         {
             // Arrange
@@ -36,7 +36,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             messages.Should().HaveCount(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_IncludesBuildAssets()
         {
             // Arrange
@@ -65,10 +65,10 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Theory]
-        [InlineData("#[.{fingerprint}]?", "index.html", "optional.html")]
-        [InlineData("#[.{fingerprint}]!", "index.fingerprint.html", "preferred.html")]
-        [InlineData("#[.{fingerprint}]", "index.fingerprint.html", "required.html")]
+        [TestMethod]
+        [DataRow("#[.{fingerprint}]?", "index.html", "optional.html")]
+        [DataRow("#[.{fingerprint}]!", "index.fingerprint.html", "preferred.html")]
+        [DataRow("#[.{fingerprint}]", "index.fingerprint.html", "required.html")]
         public void ComputeDevelopmentManifest_ReplacesAssetTokens(string fingerprintExpression, string path, string fileName)
         {
             // Arrange
@@ -97,10 +97,10 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Theory]
-        [InlineData("#[.{fingerprint}]?", "index.html", "optional.html")]
-        [InlineData("#[.{fingerprint}]!", "index.fingerprint.html", "preferred.html")]
-        [InlineData("#[.{fingerprint}]", "index.fingerprint.html", "required.html")]
+        [TestMethod]
+        [DataRow("#[.{fingerprint}]?", "index.html", "optional.html")]
+        [DataRow("#[.{fingerprint}]!", "index.fingerprint.html", "preferred.html")]
+        [DataRow("#[.{fingerprint}]", "index.fingerprint.html", "required.html")]
         public void ComputeDevelopmentManifest_ReplacesAssetTokens_FileExists(string fingerprintExpression, string path, string subPath)
         {
             // Arrange
@@ -141,7 +141,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_UsesIdentitySubpath_WhenFileExists_AndContentRoot_IsPrefix()
         {
             // Arrange
@@ -188,7 +188,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_UsesRelativePath_ReplacesAssetTokens_WhenFileDoesNotExist_AtIdentity()
         {
             // Arrange
@@ -224,7 +224,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_IncludesAllAssets()
         {
             // Arrange
@@ -253,7 +253,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_ExcludesPublishAssets()
         {
             // Arrange
@@ -280,7 +280,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_ExcludesReferenceAssets()
         {
             // Arrange
@@ -308,7 +308,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_PrefersBuildAssetsOverAllAssets()
         {
             // Arrange
@@ -353,7 +353,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_UsesIdentityWhenContentRootStartsByIdentity()
         {
             // Arrange
@@ -399,7 +399,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_UsesRelativePathContentRootDoesNotStartByIdentity()
         {
             // Arrange
@@ -431,7 +431,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_MapsPatternsFromCurrentProject()
         {
             // Arrange
@@ -461,7 +461,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_MapsPatternsFromOtherProjects()
         {
             // Arrange
@@ -492,7 +492,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_CanMapMultiplePatternsOnSameNode()
         {
             // Arrange
@@ -529,7 +529,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_CanMapMultiplePatternsOnSameNodeWithDifferentContentRoots()
         {
             // Arrange
@@ -567,7 +567,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_MultipleAssetsSameContentRoot()
         {
             // Arrange
@@ -603,7 +603,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_DifferentCasingEndUpInDifferentNodes()
         {
             // Arrange
@@ -639,7 +639,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Should().BeEquivalentTo(expectedManifest);
         }
 
-        [Fact]
+        [TestMethod]
         public void ComputeDevelopmentManifest_UsesBasePathForAssetsFromDifferentProjects()
         {
             // Arrange

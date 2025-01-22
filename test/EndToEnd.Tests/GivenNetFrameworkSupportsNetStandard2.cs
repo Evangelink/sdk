@@ -3,7 +3,7 @@
 
 namespace EndToEnd.Tests
 {
-    public class GivenNetFrameworkSupportsNetStandard2(ITestOutputHelper log) : SdkTest(log)
+    public class GivenNetFrameworkSupportsNetStandard2(MSTestContext testContext) : SdkTest(testContext)
     {
         [WindowsOnlyFact]
         public void Anet462ProjectCanReferenceANETStandardProject()
@@ -14,11 +14,11 @@ namespace EndToEnd.Tests
 
             string projectDirectory = Path.Combine(_testInstance.Path, "TestApp");
 
-            new BuildCommand(Log, projectDirectory)
+            new BuildCommand(MSTestContext, projectDirectory)
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log, "run")
+            new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should().Pass()

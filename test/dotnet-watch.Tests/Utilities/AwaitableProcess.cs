@@ -8,7 +8,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    internal class AwaitableProcess(DotnetCommand spec, MSTestContext logger) : IDisposable
+    internal class AwaitableProcess(DotnetCommand spec, MSTestContext testContext) : IDisposable
     {
         // cancel just before we hit timeout used on CI (XUnitWorkItemTimeout value in sdk\test\UnitTests.proj)
         private static readonly TimeSpan s_timeout = Environment.GetEnvironmentVariable("HELIX_WORK_ITEM_TIMEOUT") is { } value

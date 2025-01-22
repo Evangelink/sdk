@@ -7,7 +7,7 @@ namespace Microsoft.NET.Build.Containers.UnitTests;
 
 public class DescriptorTests
 {
-    [Fact]
+    [TestMethod]
     public void BasicConstructor()
     {
         Descriptor d = new(
@@ -17,9 +17,9 @@ public class DescriptorTests
 
         Console.WriteLine(JsonSerializer.Serialize(d, new JsonSerializerOptions { WriteIndented = true }));
 
-        Assert.Equal("application/vnd.oci.image.manifest.v1+json", d.MediaType);
-        Assert.Equal("sha256:5b0bcabd1ed22e9fb1310cf6c2dec7cdef19f0ad69efa1f392e94a4333501270", d.Digest);
-        Assert.Equal(7_682, d.Size);
+        Assert.AreEqual("application/vnd.oci.image.manifest.v1+json", d.MediaType);
+        Assert.AreEqual("sha256:5b0bcabd1ed22e9fb1310cf6c2dec7cdef19f0ad69efa1f392e94a4333501270", d.Digest);
+        Assert.AreEqual(7_682, d.Size);
 
         Assert.Null(d.Annotations);
         Assert.Null(d.Data);

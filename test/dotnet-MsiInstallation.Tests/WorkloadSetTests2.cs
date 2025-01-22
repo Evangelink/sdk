@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
 {
     public class WorkloadSetTests2 : WorkloadSetTestsBase
     {
-        public WorkloadSetTests2(ITestOutputHelper log) : base(log)
+        public WorkloadSetTests2(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             AddNuGetSource(@"C:\SdkTesting\workloadsets", SdkTestingDirectory);
         }
 
-        [Fact]
+        [TestMethod]
         public void RestoreWorkloadSetViaGlobalJson()
         {
             InstallSdk();
@@ -69,9 +69,9 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetRollback(SdkTestingDirectory).Should().NotBe(originalRollback);
         }
 
-        [Theory]
-        [InlineData("update")]
-        [InlineData("install")]
+        [TestMethod]
+        [DataRow("update")]
+        [DataRow("install")]
         public void UseGlobalJsonToSpecifyWorkloadSet(string command)
         {
             SetupWorkloadSetInGlobalJson(out var originalRollback);
@@ -81,7 +81,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetRollback(SdkTestingDirectory).Should().NotBe(originalRollback);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallWithGlobalJsonAndSkipManifestUpdate()
         {
             SetupWorkloadSetInGlobalJson(out var originalRollback);
@@ -93,7 +93,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
                 .And.HaveStdErrContaining(Path.Combine(SdkTestingDirectory, "global.json"));
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallWithVersionAndSkipManifestUpdate()
         {
             InstallSdk();
@@ -104,7 +104,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
                 .And.HaveStdErrContaining("--sdk-version");
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallWithVersionWhenPinned()
         {
             InstallSdk();
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(WorkloadSetVersion2);
         }
 
-        [Fact]
+        [TestMethod]
         public void InstallWithGlobalJsonWhenPinned()
         {
             SetupWorkloadSetInGlobalJson(out var originalRollback);
@@ -150,7 +150,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetInfoWithGlobalJson()
         {
             InstallSdk();
@@ -161,9 +161,9 @@ namespace Microsoft.DotNet.MsiInstallerTests
             SetupWorkloadSetInGlobalJson(out _);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void UpdateDoesNotTryToInstallOlderWorkloadSet(bool usePreview)
         {
             if (NeedsIncludePreviews && usePreview)

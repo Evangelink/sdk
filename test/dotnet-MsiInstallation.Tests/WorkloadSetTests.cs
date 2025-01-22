@@ -11,11 +11,11 @@ namespace Microsoft.DotNet.MsiInstallerTests
 {
     public class WorkloadSetTests : WorkloadSetTestsBase
     {
-        public WorkloadSetTests(ITestOutputHelper log) : base(log)
+        public WorkloadSetTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotUseWorkloadSetsByDefault()
         {
             InstallSdk();
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateWithWorkloadSets()
         {
             InstallSdk();
@@ -65,7 +65,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateInWorkloadSetModeWithNoAvailableWorkloadSet()
         {
             InstallSdk();
@@ -85,13 +85,13 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(updatedWorkloadVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToSpecificWorkloadSetVersion()
         {
             UpdateToWorkloadSetVersion(WorkloadSetVersion1);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToPreviousBandWorkloadSetVersion()
         {
             UpdateToWorkloadSetVersion(WorkloadSetPreviousBandVersion);
@@ -132,7 +132,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(WorkloadSetVersion2);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToUnavailableWorkloadSetVersion()
         {
             string unavailableWorkloadSetVersion = "8.0.300-preview.test.42";
@@ -158,7 +158,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
         }
 
 
-        [Fact]
+        [TestMethod]
         public void UpdateWorkloadSetWithoutAvailableManifests()
         {
             InstallSdk();
@@ -181,7 +181,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(workloadVersionBeforeUpdate);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateToWorkloadSetVersionWithManifestsNotAvailable()
         {
             InstallSdk();
@@ -202,7 +202,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(workloadVersionBeforeUpdate);
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdateShouldNotPinWorkloadSet()
         {
             InstallSdk();
@@ -227,14 +227,14 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(WorkloadSetVersion2);
         }
 
-        [Fact(Skip = "Not Implemented")]
+        [TestMethod(IgnoreMessage = "Not Implemented")]
         public void WorkloadSetInstallationRecordIsWrittenCorrectly()
         {
             //  Should the workload set version or the package version be used in the registry?
             throw new NotImplementedException();
         }
 
-        [Fact(Skip = "Not Implemented")]
+        [TestMethod(IgnoreMessage = "Not Implemented")]
         public void TurnOffWorkloadSetUpdateMode()
         {
             //  If you have a workload set installed and then turn off workload set update mode, what should happen?
@@ -243,7 +243,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             throw new NotImplementedException();
         }
 
-        [Fact]
+        [TestMethod]
         public void GarbageCollectWorkloadSets()
         {
             InstallSdk();
@@ -304,7 +304,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
         }
 
         //  Note: this may fail due to https://github.com/dotnet/sdk/issues/43876
-        [Fact]
+        [TestMethod]
         public void FinalizerUninstallsWorkloadSets()
         {
             UpdateWithWorkloadSets();
@@ -321,7 +321,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
         }
 
         //  Note: this may fail for rtm-branded non-stabilized SDKs: https://github.com/dotnet/sdk/issues/43890
-        [Fact]
+        [TestMethod]
         public void WorkloadSearchVersion()
         {
             InstallSdk();

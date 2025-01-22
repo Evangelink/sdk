@@ -19,8 +19,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             ITemplateMatchInfo templateMatchInfo = new TemplateMatchInfo(templateInfo);
             Assert.IsFalse(WellKnownSearchFilters.MatchesAllCriteria(templateMatchInfo));
             Assert.IsFalse(WellKnownSearchFilters.MatchesAtLeastOneCriteria(templateMatchInfo));
-            Assert.Empty(templateMatchInfo.GetInvalidParameterNames());
-            Assert.Empty(templateMatchInfo.GetValidTemplateParameters());
+            Assert.HasCount(0, templateMatchInfo.GetInvalidParameterNames());
+            Assert.HasCount(0, templateMatchInfo.GetValidTemplateParameters());
         }
 
         [TestMethod(nameof(NameExactMatch_ReportsCorrectly))]

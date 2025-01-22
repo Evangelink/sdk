@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
             _logger = loggerFactory.CreateLogger<BrowserScriptMiddleware>();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task InvokeAsync_ReturnsScript()
         {
             var context = new DefaultHttpContext();
@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
             Assert.Contains("'test-key'", script);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task InvokeAsync_ConfiguresHeaders()
         {
             var context = new DefaultHttpContext();
@@ -56,18 +56,18 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
                 response.Headers.OrderBy(h => h.Key),
                 kvp =>
                 {
-                    Assert.Equal("Cache-Control", kvp.Key);
-                    Assert.Equal("no-store", kvp.Value);
+                    Assert.AreEqual("Cache-Control", kvp.Key);
+                    Assert.AreEqual("no-store", kvp.Value);
                 },
                 kvp =>
                 {
-                    Assert.Equal("Content-Length", kvp.Key);
+                    Assert.AreEqual("Content-Length", kvp.Key);
                     Assert.NotEqual(0, kvp.Value.Count);
                 },
                 kvp =>
                 {
-                    Assert.Equal("Content-Type", kvp.Key);
-                    Assert.Equal("application/javascript; charset=utf-8", kvp.Value);
+                    Assert.AreEqual("Content-Type", kvp.Key);
+                    Assert.AreEqual("application/javascript; charset=utf-8", kvp.Value);
                 });
         }
     }

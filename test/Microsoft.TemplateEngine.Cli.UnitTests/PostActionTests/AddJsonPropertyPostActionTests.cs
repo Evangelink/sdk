@@ -99,7 +99,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.PostActionTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(ModifyJsonPostActionTestCase<Mock<IReporter>>.InvalidConfigurationTestCases), MemberType = typeof(ModifyJsonPostActionTestCase<Mock<IReporter>>))]
+        [DynamicData(nameof(ModifyJsonPostActionTestCase<Mock<IReporter>>.InvalidConfigurationTestCases), typeof(ModifyJsonPostActionTestCase<Mock<IReporter>>))]
         public void FailsWhenMandatoryArgumentsNotConfigured(ModifyJsonPostActionTestCase<Mock<IReporter>> testCase)
         {
             string targetBasePath = _engineEnvironmentSettings.GetTempVirtualizedPath();
@@ -134,7 +134,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.PostActionTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), MemberType = typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
+        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
         public void CanSuccessfullyModifyJsonFile(ModifyJsonPostActionTestCase<(JsonNode, bool)> testCase)
         {
             string targetBasePath = _engineEnvironmentSettings.GetTempVirtualizedPath();
@@ -170,7 +170,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.PostActionTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), MemberType = typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
+        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
         public void CanSuccessfullyCreateAndModifyJsonFileWhenAllowFileCreationAndPathCreationAreSet(ModifyJsonPostActionTestCase<(JsonNode, bool)> testCase)
         {
             string targetBasePath = _engineEnvironmentSettings.GetTempVirtualizedPath();
@@ -205,7 +205,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.PostActionTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), MemberType = typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
+        [DynamicData(nameof(ModifyJsonPostActionTestCase<(JsonNode, bool)>.SuccessTestCases), typeof(ModifyJsonPostActionTestCase<(JsonNode, bool)>))]
         public void CanSuccessfullyModifyJsonFileWhenPathDoesNotExistAndAllowPathCreationIsSet(ModifyJsonPostActionTestCase<(JsonNode, bool)> testCase)
         {
             string targetBasePath = _engineEnvironmentSettings.GetTempVirtualizedPath();

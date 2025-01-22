@@ -10,11 +10,11 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
 {
     public class GivenDotnetListPackage : SdkTest
     {
-        public GivenDotnetListPackage(ITestOutputHelper output) : base(output)
+        public GivenDotnetListPackage(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItShowsCoreOutputOnMinimalVerbosity()
         {
             var testAssetName = "NewtonSoftDependentProject";
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("--verbosity", "quiet")
                 .Should()
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .And.HaveStdOutContaining("NewtonSoft.Json");
         }
 
-        [Fact]
+        [TestMethod]
         public void RequestedAndResolvedVersionsMatch()
         {
             var testAssetName = "TestAppSimple";
@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
 
             var packageName = "Newtonsoft.Json";
             var packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", "package", packageName, "--version", packageVersion);
             cmd.Should().Pass();
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -70,7 +70,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .And.HaveStdOutContainingIgnoreSpaces(packageName + packageVersion + packageVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItListsAutoReferencedPackages()
         {
             var testAssetName = "TestAppSimple";
@@ -86,7 +86,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -103,7 +103,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRunOnSolution()
         {
             var sln = "TestAppWithSlnAndSolutionFolders";
@@ -118,7 +118,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -127,7 +127,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .And.HaveStdOutContainingIgnoreSpaces("NewtonSoft.Json");
         }
 
-        [Fact]
+        [TestMethod]
         public void AssetsPathExistsButNotRestored()
         {
             var testAsset = "NewtonSoftDependentProject";
@@ -136,7 +136,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .WithSource()
                 .Path;
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -144,7 +144,7 @@ namespace Microsoft.DotNet.Cli.List.Package.Tests
                 .And.HaveStdErr();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItListsTransitivePackage()
         {
             var testProject = new TestProject
@@ -187,7 +187,7 @@ class Program
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -195,7 +195,7 @@ class Program
                 .And.NotHaveStdErr()
                 .And.NotHaveStdOutContaining("System.IO.FileSystem");
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(args: "--include-transitive")
                 .Should()
@@ -204,17 +204,17 @@ class Program
                 .And.HaveStdOutContaining("System.IO.FileSystem");
         }
 
-        [Theory]
-        [InlineData("", "[net451]", null)]
-        [InlineData("", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
-        [InlineData($"--framework {ToolsetInfo.CurrentTargetFramework} --framework net451", "[net451]", null)]
-        [InlineData($"--framework {ToolsetInfo.CurrentTargetFramework} --framework net451", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
-        [InlineData($"--framework {ToolsetInfo.CurrentTargetFramework}", $"[{ToolsetInfo.CurrentTargetFramework}]", "[net451]")]
-        [InlineData("--framework net451", "[net451]", "[netcoreapp3.0]")]
-        [InlineData($"-f {ToolsetInfo.CurrentTargetFramework} -f net451", "[net451]", null)]
-        [InlineData($"-f {ToolsetInfo.CurrentTargetFramework} -f net451", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
-        [InlineData($"-f {ToolsetInfo.CurrentTargetFramework}", $"[{ToolsetInfo.CurrentTargetFramework}]", "[net451]")]
-        [InlineData("-f net451", "[net451]", "[netcoreapp3.0]")]
+        [TestMethod]
+        [DataRow("", "[net451]", null)]
+        [DataRow("", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
+        [DataRow($"--framework {ToolsetInfo.CurrentTargetFramework} --framework net451", "[net451]", null)]
+        [DataRow($"--framework {ToolsetInfo.CurrentTargetFramework} --framework net451", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
+        [DataRow($"--framework {ToolsetInfo.CurrentTargetFramework}", $"[{ToolsetInfo.CurrentTargetFramework}]", "[net451]")]
+        [DataRow("--framework net451", "[net451]", "[netcoreapp3.0]")]
+        [DataRow($"-f {ToolsetInfo.CurrentTargetFramework} -f net451", "[net451]", null)]
+        [DataRow($"-f {ToolsetInfo.CurrentTargetFramework} -f net451", $"[{ToolsetInfo.CurrentTargetFramework}]", null)]
+        [DataRow($"-f {ToolsetInfo.CurrentTargetFramework}", $"[{ToolsetInfo.CurrentTargetFramework}]", "[net451]")]
+        [DataRow("-f net451", "[net451]", "[netcoreapp3.0]")]
         public void ItListsValidFrameworks(string args, string shouldInclude, string shouldntInclude)
         {
             var testAssetName = "MSBuildAppWithMultipleFrameworks";
@@ -231,7 +231,7 @@ class Program
 
             if (shouldntInclude == null)
             {
-                new ListPackageCommand(Log)
+                new ListPackageCommand(MSTestContext)
                     .WithWorkingDirectory(projectDirectory)
                     .Execute(args.Split(' ', options: StringSplitOptions.RemoveEmptyEntries))
                     .Should()
@@ -241,7 +241,7 @@ class Program
             }
             else
             {
-                new ListPackageCommand(Log)
+                new ListPackageCommand(MSTestContext)
                     .WithWorkingDirectory(projectDirectory)
                     .Execute(args.Split(' ', options: StringSplitOptions.RemoveEmptyEntries))
                     .Should()
@@ -253,7 +253,7 @@ class Program
 
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotAcceptInvalidFramework()
         {
             var testAssetName = "MSBuildAppWithMultipleFrameworks";
@@ -267,7 +267,7 @@ class Program
                 .Should()
                 .Pass();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("--framework", "invalid")
                 .Should()
@@ -289,7 +289,7 @@ class Program
                 .Pass()
                 .And.NotHaveStdErr();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
@@ -297,26 +297,26 @@ class Program
                 .And.NotHaveStdErr();
         }
 
-        [Theory]
-        [InlineData(false, "--vulnerable")]
-        [InlineData(false, "--vulnerable", "--include-transitive")]
-        [InlineData(false, "--vulnerable", "--include-prerelease")]
-        [InlineData(false, "--deprecated", "--highest-minor")]
-        [InlineData(false, "--deprecated", "--highest-patch")]
-        [InlineData(false, "--outdated", "--include-prerelease")]
-        [InlineData(false, "--outdated", "--highest-minor")]
-        [InlineData(false, "--outdated", "--highest-patch")]
-        [InlineData(false, "--config")]
-        [InlineData(false, "--configfile")]
-        [InlineData(false, "--source")]
-        [InlineData(false, "-s")]
-        [InlineData(false, "--config", "--deprecated")]
-        [InlineData(false, "--configfile", "--deprecated")]
-        [InlineData(false, "--source", "--vulnerable")]
-        [InlineData(false, "-s", "--vulnerable")]
-        [InlineData(true, "--vulnerable", "--deprecated")]
-        [InlineData(true, "--vulnerable", "--outdated")]
-        [InlineData(true, "--deprecated", "--outdated")]
+        [TestMethod]
+        [DataRow(false, "--vulnerable")]
+        [DataRow(false, "--vulnerable", "--include-transitive")]
+        [DataRow(false, "--vulnerable", "--include-prerelease")]
+        [DataRow(false, "--deprecated", "--highest-minor")]
+        [DataRow(false, "--deprecated", "--highest-patch")]
+        [DataRow(false, "--outdated", "--include-prerelease")]
+        [DataRow(false, "--outdated", "--highest-minor")]
+        [DataRow(false, "--outdated", "--highest-patch")]
+        [DataRow(false, "--config")]
+        [DataRow(false, "--configfile")]
+        [DataRow(false, "--source")]
+        [DataRow(false, "-s")]
+        [DataRow(false, "--config", "--deprecated")]
+        [DataRow(false, "--configfile", "--deprecated")]
+        [DataRow(false, "--source", "--vulnerable")]
+        [DataRow(false, "-s", "--vulnerable")]
+        [DataRow(true, "--vulnerable", "--deprecated")]
+        [DataRow(true, "--vulnerable", "--outdated")]
+        [DataRow(true, "--deprecated", "--outdated")]
         public void ItEnforcesOptionRules(bool throws, params string[] options)
         {
             var parseResult = Parser.Instance.Parse($"dotnet list package {string.Join(' ', options)}");
@@ -347,14 +347,14 @@ class Program
                 .Should()
                 .Pass();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should()
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRecognizesRelativePathsForAProject()
         {
             var testAssetName = "TestAppSimple";
@@ -369,7 +369,7 @@ class Program
                 .Should()
                 .Pass();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithProject("TestAppSimple.csproj")
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
@@ -377,7 +377,7 @@ class Program
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRecognizesRelativePathsForASolution()
         {
             var sln = "TestAppWithSlnAndSolutionFolders";
@@ -392,7 +392,7 @@ class Program
                 .Should()
                 .Pass();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithProject("App.sln")
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
@@ -400,7 +400,7 @@ class Program
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRecognizesRelativePathsForASolutionFromSubFolder()
         {
             var sln = "TestAppWithSlnAndSolutionFolders";
@@ -419,7 +419,7 @@ class Program
                 .Should()
                 .Pass();
 
-            new ListPackageCommand(Log)
+            new ListPackageCommand(MSTestContext)
                 .WithProject("../App.sln")
                 .WithWorkingDirectory(subFolderPath)
                 .Execute()

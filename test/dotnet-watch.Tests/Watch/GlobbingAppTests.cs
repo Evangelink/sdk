@@ -7,14 +7,14 @@ namespace Microsoft.DotNet.Watch.UnitTests
     {
         private const string AppName = "WatchGlobbingApp";
 
-        public GlobbingAppTests(ITestOutputHelper logger)
+        public GlobbingAppTests(MSTestContext testContext)
             : base(logger)
         {
         }
 
         [ConditionalTheory(Skip = "https://github.com/dotnet/sdk/issues/42921")]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task ChangeCompiledFile(bool usePollingWatcher)
         {
             var testAsset = TestAssets.CopyTestAsset(AppName, identifier: usePollingWatcher.ToString())
@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 2);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 1);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteSourceFolder()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 1);
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task RenameCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertStarted();
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         public async Task ChangeExcludedFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -103,7 +103,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Assert.NotSame(fileChanged, finished);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ListsFiles()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -130,7 +130,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var prefix = "Defined types = ";
 
             var line = await App.AssertOutputLineStartsWith(prefix);
-            Assert.Equal(expected, int.Parse(line));
+            Assert.AreEqual(expected, int.Parse(line));
         }
     }
 }

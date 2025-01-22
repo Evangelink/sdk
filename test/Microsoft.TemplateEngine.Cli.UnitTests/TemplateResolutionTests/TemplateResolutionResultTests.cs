@@ -22,7 +22,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 
             var parameters = TemplateResolutionResult.GetAllMatchedParametersList(new[] { templateMatchInfo });
 
-            Assert.Single(parameters);
+            Assert.HasCount(1, parameters);
             Assert.AreEqual("paramValue", parameters["--param"]);
         }
 
@@ -39,7 +39,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 
             var parameters = TemplateResolutionResult.GetAllMatchedParametersList(new[] { templateMatchInfo });
 
-            Assert.Single(parameters);
+            Assert.HasCount(1, parameters);
             Assert.AreEqual("paramValue", parameters["param"]);
         }
 
@@ -63,11 +63,11 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 });
 
             var parameters = TemplateResolutionResult.GetAllMatchedParametersList(new[] { templateMatchInfo, templateMatchInfo2 });
-            Assert.Single(parameters);
+            Assert.HasCount(1, parameters);
             Assert.AreEqual("paramValue", parameters["--param"]);
 
             parameters = TemplateResolutionResult.GetAllMatchedParametersList(new[] { templateMatchInfo2, templateMatchInfo });
-            Assert.Single(parameters);
+            Assert.HasCount(1, parameters);
             Assert.AreEqual("paramValue", parameters["--param"]);
         }
 
@@ -84,7 +84,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 });
 
             var parameters = TemplateResolutionResult.GetAllMatchedParametersList(new[] { templateMatchInfo });
-            Assert.Single(parameters);
+            Assert.HasCount(1, parameters);
             Assert.AreEqual("paramValue", parameters["--param"]);
         }
 

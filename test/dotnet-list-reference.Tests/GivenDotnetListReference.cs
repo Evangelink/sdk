@@ -41,49 +41,49 @@ Commands:
         const string FrameworkNet451Arg = "-f net451";
         const string ConditionFrameworkNet451 = "== 'net451'";
 
-        public GivenDotnetListReference(ITestOutputHelper log) : base(log)
+        public GivenDotnetListReference(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("--help")]
-        [InlineData("-h")]
+        [TestMethod]
+        [DataRow("--help")]
+        [DataRow("-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string helpArg)
         {
-            var cmd = new ListReferenceCommand(Log).Execute(helpArg);
+            var cmd = new ListReferenceCommand(MSTestContext).Execute(helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(ListProjectReferenceCommandHelpText(Directory.GetCurrentDirectory()));
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("unknownCommandName")]
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string commandName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute("list", commandName);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTooManyArgumentsArePassedItPrintsError()
         {
-            var cmd = new DotnetCommand(Log, "list one two three reference".Split())
+            var cmd = new DotnetCommand(MSTestContext, "list one two three reference".Split())
                     .Execute("proj.csproj");
             cmd.ExitCode.Should().NotBe(0);
             cmd.StdErr.Should().BeVisuallyEquivalentTo($@"{string.Format(LocalizableStrings.UnrecognizedCommandOrArgument, "two")}
 {string.Format(LocalizableStrings.UnrecognizedCommandOrArgument, "three")}");
         }
 
-        [Theory]
-        [InlineData("idontexist.csproj")]
-        [InlineData("ihave?inv@lid/char\\acters")]
+        [TestMethod]
+        [DataRow("idontexist.csproj")]
+        [DataRow("ihave?inv@lid/char\\acters")]
         public void WhenNonExistingProjectIsPassedItPrintsError(string projName)
         {
             var setup = Setup(identifier: projName);
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                     .WithProject(projName)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
@@ -92,7 +92,7 @@ Commands:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenBrokenProjectIsPassedItPrintsError()
         {
             string projName = "Broken/Broken.csproj";
@@ -112,7 +112,7 @@ Commands:
         <EmbeddedResource Include=""**\*.resx""/>
     <!--intentonally broken-->");
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                     .WithProject(projName)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
@@ -121,13 +121,13 @@ Commands:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenMoreThanOneProjectExistsInTheDirectoryItPrintsError()
         {
             var setup = Setup();
 
             var workingDir = Path.Combine(setup.TestRoot, "MoreThanOne");
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                     .WithWorkingDirectory(workingDir)
                     .Execute(setup.ValidRefCsprojRelToOtherProjPath);
             cmd.ExitCode.Should().NotBe(0);
@@ -135,12 +135,12 @@ Commands:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNoProjectsExistsInTheDirectoryItPrintsError()
         {
             var setup = Setup();
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
             cmd.ExitCode.Should().NotBe(0);
@@ -148,19 +148,19 @@ Commands:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNoProjectReferencesArePresentInTheProjectItPrintsError()
         {
             var lib = NewLib(_testAssetsManager.CreateTestDirectory().Path);
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .Execute();
             cmd.Should().Pass();
             cmd.StdOut.Should().Be(string.Format(CommonLocalizableStrings.NoReferencesFound, CommonLocalizableStrings.P2P, lib.CsProjPath));
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPrintsSingleReference()
         {
             string OutputText = CommonLocalizableStrings.ProjectReferenceOneOrMore;
@@ -174,14 +174,14 @@ Commands:
             string ref1 = NewLib(testDirectory, "ref").CsProjPath;
             AddValidRef(ref1, lib);
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .Execute();
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentTo(OutputText);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPrintsMultipleReferences()
         {
             string OutputText = CommonLocalizableStrings.ProjectReferenceOneOrMore;
@@ -202,7 +202,7 @@ Commands:
             AddValidRef(ref2, lib);
             AddValidRef(ref3, lib);
 
-            var cmd = new ListReferenceCommand(Log)
+            var cmd = new ListReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .Execute();
             cmd.Should().Pass();
@@ -225,7 +225,7 @@ Commands:
 
             try
             {
-                new DotnetNewCommand(Log, "classlib", "-o", dir.Path, "--no-restore")
+                new DotnetNewCommand(MSTestContext, "classlib", "-o", dir.Path, "--no-restore")
                     .WithVirtualHive()
                     .WithWorkingDirectory(dir.Path)
                     .Execute()
@@ -241,7 +241,7 @@ Commands:
 
         private void AddValidRef(string path, ProjDir proj)
         {
-            new DotnetCommand(Log, "add", proj.CsProjPath, "reference")
+            new DotnetCommand(MSTestContext, "add", proj.CsProjPath, "reference")
                 .Execute(path)
                 .Should().Pass();
         }

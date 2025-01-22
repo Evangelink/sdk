@@ -9,7 +9,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
     public class VSTestArgumentConverterTests
     {
         [TestMethod]
-        [DynamicData(nameof(DataSource.GetArguments), MemberType = typeof(DataSource))]
+        [DynamicData(nameof(DataSource.GetArguments), typeof(DataSource))]
         public void ConvertArgsShouldConvertValidArgsIntoVSTestParsableArgs(string input, string expectedString)
         {
             string[] args = input.Split(' ');
@@ -23,7 +23,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(DataSource.GetVerbosityArguments), MemberType = typeof(DataSource))]
+        [DynamicData(nameof(DataSource.GetVerbosityArguments), typeof(DataSource))]
         public void ConvertArgshouldConvertsVerbosityArgsIntoVSTestParsableArgs(string input, string expectedString)
         {
             string[] args = input.Split(' ');
@@ -37,7 +37,7 @@ namespace Microsoft.DotNet.Tests.ParserTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(DataSource.GetIgnoredArguments), MemberType = typeof(DataSource))]
+        [DynamicData(nameof(DataSource.GetIgnoredArguments), typeof(DataSource))]
         public void ConvertArgsShouldIgnoreKnownArgsWhileConvertingArgsIntoVSTestParsableArgs(string input, string expectedArgString, string expIgnoredArgString)
         {
             string[] args = input.Split(' ');

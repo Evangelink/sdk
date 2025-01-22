@@ -11,123 +11,123 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks.Test;
 
 public class PathTokenizerTest
 {
-    [Fact]
+    [TestMethod]
     public void RootSeparator_ProducesEmptySegment()
     {
         var path = "/a/b/c";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("a", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("a", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_ProducesInitialSegment()
     {
         var path = "a/b/c";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("a", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("a", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_MatchesMultipleCharacters()
     {
         var path = "aa/b/c";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_HandlesConsecutivePathSeparators()
     {
         var path = "aa//b/c";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_HandlesFinalPathSeparator()
     {
         var path = "aa/b/c/";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_HandlesAlternativePathSeparators()
     {
         var path = "aa\\b\\c\\";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void NonRootSeparator_HandlesMixedPathSeparators()
     {
         var path = "aa/b\\c/";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void Ignores_EmpySegments()
     {
         var path = "aa//b//c";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void Ignores_DotSegments()
     {
         var path = "./aa/./b/./c/.";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 
-    [Fact]
+    [TestMethod]
     public void Ignores_DotDotSegments()
     {
         var path = "../aa/../b/../c/..";
         var tokenizer = new PathTokenizer(path.AsMemory().Span);
         var segments = new List<PathTokenizer.Segment>();
         var collection = tokenizer.Fill(segments);
-        Assert.Equal("aa", collection[0]);
-        Assert.Equal("b", collection[1]);
-        Assert.Equal("c", collection[2]);
+        Assert.AreEqual("aa", collection[0]);
+        Assert.AreEqual("b", collection[1]);
+        Assert.AreEqual("c", collection[2]);
     }
 }

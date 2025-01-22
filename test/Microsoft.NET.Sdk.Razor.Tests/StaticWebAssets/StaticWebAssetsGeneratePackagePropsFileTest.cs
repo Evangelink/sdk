@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Razor.Tasks
 {
     public class StaticWebAssetsGeneratePackagePropsFileTest
     {
-        [Fact]
+        [TestMethod]
         public void WritesPropsFile_WithProvidedImportPath()
         {
             // Arrange

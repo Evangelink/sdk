@@ -16,9 +16,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests;
 
 public class DefineStaticWebAssetEndpointsTest
 {
-    [Theory]
-    [InlineData(StaticWebAsset.SourceTypes.Discovered)]
-    [InlineData(StaticWebAsset.SourceTypes.Computed)]
+    [TestMethod]
+    [DataRow(StaticWebAsset.SourceTypes.Discovered)]
+    [DataRow(StaticWebAsset.SourceTypes.Computed)]
     public void DefinesEndpointsForAssets(string sourceType)
     {
         var errorMessages = new List<string>();
@@ -84,7 +84,7 @@ public class DefineStaticWebAssetEndpointsTest
             ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanDefineFingerprintedEndpoints()
     {
         var errorMessages = new List<string>();
@@ -204,7 +204,7 @@ public class DefineStaticWebAssetEndpointsTest
             ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanDefineFingerprintedEndpoints_WithEmbeddedFingerprint()
     {
         var errorMessages = new List<string>();
@@ -324,7 +324,7 @@ public class DefineStaticWebAssetEndpointsTest
             ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void DoesNotDefineNewEndpointsWhenAnExistingEndpointAlreadyExists()
     {
         var errorMessages = new List<string>();
@@ -380,7 +380,7 @@ public class DefineStaticWebAssetEndpointsTest
         endpoints.Should().BeEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void ResolvesContentType_ForCompressedAssets()
     {
         var errorMessages = new List<string>();
@@ -433,7 +433,7 @@ public class DefineStaticWebAssetEndpointsTest
         endpoint.ResponseHeaders.Should().ContainSingle(h => h.Name == "Content-Type" && h.Value == "application/x-gzip");
     }
 
-    [Fact]
+    [TestMethod]
     public void ResolvesContentType_ForFingerprintedAssets()
     {
         var errorMessages = new List<string>();
@@ -484,7 +484,7 @@ public class DefineStaticWebAssetEndpointsTest
         endpoint.ResponseHeaders.Should().ContainSingle(h => h.Name == "Content-Type" && h.Value == "text/css");
     }
 
-    [Fact]
+    [TestMethod]
     public void Produces_TheExpectedEndpoint_ForExternalAssets()
     {
         var errorMessages = new List<string>();

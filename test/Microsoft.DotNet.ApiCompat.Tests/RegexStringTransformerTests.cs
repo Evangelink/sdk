@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 {
     public class RegexStringTransformerTests
     {
-        [Fact]
+        [TestMethod]
         public void Transform_CaptureGroupPatternDoesNotMatchInput_ReturnsInput()
         {
             const string CaptureGroupPattern = "(abc)def";
@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
             Assert.Equal(Input, output);
         }
 
-        [Fact]
+        [TestMethod]
         public void Transform_ReplacementPatternWithoutCaptureGroups_ReturnsReplacementPattern()
         {
             const string CaptureGroupPattern = "(abc)d*";
@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
             Assert.Equal(ReplacementPattern, output);
         }
 
-        [Fact]
+        [TestMethod]
         public void Transform_ReplacementPatternWithTooManyReplacementMarkers_ReturnOutputWithoutTransformedReplacementMarkers()
         {
             const string CaptureGroupPattern = "(abc)(def)ghi";
@@ -43,7 +43,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
             Assert.Equal("1:abc, 2:def, 3:$3", output);
         }
 
-        [Fact]
+        [TestMethod]
         public void Transform_SameNumberOfGroupsAndMarkers_ReturnsExpected()
         {
             const string CaptureGroupPattern = @".+\\(.+)\\(.+)";
@@ -55,7 +55,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
             Assert.Equal("lib/net7.0-android/System.Linq.dll", output);
         }
 
-        [Fact]
+        [TestMethod]
         public void Transform_MultiplePatterns_ReturnsExpected()
         {
             var patterns = new (string, string)[]

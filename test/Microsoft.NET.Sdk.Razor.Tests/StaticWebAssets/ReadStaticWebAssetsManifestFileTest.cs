@@ -20,7 +20,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         public string TempFilePath { get; }
 
-        [Fact]
+        [TestMethod]
         public void CanReadManifestWithoutProperties()
         {
             var errorMessages = new List<string>();
@@ -48,7 +48,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.ReferencedProjectsConfiguration.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void CanReadEmptyManifest()
         {
             var errorMessages = new List<string>();
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.ReferencedProjectsConfiguration.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void ConvertsAssetsToTaskItems()
         {
             var errorMessages = new List<string>();
@@ -206,7 +206,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                             .BeEquivalentTo("""[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"__content-length__"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"__etag__"},{"Name":"Last-Modified","Value":"__last-modified__"}]""");
         }
 
-        [Fact]
+        [TestMethod]
         public void ConvertsReferencedProjectsConfigurationsToTaskItems()
         {
             var errorMessages = new List<string>();
@@ -270,7 +270,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             projectConfiguration.GetMetadata(nameof(StaticWebAssetsManifest.ReferencedProjectConfiguration.AdditionalBuildPropertiesToRemove)).Should().BeEquivalentTo(";WebPublishProfileFile");
         }
 
-        [Fact]
+        [TestMethod]
         public void ConvertsDiscoveryPatternsToTaskItems()
         {
             var errorMessages = new List<string>();
@@ -326,7 +326,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             discoveryPattern.GetMetadata(nameof(StaticWebAssetsDiscoveryPattern.Pattern)).Should().BeEquivalentTo("**");
         }
 
-        [Fact]
+        [TestMethod]
         public void ReturnsErrorwhenManifestDoesNotExist()
         {
             var errorMessages = new List<string>();
@@ -352,7 +352,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             task.ReferencedProjectsConfiguration.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ReturnsErrorwhenManifestIsMalformed()
         {
             var errorMessages = new List<string>();

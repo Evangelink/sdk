@@ -3,16 +3,16 @@
 
 namespace EndToEnd.Tests
 {
-    public class GivenUnixPlatform(ITestOutputHelper log) : SdkTest(log)
+    public class GivenUnixPlatform(MSTestContext testContext) : SdkTest(testContext)
     {
         [UnixOnlyTheory]
-        [InlineData("wpf")]
-        [InlineData("winforms")]
+        [DataRow("wpf")]
+        [DataRow("winforms")]
         public void ItDoesNotIncludeWindowsOnlyProjectTemplates(string template)
         {
             var directory = _testAssetsManager.CreateTestDirectory(identifier: template);
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(directory.Path)
                 .Execute(template).Should().Fail()

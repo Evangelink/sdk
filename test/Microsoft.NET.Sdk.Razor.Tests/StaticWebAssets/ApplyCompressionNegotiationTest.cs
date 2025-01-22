@@ -14,7 +14,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
 public class ApplyCompressionNegotiationTest
 {
-    [Fact]
+    [TestMethod]
     public void AppliesContentNegotiationRules_ForExistingAssets()
     {
         var errorMessages = new List<string>();
@@ -121,7 +121,7 @@ public class ApplyCompressionNegotiationTest
         ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void AppliesContentNegotiationRules_ForExistingAssets_WithFingerprints()
     {
         var now = DateTime.Now;
@@ -818,7 +818,7 @@ public class ApplyCompressionNegotiationTest
         endpoints.Should().BeEquivalentTo(expectedEndpoints);
     }
 
-    [Fact]
+    [TestMethod]
     public void AppliesContentNegotiationRules_ToAllRelatedAssetEndpoints()
     {
         var errorMessages = new List<string>();
@@ -949,7 +949,7 @@ public class ApplyCompressionNegotiationTest
         ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void AppliesContentNegotiationRules_IgnoresAlreadyProcessedEndpoints()
     {
         var errorMessages = new List<string>();
@@ -1129,7 +1129,7 @@ public class ApplyCompressionNegotiationTest
         ]);
     }
 
-    [Fact]
+    [TestMethod]
     public void AppliesContentNegotiationRules_ProcessesNewCompressedFormatsWhenAvailable()
     {
         var errorMessages = new List<string>();

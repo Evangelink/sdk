@@ -7,9 +7,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class ApplicationPartDiscoveryIntegrationTest : AspNetSdkTest
     {
-        public ApplicationPartDiscoveryIntegrationTest(ITestOutputHelper log) : base(log) { }
+        public ApplicationPartDiscoveryIntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void Build_ProjectWithDependencyThatReferencesMvc_AddsAttribute_WhenBuildingUsingDotnetMsbuild()
             => Build_ProjectWithDependencyThatReferencesMvc_AddsAttribute();
 
@@ -29,7 +29,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "AppWithP2PReference.dll")).AssemblyShould().HaveAttribute("Microsoft.AspNetCore.Mvc.ApplicationParts.ApplicationPartAttribute");
         }
 
-        [Fact]
+        [TestMethod]
         public void Build_ProjectWithoutMvcReferencingDependencies_DoesNotGenerateAttribute()
         {
             var testAsset = "RazorSimpleMvc";
@@ -47,7 +47,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
 
         // Regression test for https://github.com/dotnet/aspnetcore/issues/11315
-        [Fact]
+        [TestMethod]
         public void BuildIncrementalism_CausingRecompilation_WhenApplicationPartAttributeIsGenerated()
         {
             var testAsset = "RazorAppWithP2PReference";
@@ -72,7 +72,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             build.ExecuteWithoutRestore().Should().Pass();
 
             File.Exists(generatedAttributeFile).Should().BeTrue();
-            Assert.Equal(thumbPrint, FileThumbPrint.Create(generatedAttributeFile));
+            Assert.AreEqual(thumbPrint, FileThumbPrint.Create(generatedAttributeFile));
             new FileInfo(Path.Combine(outputPath, "AppWithP2PReference.dll")).AssemblyShould().HaveAttribute("Microsoft.AspNetCore.Mvc.ApplicationParts.ApplicationPartAttribute");
         }
     }

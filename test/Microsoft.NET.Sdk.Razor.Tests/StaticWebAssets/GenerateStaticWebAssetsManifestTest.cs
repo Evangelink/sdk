@@ -19,7 +19,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         public string TempFilePath { get; }
 
-        [Fact]
+        [TestMethod]
         public void CanGenerateEmptyManifest()
         {
             var errorMessages = new List<string>();
@@ -63,7 +63,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             manifest.Source.Should().Be("MyProject");
         }
 
-        [Fact]
+        [TestMethod]
         public void GeneratesManifestWithAssets()
         {
             var errorMessages = new List<string>();
@@ -176,8 +176,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Theory]
-        [MemberData(nameof(GeneratesManifestFailsWhenInvalidAssetsAreProvidedData))]
+        [TestMethod]
+        [DynamicData(nameof(GeneratesManifestFailsWhenInvalidAssetsAreProvidedData))]
         public void GeneratesManifestFailsWhenInvalidAssetsAreProvided(Action<StaticWebAsset> change)
         {
             var errorMessages = new List<string>();
@@ -254,8 +254,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             }
         }
 
-        [Theory]
-        [MemberData(nameof(GeneratesManifestFailsWhenTwoAssetsEndUpOnTheSamePathData))]
+        [TestMethod]
+        [DynamicData(nameof(GeneratesManifestFailsWhenTwoAssetsEndUpOnTheSamePathData))]
         public void GeneratesManifestFailsWhenTwoAssetsEndUpOnTheSamePath(StaticWebAsset first, StaticWebAsset second)
         {
             var errorMessages = new List<string>();
@@ -291,7 +291,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
 
 
-        [Fact]
+        [TestMethod]
         public void GeneratesManifestWithReferencedProjectConfigurations()
         {
             var errorMessages = new List<string>();
@@ -328,7 +328,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             newProjectConfig.Should().Be(projectReference);
         }
 
-        [Fact]
+        [TestMethod]
         public void GeneratesManifestWithDiscoveryPatterns()
         {
             var errorMessages = new List<string>();

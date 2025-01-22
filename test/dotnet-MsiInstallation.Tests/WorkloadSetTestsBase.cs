@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
         protected string WorkloadSetPreviousBandVersion => _testWorkloadSetVersions.Value.GetValueOrDefault("previousbandversion", "8.0.204");
 
         protected override bool NeedsIncludePreviews => bool.Parse(_testWorkloadSetVersions.Value.GetValueOrDefault("needsIncludePreviews", "false"));
-        public WorkloadSetTestsBase(ITestOutputHelper log) : base(log)
+        public WorkloadSetTestsBase(MSTestContext testContext) : base(testContext)
         {
             _testWorkloadSetVersions = new Lazy<Dictionary<string, string>>(() =>
             {

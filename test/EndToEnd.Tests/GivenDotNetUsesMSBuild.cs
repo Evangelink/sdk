@@ -7,25 +7,25 @@
 
 namespace EndToEnd.Tests
 {
-    public class GivenDotNetUsesMSBuild(ITestOutputHelper log) : SdkTest(log)
+    public class GivenDotNetUsesMSBuild(MSTestContext testContext) : SdkTest(testContext)
     {
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void ItCanNewRestoreBuildRunCleanMSBuildProject()
         {
             string projectDirectory = _testAssetsManager.CreateTestDirectory().Path;
 
             string[] newArgs = ["console", "--no-restore"];
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(newArgs)
                 .Should().Pass();
 
-            new BuildCommand(Log, projectDirectory)
+            new BuildCommand(MSTestContext, projectDirectory)
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log, "run")
+            new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(projectDirectory)
                 .Execute()
                 .Should().Pass()
@@ -34,14 +34,14 @@ namespace EndToEnd.Tests
             var binDirectory = new DirectoryInfo(projectDirectory).Sub("bin");
             binDirectory.Should().HaveFilesMatching("*.dll", SearchOption.AllDirectories);
 
-            new CleanCommand(Log, projectDirectory)
+            new CleanCommand(MSTestContext, projectDirectory)
                 .Execute()
                 .Should().Pass();
 
             binDirectory.Should().NotHaveFilesMatching("*.dll", SearchOption.AllDirectories);
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void ItCanRunToolsInACSProj()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
@@ -66,14 +66,14 @@ namespace EndToEnd.Tests
 
             var testProjectDirectory = testInstance.Path;
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("portable")
                 .Should().Pass()
                     .And.HaveStdOutContaining("Hello Portable World!");
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void ItCanRunToolsThatPrefersTheCliRuntimeEvenWhenTheToolItselfDeclaresADifferentRuntime()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
@@ -98,7 +98,7 @@ namespace EndToEnd.Tests
 
             var testProjectDirectory = testInstance.Path;
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("prefercliruntime")
                 .Should().Pass()

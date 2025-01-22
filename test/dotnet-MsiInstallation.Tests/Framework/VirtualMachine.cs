@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
         private static VirtualMachine s_Instance;
         private static object s_Lock = new object();
 
-        ITestOutputHelper Log { get; }
+        MSTestContext MSTestContext { get; }
         public VMControl VMControl { get; }
 
         public VMTestSettings VMTestSettings { get; }
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
         //  Whether we should trust the IsReadOnly property of the action.  If not, then we will re-apply the previous snapshot after the action runs to make sure the state hasn't been polluted.
         public bool TrustIsReadOnly { get; set; } = true;
 
-        public VirtualMachine(ITestOutputHelper log)
+        public VirtualMachine(MSTestContext testContext)
         {
             lock (s_Lock)
             {
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 VMTestSettings.VMMachineName = VMTestSettings.VMName.Replace(" ", "");
             }
 
-            VMControl = new VMControl(log, VMTestSettings.VMName, VMTestSettings.VMMachineName);
+            VMControl = new VMControl(testContext, VMTestSettings.VMName, VMTestSettings.VMMachineName);
 
 
             _stateFile = Path.Combine(Environment.CurrentDirectory, "VMState.json");
@@ -99,7 +99,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             {
                 foreach (var snapshot in testStartSnapshots)
                 {
-                    Log.WriteLine(snapshot.id + ": " + snapshot.name);
+                    MSTestContext.WriteLine(snapshot.id + ": " + snapshot.name);
                 }
                 throw new Exception("Multiple test start snapshots found");
             }
@@ -161,7 +161,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 var nodesToRemove = node.Actions.Where(a => !snapshotIds.Contains(a.Value.resultingState.SnapshotId)).ToList();
                 foreach (var nodeToRemove in nodesToRemove)
                 {
-                    Log.WriteLine($"Removing missing snapshot from tree: {nodeToRemove.Value.resultingState.SnapshotName}");
+                    MSTestContext.WriteLine($"Removing missing snapshot from tree: {nodeToRemove.Value.resultingState.SnapshotName}");
                     node.Actions.Remove(nodeToRemove.Key);
                 }
 
@@ -360,7 +360,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
             {
                 var targetSharePath = VMPathToSharePath(action.TargetPath);
 
-                var result = new RunExeCommand(Log, "robocopy", action.SourcePath, targetSharePath, "/mir")
+                var result = new RunExeCommand(MSTestContext, "robocopy", action.SourcePath, targetSharePath, "/mir")
                     .Execute()
                     .ExitCode.Should().BeLessThan(8);   //  Robocopy error exit codes are 8 or higher
 

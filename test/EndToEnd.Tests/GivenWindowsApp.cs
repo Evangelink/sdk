@@ -7,18 +7,18 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
-    public class GivenWindowsApp(ITestOutputHelper log) : SdkTest(log)
+    public class GivenWindowsApp(MSTestContext testContext) : SdkTest(testContext)
     {
         [WindowsOnlyTheory]
-        [InlineData("10.0.17763.0")]
-        [InlineData("10.0.18362.0")]
-        [InlineData("10.0.19041.0")]
-        [InlineData("10.0.20348.0")]
-        [InlineData("10.0.22000.0")]
-        [InlineData("10.0.22621.0")]
+        [DataRow("10.0.17763.0")]
+        [DataRow("10.0.18362.0")]
+        [DataRow("10.0.19041.0")]
+        [DataRow("10.0.20348.0")]
+        [DataRow("10.0.22000.0")]
+        [DataRow("10.0.22621.0")]
         // Skipped due to: https://github.com/dotnet/sdk/pull/42090/files#r1680016439
-        //[InlineData("10.0.26100.0")]
-        [InlineData("10.0.22621.0", "34")]
+        //[DataRow("10.0.26100.0")]
+        [DataRow("10.0.22621.0", "34")]
         public void ItCanBuildAndRun(string targetPlatformVersion, string packageVersion = "")
         {
             var testInstance = _testAssetsManager
@@ -53,7 +53,7 @@ namespace EndToEnd.Tests
             new BuildCommand(testInstance)
                 .Execute().Should().Pass();
 
-            new DotnetCommand(Log, "run")
+            new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--no-build").Should().Pass().And.HaveStdOutContaining("Hello");
         }

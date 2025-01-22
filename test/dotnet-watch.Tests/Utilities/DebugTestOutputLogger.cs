@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
-public class DebugTestOutputLogger(TestContext logger) : ITestOutputHelper
+public class DebugTestOutputLogger(MSTestContext testContext) : ITestOutputHelper
 {
     public event Action<string>? OnMessage;
 

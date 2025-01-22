@@ -83,7 +83,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             ListCommandArgs args = new((BaseListCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.Single(args.AppliedFilters);
+            Assert.HasCount(1, args.AppliedFilters);
             Assert.Contains("filter-value", args.GetFilterValue(expectedDef));
             Assert.AreEqual("source", args.ListNameCriteria);
         }
@@ -124,7 +124,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             ListCommandArgs args = new((BaseListCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.Single(args.AppliedFilters);
+            Assert.HasCount(1, args.AppliedFilters);
             Assert.Contains("filter-value", args.GetFilterValue(expectedDef));
             Assert.Null(args.ListNameCriteria);
         }

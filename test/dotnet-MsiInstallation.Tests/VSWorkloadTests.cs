@@ -12,13 +12,13 @@ namespace Microsoft.DotNet.MsiInstallerTests
 {
     public class VSWorkloadTests : VMTestBase
     {
-        public VSWorkloadTests(ITestOutputHelper log) : base(log)
+        public VSWorkloadTests(MSTestContext testContext) : base(testContext)
         {
             VM.SetCurrentState("Install VS 17.10 Preview 6");
             DeployStage2Sdk();
         }
 
-        [Fact]
+        [TestMethod]
         public void WorkloadListShowsVSInstalledWorkloads()
         {
             var result = VM.CreateRunCommand("dotnet", "workload", "list")
@@ -30,7 +30,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
             result.Should().HaveStdOutContaining("aspire");
         }
 
-        [Fact]
+        [TestMethod]
         public void UpdatesAreAdvertisedForVSInstalledWorkloads()
         {
             AddNuGetSource("https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet8/nuget/v3/index.json");

@@ -12,7 +12,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class MergeConfigurationPropertiesTest
     {
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationWithProjectReferenceWhenMatchingReferenceFound()
         {
             var errorMessages = new List<string>();
@@ -51,7 +51,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             config.GetMetadata("AdditionalPublishPropertiesToRemove").Should().Be("TargetFramework;RuntimeIdentifier");
         }
 
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationWithProjectReference_UsesOSCasingForMatching()
         {
             var errorMessages = new List<string>();
@@ -80,7 +80,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             result.Should().Be(OperatingSystem.IsWindows());
         }
 
-        [Fact]
+        [TestMethod]
         public void FailswhenProjectReferenceNotFound()
         {
             var errorMessages = new List<string>();
@@ -103,7 +103,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             result.Should().Be(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationRespectsSetTargetFramework()
         {
             var errorMessages = new List<string>();
@@ -142,7 +142,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             config.GetMetadata("AdditionalPublishPropertiesToRemove").Should().Be("");
         }
 
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationRespectsSetPlatform()
         {
             var errorMessages = new List<string>();
@@ -181,7 +181,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             config.GetMetadata("AdditionalPublishPropertiesToRemove").Should().Be("");
         }
 
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationRespectsSetConfiguration()
         {
             var errorMessages = new List<string>();
@@ -220,7 +220,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             config.GetMetadata("AdditionalPublishPropertiesToRemove").Should().Be("");
         }
 
-        [Fact]
+        [TestMethod]
         public void MergesProjectConfigurationRespectsGlobalPropertiesToRemove()
         {
             var errorMessages = new List<string>();

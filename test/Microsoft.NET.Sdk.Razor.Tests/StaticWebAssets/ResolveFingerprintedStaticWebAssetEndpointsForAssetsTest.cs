@@ -12,9 +12,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
 public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
 {
-    [Theory]
-    [InlineData("candidate#[.{fingerprint}]?.js", "candidate.js")]
-    [InlineData("candidate#[.{fingerprint}]!.js", "candidate.asdf1234.js")]
+    [TestMethod]
+    [DataRow("candidate#[.{fingerprint}]?.js", "candidate.js")]
+    [DataRow("candidate#[.{fingerprint}]!.js", "candidate.asdf1234.js")]
     public void Standalone_Selects_EndpointMatching_FilePath(string pattern, string expectedRoute)
     {
         var now = DateTime.Now;
@@ -57,7 +57,7 @@ public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
         endpoint.Route.Should().Be(expectedRoute);
     }
 
-    [Fact]
+    [TestMethod]
     public void StandaloneFails_MatchingEndpointNotFound()
     {
         var now = DateTime.Now;
@@ -95,9 +95,9 @@ public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
         result.Should().BeFalse();
     }
 
-    [Theory]
-    [InlineData("candidate#[.{fingerprint}]?.js", "candidate.asdf1234.js")]
-    [InlineData("candidate#[.{fingerprint}]!.js", "candidate.asdf1234.js")]
+    [TestMethod]
+    [DataRow("candidate#[.{fingerprint}]?.js", "candidate.asdf1234.js")]
+    [DataRow("candidate#[.{fingerprint}]!.js", "candidate.asdf1234.js")]
     public void Hosted_AlwaysPrefers_FingerprintedEndpoint(string pattern, string expectedRoute)
     {
         var now = DateTime.Now;
@@ -140,7 +140,7 @@ public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
         endpoint.Route.Should().Be(expectedRoute);
     }
 
-    [Fact]
+    [TestMethod]
     public void Hosted_FallsBackToNonFingerprintedEndpoint_WhenFingerprintedVersionNotAvailable()
     {
         var now = DateTime.Now;
@@ -183,7 +183,7 @@ public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
         endpoint.Route.Should().Be("candidate.js");
     }
 
-    [Fact]
+    [TestMethod]
     public void Hosted_FailsWhen_DoesnotFindMatchingEndpoint()
     {
         var now = DateTime.Now;

@@ -12,7 +12,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 {
     public class DiscoverStaticWebAssetsTest
     {
-        [Fact]
+        [TestMethod]
         public void DiscoversMatchingAssetsBasedOnPattern()
         {
             var errorMessages = new List<string>();
@@ -58,9 +58,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", "candidate.js"));
         }
 
-        [Theory]
-        [InlineData("index.js", "index#[.{fingerprint}]?.js", "")]
-        [InlineData("css/site.css", "css/site#[.{fingerprint}]!.css", "#[.{fingerprint}]!")]
+        [TestMethod]
+        [DataRow("index.js", "index#[.{fingerprint}]?.js", "")]
+        [DataRow("css/site.css", "css/site#[.{fingerprint}]!.css", "#[.{fingerprint}]!")]
         public void FingerprintsContentWhenEnabled(string file, string expectedRelativePath, string expression)
         {
             var errorMessages = new List<string>();
@@ -111,9 +111,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", file));
         }
 
-        [Theory]
-        [InlineData("index.js")]
-        [InlineData("css/site.js")]
+        [TestMethod]
+        [DataRow("index.js")]
+        [DataRow("css/site.js")]
         public void DoesNotFingerprintsContentWhenNotEnabled(string candidate)
         {
             var errorMessages = new List<string>();
@@ -160,9 +160,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", Path.Combine(candidate.Split('/'))));
         }
 
-        [Theory]
-        [InlineData("candidate.lib.module.js", "candidate#[.{fingerprint}]?.lib.module.js", "")]
-        [InlineData("library.candidate.lib.module.js", "library.candidate#[.{fingerprint}]!.lib.module.js", "#[.{fingerprint}]!")]
+        [TestMethod]
+        [DataRow("candidate.lib.module.js", "candidate#[.{fingerprint}]?.lib.module.js", "")]
+        [DataRow("library.candidate.lib.module.js", "library.candidate#[.{fingerprint}]!.lib.module.js", "#[.{fingerprint}]!")]
         public void FingerprintsContentUsingPatternsWhenMoreThanOneExtension(string fileName, string expectedRelativePath, string expression)
         {
             var errorMessages = new List<string>();
@@ -210,7 +210,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", fileName));
         }
 
-        [Fact]
+        [TestMethod]
         public void RespectsItemRelativePathWhenExplicitlySpecified()
         {
             var errorMessages = new List<string>();
@@ -256,7 +256,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", "candidate.js"));
         }
 
-        [Fact]
+        [TestMethod]
         public void UsesTargetPathWhenFound()
         {
             var errorMessages = new List<string>();
@@ -302,7 +302,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", "candidate.js"));
         }
 
-        [Fact]
+        [TestMethod]
         public void UsesLinkPathWhenFound()
         {
             var errorMessages = new List<string>();
@@ -348,7 +348,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             asset.GetMetadata(nameof(StaticWebAsset.OriginalItemSpec)).Should().Be(Path.Combine("wwwroot", "candidate.js"));
         }
 
-        [Fact]
+        [TestMethod]
         public void AutomaticallyDetectsAssetKindWhenMultipleAssetsTargetTheSameRelativePath()
         {
             var errorMessages = new List<string>();
@@ -390,12 +390,12 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             publishAsset.GetMetadata(nameof(StaticWebAsset.CopyToPublishDirectory)).Should().Be("PreserveNewest");
         }
 
-        [Theory]
-        [InlineData("Never", "Never", "Build", "Never", "Never", "Build")]
-        [InlineData("PreserveNewest", "PreserveNewest", "All", "PreserveNewest", "PreserveNewest", "All")]
-        [InlineData("Always", "Always", "All", "Always", "Always", "All")]
-        [InlineData("Never", "Always", "All", "Never", "Always", "All")]
-        [InlineData("Always", "Never", "Build", "Always", "Never", "Build")]
+        [TestMethod]
+        [DataRow("Never", "Never", "Build", "Never", "Never", "Build")]
+        [DataRow("PreserveNewest", "PreserveNewest", "All", "PreserveNewest", "PreserveNewest", "All")]
+        [DataRow("Always", "Always", "All", "Always", "Always", "All")]
+        [DataRow("Never", "Always", "All", "Never", "Always", "All")]
+        [DataRow("Always", "Never", "Build", "Always", "Never", "Build")]
         public void FailsDiscoveringAssetsWhenThereIsAConflict(
             string copyToOutputDirectoryFirst,
             string copyToPublishDirectoryFirst,
@@ -438,24 +438,24 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             // Assert
             result.Should().Be(false);
             errorMessages.Count.Should().Be(1);
-            errorMessages[0].Should().Be($@"Two assets found targeting the same path with incompatible asset kinds: 
+            errorMessages[0].Should().Be($@"Two assets found targeting the same path with incompatible asset kinds:
 '{Path.GetFullPath(Path.Combine("wwwroot", "candidate.js"))}' with kind '{firstKind}'
 '{Path.GetFullPath(Path.Combine("wwwroot", "candidate.publish.js"))}' with kind '{secondKind}'
 for path 'candidate.js'");
         }
 
-        [Theory]
-        [InlineData("\\_content\\Path\\", "_content/Path")]
-        [InlineData("\\_content\\Path", "_content/Path")]
-        [InlineData("_content\\Path", "_content/Path")]
-        [InlineData("/_content/Path/", "_content/Path")]
-        [InlineData("/_content/Path", "_content/Path")]
-        [InlineData("_content/Path", "_content/Path")]
-        [InlineData("\\_content/Path\\", "_content/Path")]
-        [InlineData("/_content\\Path/", "_content/Path")]
-        [InlineData("", "/")]
-        [InlineData("/", "/")]
-        [InlineData("\\", "/")]
+        [TestMethod]
+        [DataRow("\\_content\\Path\\", "_content/Path")]
+        [DataRow("\\_content\\Path", "_content/Path")]
+        [DataRow("_content\\Path", "_content/Path")]
+        [DataRow("/_content/Path/", "_content/Path")]
+        [DataRow("/_content/Path", "_content/Path")]
+        [DataRow("_content/Path", "_content/Path")]
+        [DataRow("\\_content/Path\\", "_content/Path")]
+        [DataRow("/_content\\Path/", "_content/Path")]
+        [DataRow("", "/")]
+        [DataRow("/", "/")]
+        [DataRow("\\", "/")]
         public void NormalizesBasePath(string givenPath, string expectedPath)
         {
             var errorMessages = new List<string>();
@@ -507,8 +507,8 @@ for path 'candidate.js'");
             }
         }
 
-        [Theory]
-        [MemberData(nameof(NormalizesContentRootData))]
+        [TestMethod]
+        [DynamicData(nameof(NormalizesContentRootData))]
         public void NormalizesContentRoot(string contentRoot, string expected)
         {
             var errorMessages = new List<string>();

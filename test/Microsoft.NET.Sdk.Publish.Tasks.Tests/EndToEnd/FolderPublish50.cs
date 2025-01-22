@@ -24,9 +24,9 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.EndToEnd
             _testOutputHelper = testOutputHelper;
         }
 
-        [Theory]
-        [InlineData("net5.0", "Release", "core")]
-        [InlineData("net5.0", "Debug", "core")]
+        [TestMethod]
+        [DataRow("net5.0", "Release", "core")]
+        [DataRow("net5.0", "Debug", "core")]
         public void EmptyWebCore(string templateFramework, string configuration, string msBuildType)
         {
             string projectName = $"{nameof(EmptyWebCore)}_{Path.GetRandomFileName()}";
@@ -43,9 +43,9 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.EndToEnd
         }
 
 
-        [Theory]
-        [InlineData("net5.0", "Release", "core")]
-        [InlineData("net5.0", "Debug", "core")]
+        [TestMethod]
+        [DataRow("net5.0", "Release", "core")]
+        [DataRow("net5.0", "Debug", "core")]
         public void WebAPICore(string templateFramework, string configuration, string msBuildType)
         {
             string projectName = $"{nameof(WebAPICore)}_{Path.GetRandomFileName()}";
@@ -60,13 +60,13 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.EndToEnd
             Publish(testFolder, projectName, configuration, msBuildType, isStandAlone:false, resultUrl:"http://localhost:5000/api/Values");
         }
 
-        [Theory]
-        [InlineData("net5.0", "Release", "core", "none", "false")]
-        [InlineData("net5.0", "Debug", "core", "none", "false")]
-        [InlineData("net5.0", "Release", "core", "Individual", "false")]
-        [InlineData("net5.0", "Debug", "core", "Individual", "false")]
-        [InlineData("net5.0", "Release", "core", "Individual", "true")]
-        [InlineData("net5.0", "Debug", "core", "Individual", "true")]
+        [TestMethod]
+        [DataRow("net5.0", "Release", "core", "none", "false")]
+        [DataRow("net5.0", "Debug", "core", "none", "false")]
+        [DataRow("net5.0", "Release", "core", "Individual", "false")]
+        [DataRow("net5.0", "Debug", "core", "Individual", "false")]
+        [DataRow("net5.0", "Release", "core", "Individual", "true")]
+        [DataRow("net5.0", "Debug", "core", "Individual", "true")]
         public void MvcCore(string templateFramework, string configuration, string msBuildType, string auth, string useLocalDB)
         {
             string projectName = $"{nameof(MvcCore)}_{Path.GetRandomFileName()}";
@@ -87,13 +87,13 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.EndToEnd
             Publish(testFolder, projectName, configuration, msBuildType);
         }
 
-        [Theory]
-        [InlineData("net5.0", "Release", "core", "none", "false")]
-        [InlineData("net5.0", "Debug", "core", "none", "false")]
-        [InlineData("net5.0", "Release", "core", "Individual", "false")]
-        [InlineData("net5.0", "Debug", "core", "Individual", "false")]
-        [InlineData("net5.0", "Release", "core", "Individual", "true")]
-        [InlineData("net5.0", "Debug", "core", "Individual", "true")]
+        [TestMethod]
+        [DataRow("net5.0", "Release", "core", "none", "false")]
+        [DataRow("net5.0", "Debug", "core", "none", "false")]
+        [DataRow("net5.0", "Release", "core", "Individual", "false")]
+        [DataRow("net5.0", "Debug", "core", "Individual", "false")]
+        [DataRow("net5.0", "Release", "core", "Individual", "true")]
+        [DataRow("net5.0", "Debug", "core", "Individual", "true")]
         public void RazorCore(string templateFramework, string configuration, string msBuildType, string auth, string useLocalDB)
         {
             string projectName = $"{nameof(RazorCore)}_{Path.GetRandomFileName()}";

@@ -12,7 +12,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests;
 
 public class ComputeEndpointsForReferenceStaticWebAssetsTest
 {
-    [Fact]
+    [TestMethod]
     public void IncludesEndpointsForAssetsFromCurrentProject()
     {
         var errorMessages = new List<string>();
@@ -37,7 +37,7 @@ public class ComputeEndpointsForReferenceStaticWebAssetsTest
         task.Endpoints[0].GetMetadata("AssetFile").Should().Be(Path.GetFullPath(Path.Combine("wwwroot", "candidate.js")));
     }
 
-    [Fact]
+    [TestMethod]
     public void FiltersOutEndpointsForAssetsNotFound()
     {
         var errorMessages = new List<string>();

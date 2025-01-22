@@ -21,8 +21,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($"new {commandName}");
             UninstallCommandArgs args = new((BaseUninstallCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.Empty(parseResult.Errors);
-            Assert.Empty(args.TemplatePackages);
+            Assert.HasCount(0, parseResult.Errors);
+            Assert.HasCount(0, args.TemplatePackages);
         }
 
         [TestMethod]
@@ -37,8 +37,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($"new {commandName} source");
             UninstallCommandArgs args = new((BaseUninstallCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.Empty(parseResult.Errors);
-            Assert.Single(args.TemplatePackages);
+            Assert.HasCount(0, parseResult.Errors);
+            Assert.HasCount(1, args.TemplatePackages);
             Assert.Contains("source", args.TemplatePackages);
         }
 
@@ -54,7 +54,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             UninstallCommandArgs args = new((BaseUninstallCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.Empty(parseResult.Errors);
+            Assert.HasCount(0, parseResult.Errors);
             Assert.AreEqual(2, args.TemplatePackages.Count);
             Assert.Contains("source1", args.TemplatePackages);
             Assert.Contains("source2", args.TemplatePackages);

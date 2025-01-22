@@ -71,7 +71,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse("new install --nuget-source ");
             CompletionItem[] result = parseResult.GetCompletions().ToArray();
 
-            Assert.Empty(result);
+            Assert.HasCount(0, result);
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
@@ -85,7 +85,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse("new install --nuget-source me");
             string[] result = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
-            Assert.Single(result);
+            Assert.HasCount(1, result);
             Assert.Contains("--interactive", result);
         }
 
@@ -98,7 +98,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse("new co");
             string[] suggestions = parseResult.GetCompletions().Select(l => l.Label).ToArray();
 
-            Assert.Single(suggestions);
+            Assert.HasCount(1, suggestions);
             Assert.AreEqual("console", suggestions.Single());
         }
 
@@ -497,7 +497,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             IEnumerable<string> result = InstantiateCommand.GetTemplateNameCompletions(args.ShortName, templateGroups, settings).Select(l => l.Label);
 
-            Assert.Empty(result);
+            Assert.HasCount(0, result);
         }
 
         [TestMethod]

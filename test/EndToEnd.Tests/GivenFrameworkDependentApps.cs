@@ -9,9 +9,9 @@ using NuGet.Versioning;
 
 namespace EndToEnd.Tests
 {
-    public class GivenFrameworkDependentApps(ITestOutputHelper log) : SdkTest(log)
+    public class GivenFrameworkDependentApps(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Theory]
+        [TestMethod]
         [ClassData(typeof(SupportedNetCoreAppVersions))]
         public void ItDoesNotRollForwardToTheLatestVersionOfNetCore(string minorVersion)
         {
@@ -23,7 +23,7 @@ namespace EndToEnd.Tests
             ItDoesNotRollForwardToTheLatestVersion(TestProjectCreator.NETCorePackageName, minorVersion);
         }
 
-        [Theory]
+        [TestMethod]
         [ClassData(typeof(SupportedAspNetCoreVersions))]
         public void ItDoesNotRollForwardToTheLatestVersionOfAspNetCoreApp(string minorVersion)
         {
@@ -35,7 +35,7 @@ namespace EndToEnd.Tests
             ItDoesNotRollForwardToTheLatestVersion(TestProjectCreator.AspNetCoreAppPackageName, minorVersion);
         }
 
-        [Theory]
+        [TestMethod]
         [ClassData(typeof(SupportedAspNetCoreAllVersions))]
         public void ItDoesNotRollForwardToTheLatestVersionOfAspNetCoreAll(string minorVersion) => ItDoesNotRollForwardToTheLatestVersion(TestProjectCreator.AspNetCoreAllPackageName, minorVersion);
 

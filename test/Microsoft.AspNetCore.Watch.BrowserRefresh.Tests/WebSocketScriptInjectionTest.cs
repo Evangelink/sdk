@@ -5,7 +5,7 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 {
     public class WebSocketScriptInjectionTest
     {
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_DoesNotInjectMarkup_IfInputDoesNotContainBodyTag()
         {
             // Arrange
@@ -16,11 +16,11 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input);
 
             // Assert
-            Assert.False(result);
-            Assert.Equal(input, stream.ToArray());
+            Assert.IsFalse(result);
+            Assert.AreEqual(input, stream.ToArray());
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_InjectsMarkupIfBodyTagAppearsInTheMiddle()
         {
             // Arrange
@@ -47,7 +47,7 @@ $@"<footer>
             Assert.Equal(expected, output, ignoreLineEndingDifferences: true);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_WithOffsetBodyTagAppearsInMiddle()
         {
             // Arrange
@@ -64,7 +64,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_WithOffsetBodyTagAppearsAtStartOfOffset()
         {
             // Arrange
@@ -81,7 +81,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_InjectsMarkupIfBodyTagAppearsAtTheStartOfOutput()
         {
             // Arrange
@@ -98,7 +98,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_InjectsMarkupIfBodyTagAppearsByItself()
         {
             // Arrange
@@ -115,7 +115,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TryInjectLiveReloadScriptAsync_MultipleBodyTags()
         {
             // Arrange
@@ -132,7 +132,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public void TryInjectLiveReloadScript_NoBodyTag()
         {
             // Arrange
@@ -149,7 +149,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public void TryInjectLiveReloadScript_NoOffset()
         {
             // Arrange
@@ -166,7 +166,7 @@ $@"<footer>
             Assert.Equal(expected, output);
         }
 
-        [Fact]
+        [TestMethod]
         public void TryInjectLiveReloadScript_WithOffset()
         {
             // Arrange

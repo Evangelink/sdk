@@ -3,9 +3,9 @@
 
 namespace EndToEnd.Tests
 {
-    public class GivenDotNetLinuxInstallers(ITestOutputHelper log) : SdkTest(log)
+    public class GivenDotNetLinuxInstallers(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void ItHasExpectedDependencies()
         {
             var installerFile = Environment.GetEnvironmentVariable("SDK_INSTALLER_FILE");
@@ -47,7 +47,7 @@ namespace EndToEnd.Tests
             // Homepage: https://dotnet.github.io/core
             // Description: Microsoft .NET Core SDK - 2.1.104
 
-            new RunExeCommand(Log, "dpkg")
+            new RunExeCommand(MSTestContext, "dpkg")
                 .Execute("--info", installerFile)
                 .Should().Pass()
                     .And.HaveStdOutMatching(@"Depends:.*\s?dotnet-runtime-\d+(\.\d+){2}")
@@ -65,7 +65,7 @@ namespace EndToEnd.Tests
             // rpmlib(PayloadFilesHavePrefix) <= 4.0-1
             // rpmlib(CompressedFileNames) <= 3.0.4-1
 
-            new RunExeCommand(Log, "rpm")
+            new RunExeCommand(MSTestContext, "rpm")
                 .Execute("-qpR", installerFile)
                 .Should().Pass()
                     .And.HaveStdOutMatching(@"dotnet-runtime-\d+(\.\d+){2} >= \d+(\.\d+){2}")

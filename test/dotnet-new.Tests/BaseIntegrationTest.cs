@@ -7,7 +7,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public abstract class BaseIntegrationTest : SdkTest
     {
-        public BaseIntegrationTest(ITestOutputHelper log) : base(log)
+        public BaseIntegrationTest(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -87,9 +87,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         /// <param name="log">Test logger.</param>
         /// <param name="homeDirectory">The settings path for dotnet new.</param>
         /// <param name="workingDirectory">The working directory to use.</param>
-        internal static void InstallNuGetTemplate(string packageName, ITestOutputHelper log, string homeDirectory, string? workingDirectory = null)
+        internal static void InstallNuGetTemplate(string packageName, MSTestContext testContext, string homeDirectory, string? workingDirectory = null)
         {
-            DotnetNewCommand command = new DotnetNewCommand(log, "-i", packageName)
+            DotnetNewCommand command = new DotnetNewCommand(testContext, "-i", packageName)
                   .WithCustomHive(homeDirectory);
             if (!string.IsNullOrWhiteSpace(workingDirectory))
             {
@@ -110,7 +110,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         /// <param name="log">Test logger.</param>
         /// <param name="homeDirectory">The settings path for dotnet new.</param>
         /// <param name="workingDirectory">The working directory to use.</param>
-        internal string InstallTestTemplate(string templateNameOrPath, ITestOutputHelper log, string homeDirectory, string? workingDirectory = null)
+        internal string InstallTestTemplate(string templateNameOrPath, MSTestContext testContext, string homeDirectory, string? workingDirectory = null)
         {
             string testTemplate = GetTestTemplateLocation(templateNameOrPath);
 
@@ -119,7 +119,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 testTemplate = templateNameOrPath;
             }
 
-            DotnetNewCommand command = new DotnetNewCommand(log, "install", testTemplate)
+            DotnetNewCommand command = new DotnetNewCommand(testContext, "install", testTemplate)
                 .WithCustomHive(homeDirectory);
 
             if (!string.IsNullOrWhiteSpace(workingDirectory))
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         /// <summary>
         /// Packs test template package and returns path to it.
         /// </summary>
-        internal string PackTestNuGetPackage(ITestOutputHelper log, [CallerMemberName] string testName = "UnnamedTest")
+        internal string PackTestNuGetPackage(MSTestContext testContext, [CallerMemberName] string testName = "UnnamedTest")
         {
             var testAsset = _testAssetsManager.CopyTestAsset("dotnet-new", callingMethod: testName, testAssetSubdirectory: "TestPackages").WithSource();
             string testProject = Path.GetFileName(DotnetNewTestTemplatePackageProjectPath);
@@ -146,7 +146,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             string outputLocation = Path.Combine(testPath, "TestNuGetPackage");
 
-            new DotnetPackCommand(log, $"{testPath}\\{testProject}", "-o", outputLocation)
+            new DotnetPackCommand(testContext, $"{testPath}\\{testProject}", "-o", testContextLocation)
                 .Execute()
                 .Should()
             .Pass();

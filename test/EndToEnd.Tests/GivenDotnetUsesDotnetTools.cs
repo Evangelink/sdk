@@ -3,12 +3,12 @@
 
 namespace EndToEnd.Tests
 {
-    public class GivenDotnetUsesDotnetTools(ITestOutputHelper log) : SdkTest(log)
+    public class GivenDotnetUsesDotnetTools(MSTestContext testContext) : SdkTest(testContext)
     {
-        [Fact]
+        [TestMethod]
         public void ThenOneDotnetToolsCanBeCalled()
         {
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .Execute("dev-certs", "--help")
                 .Should().Pass();
         }

@@ -8,7 +8,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
 {
     public class DiscoverDefaultScopedCssItemsTests
     {
-        [Fact]
+        [TestMethod]
         public void DiscoversScopedCssFiles_BasedOnTheirExtension()
         {
             // Arrange
@@ -30,7 +30,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.DiscoveredScopedCssInputs.Should().HaveCount(3);
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotDiscoversScopedCssFilesForViews_IfFeatureIsUnsupported()
         {
             // Arrange
@@ -52,7 +52,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.DiscoveredScopedCssInputs.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void DiscoversScopedCssFilesForViews_BasedOnTheirExtension()
         {
             // Arrange
@@ -75,7 +75,7 @@ namespace Microsoft.NET.Sdk.Razor.Test
             taskInstance.DiscoveredScopedCssInputs.Should().HaveCount(3);
         }
 
-        [Fact]
+        [TestMethod]
         public void DiscoversScopedCssFilesForViews_SkipsFilesWithScopedAttributeWithAFalseValue()
         {
             // Arrange

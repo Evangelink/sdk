@@ -14,7 +14,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
         private const string EnvironmentVariable2 = "__DOTNET_TEST_ENVIRONMENT_VARIABLE_1=VALUE1";
         private const string EnvironmentVariable3 = "__DOTNET_TEST_ENVIRONMENT_VARIABLE_2=VALUE WITH SPACE";
 
-        public GivenDotnetTestContainsEnvironmentVariables(ITestOutputHelper log) : base(log)
+        public GivenDotnetTestContainsEnvironmentVariables(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             EnvironmentOption, EnvironmentVariable3,
         };
 
-        [Fact]
+        [TestMethod]
         public void ItPassesEnvironmentVariablesFromCommandLineParametersWhenRunningViaCsproj()
         {
             var testAsset = _testAssetsManager.CopyTestAsset(TestAppName)
@@ -36,7 +36,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             var testRoot = testAsset.Path;
 
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: true, EnvironmentVariables)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: true, EnvironmentVariables)
                                         .WithWorkingDirectory(testRoot)
                                         .Execute(ConsoleLoggerOutputDetailed);
 
@@ -56,7 +56,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPassesEnvironmentVariablesFromCommandLineParametersWhenRunningViaDll()
         {
             var testAsset = _testAssetsManager.CopyTestAsset(TestAppName)
@@ -75,7 +75,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             var outputDll = Path.Combine(buildCommand.GetOutputDirectory(configuration: configuration).FullName, $"{TestAppName}.dll");
 
-            var result = new DotnetTestCommand(Log, disableNewOutput: false, EnvironmentVariables)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: false, EnvironmentVariables)
                 .Execute(outputDll, $"{ConsoleLoggerOutputDetailed[0]}:{ConsoleLoggerOutputDetailed[1]}");
 
             result.StartInfo.Arguments

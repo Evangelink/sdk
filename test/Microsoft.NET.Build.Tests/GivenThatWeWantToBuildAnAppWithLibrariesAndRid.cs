@@ -9,7 +9,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAnAppWithLibrariesAndRid : SdkTest
     {
-        public GivenThatWeWantToBuildAnAppWithLibrariesAndRid(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAnAppWithLibrariesAndRid(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -48,7 +48,7 @@ namespace Microsoft.NET.Build.Tests
 
             string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
 
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -110,7 +110,7 @@ namespace Microsoft.NET.Build.Tests
 
             outputDirectory.Should().OnlyHaveFiles(expectedFiles.Where(x => !string.IsNullOrEmpty(x)).ToList());
 
-            new DotnetCommand(Log, Path.Combine(outputDirectory.FullName, "App.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "App.dll"))
                 .Execute()
                 .Should().Pass()
                 .And.HaveStdOutContaining($"{LibuvVersion} '{runtimeIdentifier}' {LibuvVersion} '{runtimeIdentifier}' Hello World");

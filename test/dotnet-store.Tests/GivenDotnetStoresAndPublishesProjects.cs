@@ -9,11 +9,11 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         private static string _arch = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
         private static string _defaultConfiguration = "Debug";
 
-        public GivenDotnetStoresAndPublishesProjects(ITestOutputHelper log) : base(log)
+        public GivenDotnetStoresAndPublishesProjects(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact(Skip = "https://github.com/dotnet/cli/issues/12482")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/cli/issues/12482")]
         public void ItPublishesARunnablePortableApp()
         {
             var testAppName = "NewtonSoftDependentProject";
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log, "store",
+            new DotnetCommand(MSTestContext, "store",
                     "--manifest", profileProject,
                     "-f", _tfm,
                     "-r", rid,
@@ -45,7 +45,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? _defaultConfiguration;
             var profileFilter = Path.Combine(localAssemblyCache, _arch, _tfm, "artifact.xml");
 
-            new DotnetPublishCommand(Log,
+            new DotnetPublishCommand(MSTestContext,
                     "-f", _tfm,
                     "--manifest", profileFilter)
                 .WithWorkingDirectory(testProjectDirectory)
@@ -54,14 +54,14 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             var outputDll = Path.Combine(testProjectDirectory, "bin", configuration, _tfm, "publish", $"{testAppName}.dll");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithEnvironmentVariable("DOTNET_SHARED_STORE", localAssemblyCache)
                 .Execute(outputDll)
                 .Should().Pass()
                 .And.HaveStdOutContaining("{}");
         }
 
-        [Fact]
+        [TestMethod]
         public void AppFailsDueToMissingCache()
         {
             var testAppName = "NuGetConfigDependentProject";
@@ -75,14 +75,14 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
             var profileProjectPath = _testAssetsManager.CopyTestAsset(profileProjectName).WithSource().Path;
             var profileFilter = Path.Combine(profileProjectPath, targetManifestFileName);
 
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? _defaultConfiguration;
 
-            new DotnetPublishCommand(Log,
+            new DotnetPublishCommand(MSTestContext,
                     "-f", _tfm,
                     "--manifest", profileFilter)
                 .WithWorkingDirectory(testProjectDirectory)
@@ -91,7 +91,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             var outputDll = Path.Combine(testProjectDirectory, "bin", configuration, _tfm, "publish", $"{testAppName}.dll");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .Execute(outputDll)
                 .Should().Fail()
                 .And.HaveStdErrContaining($"Unhandled exception. System.IO.FileNotFoundException:");
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
                 .Execute()
                 .Should().Pass();
 
-            new DotnetCommand(Log, "store",
+            new DotnetCommand(MSTestContext, "store",
                     "--manifest", profileProject,
                     "--manifest", profileProject1,
                     "-f", _tfm,
@@ -137,7 +137,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? _defaultConfiguration;
 
-            new DotnetPublishCommand(Log,
+            new DotnetPublishCommand(MSTestContext,
                     "-f", _tfm,
                     "--manifest", profileFilter,
                     "--manifest", profileFilter1)
@@ -147,7 +147,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             var outputDll = Path.Combine(testProjectDirectory, "bin", configuration, _tfm, "publish", $"{testAppName}.dll");
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithEnvironmentVariable("DOTNET_SHARED_STORE", localAssemblyCache)
                 .Execute(outputDll)
                 .Should().Pass()

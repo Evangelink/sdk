@@ -170,7 +170,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             // removed an interface due to it's base class removing that implementation. We validate that APICompat doesn't
             // log errors when not using references.
             validator.Validate(new PackageValidatorOption(package));
-            Assert.HasCount(0, testContext.errors);
+            Assert.HasCount(0, log.errors);
 
             // Now we do pass in references. With references, ApiCompat should now detect that an interface was removed in a
             // dependent assembly, causing one of our types to stop implementing that assembly. We validate that a CP0008 is logged.
@@ -181,7 +181,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             };
             package = Package.Create(packCommand.GetNuGetPackage(), references);
             validator.Validate(new PackageValidatorOption(package));
-            Assert.NotEmpty(testContext.errors);
+            Assert.NotEmpty(log.errors);
 
             Assert.Contains($"CP0008 Type 'PackageValidationTests.First' does not implement interface 'PackageValidationTests.IBaseInterface' on lib/{ToolsetInfo.CurrentTargetFramework}/{asset.TestProject.Name}.dll but it does on lib/netstandard2.0/{asset.TestProject.Name}.dll", log.errors);
         }
@@ -286,9 +286,9 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
             validator.Validate(new PackageValidatorOption(package));
 
             if (!useReferences)
-                Assert.DoesNotContain(testContext.warnings, e => e.Contains("CP1003"));
+                Assert.DoesNotContain(log.warnings, e => e.Contains("CP1003"));
             else
-                Assert.Contains(testContext.warnings, e => e.Contains("CP1003"));
+                Assert.Contains(log.warnings, e => e.Contains("CP1003"));
         }
 
         [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
@@ -310,7 +310,7 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
 
             validator.Validate(new PackageValidatorOption(package));
 
-            Assert.Contains(testContext.warnings, e => e.Contains("CP1003"));
+            Assert.Contains(log.warnings, e => e.Contains("CP1003"));
         }
 
         [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]

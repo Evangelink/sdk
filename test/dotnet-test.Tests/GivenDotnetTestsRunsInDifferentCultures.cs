@@ -9,20 +9,20 @@ public class CultureAwareTestProject : SdkTest
 {
     private const string TestAppName = "TestAppSimple";
 
-    public CultureAwareTestProject(ITestOutputHelper log) : base(log)
+    public CultureAwareTestProject(MSTestContext testContext) : base(testContext)
     {
     }
 
-    [InlineData("en-US")]
-    [InlineData("de-DE")]
-    [Theory]
+    [DataRow("en-US")]
+    [DataRow("de-DE")]
+    [TestMethod]
     public void CanRunTestsAgainstProjectInLocale(string locale)
     {
         var testAsset = _testAssetsManager.CopyTestAsset(TestAppName)
                 .WithSource()
                 .WithVersionVariables();
 
-        var command = new DotnetTestCommand(Log, disableNewOutput: true).WithWorkingDirectory(testAsset.Path).WithCulture(locale);
+        var command = new DotnetTestCommand(MSTestContext, disableNewOutput: true).WithWorkingDirectory(testAsset.Path).WithCulture(locale);
         var result = command.Execute();
 
         result.ExitCode.Should().Be(0);

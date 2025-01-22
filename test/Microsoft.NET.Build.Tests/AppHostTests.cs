@@ -37,12 +37,12 @@ namespace Microsoft.NET.Build.Tests
             return expectedFiles.ToArray();
         }
 
-        public AppHostTests(ITestOutputHelper log) : base(log)
+        public AppHostTests(MSTestContext testContext) : base(testContext)
         {
         }
 
         [RequiresMSBuildVersionTheory("17.1.0.60101")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_a_runnable_apphost_by_default(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -69,7 +69,7 @@ namespace Microsoft.NET.Build.Tests
             var outputDirectory = buildCommand.GetOutputDirectory();
             var hostExecutable = $"HelloWorld{Constants.ExeSuffix}";
             outputDirectory.Should().OnlyHaveFiles(GetExpectedFilesFromBuild(testAsset, targetFramework));
-            new RunExeCommand(Log, Path.Combine(outputDirectory.FullName, hostExecutable))
+            new RunExeCommand(MSTestContext, Path.Combine(outputDirectory.FullName, hostExecutable))
                 .WithEnvironmentVariable(
                     Environment.Is64BitProcess ? "DOTNET_ROOT" : "DOTNET_ROOT(x86)",
                     Path.GetDirectoryName(TestContext.Current.ToolsetUnderTest.DotNetHostPath))
@@ -80,10 +80,10 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [PlatformSpecificTheory(TestPlatforms.OSX)]
-        [InlineData("netcoreapp3.1")]
-        [InlineData("net5.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [PlatformSpecificTestMethod(TestPlatforms.OSX)]
+        [DataRow("netcoreapp3.1")]
+        [DataRow("net5.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_disable_codesign_if_opt_out(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -104,7 +104,7 @@ namespace Microsoft.NET.Build.Tests
 
             // Check that the apphost was not signed
             var codesignPath = @"/usr/bin/codesign";
-            new RunExeCommand(Log, codesignPath, new string[] { "-d", appHostFullPath })
+            new RunExeCommand(MSTestContext, codesignPath, new string[] { "-d", appHostFullPath })
                 .Execute()
                 .Should()
                 .Fail()
@@ -114,13 +114,13 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().OnlyHaveFiles(GetExpectedFilesFromBuild(testAsset, targetFramework));
         }
 
-        [PlatformSpecificTheory(TestPlatforms.OSX)]
-        [InlineData("netcoreapp3.1", "win-x64")]
-        [InlineData("net5.0", "win-x64")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "win-x64")]
-        [InlineData("netcoreapp3.1", "linux-x64")]
-        [InlineData("net5.0", "linux-x64")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "linux-x64")]
+        [PlatformSpecificTestMethod(TestPlatforms.OSX)]
+        [DataRow("netcoreapp3.1", "win-x64")]
+        [DataRow("net5.0", "win-x64")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "win-x64")]
+        [DataRow("netcoreapp3.1", "linux-x64")]
+        [DataRow("net5.0", "linux-x64")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "linux-x64")]
         public void It_does_not_try_to_codesign_non_osx_app_hosts(string targetFramework, string rid)
         {
             var testAsset = _testAssetsManager
@@ -142,7 +142,7 @@ namespace Microsoft.NET.Build.Tests
 
             // Check that the apphost was not signed
             var codesignPath = @"/usr/bin/codesign";
-            new RunExeCommand(Log, codesignPath, new string[] { "-d", appHostFullPath })
+            new RunExeCommand(MSTestContext, codesignPath, new string[] { "-d", appHostFullPath })
                 .Execute()
                 .Should()
                 .Fail()
@@ -153,11 +153,11 @@ namespace Microsoft.NET.Build.Tests
             Directory.Delete(buildProjDir, true);
         }
 
-        [Theory]
-        [InlineData("net6.0", "osx-x64")]
-        [InlineData("net6.0", "osx-arm64")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "osx-x64")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, "osx-arm64")]
+        [TestMethod]
+        [DataRow("net6.0", "osx-x64")]
+        [DataRow("net6.0", "osx-arm64")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "osx-x64")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, "osx-arm64")]
         public void It_codesigns_an_app_targeting_osx(string targetFramework, string rid)
         {
             const string testAssetName = "HelloWorld";
@@ -182,22 +182,22 @@ namespace Microsoft.NET.Build.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 var codesignPath = @"/usr/bin/codesign";
-                new RunExeCommand(Log, codesignPath, ["-s", "-", appHostFullPath])
+                new RunExeCommand(MSTestContext, codesignPath, ["-s", "-", appHostFullPath])
                     .Execute()
                     .Should()
                     .Fail()
                     .And
                     .HaveStdErrContaining($"{appHostFullPath}: is already signed");
-                new RunExeCommand(Log, codesignPath, ["-v", appHostFullPath])
+                new RunExeCommand(MSTestContext, codesignPath, ["-v", appHostFullPath])
                     .Execute()
                     .Should()
                     .Pass();
             }
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.1")]
-        [InlineData("netcoreapp2.2")]
+        [TestMethod]
+        [DataRow("netcoreapp2.1")]
+        [DataRow("netcoreapp2.2")]
         public void It_does_not_build_with_an_apphost_by_default_before_netcoreapp_3(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -223,10 +223,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("x86")]
-        [InlineData("x64")]
-        [InlineData("AnyCPU")]
-        [InlineData("")]
+        [DataRow("x86")]
+        [DataRow("x64")]
+        [DataRow("AnyCPU")]
+        [DataRow("")]
         public void It_uses_an_apphost_based_on_platform_target(string target)
         {
             var targetFramework = "netcoreapp3.1";
@@ -260,10 +260,10 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_can_disable_cetcompat(bool? cetCompat)
         {
             string rid = "win-x64"; // CET compat support is currently only on Windows x64
@@ -295,7 +295,7 @@ namespace Microsoft.NET.Build.Tests
             isCetCompatible.Should().Be(!cetCompat.HasValue || cetCompat.Value);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_configure_dotnet_search_options_on_build()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -338,7 +338,7 @@ namespace Microsoft.NET.Build.Tests
                 break;
             }
 
-            Assert.True(found, "Expected placeholder sequence for .NET install search options was not found");
+            Assert.IsTrue(found, "Expected placeholder sequence for .NET install search options was not found");
         }
 
         [WindowsOnlyFact]
@@ -405,7 +405,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void If_UseAppHost_is_false_it_does_not_try_to_find_an_AppHost()
         {
             var testProject = new TestProject()
@@ -429,7 +429,7 @@ namespace Microsoft.NET.Build.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void It_retries_on_failure_to_create_apphost()
         {
             var testProject = new TestProject()

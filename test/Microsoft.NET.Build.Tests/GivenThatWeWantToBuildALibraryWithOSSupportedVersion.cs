@@ -7,17 +7,17 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildALibraryWithOSMinimumVersion : SdkTest
     {
-        public GivenThatWeWantToBuildALibraryWithOSMinimumVersion(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildALibraryWithOSMinimumVersion(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPropertiesAreNotSetItShouldNotGenerateSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject();
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -28,7 +28,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute(null));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPropertiesAreSetItCanGenerateSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject();
@@ -42,7 +42,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -53,7 +53,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("fakeOS13.2"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenSupportedOSPlatformVersionIsNotSetTargetPlatformVersionIsSetItCanGenerateSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject();
@@ -66,7 +66,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -77,7 +77,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("fakeOS13.2"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenUsingDefaultTargetPlatformVersionItCanGenerateSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject();
@@ -85,7 +85,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -97,15 +97,15 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows", "Windows7.0")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041", "Windows10.0.19041.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows", "Windows7.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041", "Windows10.0.19041.0")]
         public void WhenUsingTargetPlatformInTargetFrameworkItCanGenerateSupportedOSPlatformAttribute(string targetFramework, string expectedAttribute)
         {
             TestProject testProject = SetUpProject(targetFramework);
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: targetFramework);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -116,7 +116,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute(expectedAttribute));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenUsingZeroedSupportedOSPlatformVersionItCanGenerateSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject($"{ToolsetInfo.CurrentTargetFramework}-windows");
@@ -124,7 +124,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -135,7 +135,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("Windows"));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenSupportedOSPlatformVersionIsHigherThanTargetPlatformVersionItShouldError()
         {
             TestProject testProject = SetUpProject();
@@ -149,7 +149,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var buildCommand = new DotnetBuildCommand(Log, Path.Combine(testAsset.Path, "Project", "Project.csproj"));
+            var buildCommand = new DotnetBuildCommand(MSTestContext, Path.Combine(testAsset.Path, "Project", "Project.csproj"));
             buildCommand.Execute()
                 .Should()
                 .Fail().And.HaveStdOutContaining("NETSDK1135");
@@ -163,7 +163,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -174,7 +174,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("Windows10.0.18362.0"));
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void WhenTargetingWindowsSupportedOSVersionPropertySetsTargetPlatformMinVersion()
         {
             TestProject testProject = SetUpProject($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041");
@@ -182,7 +182,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -211,7 +211,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };
@@ -223,9 +223,9 @@ namespace Microsoft.NET.Build.Tests
 
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.1")]
-        [InlineData("net48")]
+        [TestMethod]
+        [DataRow("netcoreapp3.1")]
+        [DataRow("net48")]
         public void WhenNotTargetingNet5TargetPlatformMinVersionPropertyCanBeSet(string targetFramework)
         {
             TestProject testProject = new()
@@ -245,7 +245,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNotTargetingWindowsTargetPlatformMinVersionPropertyIsIgnored()
         {
             TestProject testProject = SetUpProject();
@@ -260,7 +260,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
             {
                 WorkingDirectory = Path.Combine(testAsset.TestRoot, testProject.Name)
             };

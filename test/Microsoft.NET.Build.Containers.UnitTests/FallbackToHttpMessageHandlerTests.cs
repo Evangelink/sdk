@@ -13,15 +13,15 @@ namespace Microsoft.NET.Build.Containers.UnitTests
 {
     public class FallbackToHttpMessageHandlerTests
     {
-        [Theory]
-        [InlineData("mcr.microsoft.com", 80)]
-        [InlineData("mcr.microsoft.com:443", 443)]
-        [InlineData("mcr.microsoft.com:80", 80)]
-        [InlineData("mcr.microsoft.com:5555", 5555)]
-        [InlineData("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]", 80)]
-        [InlineData("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:443", 443)]
-        [InlineData("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:80", 80)]
-        [InlineData("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:5555", 5555)]
+        [TestMethod]
+        [DataRow("mcr.microsoft.com", 80)]
+        [DataRow("mcr.microsoft.com:443", 443)]
+        [DataRow("mcr.microsoft.com:80", 80)]
+        [DataRow("mcr.microsoft.com:5555", 5555)]
+        [DataRow("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]", 80)]
+        [DataRow("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:443", 443)]
+        [DataRow("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:80", 80)]
+        [DataRow("[2408:8120:245:49a0:f041:d7bb:bb13:5b64]:5555", 5555)]
         public async Task FallBackToHttpPortShouldAsExpected(string registry, int expectedPort)
         {
             var uri = new Uri($"https://{registry}");
@@ -51,7 +51,7 @@ namespace Microsoft.NET.Build.Containers.UnitTests
             );
             using var httpClient = new HttpClient(handler);
             var response = await httpClient.GetAsync(uri);
-            Assert.Equal(expectedPort, response.RequestMessage?.RequestUri?.Port);
+            Assert.AreEqual(expectedPort, response.RequestMessage?.RequestUri?.Port);
         }
 
         private sealed class ServerMessageHandler : HttpMessageHandler

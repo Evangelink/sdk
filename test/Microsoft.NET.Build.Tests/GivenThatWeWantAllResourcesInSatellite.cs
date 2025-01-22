@@ -9,18 +9,18 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantAllResourcesInSatellite : SdkTest
     {
-        public GivenThatWeWantAllResourcesInSatellite(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantAllResourcesInSatellite(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("17.1.0.60101")]
+        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
         public void It_retrieves_strings_successfully()
         {
             TestSatelliteResources(Log, _testAssetsManager);
         }
 
         internal static void TestSatelliteResources(
-            ITestOutputHelper log,
+            MSTestContext testContext,
             TestAssetsManager testAssetsManager,
             Action<XDocument> projectChanges = null,
             Action<BuildCommand> setup = null,
@@ -75,7 +75,7 @@ namespace Microsoft.NET.Build.Tests
                 {
                     outputFiles.Add("AllResourcesInSatellite.exe");
                     outputFiles.Add("AllResourcesInSatellite.exe.config");
-                    command = new RunExeCommand(log, Path.Combine(outputDirectory.FullName, "AllResourcesInSatellite.exe"));
+                    command = new RunExeCommand(testContext, Path.Combine(outputDirectory.FullName, "AllResourcesInSatellite.exe"));
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace Microsoft.NET.Build.Tests
                     outputFiles.Add("AllResourcesInSatellite.dll");
                     outputFiles.Add("AllResourcesInSatellite.deps.json");
                     outputFiles.Add("AllResourcesInSatellite.runtimeconfig.json");
-                    command = new DotnetCommand(log, Path.Combine(outputDirectory.FullName, "AllResourcesInSatellite.dll"));
+                    command = new DotnetCommand(testContext, Path.Combine(outputDirectory.FullName, "AllResourcesInSatellite.dll"));
                 }
 
                 outputDirectory.Should().OnlyHaveFiles(outputFiles);

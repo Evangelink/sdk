@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantDiagnosticsWhenPackageCannotBeFound : SdkTest
     {
-        public GivenThatWeWantDiagnosticsWhenPackageCannotBeFound(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantDiagnosticsWhenPackageCannotBeFound(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_reports_missing_package_deleted_since_restore()
         {
             var package = GeneratePackageToGoMissing();

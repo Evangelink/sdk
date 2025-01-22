@@ -7,13 +7,13 @@ namespace Microsoft.DotNet.Restore.Test
 {
     public class GivenThatIWantToRestoreApp : SdkTest
     {
-        public GivenThatIWantToRestoreApp(ITestOutputHelper log) : base(log)
+        public GivenThatIWantToRestoreApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ItRestoresAppToSpecificDirectory(bool useStaticGraphEvaluation)
         {
             var rootPath = _testAssetsManager.CreateTestDirectory(identifier: useStaticGraphEvaluation.ToString()).Path;
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Restore.Test
 
             string[] args = new[] { "App.sln", "--packages", fullPath };
             args = HandleStaticGraphEvaluation(useStaticGraphEvaluation, args);
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                  .WithWorkingDirectory(projectDirectory)
                  .Execute(args)
                  .Should()
@@ -40,11 +40,11 @@ namespace Microsoft.DotNet.Restore.Test
             Directory.EnumerateFiles(fullPath, "*.dll", SearchOption.AllDirectories).Count().Should().BeGreaterThan(0);
         }
 
-        [Theory]
-        [InlineData(true, ".csproj")]
-        [InlineData(false, ".csproj")]
-        [InlineData(true, ".fsproj")]
-        [InlineData(false, ".fsproj")]
+        [TestMethod]
+        [DataRow(true, ".csproj")]
+        [DataRow(false, ".csproj")]
+        [DataRow(true, ".fsproj")]
+        [DataRow(false, ".fsproj")]
         public void ItRestoresLibToSpecificDirectory(bool useStaticGraphEvaluation, string extension)
         {
             var testProject = new TestProject()
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Restore.Test
 
             string[] args = new[] { "--packages", dir };
             args = HandleStaticGraphEvaluation(useStaticGraphEvaluation, args);
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                 .WithWorkingDirectory(rootPath)
                 .Execute(args)
                 .Should()
@@ -84,17 +84,17 @@ namespace Microsoft.DotNet.Restore.Test
 
             if (dllCount == 0)
             {
-                Log.WriteLine("Assets file contents:");
-                Log.WriteLine(File.ReadAllText(Path.Combine(rootPath, "obj", "project.assets.json")));
+                MSTestContext.WriteLine("Assets file contents:");
+                MSTestContext.WriteLine(File.ReadAllText(Path.Combine(rootPath, "obj", "project.assets.json")));
             }
 
             Directory.Exists(fullPath).Should().BeTrue();
             dllCount.Should().BeGreaterThan(0);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ItRestoresTestAppToSpecificDirectory(bool useStaticGraphEvaluation)
         {
             var rootPath = _testAssetsManager.CopyTestAsset("VSTestCore", identifier: useStaticGraphEvaluation.ToString())
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Restore.Test
 
             string[] args = new[] { "--packages", dir };
             args = HandleStaticGraphEvaluation(useStaticGraphEvaluation, args);
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                 .WithWorkingDirectory(rootPath)
                 .Execute(args)
                 .Should()
@@ -118,9 +118,9 @@ namespace Microsoft.DotNet.Restore.Test
             Directory.EnumerateFiles(fullPath, "*.dll", SearchOption.AllDirectories).Count().Should().BeGreaterThan(0);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ItRestoresWithTheSpecifiedVerbosity(bool useStaticGraphEvaluation)
         {
             var rootPath = _testAssetsManager.CreateTestDirectory(identifier: useStaticGraphEvaluation.ToString()).Path;
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.Restore.Test
             string fullPath = Path.GetFullPath(Path.Combine(rootPath, dir));
 
             string[] newArgs = new[] { "console", "-o", rootPath, "--no-restore" };
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute(newArgs)
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Restore.Test
 
             string[] args = new[] { "--packages", dir, "--verbosity", "quiet" };
             args = HandleStaticGraphEvaluation(useStaticGraphEvaluation, args);
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                  .WithWorkingDirectory(rootPath)
                  .Execute(args)
                  .Should()
@@ -147,13 +147,13 @@ namespace Microsoft.DotNet.Restore.Test
                  .And.NotHaveStdOut();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItAcceptsArgumentsAfterProperties()
         {
             var rootPath = _testAssetsManager.CreateTestDirectory().Path;
 
             string[] newArgs = new[] { "console", "-o", rootPath, "--no-restore" };
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute(newArgs)
@@ -161,7 +161,7 @@ namespace Microsoft.DotNet.Restore.Test
                 .Pass();
 
             string[] args = new[] { "/p:prop1=true", "/m:1" };
-            new DotnetRestoreCommand(Log)
+            new DotnetRestoreCommand(MSTestContext)
                  .WithWorkingDirectory(rootPath)
                  .Execute(args)
                  .Should()

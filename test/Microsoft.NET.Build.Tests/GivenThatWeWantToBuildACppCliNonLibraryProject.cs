@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildACppCliNonLibraryProject : SdkTest
     {
-        public GivenThatWeWantToBuildACppCliNonLibraryProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildACppCliNonLibraryProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void Given_an_exe_project_It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager
@@ -27,7 +27,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(Strings.NoSupportCppNonDynamicLibraryDotnetCore);
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void Given_an_StaticLibrary_project_It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager

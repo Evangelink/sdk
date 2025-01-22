@@ -15,12 +15,12 @@ namespace Microsoft.NET.Build.Containers.UnitTests
         private const string RequestUrl = $"https://{TestRegistryName}/v2";
         private const string BearerRealmUrl = $"https://bearer.test/token";
 
-        [Theory]
-        [InlineData("SDK_CONTAINER_REGISTRY_UNAME", "SDK_CONTAINER_REGISTRY_PWORD", (int)RegistryMode.Push)]
-        [InlineData("DOTNET_CONTAINER_PUSH_REGISTRY_UNAME", "DOTNET_CONTAINER_PUSH_REGISTRY_PWORD", (int)RegistryMode.Push)]
-        [InlineData("DOTNET_CONTAINER_PULL_REGISTRY_UNAME", "DOTNET_CONTAINER_PULL_REGISTRY_PWORD", (int)RegistryMode.Pull)]
-        [InlineData("DOTNET_CONTAINER_PULL_REGISTRY_UNAME", "DOTNET_CONTAINER_PULL_REGISTRY_PWORD", (int)RegistryMode.PullFromOutput)]
-        [InlineData("SDK_CONTAINER_REGISTRY_UNAME", "SDK_CONTAINER_REGISTRY_PWORD", (int)RegistryMode.PullFromOutput)]
+        [TestMethod]
+        [DataRow("SDK_CONTAINER_REGISTRY_UNAME", "SDK_CONTAINER_REGISTRY_PWORD", (int)RegistryMode.Push)]
+        [DataRow("DOTNET_CONTAINER_PUSH_REGISTRY_UNAME", "DOTNET_CONTAINER_PUSH_REGISTRY_PWORD", (int)RegistryMode.Push)]
+        [DataRow("DOTNET_CONTAINER_PULL_REGISTRY_UNAME", "DOTNET_CONTAINER_PULL_REGISTRY_PWORD", (int)RegistryMode.Pull)]
+        [DataRow("DOTNET_CONTAINER_PULL_REGISTRY_UNAME", "DOTNET_CONTAINER_PULL_REGISTRY_PWORD", (int)RegistryMode.PullFromOutput)]
+        [DataRow("SDK_CONTAINER_REGISTRY_UNAME", "SDK_CONTAINER_REGISTRY_PWORD", (int)RegistryMode.PullFromOutput)]
         public void GetDockerCredentialsFromEnvironment_ReturnsCorrectValues(string unameVarName, string pwordVarName, int mode)
         {
             string? originalUnameValue = Environment.GetEnvironmentVariable(unameVarName);
@@ -31,10 +31,10 @@ namespace Microsoft.NET.Build.Containers.UnitTests
 
             if (AuthHandshakeMessageHandler.GetDockerCredentialsFromEnvironment((RegistryMode)mode) is (string credU, string credP))
             {
-                Assert.Equal("uname", credU);
-                Assert.Equal("pword", credP);
+                Assert.AreEqual("uname", credU);
+                Assert.AreEqual("pword", credP);
             }
-            else 
+            else
             {
                 Assert.Fail("Should have parsed credentials from environment");
             }
@@ -45,8 +45,8 @@ namespace Microsoft.NET.Build.Containers.UnitTests
             Environment.SetEnvironmentVariable(pwordVarName, originalPwordValue);
         }
 
-        [Theory]
-        [MemberData(nameof(GetAuthenticateTestData))]
+        [TestMethod]
+        [DynamicData(nameof(GetAuthenticateTestData))]
         public async Task Authenticate(string authConf, Func<HttpRequestMessage, HttpResponseMessage> server)
         {
             string authFile = Path.GetTempFileName();
@@ -59,7 +59,7 @@ namespace Microsoft.NET.Build.Containers.UnitTests
                 using var httpClient = new HttpClient(authHandler);
 
                 var response = await httpClient.GetAsync(RequestUrl);
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
             finally
             {
@@ -220,7 +220,7 @@ namespace Microsoft.NET.Build.Containers.UnitTests
                 if (request.RequestUri?.ToString() == BearerRealmUrl)
                 {
                     // Verify the method is the expected one.
-                    Assert.Equal(method, request.Method);
+                    Assert.AreEqual(method, request.Method);
 
                     // Verify the query parameter are the expected ones.
                     AssertParametersAreEqual(queryParameters, request.RequestUri.Query);
@@ -229,9 +229,9 @@ namespace Microsoft.NET.Build.Containers.UnitTests
                     AuthenticationHeaderValue? header = request.Headers.Authorization;
                     if (authHeader is not null)
                     {
-                        Assert.NotNull(header);
-                        Assert.Equal(header.Scheme, authHeader.Scheme);
-                        Assert.Equal(header.Parameter, authHeader.Parameter);
+                        Assert.IsNotNull(header);
+                        Assert.AreEqual(header.Scheme, authHeader.Scheme);
+                        Assert.AreEqual(header.Parameter, authHeader.Parameter);
                     }
                     else
                     {
@@ -264,9 +264,9 @@ namespace Microsoft.NET.Build.Containers.UnitTests
                 NameValueCollection parsedParameters = HttpUtility.ParseQueryString(actual);
                 foreach (var parameter in expected)
                 {
-                    Assert.Equal(parameter.Value, parsedParameters.Get(parameter.Key));
+                    Assert.AreEqual(parameter.Value, parsedParameters.Get(parameter.Key));
                 }
-                Assert.Equal(expected.Count, parsedParameters.AllKeys.Length);
+                Assert.AreEqual(expected.Count, parsedParameters.AllKeys.Length);
             }
         }
 

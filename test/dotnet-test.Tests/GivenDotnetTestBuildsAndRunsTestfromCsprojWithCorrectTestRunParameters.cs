@@ -9,19 +9,19 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 {
     public class GivenDotnetTestBuildsAndRunsTestfromCsprojWithCorrectTestRunParameters : SdkTest
     {
-        public GivenDotnetTestBuildsAndRunsTestfromCsprojWithCorrectTestRunParameters(ITestOutputHelper log) : base(log)
+        public GivenDotnetTestBuildsAndRunsTestfromCsprojWithCorrectTestRunParameters(MSTestContext testContext) : base(testContext)
         {
         }
 
         private readonly string[] ConsoleLoggerOutputNormal = new[] { "--logger", "console;verbosity=normal" };
 
-        [Fact]
+        [TestMethod]
         public void GivenAProjectAndMultipleTestRunParametersItPassesThemToVStestConsoleInTheCorrectFormat()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp("2");
 
             // Call test
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: true)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                                         .WithWorkingDirectory(testProjectDirectory)
                                         .Execute(ConsoleLoggerOutputNormal.Concat(new[] {
                                             "--",
@@ -41,21 +41,21 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void GivenADllAndMultipleTestRunParametersItPassesThemToVStestConsoleInTheCorrectFormat()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp("3");
 
             var configuration = Environment.GetEnvironmentVariable("CONFIGURATION") ?? "Debug";
 
-            new BuildCommand(Log, testProjectDirectory)
+            new BuildCommand(MSTestContext, testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
             var outputDll = Path.Combine(OutputPathCalculator.FromProject(testProjectDirectory).GetOutputDirectory(configuration: configuration), "VSTestTestRunParameters.dll");
 
             // Call test
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: false)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: false)
                                         .Execute(ConsoleLoggerOutputNormal.Concat(new[] {
                                             outputDll,
                                             "--",

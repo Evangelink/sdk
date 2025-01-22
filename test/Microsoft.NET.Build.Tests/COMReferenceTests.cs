@@ -7,13 +7,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class COMReferenceTests : SdkTest
     {
-        public COMReferenceTests(ITestOutputHelper log) : base(log)
+        public COMReferenceTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyTheory()]
-        [InlineData(true)]
-        [InlineData(false)]
+        [FullMSBuildOnlyTestMethod()]
+        [DataRow(true)]
+        [DataRow(false)]
         public void COMReferenceBuildsAndRuns(bool embedInteropTypes)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -56,11 +56,11 @@ namespace Microsoft.NET.Build.Tests
             buildCommand.Execute().Should().Pass();
 
             var outputDirectory = buildCommand.GetOutputDirectory(targetFramework);
-            var runCommand = new RunExeCommand(Log, outputDirectory.File("UseComReferences.exe").FullName);
+            var runCommand = new RunExeCommand(MSTestContext, outputDirectory.File("UseComReferences.exe").FullName);
             runCommand.Execute().Should().Pass();
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void COMReferenceProperlyPublish()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -117,8 +117,8 @@ namespace Microsoft.NET.Build.Tests
             var outputDirectory = buildCommand.GetOutputDirectory(targetFramework);
 
             // COM References by default adds the 'Interop.' prefix.
-            Assert.True(outputDirectory.File($"Interop.{vslangProj70ComRef}").Exists);
-            Assert.True(outputDirectory.File($"Interop.{vslangProj80ComRef}").Exists);
+            Assert.IsTrue(outputDirectory.File($"Interop.{vslangProj70ComRef}").Exists);
+            Assert.IsTrue(outputDirectory.File($"Interop.{vslangProj80ComRef}").Exists);
 
             var publishCommand = new PublishCommand(testAsset);
             publishCommand.Execute().Should().Pass();
@@ -126,8 +126,8 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory = publishCommand.GetOutputDirectory(targetFramework);
 
             // COM References by default adds the 'Interop.' prefix.
-            Assert.True(outputDirectory.File($"Interop.{vslangProj70ComRef}").Exists);
-            Assert.True(outputDirectory.File($"Interop.{vslangProj80ComRef}").Exists);
+            Assert.IsTrue(outputDirectory.File($"Interop.{vslangProj70ComRef}").Exists);
+            Assert.IsTrue(outputDirectory.File($"Interop.{vslangProj80ComRef}").Exists);
         }
     }
 }

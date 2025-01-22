@@ -11,13 +11,13 @@ public class DaemonTestsCollection
 [Collection("Daemon Tests")]
 public class DockerDaemonTests : IDisposable
 {
-    private ITestOutputHelper _testOutput;
+    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
 
-    public DockerDaemonTests(ITestOutputHelper testOutput)
+    public DockerDaemonTests(MSTestContext testContext)
     {
-        _testOutput = testOutput;
-        _loggerFactory = new TestLoggerFactory(testOutput);
+        _testContext = testContext;
+        _loggerFactory = new TestLoggerFactory(testContext);
     }
 
     public void Dispose()
@@ -33,7 +33,7 @@ public class DockerDaemonTests : IDisposable
         {
             Environment.SetEnvironmentVariable("DOCKER_HOST", "tcp://123.123.123.123:12345");
             var available = await new DockerCli(_loggerFactory).IsAvailableAsync(default).ConfigureAwait(false);
-            Assert.False(available, "No daemon should be listening at that port");
+            Assert.IsFalse(available, "No daemon should be listening at that port");
         }
         finally
         {
@@ -45,6 +45,6 @@ public class DockerDaemonTests : IDisposable
     public async Task Can_detect_when_daemon_is_running()
     {
         var available = await new DockerCli(_loggerFactory).IsAvailableAsync(default).ConfigureAwait(false);
-        Assert.True(available, "Should have found a working daemon");
+        Assert.IsTrue(available, "Should have found a working daemon");
     }
 }

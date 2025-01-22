@@ -10,9 +10,9 @@ using Microsoft.NET.Build.Tasks.UnitTests;
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
-public class FileSetSerializerTests(ITestOutputHelper output)
+public class FileSetSerializerTests(MSTestContext testContext)
 {
-    private readonly TestAssetsManager _testAssetManager = new (output);
+    private readonly TestAssetsManager _testAssetManager = new (testContext);
 
     private static string Serialize(MSBuildFileSetResult fileSetResult, Stream stream)
     {
@@ -36,7 +36,7 @@ public class FileSetSerializerTests(ITestOutputHelper output)
         return reader.ReadToEnd();
     }
 
-    [Fact]
+    [TestMethod]
     public async Task Roundtrip()
     {
         var result1 = new MSBuildFileSetResult()
@@ -101,7 +101,7 @@ public class FileSetSerializerTests(ITestOutputHelper output)
             """.Replace("\r\n", "\n"), serialized1.Replace("\r\n", "\n"));
     }
 
-    [Fact]
+    [TestMethod]
     public async Task Task()
     {
         var dir = _testAssetManager.CreateTestDirectory().Path;
@@ -150,7 +150,7 @@ public class FileSetSerializerTests(ITestOutputHelper output)
         };
 
         var result = task.Execute();
-        Assert.True(result);
+        Assert.IsTrue(result);
 
         AssertEx.Equal("""
             {

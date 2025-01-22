@@ -12,7 +12,7 @@ namespace Microsoft.NET.Build.Tests
 
     public class ArtifactsOutputPathTests : SdkTest
     {
-        public ArtifactsOutputPathTests(ITestOutputHelper log) : base(log)
+        public ArtifactsOutputPathTests(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -74,12 +74,12 @@ namespace Microsoft.NET.Build.Tests
             return (testProjects, testAsset);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItUsesArtifactsOutputPathForBuild()
         {
             var (testProjects, testAsset) = GetTestProjects();
 
-            new DotnetCommand(Log, "build")
+            new DotnetCommand(MSTestContext, "build")
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -96,12 +96,12 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/45057")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45057")]
         public void ItUsesArtifactsOutputPathForPublish()
         {
             var (testProjects, testAsset) = GetTestProjects();
 
-            new DotnetCommand(Log, "publish")
+            new DotnetCommand(MSTestContext, "publish")
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -121,12 +121,12 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItUseArtifactsOutputPathForPack()
         {
             var (testProjects, testAsset) = GetTestProjects();
 
-            new DotnetCommand(Log, "pack")
+            new DotnetCommand(MSTestContext, "pack")
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -160,12 +160,12 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ArtifactsPathCanBeInProjectFolder()
         {
             var (testProjects, testAsset) = GetTestProjects(putArtifactsInProjectFolder: true);
 
-            new DotnetCommand(Log, "build")
+            new DotnetCommand(MSTestContext, "build")
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -187,7 +187,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ProjectsCanSwitchOutputFormats()
         {
             var testProject = new TestProject()
@@ -234,7 +234,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ProjectsCanCustomizeOutputPathBasedOnTargetFramework()
         {
             var testProject = new TestProject("CustomizeArtifactsPath")
@@ -284,7 +284,7 @@ namespace Microsoft.NET.Build.Tests
 
             foreach (var targetFramework in testProject.TargetFrameworks.Split(';'))
             {
-                new DotnetPublishCommand(Log, "-f", targetFramework)
+                new DotnetPublishCommand(MSTestContext, "-f", targetFramework)
                     .WithWorkingDirectory(Path.Combine(testAsset.Path, testProject.Name))
                     .Execute()
                     .Should()
@@ -296,7 +296,7 @@ namespace Microsoft.NET.Build.Tests
             new DirectoryInfo(Path.Combine(testAsset.Path, "artifacts", "publish", testProject.Name, "NET7_Debug")).Should().Exist();
             new DirectoryInfo(Path.Combine(testAsset.Path, "artifacts", "publish", testProject.Name, "debug_netstandard2.0")).Should().Exist();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(Path.Combine(testAsset.Path, testProject.Name))
                 .Execute()
                 .Should()
@@ -329,7 +329,7 @@ namespace Microsoft.NET.Build.Tests
             return testAsset;
         }
 
-        [Fact]
+        [TestMethod]
         public void ArtifactsPathCanBeSet()
         {
             var artifactsFolder = _testAssetsManager.CreateTestDirectory(identifier: "ArtifactsPath").Path;
@@ -348,7 +348,7 @@ namespace Microsoft.NET.Build.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void BinOutputNameCanBeSet()
         {
             var testAsset = CreateCustomizedTestProject("ArtifactsBinOutputName", "binaries");
@@ -363,12 +363,12 @@ namespace Microsoft.NET.Build.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void PublishOutputNameCanBeSet()
         {
             var testAsset = CreateCustomizedTestProject("ArtifactsPublishOutputName", "published_app");
 
-            new DotnetPublishCommand(Log)
+            new DotnetPublishCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -379,28 +379,28 @@ namespace Microsoft.NET.Build.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void PackageOutputNameCanBeSet()
         {
-            var testAsset = CreateCustomizedTestProject("ArtifactsPackageOutputName", "package_output");
+            var testAsset = CreateCustomizedTestProject("ArtifactsPackageOutputName", "package_testContext");
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new FileInfo(Path.Combine(testAsset.Path, "artifacts", "package_output", "release", "App.1.0.0.nupkg"))
+            new FileInfo(Path.Combine(testAsset.Path, "artifacts", "package_testContext", "release", "App.1.0.0.nupkg"))
                 .Should()
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void ProjectNameCanBeSet()
         {
             var testAsset = CreateCustomizedTestProject("ArtifactsProjectName", "Apps\\MyApp");
 
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute()
                 .Should()
@@ -411,7 +411,7 @@ namespace Microsoft.NET.Build.Tests
                 .Exist();
         }
 
-        [Fact]
+        [TestMethod]
         public void PackageValidationSucceeds()
         {
             var testProject = new TestProject()
@@ -434,14 +434,14 @@ namespace Microsoft.NET.Build.Tests
                     </Project>
                     """);
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(Path.Combine(testAsset.TestRoot, testProject.Name))
                 .Execute()
                 .Should()
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItErrorsIfArtifactsPathIsSetInProject()
         {
             var testProject = new TestProject();
@@ -461,7 +461,7 @@ namespace Microsoft.NET.Build.Tests
                 .NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItErrorsIfUseArtifactsOutputIsSetInProject()
         {
             var testProject = new TestProject();
@@ -481,7 +481,7 @@ namespace Microsoft.NET.Build.Tests
                 .NotExist();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItErrorsIfUseArtifactsOutputIsSetAndThereIsNoDirectoryBuildProps()
         {
             var testProject = new TestProject();
@@ -497,7 +497,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1200");
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/40160")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/40160")]
         public void ItCanBuildWithMicrosoftBuildArtifactsSdk()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("ArtifactsSdkTest")

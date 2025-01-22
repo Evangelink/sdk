@@ -5,13 +5,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantBuildsToBeIncremental : SdkTest
     {
-        public GivenThatWeWantBuildsToBeIncremental(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantBuildsToBeIncremental(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("netcoreapp1.1")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("netcoreapp1.1")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void GenerateBuildRuntimeConfigurationFiles_runs_incrementally(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -32,9 +32,9 @@ namespace Microsoft.NET.Build.Tests
             runtimeConfigDevJsonSecondModifiedTime.Should().Be(runtimeConfigDevJsonFirstModifiedTime);
         }
 
-        [Theory]
-        [InlineData("netcoreapp1.1")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("netcoreapp1.1")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ResolvePackageAssets_runs_incrementally(string targetFramework)
         {
             var testAsset = _testAssetsManager

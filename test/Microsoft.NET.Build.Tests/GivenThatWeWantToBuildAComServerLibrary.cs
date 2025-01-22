@@ -9,7 +9,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAComServerLibrary : SdkTest
     {
-        public GivenThatWeWantToBuildAComServerLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAComServerLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -74,9 +74,9 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [Theory]
-        [InlineData($"{ToolsetInfo.LatestWinRuntimeIdentifier}-x64")]
-        [InlineData($"{ToolsetInfo.LatestWinRuntimeIdentifier}-x86")]
+        [TestMethod]
+        [DataRow($"{ToolsetInfo.LatestWinRuntimeIdentifier}-x64")]
+        [DataRow($"{ToolsetInfo.LatestWinRuntimeIdentifier}-x86")]
         public void It_embeds_the_clsidmap_in_the_comhost_when_rid_specified(string rid)
         {
             var testAsset = _testAssetsManager
@@ -128,7 +128,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1128: ");
         }
 
-        [PlatformSpecificFact(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
         public void It_fails_to_find_comhost_for_platforms_without_comhost()
         {
             var testAsset = _testAssetsManager
@@ -207,10 +207,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("non-integer-id")]
-        [InlineData(ushort.MaxValue + 1)]
-        [InlineData(0)]
-        [InlineData(3.14)]
+        [DataRow("non-integer-id")]
+        [DataRow(ushort.MaxValue + 1)]
+        [DataRow(0)]
+        [DataRow(3.14)]
         public void It_fails_when_typelib_with_invalid_id_specified(object id)
         {
             var testAsset = _testAssetsManager

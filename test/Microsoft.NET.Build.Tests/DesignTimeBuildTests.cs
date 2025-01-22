@@ -9,15 +9,15 @@ namespace Microsoft.NET.Build.Tests
 {
     public class DesignTimeBuildTests : SdkTest
     {
-        public DesignTimeBuildTests(ITestOutputHelper log) : base(log)
+        public DesignTimeBuildTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("TestLibrary", null)]
-        [InlineData("TestApp", null)]
-        [InlineData("TestApp", "netcoreapp2.1")]
-        [InlineData("TestApp", ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("TestLibrary", null)]
+        [DataRow("TestApp", null)]
+        [DataRow("TestApp", "netcoreapp2.1")]
+        [DataRow("TestApp", ToolsetInfo.CurrentTargetFramework)]
         public void The_design_time_build_succeeds_before_nuget_restore(string relativeProjectPath, string targetFramework)
         {
             var args = GetDesignTimeMSBuildArgs();
@@ -43,7 +43,7 @@ namespace Microsoft.NET.Build.Tests
 
             var projectDirectory = Path.Combine(testAsset.TestRoot, relativeProjectPath);
 
-            var command = new MSBuildCommand(Log, "ResolveAssemblyReferencesDesignTime", projectDirectory)
+            var command = new MSBuildCommand(MSTestContext, "ResolveAssemblyReferencesDesignTime", projectDirectory)
             {
                 WorkingDirectory = projectDirectory
             };
@@ -52,7 +52,7 @@ namespace Microsoft.NET.Build.Tests
             result.Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void DesignTimeBuildSucceedsAfterTargetFrameworkIsChanged()
         {
             TestDesignTimeBuildAfterChange(project =>
@@ -64,7 +64,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void DesignTimeBuildSucceedsAfterRuntimeIdentifierIsChanged()
         {
             TestDesignTimeBuildAfterChange(project =>
@@ -76,7 +76,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
         //  Regression test for https://github.com/dotnet/sdk/issues/13513
-        [Fact]
+        [TestMethod]
         public void DesignTimeBuildSucceedsWhenTargetingNetCore21WithRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -95,11 +95,11 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows7.0")]
+        [TestMethod]
+        [DataRow("netcoreapp3.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows7.0")]
         public void DesignTimePackageDependenciesAreResolved(string targetFramework)
         {
             var testProject = new TestProject()
@@ -129,11 +129,11 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo($"Newtonsoft.Json/{ToolsetInfo.GetNewtonsoftJsonPackageVersion()}", "Humanizer/2.8.26");
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows7.0")]
+        [TestMethod]
+        [DataRow("netcoreapp3.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows7.0")]
         public void PackageErrorsAreSet(string targetFramework)
         {
             var designTimeArgs = GetDesignTimeMSBuildArgs();
@@ -216,7 +216,7 @@ namespace Microsoft.NET.Build.Tests
 
             string projectFolder = Path.Combine(testAsset.TestRoot, testProject.Name);
 
-            var buildCommand = new MSBuildCommand(Log, null, projectFolder)
+            var buildCommand = new MSBuildCommand(MSTestContext, null, projectFolder)
             {
                 WorkingDirectory = projectFolder
             };

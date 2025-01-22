@@ -3,10 +3,10 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class MsBuildFileSetFactoryTest(ITestOutputHelper output)
+    public class MsBuildFileSetFactoryTest(MSTestContext testContext)
     {
-        private readonly TestReporter _reporter = new(output);
-        private readonly TestAssetsManager _testAssets = new(output);
+        private readonly TestReporter _reporter = new(testContext);
+        private readonly TestAssetsManager _testAssets = new(testContext);
 
         private string MuxerPath
             => TestContext.Current.ToolsetUnderTest.DotNetHostPath;
@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             .OrderBy(entry => entry.Key)
             .Select(entry => $"{InspectPath(entry.Key, rootDir)}: [{string.Join(", ", entry.Value.ContainingProjectPaths.Select(p => InspectPath(p, rootDir)))}]");
 
-        [Fact]
+        [TestMethod]
         public async Task FindsCustomWatchItems()
         {
             var project = _testAssets.CreateTestProject(new TestProject("Project1")
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ExcludesDefaultItemsWithWatchFalseMetadata()
         {
             var project = _testAssets.CreateTestProject(new TestProject("Project1")
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task SingleTfm()
         {
             var project = _testAssets.CreateTestProject(new TestProject("Project1")
@@ -118,7 +118,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task MultiTfm()
         {
             var project = _testAssets.CreateTestProject(new TestProject("Project1")
@@ -154,7 +154,7 @@ $@"<ItemGroup>
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task IncludesContentFiles()
         {
             var testDir = _testAssets.CreateTestDirectory();
@@ -187,7 +187,7 @@ $@"<ItemGroup>
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task IncludesContentFilesFromRCL()
         {
             var testDir = _testAssets.CreateTestDirectory();
@@ -239,7 +239,7 @@ $@"<ItemGroup>
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ProjectReferences_OneLevel()
         {
             var project2 = _testAssets.CreateTestProject(new TestProject("Project2")
@@ -268,7 +268,7 @@ $@"<ItemGroup>
             );
         }
 
-        [Fact]
+        [TestMethod]
         public async Task TransitiveProjectReferences_TwoLevels()
         {
             var project3 = _testAssets.CreateTestProject(new TestProject("Project3")
@@ -304,10 +304,10 @@ $@"<ItemGroup>
                 result.Files.Keys
             );
 
-            Assert.All(result.Files.Values, f => Assert.False(f.IsStaticFile, $"File {f.FilePath} should not be a static file."));
+            Assert.All(result.Files.Values, f => Assert.IsFalse(f.IsStaticFile, $"File {f.FilePath} should not be a static file."));
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ProjectReferences_Graph()
         {
             // A->B,F,W(Watch=False)
@@ -333,7 +333,7 @@ $@"<ItemGroup>
             var filesetFactory = new MSBuildFileSetFactory(projectA, buildArguments: ["/p:_DotNetWatchTraceOutput=true"], options, _reporter);
 
             var result = await filesetFactory.TryCreateAsync(requireProjectGraph: null, CancellationToken.None);
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
 
             AssertEx.SequenceEqual(
             [
@@ -368,7 +368,7 @@ $@"<ItemGroup>
                 output.Where(l => l.Contains("Collecting watch items from")).Select(l => l.Trim()).Order());
         }
 
-        [Fact]
+        [TestMethod]
         public async Task MsbuildOutput()
         {
             var project2 = _testAssets.CreateTestProject(new TestProject("Project2")
@@ -412,7 +412,7 @@ $@"<ItemGroup>
 
             var factory = new MSBuildFileSetFactory(projectPath, buildArguments: [], options, _reporter);
             var result = await factory.TryCreateAsync(requireProjectGraph: null, CancellationToken.None);
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             return result;
         }
 

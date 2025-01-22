@@ -9,37 +9,37 @@ static class ContainerCli
 
     public static bool IsAvailable => _isAvailable.Value;
 
-    public static RunExeCommand PullCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "pull", args);
+    public static RunExeCommand PullCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "pull", args);
 
-    public static RunExeCommand TagCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "tag", args);
+    public static RunExeCommand TagCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "tag", args);
 
-    public static RunExeCommand PushCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "push", args);
+    public static RunExeCommand PushCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "push", args);
 
-    public static RunExeCommand StopCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "stop", args);
+    public static RunExeCommand StopCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "stop", args);
 
-    public static RunExeCommand RunCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "run", args);
+    public static RunExeCommand RunCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "run", args);
 
-    public static RunExeCommand LogsCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "logs", args);
+    public static RunExeCommand LogsCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "logs", args);
 
-    public static RunExeCommand LoginCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "login", args);
+    public static RunExeCommand LoginCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "login", args);
 
-    public static RunExeCommand InspectCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "inspect", args);
+    public static RunExeCommand InspectCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "inspect", args);
 
-    public static RunExeCommand LoadCommand(ITestOutputHelper log, params string[] args)
-      => CreateCommand(log, "load", args);
+    public static RunExeCommand LoadCommand(MSTestContext testContext, params string[] args)
+      => CreateCommand(testContext, "load", args);
 
-    public static RunExeCommand PortCommand(ITestOutputHelper log, string containerName, int port)
-      => CreateCommand(log, "port", containerName, port.ToString());
+    public static RunExeCommand PortCommand(MSTestContext testContext, string containerName, int port)
+      => CreateCommand(testContext, "port", containerName, port.ToString());
 
-    private static RunExeCommand CreateCommand(ITestOutputHelper log, string command, params string[] args)
+    private static RunExeCommand CreateCommand(MSTestContext testContext, string command, params string[] args)
     {
         string commandPath = IsPodman ? "podman" : "docker";
 
@@ -57,7 +57,7 @@ static class ContainerCli
             }
         }
 
-        return new RunExeCommand(log, commandPath, new[] { command }.Concat(args).ToArray());
+        return new RunExeCommand(testContext, commandPath, new[] { command }.Concat(args).ToArray());
     }
 
     private static readonly Lazy<bool> _isPodman =

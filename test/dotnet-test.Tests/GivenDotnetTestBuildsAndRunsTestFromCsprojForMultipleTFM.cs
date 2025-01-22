@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 {
     public class GivenDotnetTestBuildsAndRunsTestFromCsprojForMultipleTFM : SdkTest
     {
-        public GivenDotnetTestBuildsAndRunsTestFromCsprojForMultipleTFM(ITestOutputHelper log) : base(log)
+        public GivenDotnetTestBuildsAndRunsTestFromCsprojForMultipleTFM(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -28,12 +28,12 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             var runtime = EnvironmentInfo.GetCompatibleRid();
 
-            new DotnetRestoreCommand(Log, "-r", runtime)
+            new DotnetRestoreCommand(MSTestContext, "-r", runtime)
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute()
                 .Should().Pass();
 
-            var result = new DotnetTestCommand(Log, disableNewOutput: true, "-r", runtime)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: true, "-r", runtime)
                 .WithWorkingDirectory(testProjectDirectory)
                 .Execute(ConsoleLoggerOutputNormal);
 
@@ -70,7 +70,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
                 .Pass();
 
             // Call test
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: true)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                                        .WithWorkingDirectory(testProjectDirectory)
                                        .Execute(ConsoleLoggerOutputNormal);
 
@@ -113,17 +113,17 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             }
 
             // Call test
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: true, ConsoleLoggerOutputNormal)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: true, ConsoleLoggerOutputNormal)
                                        .WithWorkingDirectory(testProjectDirectory)
                                        .Execute("--collect", "Code Coverage", "--results-directory", resultsDirectory);
 
             // Verify
             DirectoryInfo d = new(resultsDirectory);
             FileInfo[] coverageFileInfos = d.GetFiles("*.coverage", SearchOption.AllDirectories);
-            Assert.Single(coverageFileInfos);
+            Assert.HasCount(1, coverageFileInfos);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanTestAMultiTFMProjectWithImplicitRestore()
         {
             var testInstance = _testAssetsManager.CopyTestAsset(
@@ -133,13 +133,13 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             string projectDirectory = Path.Combine(testInstance.Path, "XUnitProject");
 
-            new DotnetTestCommand(Log, disableNewOutput: true, ConsoleLoggerOutputNormal)
+            new DotnetTestCommand(MSTestContext, disableNewOutput: true, ConsoleLoggerOutputNormal)
                .WithWorkingDirectory(projectDirectory)
                .Execute("--framework", ToolsetInfo.CurrentTargetFramework)
                .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void TestSlnWithMultitargetedProject()
         {
             var libraryProject = new TestProject()
@@ -162,26 +162,26 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            new DotnetNewCommand(Log, "sln")
+            new DotnetNewCommand(MSTestContext, "sln")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log, "sln", "add", libraryProject.Name)
+            new DotnetCommand(MSTestContext, "sln", "add", libraryProject.Name)
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetCommand(Log, "sln", "add", testProject.Name)
+            new DotnetCommand(MSTestContext, "sln", "add", testProject.Name)
                 .WithWorkingDirectory(testAsset.TestRoot)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetTestCommand(Log, disableNewOutput: true, ConsoleLoggerOutputNormal)
+            new DotnetTestCommand(MSTestContext, disableNewOutput: true, ConsoleLoggerOutputNormal)
                .WithWorkingDirectory(testAsset.TestRoot)
                .Execute()
                .Should().Pass();

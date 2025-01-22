@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
     {
         private const int WaitTimeout = 30000;
 
-        public GivenDotnetRunIsInterrupted(ITestOutputHelper log) : base(log)
+        public GivenDotnetRunIsInterrupted(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")
                 .WithSource();
 
-            var command = new DotnetCommand(Log, "run", "-v:q")
+            var command = new DotnetCommand(MSTestContext, "run", "-v:q")
                 .WithWorkingDirectory(asset.Path);
 
             bool killed = false;
@@ -59,7 +59,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                     }
                     catch (Exception e)
                     {
-                        Log.WriteLine($"Error while sending SIGINT to child process: {e}");
+                        MSTestContext.WriteLine($"Error while sending SIGINT to child process: {e}");
                         Assert.Fail($"Failed to send SIGINT to child process: {line}");
                     }
 
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 }
                 else
                 {
-                    Log.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
+                    MSTestContext.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
                 }
             };
 
@@ -87,7 +87,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")
                 .WithSource();
 
-            var command = new DotnetCommand(Log, "run")
+            var command = new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(asset.Path);
 
             bool killed = false;
@@ -114,7 +114,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                     }
                     catch (Exception e)
                     {
-                        Log.WriteLine($"Error while  getting child process Id: {e}");
+                        MSTestContext.WriteLine($"Error while  getting child process Id: {e}");
                         Assert.Fail($"Failed to get to child process Id: {line}");
                     }
                     NativeMethods.Posix.kill(testProcess.Id, NativeMethods.Posix.SIGTERM).Should().Be(0);
@@ -122,7 +122,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 }
                 else
                 {
-                    Log.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
+                    MSTestContext.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
                 }
             };
 
@@ -148,7 +148,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")
                 .WithSource();
 
-            var command = new DotnetCommand(Log, "run")
+            var command = new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(asset.Path);
 
             bool killed = false;
@@ -175,7 +175,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                     }
                     catch (Exception e)
                     {
-                        Log.WriteLine($"Error while  getting child process Id: {e}");
+                        MSTestContext.WriteLine($"Error while  getting child process Id: {e}");
                         Assert.Fail($"Failed to get to child process Id: {line}");
                     }
                     testProcess.Kill();
@@ -183,7 +183,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 }
                 else
                 {
-                    Log.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
+                    MSTestContext.WriteLine($"Got line {line} but was unable to interpret it as a process id - skipping");
                 }
             };
 

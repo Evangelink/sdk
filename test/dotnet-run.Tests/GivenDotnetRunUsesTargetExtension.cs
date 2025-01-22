@@ -11,11 +11,11 @@ namespace Microsoft.DotNet.Cli.Run.Tests;
 public class GivenDotnetRunUsesTargetExtension : SdkTest
 {
 
-    public GivenDotnetRunUsesTargetExtension(ITestOutputHelper log) : base(log)
+    public GivenDotnetRunUsesTargetExtension(MSTestContext testContext) : base(testContext)
     {
     }
 
-    [Fact]
+    [TestMethod]
     public void ItInvokesTheTargetAndRunsCustomLogic()
     {
         var testAppName = "DotnetRunTargetExtension";
@@ -23,7 +23,7 @@ public class GivenDotnetRunUsesTargetExtension : SdkTest
             .WithSource();
         var testProjectDirectory = testInstance.Path;
 
-        var runResult = new DotnetCommand(Log, "run")
+        var runResult = new DotnetCommand(MSTestContext, "run")
             .WithWorkingDirectory(testProjectDirectory)
             .Execute();
 
@@ -41,7 +41,7 @@ public class GivenDotnetRunUsesTargetExtension : SdkTest
             .HaveStdOutContaining($"CWD: {testProjectDirectory}");
     }
 
-    [Fact]
+    [TestMethod]
     public void ItShowsErrorsDuringCustomLogicExecution()
     {
         var testAppName = "DotnetRunTargetExtensionWithError";
@@ -49,7 +49,7 @@ public class GivenDotnetRunUsesTargetExtension : SdkTest
             .WithSource();
         var testProjectDirectory = testInstance.Path;
 
-        var runResult = new DotnetCommand(Log, "run")
+        var runResult = new DotnetCommand(MSTestContext, "run")
             .WithWorkingDirectory(testProjectDirectory)
             .Execute();
 

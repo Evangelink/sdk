@@ -6,12 +6,12 @@ namespace Microsoft.NET.Build.Tests
     public class GenerateResourceTests : SdkTest
     {
 
-        public GenerateResourceTests(ITestOutputHelper log) : base(log)
+        public GenerateResourceTests(MSTestContext testContext) : base(testContext)
         {
         }
 
         [WindowsOnlyTheory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void DependentUponTest(string targetFramework, bool isExe)
         {
             var testProject = new TestProject
@@ -40,7 +40,7 @@ namespace Microsoft.NET.Build.Tests
                 EmbeddedResources =
                 {
                     ["Program.resx"] = @"
-                        <root>                          
+                        <root>
                             <data name=""SomeString"" xml:space=""preserve"">
                                 <value>Hello world from a resource!</value>
                             </data>
@@ -61,7 +61,7 @@ namespace Microsoft.NET.Build.Tests
 
             var outputDirectory = buildCommand.GetOutputDirectory(targetFramework);
 
-            var runCommand = new RunExeCommand(Log, Path.Combine(outputDirectory.FullName, "HelloWorld.exe"));
+            var runCommand = new RunExeCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "HelloWorld.exe"));
             runCommand
                 .Execute()
                 .Should()

@@ -7,15 +7,15 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatAProjectHasntBeenRestored : SdkTest
     {
-        public GivenThatAProjectHasntBeenRestored(ITestOutputHelper log) : base(log)
+        public GivenThatAProjectHasntBeenRestored(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("TestLibrary", null)]
-        [InlineData("TestApp", null)]
-        [InlineData("TestApp", "netcoreapp2.1")]
-        [InlineData("TestApp", ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("TestLibrary", null)]
+        [DataRow("TestApp", null)]
+        [DataRow("TestApp", "netcoreapp2.1")]
+        [DataRow("TestApp", ToolsetInfo.CurrentTargetFramework)]
         public void The_build_fails_if_nuget_restore_has_not_occurred(string relativeProjectPath, string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -30,7 +30,7 @@ namespace Microsoft.NET.Build.Tests
 
         private void VerifyNotRestoredFailure(string projectDirectory)
         {
-            var buildCommand = new BuildCommand(Log, projectDirectory);
+            var buildCommand = new BuildCommand(MSTestContext, projectDirectory);
 
             var assetsFile = Path.Combine(buildCommand.GetBaseIntermediateDirectory().FullName, "project.assets.json");
 
@@ -44,7 +44,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("1 Error(s)");
         }
 
-        [Fact]
+        [TestMethod]
         public void ReadingCacheDoesNotFail()
         {
             var testProject = new TestProject()

@@ -10,7 +10,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenFrameworkReferences : SdkTest
     {
-        public GivenFrameworkReferences(ITestOutputHelper log) : base(log)
+        public GivenFrameworkReferences(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -27,9 +27,9 @@ namespace FrameworkReferenceTest
     }
 }";
 
-        [WindowsOnlyRequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
-        [InlineData("netcoreapp3.1", false)]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow("netcoreapp3.1", false)]
         public void Multiple_frameworks_are_written_to_runtimeconfig_when_there_are_multiple_FrameworkReferences(string targetFramework, bool shouldIncludeBaseFramework)
         {
             var testProject = new TestProject()
@@ -68,9 +68,9 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.0", false)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
+        [TestMethod]
+        [DataRow("netcoreapp3.0", false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void Multiple_frameworks_are_written_to_runtimeconfig_for_self_contained_apps(string tfm, bool shouldHaveIncludedFrameworks)
         {
             var testProject = new TestProject()
@@ -114,7 +114,7 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ForceGenerateRuntimeConfigurationFiles_works_even_on_netFramework_tfm()
         {
             var testProject = new TestProject()
@@ -139,10 +139,10 @@ namespace FrameworkReferenceTest
 
             DirectoryInfo outputDirectory = buildCommand.GetOutputDirectory(testProject.TargetFrameworks);
             string runtimeConfigFile = Path.Combine(outputDirectory.FullName, testProject.Name + ".runtimeconfig.json");
-            Assert.True(File.Exists(runtimeConfigFile), $"Expected to generate runtime config file '{runtimeConfigFile}'");
+            Assert.IsTrue(File.Exists(runtimeConfigFile), $"Expected to generate runtime config file '{runtimeConfigFile}'");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void DuplicateFrameworksAreNotWrittenToRuntimeConfigWhenThereAreDifferentProfiles()
         {
             var testProject = new TestProject()
@@ -174,7 +174,7 @@ namespace FrameworkReferenceTest
             runtimeFrameworkNames.Should().BeEquivalentTo("Microsoft.WindowsDesktop.App", "Microsoft.NETCore.App");
         }
 
-        [Fact]
+        [TestMethod]
         public void The_build_fails_when_there_is_an_unknown_FrameworkReference()
         {
             var testProject = new TestProject()
@@ -211,9 +211,9 @@ namespace FrameworkReferenceTest
                 ;
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.1", false)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
+        [TestMethod]
+        [DataRow("netcoreapp2.1", false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void KnownFrameworkReferencesOnlyApplyToCorrectTargetFramework(string targetFramework, bool shouldPass)
         {
             var testProject = new TestProject()
@@ -253,7 +253,7 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void KnownFrameworkReferencesOnlyApplyToCorrectTargetPlatform()
         {
             var testProject = new TestProject()
@@ -292,7 +292,7 @@ namespace FrameworkReferenceTest
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void TargetingPackDownloadCanBeDisabled()
         {
             var testProject = new TestProject()
@@ -328,11 +328,11 @@ namespace FrameworkReferenceTest
                 .HaveStdOutContaining("NETSDK1127");
         }
 
-        [Theory]
-        [InlineData("Major", "netcoreapp3.0", true)]
-        [InlineData("Major", "netcoreapp2.0", true)]
-        [InlineData("latestMinor", "netcoreapp3.0", true)]
-        [InlineData("Invalid", "netcoreapp3.0", false)]
+        [TestMethod]
+        [DataRow("Major", "netcoreapp3.0", true)]
+        [DataRow("Major", "netcoreapp2.0", true)]
+        [DataRow("latestMinor", "netcoreapp3.0", true)]
+        [DataRow("Invalid", "netcoreapp3.0", false)]
         public void RollForwardCanBeSpecifiedViaProperty(string rollForwardValue, string tfm, bool valid)
         {
             var testProject = new TestProject()
@@ -373,15 +373,15 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [Theory]
-        [InlineData("Major", true)]
-        [InlineData("LatestMajor", true)]
-        [InlineData("latestMAJOR", true)]
-        [InlineData("Disable", false)]
-        [InlineData("LatestPatch", false)]
-        [InlineData("Minor", false)]
-        [InlineData("LatestMinor", false)]
-        [InlineData("LATESTminor", false)]
+        [TestMethod]
+        [DataRow("Major", true)]
+        [DataRow("LatestMajor", true)]
+        [DataRow("latestMAJOR", true)]
+        [DataRow("Disable", false)]
+        [DataRow("LatestPatch", false)]
+        [DataRow("Minor", false)]
+        [DataRow("LatestMinor", false)]
+        [DataRow("LATESTminor", false)]
         public void RollForwardIsNotSupportedOn22(string rollForwardValue, bool valid)
         {
             var testProject = new TestProject()
@@ -453,7 +453,7 @@ namespace FrameworkReferenceTest
                 .HaveStdOutContaining("1 Error(s)");
         }
 
-        [Fact]
+        [TestMethod]
         public void BuildFailsIfInvalidRuntimeIdentifierIsSpecified()
         {
             var testProject = new TestProject()
@@ -480,7 +480,7 @@ namespace FrameworkReferenceTest
                 .HaveStdOutContaining("1 Error(s)");
         }
 
-        [Fact]
+        [TestMethod]
         public void BuildFailsIfRuntimePackHasNotBeenRestored()
         {
             var testProject = new TestProject()
@@ -520,7 +520,7 @@ namespace FrameworkReferenceTest
 
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimeFrameworkVersionCanBeSpecifiedOnFrameworkReference()
         {
             var testProject = new TestProject();
@@ -553,7 +553,7 @@ namespace FrameworkReferenceTest
             resolvedVersions.AppHostPack["AppHost"].Should().Be("3.0.0-runtimeframeworkversion-property");
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimeFrameworkVersionCanBeSpecifiedViaProperty()
         {
             var testProject = new TestProject();
@@ -577,9 +577,9 @@ namespace FrameworkReferenceTest
             resolvedVersions.AppHostPack["AppHost"].Should().Be(runtimeFrameworkVersion);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void TargetLatestPatchCanBeSpecifiedOnFrameworkReference(bool attributeValue)
         {
             var testProject = new TestProject();
@@ -614,9 +614,9 @@ namespace FrameworkReferenceTest
             resolvedVersions.AppHostPack["AppHost"].Should().Be("3.0.0-apphostversion");
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void TargetLatestPatchCanBeSpecifiedViaProperty(bool propertyValue)
         {
             var testProject = new TestProject();
@@ -641,7 +641,7 @@ namespace FrameworkReferenceTest
             resolvedVersions.AppHostPack["AppHost"].Should().Be("3.0.0-apphostversion");
         }
 
-        [Fact]
+        [TestMethod]
         public void TargetingPackVersionCanBeSpecifiedOnFrameworkReference()
         {
             var testProject = new TestProject();
@@ -673,7 +673,7 @@ namespace FrameworkReferenceTest
             resolvedVersions.AppHostPack["AppHost"].Should().Be("3.0.0-apphostversion");
         }
 
-        [Fact]
+        [TestMethod]
         public void TransitiveFrameworkReferenceFromProjectReference()
         {
             var testProject = new TestProject()
@@ -712,7 +712,7 @@ namespace FrameworkReferenceTest
             runtimeFrameworkNames.Should().BeEquivalentTo("Microsoft.AspNetCore.App", "Microsoft.NETCore.App");
         }
 
-        [Fact]
+        [TestMethod]
         public void TransitiveFrameworkReferenceFromPackageReference()
         {
             var referencedPackage = new TestProject()
@@ -765,7 +765,7 @@ namespace FrameworkReferenceTest
             runtimeFrameworkNames.Should().BeEquivalentTo("Microsoft.NETCore.App", "Microsoft.AspNetCore.App");
         }
 
-        [Fact]
+        [TestMethod]
         public void IsTrimmableDefaultsComeFromKnownFrameworkReference()
         {
             var testProject = new TestProject();
@@ -782,7 +782,7 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void IsTrimmableCanBeSpecifiedOnFrameworkReference()
         {
             var testProject = new TestProject();
@@ -843,7 +843,7 @@ namespace FrameworkReferenceTest
                 "RuntimePackPath"
             };
 
-            var getValuesCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks,
+            var getValuesCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks,
                 "ResolvedFrameworkReference", GetValuesCommand.ValueType.Item)
             {
                 DependsOnTargets = "ResolveFrameworkReferences"
@@ -882,8 +882,8 @@ namespace FrameworkReferenceTest
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WindowsFormsFrameworkReference(bool selfContained)
         {
             TestFrameworkReferenceProfiles(
@@ -894,8 +894,8 @@ namespace FrameworkReferenceTest
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WPFFrameworkReference(bool selfContained)
         {
             TestFrameworkReferenceProfiles(
@@ -906,8 +906,8 @@ namespace FrameworkReferenceTest
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WindowsFormAndWPFFrameworkReference(bool selfContained)
         {
             TestFrameworkReferenceProfiles(
@@ -918,8 +918,8 @@ namespace FrameworkReferenceTest
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WindowsDesktopFrameworkReference(bool selfContained)
         {
             TestFrameworkReferenceProfiles(
@@ -930,7 +930,7 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void TransitiveFrameworkReferencesAreNotIncludedInRestore()
         {
             var testProject = new TestProject()
@@ -993,7 +993,7 @@ namespace FrameworkReferenceTest
                 .Should()
                 .Pass();
 
-            var getValuesCommand = new GetValuesCommand(Log, projectFolder, testProject.TargetFrameworks, "Reference", GetValuesCommand.ValueType.Item);
+            var getValuesCommand = new GetValuesCommand(MSTestContext, projectFolder, testProject.TargetFrameworks, "Reference", GetValuesCommand.ValueType.Item);
 
             getValuesCommand.Execute().Should().Pass();
 
@@ -1145,7 +1145,7 @@ namespace FrameworkReferenceTest
                 testAsset = testAsset.WithProjectChanges(projectChanges);
             }
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.Path, testProject.Name), targetFramework,
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.Path, testProject.Name), targetFramework,
                                                         "ResolvedFileToPublish", GetValuesCommand.ValueType.Item)
             {
                 DependsOnTargets = "ComputeFilesToPublish",

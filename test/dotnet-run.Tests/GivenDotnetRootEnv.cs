@@ -11,12 +11,12 @@ namespace Microsoft.DotNet.Cli.Run.Tests
     {
         private static Version Version6_0 = new(6, 0);
 
-        public GivenDotnetRootEnv(ITestOutputHelper log) : base(log)
+        public GivenDotnetRootEnv(MSTestContext testContext) : base(testContext)
         {
         }
 
         [WindowsOnlyTheory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ItShouldSetDotnetRootToDirectoryOfMuxer(string targetFramework)
         {
             string expectDotnetRoot = TestContext.Current.ToolsetUnderTest.DotNetRoot;
@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             var projectRoot = SetupDotnetRootEchoProject(null, targetFramework);
 
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(projectRoot);
 
             runCommand.EnvironmentToRemove.Add("DOTNET_ROOT");
@@ -35,14 +35,14 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 .And.HaveStdOutContaining(expectOutput);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenDotnetRootIsSetItShouldSetDotnetRootToDirectoryOfMuxer()
         {
             string expectDotnetRoot = "OVERRIDE VALUE";
 
             var projectRoot = SetupDotnetRootEchoProject();
             var processArchitecture = RuntimeInformation.ProcessArchitecture.ToString().ToUpperInvariant();
-            var runCommand = new DotnetCommand(Log, "run")
+            var runCommand = new DotnetCommand(MSTestContext, "run")
                 .WithWorkingDirectory(projectRoot);
 
             if (Environment.Is64BitProcess)

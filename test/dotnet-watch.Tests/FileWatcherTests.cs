@@ -5,11 +5,11 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class FileWatcherTests(ITestOutputHelper output)
+    public class FileWatcherTests(MSTestContext testContext)
     {
         private readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
         private readonly TimeSpan NegativeTimeout = TimeSpan.FromSeconds(5);
-        private readonly TestAssetsManager _testAssetManager = new TestAssetsManager(output);
+        private readonly TestAssetsManager _testAssetManager = new TestAssetsManager(testContext);
 
         private async Task TestOperation(
             string dir,
@@ -20,7 +20,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             using var watcher = FileWatcherFactory.CreateWatcher(dir, usePolling);
             if (watcher is EventBasedDirectoryWatcher dotnetWatcher)
             {
-                dotnetWatcher.Logger = m => output.WriteLine(m);
+                dotnetWatcher.Logger = m => testContext.WriteLine(m);
             }
 
             var changedEv = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -31,11 +31,11 @@ namespace Microsoft.DotNet.Watch.UnitTests
             {
                 if (filesChanged.Add(f))
                 {
-                    output.WriteLine($"Observed new {f.Kind}: '{f.Path}' ({filesChanged.Count} out of {expectedChanges.Length})");
+                    testContext.WriteLine($"Observed new {f.Kind}: '{f.Path}' ({filesChanged.Count} out of {expectedChanges.Length})");
                 }
                 else
                 {
-                    output.WriteLine($"Already seen {f.Kind}: '{f.Path}'");
+                    testContext.WriteLine($"Already seen {f.Kind}: '{f.Path}'");
                 }
 
                 if (filesChanged.Count == expectedChanges.Length)
@@ -63,9 +63,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(expectedChanges, filesChanged.Order(Comparer<ChangedPath>.Create((x, y) => (x.Path, x.Kind).CompareTo((y.Path, y.Kind)))));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task NewFile(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -88,9 +88,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 () => File.WriteAllText(testFileFullPath, string.Empty));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task NewFileInNewDirectory(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -119,9 +119,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 });
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task ChangeFile(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -136,7 +136,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 () => File.WriteAllText(testFileFullPath, string.Empty));
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public async Task MoveFile(bool usePolling)
         {
@@ -166,7 +166,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
         }
 
-        [Fact]
+        [TestMethod]
         public async Task FileInSubdirectory()
         {
             var dir = _testAssetManager.CreateTestDirectory().Path;
@@ -188,9 +188,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 () => File.WriteAllText(testFileFullPath, string.Empty));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task NoNotificationIfDisabled(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -217,9 +217,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await Assert.ThrowsAsync<TimeoutException>(() => changedEv.Task.TimeoutAfter(NegativeTimeout));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task DisposedNoEvents(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -244,9 +244,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await Assert.ThrowsAsync<TimeoutException>(() => changedEv.Task.TimeoutAfter(NegativeTimeout));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task MultipleFiles(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -272,9 +272,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 () => File.WriteAllText(testFileFullPath, string.Empty));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task MultipleTriggers(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(identifier: usePolling.ToString()).Path;
@@ -297,7 +297,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var expectedPath = Path.Combine(directory, Path.GetRandomFileName());
             EventHandler<ChangedPath> handler = (_, f) =>
             {
-                output.WriteLine("File changed: " + f);
+                testContext.WriteLine("File changed: " + f);
                 try
                 {
                     if (string.Equals(f.Path, expectedPath, StringComparison.OrdinalIgnoreCase))
@@ -332,9 +332,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public async Task DeleteSubfolder(bool usePolling)
         {
             var dir = _testAssetManager.CreateTestDirectory(usePolling.ToString()).Path;

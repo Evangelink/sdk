@@ -6,12 +6,12 @@ namespace Microsoft.NET.Build.Tests
     public class GivenThatWeWantMSBuildToRespectCustomCulture : SdkTest
     {
 
-        public GivenThatWeWantMSBuildToRespectCustomCulture(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantMSBuildToRespectCustomCulture(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void SupportRespectAlreadyAssignedItemCulture_ByDefault_ForDotnet9(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -27,9 +27,9 @@ namespace Microsoft.NET.Build.Tests
             new FileInfo(Path.Combine(outputDirectory, "test-2", "MSBuildCultureResourceGeneration.resources.dll")).Should().Exist();
         }
 
-        [InlineData("net7.0")]
-        [InlineData("net6.0")]
-        [CoreMSBuildOnlyTheory]
+        [DataRow("net7.0")]
+        [DataRow("net6.0")]
+        [CoreMSBuildOnlyTestMethod]
         public void SupportRespectAlreadyAssignedItemCulture_IsNotSupported_BuildShouldWarn(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -44,10 +44,10 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("warning MSB3002:");
         }
 
-        [InlineData("net7.0")]
-        [InlineData("net6.0")]
-        [FullMSBuildOnlyTheory]
-        // Is this Failing? Is full FW MSBuild already on 17.13? Then remove this test and remove `[CoreMSBuildOnlyTheory]` attribute on the test above
+        [DataRow("net7.0")]
+        [DataRow("net6.0")]
+        [FullMSBuildOnlyTestMethod]
+        // Is this Failing? Is full FW MSBuild already on 17.13? Then remove this test and remove `[CoreMSBuildOnlyTestMethod]` attribute on the test above
         //
         // Until MSBuild 17.13 is merged into FullFW MSBuild in sdk tests - the test will fail, as
         //  proper recognition of custom cultures in RAR is not supported and hence the build will fail during copy:

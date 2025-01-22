@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildACppCliProject : SdkTest
     {
-        public GivenThatWeWantToBuildACppCliProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildACppCliProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_builds_and_runs()
         {
             var testAsset = _testAssetsManager
@@ -40,7 +40,7 @@ namespace Microsoft.NET.Build.Tests
                 $"{ToolsetInfo.CurrentTargetFramework}-windows",
                 "CSConsoleApp.exe");
 
-            var runCommand = new RunExeCommand(Log, exe);
+            var runCommand = new RunExeCommand(MSTestContext, exe);
             runCommand
                 .Execute()
                 .Should()
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello, World!");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_builds_and_runs_with_package_reference()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework + "-windows";
@@ -74,8 +74,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
 
             var cppnProjProperties = GetPropertyValues(testAsset.TestRoot, "NETCoreCppCliTest", targetFramework: targetFramework);
-            Assert.True(cppnProjProperties["_EnablePackageReferencesInVCProjects"] == "true");
-            Assert.True(cppnProjProperties["IncludeWindowsSDKRefFrameworkReferences"] == "");
+            Assert.IsTrue(cppnProjProperties["_EnablePackageReferencesInVCProjects"] == "true");
+            Assert.IsTrue(cppnProjProperties["IncludeWindowsSDKRefFrameworkReferences"] == "");
 
             var packagesFolder = Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest", "packages");
             if (Directory.Exists(packagesFolder))
@@ -84,7 +84,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void Given_no_restore_It_builds_cpp_project()
         {
             var testAsset = _testAssetsManager
@@ -98,7 +98,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void Given_Wpf_framework_reference_It_builds_cpp_project()
         {
             var testAsset = _testAssetsManager
@@ -111,7 +111,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_fails_with_error_message_on_EnableComHosting()
         {
             var testAsset = _testAssetsManager
@@ -139,7 +139,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.NoSupportCppEnableComHosting);
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_fails_with_error_message_on_fullframework()
         {
             var testAsset = _testAssetsManager
@@ -156,7 +156,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.NETFrameworkWithoutUsingNETSdkDefaults);
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_fails_with_error_message_on_tfm_lower_than_3_1()
         {
             var testAsset = _testAssetsManager
@@ -173,7 +173,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.CppRequiresTFMVersion31);
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void When_run_with_selfcontained_It_fails_with_error_message()
         {
             var testAsset = _testAssetsManager

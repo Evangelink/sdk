@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAnAppWithTransitiveProjectRefs : SdkTest
     {
-        public GivenThatWeWantToBuildAnAppWithTransitiveProjectRefs(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAnAppWithTransitiveProjectRefs(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully()
         {
             // NOTE the project dependencies in AppWithTransitiveProjectRefs:
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Build.Tests
                 "AuxLibrary.pdb",
             });
 
-            new DotnetCommand(Log, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
                 .Execute()
                 .Should()
                 .Pass()
@@ -83,7 +83,7 @@ namespace Microsoft.NET.Build.Tests
                 "AuxLibrary.pdb"
             });
 
-            var cleanCommand = new MSBuildCommand(Log, "Clean", buildCommand.FullPathProjectFile);
+            var cleanCommand = new MSBuildCommand(MSTestContext, "Clean", buildCommand.FullPathProjectFile);
 
             cleanCommand
                 .Execute()
@@ -93,7 +93,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().OnlyHaveFiles(Array.Empty<string>());
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_build_the_project_successfully()
         {
             // NOTE the project dependencies in AppWithTransitiveProjectRefs:

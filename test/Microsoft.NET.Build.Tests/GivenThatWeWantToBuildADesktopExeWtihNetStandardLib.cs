@@ -14,7 +14,7 @@ namespace Microsoft.NET.Build.Tests
         private const string TemplateNamePackagesConfig = "DesktopAppWithLibrary-PackagesConfig";
         private const string TemplateNameNonSdk = "DesktopAppWithLibrary-NonSDK";
 
-        public GivenThatWeWantToBuildADesktopExeWithNetStandardLib(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildADesktopExeWithNetStandardLib(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -77,12 +77,12 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true, ReferenceScenario.ProjectReference)]
-        [InlineData(true, ReferenceScenario.RawFileName)]
-        [InlineData(true, ReferenceScenario.HintPath)]
-        [InlineData(false, ReferenceScenario.ProjectReference)]
-        [InlineData(false, ReferenceScenario.RawFileName)]
-        [InlineData(false, ReferenceScenario.HintPath)]
+        [DataRow(true, ReferenceScenario.ProjectReference)]
+        [DataRow(true, ReferenceScenario.RawFileName)]
+        [DataRow(true, ReferenceScenario.HintPath)]
+        [DataRow(false, ReferenceScenario.ProjectReference)]
+        [DataRow(false, ReferenceScenario.RawFileName)]
+        [DataRow(false, ReferenceScenario.HintPath)]
         public void It_includes_netstandard(bool isSdk, ReferenceScenario scenario)
         {
             var testAsset = _testAssetsManager
@@ -122,7 +122,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void It_includes_netstandard_in_design_time_builds()
         {
             //  Verify that a P2P reference to a .NET Standard 2.0 project is correctly detected
@@ -140,7 +140,7 @@ namespace Microsoft.NET.Build.Tests
                     }
                 });
 
-            var getCommandLineCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, AppName), "", "CscCommandLineArgs", GetValuesCommand.ValueType.Item);
+            var getCommandLineCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, AppName), "", "CscCommandLineArgs", GetValuesCommand.ValueType.Item);
 
             getCommandLineCommand
                 .Execute("/p:SkipCompilerExecution=true /p:ProvideCommandLineArgs=true /p:BuildingInsideVisualStudio=true /p:DesignTimeBuild=true".Split())
@@ -169,9 +169,9 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true, false)]
-        [InlineData(false, false)]
-        [InlineData(false, true)]
+        [DataRow(true, false)]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
         public void It_resolves_conflicts(bool isSdk, bool usePackagesConfig)
         {
             var successMessage = "No conflicts found for support libs";
@@ -225,7 +225,7 @@ namespace Microsoft.NET.Build.Tests
 
             if (usePackagesConfig)
             {
-                new NuGetExeRestoreCommand(Log, testAsset.TestRoot, AppName)
+                new NuGetExeRestoreCommand(MSTestContext, testAsset.TestRoot, AppName)
                     .Execute()
                     .Should()
                     .Pass();
@@ -256,8 +256,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_does_not_include_netstandard_when_inbox(bool isSdk)
         {
             var testAsset = _testAssetsManager
@@ -323,8 +323,8 @@ namespace Microsoft.NET.Build.Tests
 
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_does_not_include_netstandard_when_library_targets_netstandard14(bool isSdk)
         {
             var testAsset = _testAssetsManager
@@ -361,8 +361,8 @@ namespace Microsoft.NET.Build.Tests
 
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_includes_netstandard_when_library_targets_netstandard15(bool isSdk)
         {
             var testAsset = _testAssetsManager

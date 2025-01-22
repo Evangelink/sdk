@@ -10,11 +10,11 @@ namespace Microsoft.DotNet.Cli.Sln.Migrate.Tests
 {
     public class GivenDotnetSlnMigrate : SdkTest
     {
-        public GivenDotnetSlnMigrate(ITestOutputHelper log) : base(log) { }
+        public GivenDotnetSlnMigrate(MSTestContext testContext) : base(testContext) { }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenSlnFileIsValidShouldGenerateValidSlnxFile(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -22,13 +22,13 @@ namespace Microsoft.DotNet.Cli.Sln.Migrate.Tests
                 .WithSource()
                 .Path;
             var slnFileName = Path.Combine(projectDirectory, "App.sln");
-            var slnMigrateCommand = new DotnetCommand(Log)
+            var slnMigrateCommand = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "App.sln", "migrate");
             slnMigrateCommand.Should().Pass();
 
             var slnxFileName = Path.ChangeExtension(slnFileName, ".slnx");
-            var slnxBuildCommand = new DotnetCommand(Log)
+            var slnxBuildCommand = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("build", slnxFileName);
             slnxBuildCommand.Should().ExitWith(0);

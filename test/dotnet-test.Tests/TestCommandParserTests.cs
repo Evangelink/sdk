@@ -7,17 +7,17 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 {
     public class TestCommandParserTests
     {
-        [Fact]
+        [TestMethod]
         public void SurroundWithDoubleQuotesWithNullThrows()
         {
             Assert.Throws<ArgumentNullException>(() =>
                 TestCommandParser.SurroundWithDoubleQuotes(null));
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("\"a\"")]
-        [InlineData("\"aaa\"")]
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("\"a\"")]
+        [DataRow("\"aaa\"")]
         public void SurroundWithDoubleQuotesWhenAlreadySurroundedDoesNothing(string input)
         {
             var escapedInput = "\"" + input + "\"";
@@ -25,34 +25,34 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.Should().Be(escapedInput);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("a")]
-        [InlineData("aaa")]
-        [InlineData("\"a")]
-        [InlineData("a\"")]
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("a")]
+        [DataRow("aaa")]
+        [DataRow("\"a")]
+        [DataRow("a\"")]
         public void SurroundWithDoubleQuotesWhenNotSurroundedSurrounds(string input)
         {
             var result = TestCommandParser.SurroundWithDoubleQuotes(input);
             result.Should().Be("\"" + input + "\"");
         }
 
-        [Theory]
-        [InlineData("\\\\")]
-        [InlineData("\\\\\\\\")]
-        [InlineData("/\\\\")]
-        [InlineData("/\\/\\/\\\\")]
+        [TestMethod]
+        [DataRow("\\\\")]
+        [DataRow("\\\\\\\\")]
+        [DataRow("/\\\\")]
+        [DataRow("/\\/\\/\\\\")]
         public void SurroundWithDoubleQuotesHandlesCorrectlyEvenCountOfTrailingBackslashes(string input)
         {
             var result = TestCommandParser.SurroundWithDoubleQuotes(input);
             result.Should().Be("\"" + input + "\"");
         }
 
-        [Theory]
-        [InlineData("\\")]
-        [InlineData("\\\\\\")]
-        [InlineData("/\\")]
-        [InlineData("/\\/\\/\\")]
+        [TestMethod]
+        [DataRow("\\")]
+        [DataRow("\\\\\\")]
+        [DataRow("/\\")]
+        [DataRow("/\\/\\/\\")]
         public void SurroundWithDoubleQuotesHandlesCorrectlyOddCountOfTrailingBackslashes(string input)
         {
             var result = TestCommandParser.SurroundWithDoubleQuotes(input);

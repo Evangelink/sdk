@@ -28,16 +28,16 @@ Options:
 
         private Func<string, string> RemoveCommandHelpText = (defaultVal) => $@"Description:
       .NET Remove Command
-    
+
     Usage:
       dotnet remove <PROJECT> [command] [options]
-    
+
     Arguments:
       <PROJECT>    The project file to operate on. If a file is not specified, the command will search the current directory for one. [default: {PathUtility.EnsureTrailingSlash(defaultVal)}]
-    
+
     Options:
       -?, -h, --help    Show command line help.
-    
+
     Commands:
       package <PACKAGE_NAME>      Remove a NuGet package reference from the project.
       reference <PROJECT_PATH>    Remove a project-to-project reference from the project.";
@@ -48,7 +48,7 @@ Options:
         const string ConditionCurrentFramework = $"== '{ToolsetInfo.CurrentTargetFramework}'";
         static readonly string[] DefaultFrameworks = new string[] { ToolsetInfo.CurrentTargetFramework, "net451" };
 
-        public GivenDotnetRemoveReference(ITestOutputHelper log) : base(log)
+        public GivenDotnetRemoveReference(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -72,7 +72,7 @@ Options:
             try
             {
                 string[] newArgs = new[] { "classlib", "-o", projDir.Path, "--no-restore" };
-                new DotnetNewCommand(Log)
+                new DotnetNewCommand(MSTestContext)
                     .WithVirtualHive()
                     .WithWorkingDirectory(projDir.Path)
                     .Execute(newArgs)
@@ -108,7 +108,7 @@ Options:
         private ProjDir AddLibRef(TestSetup setup, ProjDir proj, params string[] additionalArgs)
         {
             var ret = GetLibRef(setup);
-            new AddReferenceCommand(Log)
+            new AddReferenceCommand(MSTestContext)
                 .WithProject(proj.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(additionalArgs.Concat(new[] { ret.CsProjPath }))
@@ -120,7 +120,7 @@ Options:
         private ProjDir AddValidRef(TestSetup setup, ProjDir proj, params string[] frameworkArgs)
         {
             var ret = new ProjDir(setup.ValidRefDir);
-            new AddReferenceCommand(Log)
+            new AddReferenceCommand(MSTestContext)
                 .WithProject(proj.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(frameworkArgs.Concat(new[] { ret.CsProjPath }))
@@ -129,19 +129,19 @@ Options:
             return ret;
         }
 
-        [Theory]
-        [InlineData("--help")]
-        [InlineData("-h")]
+        [TestMethod]
+        [DataRow("--help")]
+        [DataRow("-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string helpArg)
         {
-            var cmd = new RemoveReferenceCommand(Log).Execute(helpArg);
+            var cmd = new RemoveReferenceCommand(MSTestContext).Execute(helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(HelpText(Directory.GetCurrentDirectory()));
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("unknownCommandName")]
+        [TestMethod]
+        [DataRow(null)]
+        [DataRow("unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string commandName)
         {
             List<string> args = new();
@@ -151,30 +151,30 @@ Options:
                 args.Add(commandName);
             }
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(args);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTooManyArgumentsArePassedItPrintsError()
         {
-            var cmd = new DotnetCommand(Log, "add", "one", "two", "three", "reference", "proj.csproj")
+            var cmd = new DotnetCommand(MSTestContext, "add", "one", "two", "three", "reference", "proj.csproj")
                     .Execute();
             cmd.ExitCode.Should().NotBe(0);
             cmd.StdErr.Should().BeVisuallyEquivalentTo($@"{string.Format(LocalizableStrings.UnrecognizedCommandOrArgument, "two")}
 {string.Format(LocalizableStrings.UnrecognizedCommandOrArgument, "three")}");
         }
 
-        [Theory]
-        [InlineData("idontexist.csproj")]
-        [InlineData("ihave?inv@lid/char\\acters")]
+        [TestMethod]
+        [DataRow("idontexist.csproj")]
+        [DataRow("ihave?inv@lid/char\\acters")]
         public void WhenNonExistingProjectIsPassedItPrintsError(string projName)
         {
             var setup = Setup(identifier: projName.GetHashCode().ToString());
 
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                     .WithProject(projName)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
@@ -183,7 +183,7 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenBrokenProjectIsPassedItPrintsError()
         {
             string projName = "Broken/Broken.csproj";
@@ -203,7 +203,7 @@ Options:
         <EmbeddedResource Include=""**\*.resx""/>
     <!--intentonally broken-->");
 
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                     .WithProject(projName)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(setup.ValidRefCsprojPath);
@@ -212,13 +212,13 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenMoreThanOneProjectExistsInTheDirectoryItPrintsError()
         {
             var setup = Setup();
 
             var workingDir = Path.Combine(setup.TestRoot, "MoreThanOne");
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                     .WithWorkingDirectory(workingDir)
                     .Execute(setup.ValidRefCsprojRelToOtherProjPath);
             cmd.ExitCode.Should().NotBe(0);
@@ -226,12 +226,12 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenNoProjectsExistsInTheDirectoryItPrintsError()
         {
             var setup = Setup();
 
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute($"\"{setup.ValidRefCsprojPath}\"");
             cmd.ExitCode.Should().NotBe(0);
@@ -239,7 +239,7 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRemovesRefWithoutCondAndPrintsStatus()
         {
             var setup = Setup();
@@ -247,7 +247,7 @@ Options:
             var libref = AddLibRef(setup, lib);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath);
@@ -258,7 +258,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRemovesRefWithCondAndPrintsStatus()
         {
             var setup = Setup();
@@ -266,7 +266,7 @@ Options:
             var libref = AddLibRef(setup, lib, FrameworkNet451Args);
 
             int condBefore = lib.CsProj().NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(FrameworkNet451Args.Concat(new[] { libref.CsProjPath }));
@@ -277,7 +277,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeAndConditionContaining(libref.Name, ConditionFrameworkNet451).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTwoDifferentRefsArePresentItDoesNotRemoveBoth()
         {
             var setup = Setup();
@@ -286,7 +286,7 @@ Options:
             var validref = AddValidRef(setup, lib);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath);
@@ -297,7 +297,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRefWithoutCondIsNotThereItPrintsMessage()
         {
             var setup = Setup();
@@ -305,7 +305,7 @@ Options:
             var libref = GetLibRef(setup);
 
             string csprojContentBefore = lib.CsProjContent();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath);
@@ -314,7 +314,7 @@ Options:
             lib.CsProjContent().Should().BeEquivalentTo(csprojContentBefore);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRefWithCondIsNotThereItPrintsMessage()
         {
             var setup = Setup();
@@ -322,7 +322,7 @@ Options:
             var libref = GetLibRef(setup);
 
             string csprojContentBefore = lib.CsProjContent();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(FrameworkNet451Args.Concat(new[] { libref.CsProjPath }));
@@ -331,7 +331,7 @@ Options:
             lib.CsProjContent().Should().BeEquivalentTo(csprojContentBefore);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRefWithAndWithoutCondArePresentAndRemovingNoCondItDoesNotRemoveOther()
         {
             var setup = Setup();
@@ -342,7 +342,7 @@ Options:
             var csprojBefore = lib.CsProj();
             int noCondBefore = csprojBefore.NumberOfItemGroupsWithoutCondition();
             int condBefore = csprojBefore.NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(librefNoCond.CsProjPath);
@@ -356,7 +356,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeAndConditionContaining(librefCond.Name, ConditionFrameworkNet451).Should().Be(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRefWithAndWithoutCondArePresentAndRemovingCondItDoesNotRemoveOther()
         {
             var setup = Setup();
@@ -367,7 +367,7 @@ Options:
             var csprojBefore = lib.CsProj();
             int noCondBefore = csprojBefore.NumberOfItemGroupsWithoutCondition();
             int condBefore = csprojBefore.NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(FrameworkNet451Args.Concat(new[] { librefCond.CsProjPath }));
@@ -381,7 +381,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeAndConditionContaining(librefCond.Name, ConditionFrameworkNet451).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenRefWithDifferentCondIsPresentItDoesNotRemoveIt()
         {
             var setup = Setup();
@@ -392,7 +392,7 @@ Options:
             var csprojBefore = lib.CsProj();
             int condNet451Before = csprojBefore.NumberOfItemGroupsWithConditionContaining(ConditionFrameworkNet451);
             int condNetCoreApp10Before = csprojBefore.NumberOfItemGroupsWithConditionContaining(ConditionCurrentFramework);
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(FrameworkNet451Args.Concat(new[] { librefCondNet451.CsProjPath }));
@@ -406,7 +406,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeAndConditionContaining(librefCondNetCoreApp10.Name, ConditionCurrentFramework).Should().Be(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenDuplicateReferencesArePresentItRemovesThemAll()
         {
             var setup = Setup();
@@ -417,7 +417,7 @@ Options:
 {string.Format(CommonLocalizableStrings.ProjectReferenceRemoved, setup.LibCsprojRelPath)}";
 
             int noCondBefore = proj.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(proj.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath);
@@ -429,7 +429,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPassingRefWithRelPathItRemovesRefWithAbsolutePath()
         {
             var setup = Setup();
@@ -437,7 +437,7 @@ Options:
             var libref = AddValidRef(setup, lib);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(lib.Path)
                 .Execute(setup.ValidRefCsprojRelToOtherProjPath);
@@ -448,7 +448,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPassingRefWithRelPathToProjectItRemovesRefWithPathRelToProject()
         {
             var setup = Setup();
@@ -456,7 +456,7 @@ Options:
             var libref = AddValidRef(setup, lib);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojRelToOtherProjPath);
@@ -467,7 +467,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPassingRefWithAbsolutePathItRemovesRefWithRelPath()
         {
             var setup = Setup();
@@ -475,7 +475,7 @@ Options:
             var libref = AddValidRef(setup, lib);
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(setup.ValidRefCsprojPath);
@@ -486,7 +486,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(libref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPassingMultipleReferencesItRemovesThemAll()
         {
             var setup = Setup();
@@ -498,7 +498,7 @@ Options:
 {string.Format(CommonLocalizableStrings.ProjectReferenceRemoved, Path.Combine(setup.ValidRefCsprojRelPath))}";
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath, validref.CsProjPath);
@@ -510,7 +510,7 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(validref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenPassingMultipleReferencesAndOneOfThemDoesNotExistItRemovesOne()
         {
             var setup = Setup();
@@ -522,7 +522,7 @@ Options:
 {string.Format(CommonLocalizableStrings.ProjectReferenceRemoved, Path.Combine(setup.ValidRefCsprojRelPath))}";
 
             int noCondBefore = lib.CsProj().NumberOfItemGroupsWithoutCondition();
-            var cmd = new RemoveReferenceCommand(Log)
+            var cmd = new RemoveReferenceCommand(MSTestContext)
                 .WithProject(lib.CsProjPath)
                 .WithWorkingDirectory(setup.TestRoot)
                 .Execute(libref.CsProjPath, validref.CsProjPath);
@@ -533,14 +533,14 @@ Options:
             csproj.NumberOfProjectReferencesWithIncludeContaining(validref.Name).Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenDirectoryContainingProjectIsGivenReferenceIsRemoved()
         {
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
             var libref = AddLibRef(setup, lib);
 
-            var result = new RemoveReferenceCommand(Log)
+            var result = new RemoveReferenceCommand(MSTestContext)
                     .WithProject(lib.CsProjPath)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(libref.CsProjPath);
@@ -550,14 +550,14 @@ Options:
             result.StdErr.Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenDirectoryContainsNoProjectsItCancelsWholeOperation()
         {
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             var reference = "Empty";
-            var result = new RemoveReferenceCommand(Log)
+            var result = new RemoveReferenceCommand(MSTestContext)
                     .WithProject(lib.CsProjPath)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(reference);
@@ -567,14 +567,14 @@ Options:
             result.StdErr.Should().Be(string.Format(CommonLocalizableStrings.CouldNotFindAnyProjectInDirectory, Path.Combine(setup.TestRoot, reference)));
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenDirectoryContainsMultipleProjectsItCancelsWholeOperation()
         {
             var setup = Setup();
             var lib = NewLibWithFrameworks(dir: setup.TestRoot);
 
             var reference = "MoreThanOne";
-            var result = new RemoveReferenceCommand(Log)
+            var result = new RemoveReferenceCommand(MSTestContext)
                     .WithProject(lib.CsProjPath)
                     .WithWorkingDirectory(setup.TestRoot)
                     .Execute(reference);

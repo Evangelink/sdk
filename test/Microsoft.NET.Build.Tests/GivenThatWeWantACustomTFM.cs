@@ -5,10 +5,10 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantACustomTFM : SdkTest
     {
-        public GivenThatWeWantACustomTFM(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantACustomTFM(MSTestContext testContext) : base(testContext)
         { }
 
-        [Fact]
+        [TestMethod]
         public void It_imports_custom_parsing_targets()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -43,7 +43,7 @@ namespace Microsoft.NET.Build.Tests
 
             foreach (var property in expectedValues.Keys)
             {
-                var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name),
+                var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name),
                     targetFramework, property, GetValuesCommand.ValueType.Property)
                 {
                     Configuration = "Debug"

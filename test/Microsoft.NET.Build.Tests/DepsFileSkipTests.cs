@@ -10,12 +10,12 @@ namespace Microsoft.NET.Build.Tests
 {
     public class DepsFileSkipTests : SdkTest
     {
-        public DepsFileSkipTests(ITestOutputHelper log) : base(log)
+        public DepsFileSkipTests(MSTestContext testContext) : base(testContext)
         {
 
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimeAssemblyFromPackageCanBeSkipped()
         {
             var testProject = new TestProject()
@@ -32,7 +32,7 @@ namespace Microsoft.NET.Build.Tests
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimeAssemblyFromRuntimePackCanBeSkipped()
         {
             var testProject = new TestProject()
@@ -50,7 +50,7 @@ namespace Microsoft.NET.Build.Tests
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
 
-        [Fact]
+        [TestMethod]
         public void NativeAssetFromPackageCanBeSkipped()
         {
             var testProject = new TestProject()
@@ -69,7 +69,7 @@ namespace Microsoft.NET.Build.Tests
             TestSkippingFile(testProject, filenameToSkip, "native");
         }
 
-        [Fact]
+        [TestMethod]
         public void RuntimeTargetFromPackageCanBeSkipped()
         {
             var testProject = new TestProject()
@@ -86,7 +86,7 @@ namespace Microsoft.NET.Build.Tests
             TestSkippingFile(testProject, filenameToSkip, "runtimeTargets");
         }
 
-        [Fact]
+        [TestMethod]
         public void NativeAssetFromRuntimePackCanBeSkipped()
         {
             var testProject = new TestProject()
@@ -104,7 +104,7 @@ namespace Microsoft.NET.Build.Tests
             TestSkippingFile(testProject, filenameToSkip, "native");
         }
 
-        [Fact]
+        [TestMethod]
         public void ResourceAssetFromPackageCanBeSkipped()
         {
             var testProject = new TestProject()

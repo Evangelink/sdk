@@ -8,7 +8,7 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
 public class PackageTests
 {
-    [Fact]
+    [TestMethod]
     public void SanityTest_ContainerizeDependencies()
     {
         IReadOnlyList<string> knownPackageReferences = new List<string>()
@@ -34,7 +34,7 @@ public class PackageTests
         projectReferences.Should().BeEquivalentTo(knownProjectReferences, $"Known project references for containerize project are different from actual. Check if this is expected. If the new project reference is expected, add it to {nameof(knownProjectReferences)} and verify they are included to NuGet package in package.csproj correctly");
     }
 
-    [Fact]
+    [TestMethod]
     public void SanityTest_NET_Build_ContainersDependencies()
     {
         IReadOnlyList<string> knownPackageReferences = new List<string>()
@@ -63,7 +63,7 @@ public class PackageTests
         projectReferences.Should().BeEquivalentTo(knownProjectReferences, $"Known project references for Microsoft.NET.Build.Containers project are different from actual. Check if this is expected. If the new project reference is expected, add it to {nameof(knownProjectReferences)} and verify they are included to NuGet package in package.csproj correctly");
     }
 
-    [Fact]
+    [TestMethod]
     public void PackageContentTest()
     {
         string ignoredZipFileEntriesPrefix = "package/services/metadata";

@@ -24,71 +24,71 @@ Options:
   -?, -h, --help    Show command line help.";
 
 
-        public GivenDotnetSlnList(ITestOutputHelper log) : base(log)
+        public GivenDotnetSlnList(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("sln", "--help")]
-        [InlineData("sln", "-h")]
-        [InlineData("solution", "--help")]
-        [InlineData("solution", "-h")]
+        [TestMethod]
+        [DataRow("sln", "--help")]
+        [DataRow("sln", "-h")]
+        [DataRow("solution", "--help")]
+        [DataRow("solution", "-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string solutionCommand, string helpArg)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, "list", helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(HelpText(Directory.GetCurrentDirectory()));
         }
 
-        [Theory]
-        [InlineData("sln", "")]
-        [InlineData("sln", "unknownCommandName")]
-        [InlineData("solution", "")]
-        [InlineData("solution", "unknownCommandName")]
+        [TestMethod]
+        [DataRow("sln", "")]
+        [DataRow("sln", "unknownCommandName")]
+        [DataRow("solution", "")]
+        [DataRow("solution", "unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string solutionCommand, string commandName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, commandName);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenTooManyArgumentsArePassedItPrintsError(string solutionCommand)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, "one.sln", "two.sln", "three.sln", "list");
             cmd.Should().Fail();
             cmd.StdErr.Should().BeVisuallyEquivalentTo($@"{string.Format(CommandLineValidation.LocalizableStrings.UnrecognizedCommandOrArgument, "two.sln")}
 {string.Format(CommandLineValidation.LocalizableStrings.UnrecognizedCommandOrArgument, "three.sln")}");
         }
 
-        [Theory]
-        [InlineData("sln", "idontexist.sln")]
-        [InlineData("sln", "ihave?invalidcharacters.sln")]
-        [InlineData("sln", "ihaveinv@lidcharacters.sln")]
-        [InlineData("sln", "ihaveinvalid/characters")]
-        [InlineData("sln", "ihaveinvalidchar\\acters")]
-        [InlineData("solution", "idontexist.sln")]
-        [InlineData("solution", "ihave?invalidcharacters.sln")]
-        [InlineData("solution", "ihaveinv@lidcharacters.sln")]
-        [InlineData("solution", "ihaveinvalid/characters")]
-        [InlineData("solution", "ihaveinvalidchar\\acters")]
+        [TestMethod]
+        [DataRow("sln", "idontexist.sln")]
+        [DataRow("sln", "ihave?invalidcharacters.sln")]
+        [DataRow("sln", "ihaveinv@lidcharacters.sln")]
+        [DataRow("sln", "ihaveinvalid/characters")]
+        [DataRow("sln", "ihaveinvalidchar\\acters")]
+        [DataRow("solution", "idontexist.sln")]
+        [DataRow("solution", "ihave?invalidcharacters.sln")]
+        [DataRow("solution", "ihaveinv@lidcharacters.sln")]
+        [DataRow("solution", "ihaveinvalid/characters")]
+        [DataRow("solution", "ihaveinvalidchar\\acters")]
         public void WhenNonExistingSolutionIsPassedItPrintsErrorAndUsage(string solutionCommand, string solutionName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, solutionName, "list");
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(string.Format(CommonLocalizableStrings.CouldNotFindSolutionOrDirectory, solutionName));
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenInvalidSolutionIsPassedItPrintsErrorAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -96,7 +96,7 @@ Options:
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "InvalidSolution.sln", "list");
             cmd.Should().Fail();
@@ -105,11 +105,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenInvalidSolutionIsFoundListPrintsErrorAndUsage(string solutionCommand, string solutionExtension)
         {
             var projectRootDirectory = _testAssetsManager
@@ -122,7 +122,7 @@ Options:
                 : Path.Join(projectRootDirectory, "Slnx");
 
             var solutionFullPath = Path.Combine(projectDirectory, $"InvalidSolution{solutionExtension}");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "list");
             cmd.Should().Fail();
@@ -131,9 +131,9 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenNoSolutionExistsInTheDirectoryListPrintsErrorAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -142,7 +142,7 @@ Options:
                 .Path;
 
             var solutionDir = Path.Combine(projectDirectory, "App");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(solutionDir)
                 .Execute(solutionCommand, "list");
             cmd.Should().Fail();
@@ -150,9 +150,9 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenMoreThanOneSolutionExistsInTheDirectoryItPrintsErrorAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -160,7 +160,7 @@ Options:
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "list");
             cmd.Should().Fail();
@@ -168,11 +168,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenNoProjectsArePresentInTheSolutionItPrintsANoProjectMessage(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -180,18 +180,18 @@ Options:
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "list");
             cmd.Should().Pass();
             cmd.StdOut.Should().Be(CommonLocalizableStrings.NoProjectsFound);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenProjectsPresentInTheSolutionItListsThem(string solutionCommand, string solutionExtension)
         {
             var expectedOutput = $@"{CommandLocalizableStrings.ProjectsHeader}
@@ -204,18 +204,18 @@ Options:
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "list");
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentTo(expectedOutput);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenProjectsPresentInTheReadonlySolutionItListsThem(string solutionCommand, string solutionExtension)
         {
             var expectedOutput = $@"{CommandLocalizableStrings.ProjectsHeader}
@@ -232,18 +232,18 @@ Options:
             var attributes = File.GetAttributes(slnFileName);
             File.SetAttributes(slnFileName, attributes | FileAttributes.ReadOnly);
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "list");
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentTo(expectedOutput);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenProjectsInSolutionFoldersPresentInTheSolutionItListsSolutionFolderPaths(string solutionCommand, string solutionExtension)
         {
             string[] expectedOutput = { $"{CommandLocalizableStrings.SolutionFolderHeader}",
@@ -255,7 +255,7 @@ $"{Path.Combine("NestedSolution", "NestedFolder", "NestedFolder")}" };
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "list", "--solution-folders");
             cmd.Should().Pass();

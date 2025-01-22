@@ -36,7 +36,7 @@ namespace Microsoft.DotNet.Cli.VSTest.Tests
             // Call vstest
             var result = new DotnetVSTestCommand(MSTestContext)
                 .Execute(outputDll, "--logger:console;verbosity=normal");
-            if (!MSTestContext.IsLocalized())
+            if (!TestContext.IsLocalized())
             {
                 result.StdOut
                     .Should().Contain("Total tests: 2")

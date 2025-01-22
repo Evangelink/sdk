@@ -15,15 +15,15 @@ namespace Microsoft.DotNet.Cli.Test.Tests
         private static string s_dataCollectorDll;
         private static string s_dataCollectorNoMergeDll;
 
-        public GivenDotnetTestBuildsAndRunsArtifactPostProcessing(ITestOutputHelper log) : base(log)
+        public GivenDotnetTestBuildsAndRunsArtifactPostProcessing(MSTestContext testContext) : base(testContext)
         {
             BuildDataCollector();
             BuildDataCollectorNoMerge();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ArtifactPostProcessing_SolutionProjects(bool merge)
         {
             TestAsset testInstance = _testAssetsManager.CopyTestAsset("VSTestMultiProjectSolution", Guid.NewGuid().ToString())
@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             string runsettings = GetRunsetting(testInstance.Path);
 
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: true)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                                     .WithWorkingDirectory(testInstance.Path)
                                     .WithEnvironmentVariable(FeatureFlag.DISABLE_ARTIFACTS_POSTPROCESSING, "0")
                                     .Execute(
@@ -45,9 +45,9 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             AssertOutput(result.StdOut, merge);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ArtifactPostProcessing_TestContainers(bool merge)
         {
             TestAsset testInstance = _testAssetsManager.CopyTestAsset("VSTestMultiProjectSolution", Guid.NewGuid().ToString())
@@ -55,9 +55,9 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             string runsettings = GetRunsetting(testInstance.Path);
 
-            new PublishCommand(Log, Path.Combine(testInstance.Path, "sln.sln")).Execute("/p:Configuration=Release").Should().Pass();
+            new PublishCommand(MSTestContext, Path.Combine(testInstance.Path, "sln.sln")).Execute("/p:Configuration=Release").Should().Pass();
 
-            CommandResult result = new DotnetTestCommand(Log, disableNewOutput: false)
+            CommandResult result = new DotnetTestCommand(MSTestContext, disableNewOutput: false)
                                     .WithWorkingDirectory(testInstance.Path)
                                     .WithEnvironmentVariable(FeatureFlag.DISABLE_ARTIFACTS_POSTPROCESSING, "0")
                                     .WithEnvironmentVariable("DOTNET_CLI_VSTEST_TRACE", "1")
@@ -74,9 +74,9 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             AssertOutput(result.StdOut, merge);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void ArtifactPostProcessing_VSTest_TestContainers(bool merge)
         {
             TestAsset testInstance = _testAssetsManager.CopyTestAsset("VSTestMultiProjectSolution", Guid.NewGuid().ToString())
@@ -84,9 +84,9 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             string runsettings = GetRunsetting(testInstance.Path);
 
-            new PublishCommand(Log, Path.Combine(testInstance.Path, "sln.sln")).Execute("/p:Configuration=Release").Should().Pass();
+            new PublishCommand(MSTestContext, Path.Combine(testInstance.Path, "sln.sln")).Execute("/p:Configuration=Release").Should().Pass();
 
-            CommandResult result = new DotnetVSTestCommand(Log)
+            CommandResult result = new DotnetVSTestCommand(MSTestContext)
                                     .WithWorkingDirectory(testInstance.Path)
                                     .WithEnvironmentVariable(FeatureFlag.DISABLE_ARTIFACTS_POSTPROCESSING, "0")
                                     .Execute(

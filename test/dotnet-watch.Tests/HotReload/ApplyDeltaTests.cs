@@ -5,7 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class ApplyDeltaTests(TestContext logger) : DotNetWatchTestBase(logger)
+    public class ApplyDeltaTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
     {
         [TestMethod]
         public async Task AddSourceFile()

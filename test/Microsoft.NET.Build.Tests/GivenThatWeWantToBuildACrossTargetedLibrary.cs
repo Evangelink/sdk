@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildACrossTargetedLibrary : SdkTest
     {
-        public GivenThatWeWantToBuildACrossTargetedLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildACrossTargetedLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionFact("17.1.0.60101")]
+        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
         public void It_builds_nondesktop_library_successfully_on_all_platforms()
         {
             var testAsset = _testAssetsManager
@@ -69,8 +69,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [Theory]
-        [InlineData("1", "win7-x86", "win7-x86;win7-x64", $"{ToolsetInfo.LatestWinRuntimeIdentifier}-arm", "win7-x86;linux;WIN7-X86;unix", "osx-10.12", "win8-arm;win8-arm-aot",
+        [TestMethod]
+        [DataRow("1", "win7-x86", "win7-x86;win7-x64", $"{ToolsetInfo.LatestWinRuntimeIdentifier}-arm", "win7-x86;linux;WIN7-X86;unix", "osx-10.12", "win8-arm;win8-arm-aot",
             $"win7-x86;win7-x64;{ToolsetInfo.LatestWinRuntimeIdentifier}-arm;linux;unix;osx-10.12;win8-arm;win8-arm-aot")]
         public void It_combines_inner_rids_for_restore(
             string identifier,
@@ -105,7 +105,7 @@ namespace Microsoft.NET.Build.Tests
                             new XElement(ns + "RuntimeIdentifiers", secondFrameworkRids)));
                 });
 
-            var command = new GetValuesCommand(Log, testAsset.TestRoot, "", valueName: "RuntimeIdentifiers")
+            var command = new GetValuesCommand(MSTestContext, testAsset.TestRoot, "", valueName: "RuntimeIdentifiers")
             {
                 DependsOnTargets = "GetAllRuntimeIdentifiers"
             };
@@ -113,7 +113,7 @@ namespace Microsoft.NET.Build.Tests
             command.GetValues().Should().BeEquivalentTo(expectedCombination.Split(';'));
         }
 
-        [Fact]
+        [TestMethod]
         public void OutputPathDoesNotHaveDuplicatedBackslashesInOuterBuild()
         {
             var testProject = new TestProject()
@@ -145,7 +145,7 @@ namespace Microsoft.NET.Build.Tests
             outputPathValue.Trim().Should().NotContain("\\\\");
         }
 
-        [RequiresMSBuildVersionFact("17.9.0.61803")]
+        [RequiresMSBuildVersionTestMethod("17.9.0.61803")]
         public void OuterBuildImportsUserFile()
         {
             var testProject = new TestProject()

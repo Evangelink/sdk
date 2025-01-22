@@ -7,7 +7,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildADesktopExeWithFSharp : SdkTest
     {
-        public GivenThatWeWantToBuildADesktopExeWithFSharp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildADesktopExeWithFSharp(MSTestContext testContext) : base(testContext)
         {
         }
 

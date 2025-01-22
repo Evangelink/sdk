@@ -9,20 +9,20 @@ namespace Microsoft.DotNet.Cli.Test.Tests
     {
         private const string TestAppName = "VSTestForwardDotnetRootEnvironmentVariables";
 
-        public VSTestForwardDotnetRootEnvironmentVariables(ITestOutputHelper log) : base(log)
+        public VSTestForwardDotnetRootEnvironmentVariables(MSTestContext testContext) : base(testContext)
         {
         }
 
         private readonly string[] ConsoleLoggerOutputDetailed = new[] { "--logger", "console;verbosity=detailed" };
 
-        [Fact]
+        [TestMethod]
         public void ShouldForwardDotnetRootEnvironmentVariablesIfNotProvided()
         {
             var testAsset = _testAssetsManager.CopyTestAsset(TestAppName)
                 .WithSource()
                 .WithVersionVariables();
 
-            var command = new DotnetTestCommand(Log, disableNewOutput: true).WithWorkingDirectory(testAsset.Path);
+            var command = new DotnetTestCommand(MSTestContext, disableNewOutput: true).WithWorkingDirectory(testAsset.Path);
             command.EnvironmentToRemove.Add("DOTNET_ROOT");
             command.EnvironmentToRemove.Add("DOTNET_ROOT(x86)");
             var result = command.Execute(ConsoleLoggerOutputDetailed);

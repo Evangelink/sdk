@@ -7,13 +7,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class AspNetCoreOnFullFramework : SdkTest
     {
-        public AspNetCoreOnFullFramework(ITestOutputHelper log) : base(log)
+        public AspNetCoreOnFullFramework(MSTestContext testContext) : base(testContext)
         {
         }
 
         [WindowsOnlyTheory]
-        [InlineData("1.1.2")]
-        [InlineData("2.0.4")]
+        [DataRow("1.1.2")]
+        [DataRow("2.0.4")]
         public void It_discovers_assembly_parts(string aspnetVersion)
         {
             var testProject = new TestProject()

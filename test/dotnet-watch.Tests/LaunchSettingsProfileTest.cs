@@ -10,13 +10,13 @@ public class LaunchSettingsProfileTest
     private readonly IReporter _reporter;
     private readonly TestAssetsManager _testAssets;
 
-    public LaunchSettingsProfileTest(ITestOutputHelper output)
+    public LaunchSettingsProfileTest(MSTestContext testContext)
     {
-        _reporter = new TestReporter(output);
-        _testAssets = new TestAssetsManager(output);
+        _reporter = new TestReporter(testContext);
+        _testAssets = new TestAssetsManager(testContext);
     }
 
-    [Fact]
+    [TestMethod]
     public void LoadsLaunchProfiles()
     {
         var project = _testAssets.CreateTestProject(new TestProject("Project1")
@@ -49,15 +49,15 @@ public class LaunchSettingsProfileTest
         var projectDirectory = Path.Combine(project.TestRoot, "Project1");
 
         var expected = LaunchSettingsProfile.ReadLaunchProfile(projectDirectory, "http", _reporter);
-        Assert.NotNull(expected);
-        Assert.Equal("http://localhost:5000", expected.ApplicationUrl);
+        Assert.IsNotNull(expected);
+        Assert.AreEqual("http://localhost:5000", expected.ApplicationUrl);
 
         expected = LaunchSettingsProfile.ReadLaunchProfile(projectDirectory, "https", _reporter);
-        Assert.NotNull(expected);
-        Assert.Equal("https://localhost:5001", expected.ApplicationUrl);
+        Assert.IsNotNull(expected);
+        Assert.AreEqual("https://localhost:5001", expected.ApplicationUrl);
 
         expected = LaunchSettingsProfile.ReadLaunchProfile(projectDirectory, "notfound", _reporter);
-        Assert.NotNull(expected);
+        Assert.IsNotNull(expected);
     }
 
     private static string WriteFile(TestAsset testAsset, string name, string contents = "")

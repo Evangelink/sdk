@@ -10,7 +10,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildADesktopLibrary : SdkTest
     {
-        public GivenThatWeWantToBuildADesktopLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildADesktopLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -227,9 +227,9 @@ public class NETFramework
             }
         }
 
-        [Theory]
-        [InlineData("RazorSimpleMvc22", "netcoreapp2.2", "SimpleMvc22")]
-        [InlineData("DesktopReferencingNetStandardLibrary", "net46", "Library")]
+        [TestMethod]
+        [DataRow("RazorSimpleMvc22", "netcoreapp2.2", "SimpleMvc22")]
+        [DataRow("DesktopReferencingNetStandardLibrary", "net46", "Library")]
         public void PackageReferences_with_private_assets_do_not_appear_in_deps_file(string asset, string targetFramework, string exeName)
         {
             var testAsset = _testAssetsManager
@@ -303,8 +303,8 @@ public static class {project.Name}
         }
 
         [WindowsOnlyTheory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [DataRow(false)]
+        [DataRow(true)]
         public void It_uses_hintpath_when_replacing_simple_name_references(bool useFacades)
         {
             TestProject project = new()
@@ -349,7 +349,7 @@ public static class {project.Name}
 
             string projectFolder = Path.Combine(testAsset.Path, project.Name);
 
-            var getValuesCommand = new GetValuesCommand(Log, projectFolder, project.TargetFrameworks, "Reference", GetValuesCommand.ValueType.Item);
+            var getValuesCommand = new GetValuesCommand(MSTestContext, projectFolder, project.TargetFrameworks, "Reference", GetValuesCommand.ValueType.Item);
             getValuesCommand.MetadataNames.Add("HintPath");
 
             getValuesCommand
@@ -382,7 +382,7 @@ public static class {project.Name}
                 .Should().Be(correctHttpReference);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_tolerates_newline_in_hint_path()
         {
             string hintPath = BuildReferencedBuildAndReturnOutputDllPath();
@@ -408,7 +408,7 @@ public static class {project.Name}
                 });
 
             var buildCommand = new BuildCommand(testAsset);
-            var msbuildBuildCommand = new MSBuildCommand(Log, "Build", buildCommand.FullPathProjectFile);
+            var msbuildBuildCommand = new MSBuildCommand(MSTestContext, "Build", buildCommand.FullPathProjectFile);
             msbuildBuildCommand.Execute().Should().Pass()
                 .And.NotHaveStdOutContaining("System.ArgumentException");
         }

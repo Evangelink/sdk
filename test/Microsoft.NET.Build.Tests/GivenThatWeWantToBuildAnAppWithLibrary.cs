@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAnAppWithLibrary : SdkTest
     {
-        public GivenThatWeWantToBuildAnAppWithLibrary(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAnAppWithLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully()
         {
             var testAsset = _testAssetsManager
@@ -23,7 +23,7 @@ namespace Microsoft.NET.Build.Tests
             VerifyAppBuilds(testAsset);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully_twice()
         {
             var testAsset = _testAssetsManager
@@ -56,7 +56,7 @@ namespace Microsoft.NET.Build.Tests
                 "TestLibrary.pdb",
             });
 
-            new DotnetCommand(Log, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
                 .Execute()
                 .Should()
                 .Pass()
@@ -80,7 +80,7 @@ namespace Microsoft.NET.Build.Tests
             libInfo.ProductVersion.Should().Be("42.43.44.45-alpha");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_generates_satellite_assemblies()
         {
             var testAsset = _testAssetsManager
@@ -95,7 +95,7 @@ namespace Microsoft.NET.Build.Tests
 
             var outputDir = buildCommand.GetOutputDirectory(ToolsetInfo.CurrentTargetFramework);
 
-            var commandResult = new DotnetCommand(Log, Path.Combine(outputDir.FullName, "TestApp.dll"))
+            var commandResult = new DotnetCommand(MSTestContext, Path.Combine(outputDir.FullName, "TestApp.dll"))
                 .Execute();
 
             commandResult.Should().Pass();
@@ -151,7 +151,7 @@ namespace Microsoft.NET.Build.Tests
                 "TestLibrary.pdb"
             });
 
-            var cleanCommand = new MSBuildCommand(Log, "Clean", buildCommand.FullPathProjectFile);
+            var cleanCommand = new MSBuildCommand(MSTestContext, "Clean", buildCommand.FullPathProjectFile);
 
             cleanCommand
                 .Execute()
@@ -161,7 +161,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().OnlyHaveFiles(Array.Empty<string>());
         }
 
-        [Fact]
+        [TestMethod]
         public void An_appx_app_can_reference_a_cross_targeted_library()
         {
             var asset = _testAssetsManager

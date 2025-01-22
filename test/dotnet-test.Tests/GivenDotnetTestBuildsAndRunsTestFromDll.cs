@@ -7,13 +7,13 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 {
     public class GivenDotnettestBuildsAndRunsTestFromDll : SdkTest
     {
-        public GivenDotnettestBuildsAndRunsTestFromDll(ITestOutputHelper log) : base(log)
+        public GivenDotnettestBuildsAndRunsTestFromDll(MSTestContext testContext) : base(testContext)
         {
         }
 
         private readonly string[] ConsoleLoggerOutputNormal = new[] { "--logger", "console;verbosity=normal" };
 
-        [Fact]
+        [TestMethod]
         public void TestsFromAGivenContainerShouldRunWithExpectedOutput()
         {
             var testAppName = "VSTestCore";
@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             var outputDll = Path.Combine(buildCommand.GetOutputDirectory(configuration: configuration).FullName, $"{testAppName}.dll");
 
             // Call vstest
-            var result = new DotnetTestCommand(Log, disableNewOutput: false)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: false)
                 .Execute(outputDll, "--logger:console;verbosity=normal");
             if (!TestContext.IsLocalized())
             {
@@ -49,7 +49,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItSetsDotnetRootToTheLocationOfDotnetExecutableWhenRunningDotnetTestWithDll()
         {
             var testAppName = "VSTestCore";
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             var outputDll = Path.Combine(testRoot, "bin", configuration, ToolsetInfo.CurrentTargetFramework, $"{testAppName}.dll");
 
             // Call dotnet test + dll
-            var result = new DotnetTestCommand(Log, disableNewOutput: true)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                 .Execute(outputDll, "--logger:console;verbosity=normal");
 
             result.ExitCode.Should().Be(1);
@@ -79,7 +79,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.StartInfo.EnvironmentVariables[dotnetRoot].Should().Be(Path.GetDirectoryName(dotnet));
         }
 
-        [Fact]
+        [TestMethod]
         public void TestsFromAGivenContainerAndArchSwitchShouldFlowToVsTestConsole()
         {
             var testAppName = "VSTestCore";
@@ -98,7 +98,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             var outputDll = Path.Combine(testRoot, "bin", configuration, ToolsetInfo.CurrentTargetFramework, $"{testAppName}.dll");
 
             // Call vstest
-            var result = new DotnetTestCommand(Log, disableNewOutput: true)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                 .Execute(outputDll, "--arch", "wrongArchitecture");
             if (!TestContext.IsLocalized())
             {
@@ -108,9 +108,9 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [Theory]
-        [InlineData("-e:foo=bardll")]
-        [InlineData("-e:foo=barexe")]
+        [TestMethod]
+        [DataRow("-e:foo=bardll")]
+        [DataRow("-e:foo=barexe")]
         public void MissingOutputDllAndArgumentsEndWithDllOrExeShouldFailInMSBuild(string arg)
         {
             var testAppName = "VSTestCore";
@@ -122,7 +122,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
                 .Execute()
                 .Should().Pass();
 
-            var result = new DotnetTestCommand(Log, disableNewOutput: true)
+            var result = new DotnetTestCommand(MSTestContext, disableNewOutput: true)
                 .Execute(arg);
             if (!TestContext.IsLocalized())
             {

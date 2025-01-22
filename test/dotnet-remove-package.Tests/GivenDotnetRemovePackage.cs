@@ -38,32 +38,32 @@ Commands:
   package <PACKAGE_NAME>      Remove a NuGet package reference from the project.
   reference <PROJECT_PATH>    Remove a project-to-project reference from the project";
 
-        public GivenDotnetRemovePackage(ITestOutputHelper log) : base(log)
+        public GivenDotnetRemovePackage(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("--help")]
-        [InlineData("-h")]
+        [TestMethod]
+        [DataRow("--help")]
+        [DataRow("-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string helpArg)
         {
-            var cmd = new DotnetCommand(Log).Execute($"remove", "package", helpArg);
+            var cmd = new DotnetCommand(MSTestContext).Execute($"remove", "package", helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(HelpText(Directory.GetCurrentDirectory()));
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("unknownCommandName")]
+        [TestMethod]
+        [DataRow("")]
+        [DataRow("unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string commandName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute("remove", commandName);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenReferencedPackageIsPassedItGetsRemoved()
         {
             var projectDirectory = _testAssetsManager
@@ -71,13 +71,13 @@ Commands:
                 .WithSource().Path;
 
             var packageName = "Newtonsoft.Json";
-            var add = new DotnetCommand(Log)
+            var add = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("add", "package", packageName);
             add.Should().Pass();
 
 
-            var remove = new DotnetCommand(Log)
+            var remove = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"remove", "package", packageName);
 

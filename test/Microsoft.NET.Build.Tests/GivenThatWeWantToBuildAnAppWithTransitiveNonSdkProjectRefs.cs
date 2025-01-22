@@ -9,7 +9,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAnAppWithTransitiveNonSdkProjectRefs : SdkTest
     {
-        public GivenThatWeWantToBuildAnAppWithTransitiveNonSdkProjectRefs(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAnAppWithTransitiveNonSdkProjectRefs(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -26,8 +26,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("")]
-        [InlineData("TestApp.")]
+        [DataRow("")]
+        [DataRow("TestApp.")]
         public void It_builds_deps_correctly_when_projects_do_not_get_restored(string prefix)
         {
             // NOTE the projects created by CreateTestProject:
@@ -178,7 +178,7 @@ namespace Microsoft.NET.Build.Tests
                 prefix + "AuxLibrary.pdb",
             });
 
-            new DotnetCommand(Log, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "TestApp.dll"))
                 .Execute()
                 .Should()
                 .Pass()

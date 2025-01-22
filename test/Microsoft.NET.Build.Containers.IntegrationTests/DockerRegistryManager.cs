@@ -37,9 +37,9 @@ public class DockerRegistryManager
         }
     }
 
-    public static async Task StartAndPopulateDockerRegistry(ITestOutputHelper testOutput)
+    public static async Task StartAndPopulateDockerRegistry(MSTestContext testContext)
     {
-        using TestLoggerFactory loggerFactory = new(testOutput);
+        using TestLoggerFactory loggerFactory = new(testContext);
 
         if (!new DockerCli(loggerFactory).IsAvailable())
         {
@@ -61,7 +61,7 @@ public class DockerRegistryManager
             {
                 logger.LogInformation("Spawning local registry at '{registry}', attempt #{attempt}.", LocalRegistry, spawnRegistryAttempt);
 
-                CommandResult processResult = ContainerCli.RunCommand(testOutput, "--rm", "--publish", "5010:5000", "--detach", "docker.io/library/registry:2").Execute();
+                CommandResult processResult = ContainerCli.RunCommand(testContext, "--rm", "--publish", "5010:5000", "--detach", "docker.io/library/registry:2").Execute();
 
                 processResult.Should().Pass().And.HaveStdOut();
 
@@ -71,7 +71,7 @@ public class DockerRegistryManager
                 using var reader = new StringReader(processResult.StdOut!);
                 s_registryContainerId = reader.ReadLine();
 
-                EnsureRegistryLoaded(new Uri($"http://{LocalRegistry}"), s_registryContainerId, logger, testOutput);
+                EnsureRegistryLoaded(new Uri($"http://{LocalRegistry}"), s_registryContainerId, logger, testContext);
 
                 foreach (string? tag in new[] { Net6ImageTag, Net7ImageTag, Net8ImageTag, Net9ImageTag })
                 {
@@ -100,7 +100,7 @@ public class DockerRegistryManager
                 {
                     try
                     {
-                        ContainerCli.StopCommand(testOutput, s_registryContainerId).Execute();
+                        ContainerCli.StopCommand(testContext, s_registryContainerId).Execute();
                     }
                     catch (Exception ex2)
                     {
@@ -116,17 +116,17 @@ public class DockerRegistryManager
         throw new InvalidOperationException($"The registry was not loaded after {spawnRegistryMaxRetry} retries. {failureReasons}");
     }
 
-    public static void ShutdownDockerRegistry(ITestOutputHelper testOutput)
+    public static void ShutdownDockerRegistry(MSTestContext testContext)
     {
         if (s_registryContainerId != null)
         {
-            ContainerCli.StopCommand(testOutput, s_registryContainerId)
+            ContainerCli.StopCommand(testContext, s_registryContainerId)
                 .Execute()
                 .Should().Pass();
         }
     }
 
-    private static void EnsureRegistryLoaded(Uri registryBaseUri, string? containerRegistryId, ILogger logger, ITestOutputHelper testOutput)
+    private static void EnsureRegistryLoaded(Uri registryBaseUri, string? containerRegistryId, ILogger logger, MSTestContext testContext)
     {
         const int registryLoadMaxRetry = 10;
         const int registryLoadTimeout = 1000; //ms
@@ -168,7 +168,7 @@ public class DockerRegistryManager
         //try to collect the logs from started registry for more info
         try
         {
-            CommandResult logsResult = ContainerCli.LogsCommand(testOutput, containerRegistryId).Execute();
+            CommandResult logsResult = ContainerCli.LogsCommand(testContext, containerRegistryId).Execute();
             logger.LogInformation("Registry logs: {stdout} {stderr}", logsResult.StdOut, logsResult.StdErr);
         }
         catch (Exception ex)

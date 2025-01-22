@@ -7,13 +7,13 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
 public class RegistryTests : IDisposable
 {
-    private ITestOutputHelper _testOutput;
+    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
 
-    public RegistryTests(ITestOutputHelper testOutput)
+    public RegistryTests(MSTestContext testContext)
     {
-        _testOutput = testOutput;
-        _loggerFactory = new TestLoggerFactory(testOutput);
+        _testContext = testContext;
+        _loggerFactory = new TestLoggerFactory(testContext);
     }
 
     public void Dispose()
@@ -21,9 +21,9 @@ public class RegistryTests : IDisposable
         _loggerFactory.Dispose();
     }
 
-    [InlineData("quay.io/centos/centos")]
-    [InlineData("registry.access.redhat.com/ubi8/dotnet-70")]
-    [Theory]
+    [DataRow("quay.io/centos/centos")]
+    [DataRow("registry.access.redhat.com/ubi8/dotnet-70")]
+    [TestMethod]
     public async Task CanReadManifestFromRegistry(string fullyQualifiedContainerName)
     {
         bool parsed = ContainerHelpers.TryParseFullyQualifiedContainerName(fullyQualifiedContainerName,
@@ -32,10 +32,10 @@ public class RegistryTests : IDisposable
                                                                            out string? containerTag,
                                                                            out string? containerDigest,
                                                                            out bool isRegistrySpecified);
-        Assert.True(parsed);
-        Assert.True(isRegistrySpecified);
-        Assert.NotNull(containerRegistry);
-        Assert.NotNull(containerName);
+        Assert.IsTrue(parsed);
+        Assert.IsTrue(isRegistrySpecified);
+        Assert.IsNotNull(containerRegistry);
+        Assert.IsNotNull(containerName);
         containerTag ??= "latest";
 
         ILogger logger = _loggerFactory.CreateLogger(nameof(CanReadManifestFromRegistry));
@@ -50,6 +50,6 @@ public class RegistryTests : IDisposable
             ToolsetUtils.RidGraphManifestPicker,
             cancellationToken: default);
 
-        Assert.NotNull(downloadedImage);
+        Assert.IsNotNull(downloadedImage);
     }
 }

@@ -5,11 +5,11 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 {
     public class GivenThatWeCanPassNonProjectFilesToDotnetRun : SdkTest
     {
-        public GivenThatWeCanPassNonProjectFilesToDotnetRun(ITestOutputHelper log) : base(log)
+        public GivenThatWeCanPassNonProjectFilesToDotnetRun(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItFailsWithAnAppropriateErrorMessage()
         {
             var projectDirectory = _testAssetsManager
@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
             var slnFullPath = Path.Combine(projectDirectory, "SlnFileWithNoProjectReferences.sln");
 
-            new DotnetCommand(Log, "run")
+            new DotnetCommand(MSTestContext, "run")
                 .Execute($"-p", slnFullPath)
                 .Should().Fail()
                 .And.HaveStdErrContaining(

@@ -13,13 +13,13 @@ namespace Microsoft.DotNet.Cli.Test.Tests
         private const string TestAppName = "VSTestMSBuildParameters";
         private const string MSBuildParameter = "/p:Version=1.2.3";
 
-        public GivenDotnetTestContainsMSBuildParameters(ITestOutputHelper log) : base(log)
+        public GivenDotnetTestContainsMSBuildParameters(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [InlineData($"{TestAppName}.csproj")]
-        [InlineData(null)]
-        [Theory]
+        [DataRow($"{TestAppName}.csproj")]
+        [DataRow(null)]
+        [TestMethod]
         public void ItPassesEnvironmentVariablesFromCommandLineParametersWhenRunningViaCsproj(string projectName)
         {
             var testAsset = _testAssetsManager.CopyTestAsset(TestAppName)
@@ -28,7 +28,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
 
             var testRoot = testAsset.Path;
 
-            CommandResult result = (projectName is null ? new DotnetTestCommand(Log, disableNewOutput: true) : new DotnetTestCommand(Log, disableNewOutput: true, projectName))
+            CommandResult result = (projectName is null ? new DotnetTestCommand(MSTestContext, disableNewOutput: true) : new DotnetTestCommand(MSTestContext, disableNewOutput: true, projectName))
                                     .WithWorkingDirectory(testRoot)
                                     .Execute("--logger", "console;verbosity=detailed", MSBuildParameter);
 

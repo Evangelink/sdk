@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantDiagnosticsWhenAssetsFileCannotBeRead : SdkTest
     {
-        public GivenThatWeWantDiagnosticsWhenAssetsFileCannotBeRead(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantDiagnosticsWhenAssetsFileCannotBeRead(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_reports_inaccessible_file()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("HelloWorld").WithSource().Restore(Log);
@@ -24,7 +24,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_reports_missing_file()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("HelloWorld").WithSource();
@@ -34,7 +34,7 @@ namespace Microsoft.NET.Build.Tests
             build.ExecuteWithoutRestore().Should().Fail().And.HaveStdOutContaining(assetsFile);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_reports_corrupt_file()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("HelloWorld").WithSource().Restore(Log);

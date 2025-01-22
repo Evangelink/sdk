@@ -13,11 +13,11 @@ namespace Microsoft.NET.Build.Containers.Tasks.IntegrationTests;
 [Collection("Docker tests")]
 public class CreateNewImageTests
 {
-    private ITestOutputHelper _testOutput;
+    private MSTestContext _testContext;
 
-    public CreateNewImageTests(ITestOutputHelper testOutput)
+    public CreateNewImageTests(MSTestContext testContext)
     {
-        _testOutput = testOutput;
+        _testContext = testContext;
     }
 
     [DockerAvailableFact]
@@ -31,13 +31,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testOutput, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testOutput, "publish", "-c", "Release", "-r", "linux-arm64", "--no-self-contained")
+        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", "linux-arm64", "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -61,7 +61,7 @@ public class CreateNewImageTests
         task.Entrypoint = new TaskItem[] { new("dotnet"), new("build") };
         task.RuntimeIdentifierGraphPath = ToolsetUtils.GetRuntimeGraphFilePath();
 
-        Assert.True(task.Execute(), FormatBuildMessages(errors));
+        Assert.IsTrue(task.Execute(), FormatBuildMessages(errors));
         newProjectDir.Delete(true);
     }
 
@@ -82,13 +82,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testOutput, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testOutput, "build", "--configuration", "release")
+        new DotnetCommand(_testContext, "build", "--configuration", "release")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -102,12 +102,12 @@ public class CreateNewImageTests
         pcp.ContainerRepository = "dotnet/testimage";
         pcp.ContainerImageTags = new[] { "5.0", "latest" };
 
-        Assert.True(pcp.Execute(), FormatBuildMessages(errors));
-        Assert.Equal("mcr.microsoft.com", pcp.ParsedContainerRegistry);
-        Assert.Equal("dotnet/runtime", pcp.ParsedContainerImage);
-        Assert.Equal("7.0", pcp.ParsedContainerTag);
+        Assert.IsTrue(pcp.Execute(), FormatBuildMessages(errors));
+        Assert.AreEqual("mcr.microsoft.com", pcp.ParsedContainerRegistry);
+        Assert.AreEqual("dotnet/runtime", pcp.ParsedContainerImage);
+        Assert.AreEqual("7.0", pcp.ParsedContainerTag);
 
-        Assert.Equal("dotnet/testimage", pcp.NewContainerRepository);
+        Assert.AreEqual("dotnet/testimage", pcp.NewContainerRepository);
         pcp.NewContainerTags.Should().BeEquivalentTo(new[] { "5.0", "latest" });
 
         CreateNewImage cni = new();
@@ -126,7 +126,7 @@ public class CreateNewImageTests
         cni.ContainerRuntimeIdentifier = "linux-x64";
         cni.RuntimeIdentifierGraphPath = ToolsetUtils.GetRuntimeGraphFilePath();
 
-        Assert.True(cni.Execute(), FormatBuildMessages(errors));
+        Assert.IsTrue(cni.Execute(), FormatBuildMessages(errors));
         newProjectDir.Delete(true);
     }
 
@@ -145,7 +145,7 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testOutput, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
@@ -155,7 +155,7 @@ public class CreateNewImageTests
 
         File.WriteAllText(Path.Combine(newProjectDir.FullName, "Program.cs"), $"Console.Write(Environment.GetEnvironmentVariable(\"GoodEnvVar\"));");
 
-        new DotnetCommand(_testOutput, "build", "--configuration", "release", "/p:runtimeidentifier=linux-x64")
+        new DotnetCommand(_testContext, "build", "--configuration", "release", "/p:runtimeidentifier=linux-x64")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -174,15 +174,15 @@ public class CreateNewImageTests
 
         pcp.ContainerEnvironmentVariables = new[] { new TaskItem("B@dEnv.Var", dict), new TaskItem("GoodEnvVar", dict) };
 
-        Assert.True(pcp.Execute(), FormatBuildMessages(errors));
-        Assert.Equal("mcr.microsoft.com", pcp.ParsedContainerRegistry);
-        Assert.Equal("dotnet/runtime", pcp.ParsedContainerImage);
-        Assert.Equal(DockerRegistryManager.Net9ImageTag, pcp.ParsedContainerTag);
-        Assert.Single(pcp.NewContainerEnvironmentVariables);
-        Assert.Equal("Foo", pcp.NewContainerEnvironmentVariables[0].GetMetadata("Value"));
+        Assert.IsTrue(pcp.Execute(), FormatBuildMessages(errors));
+        Assert.AreEqual("mcr.microsoft.com", pcp.ParsedContainerRegistry);
+        Assert.AreEqual("dotnet/runtime", pcp.ParsedContainerImage);
+        Assert.AreEqual(DockerRegistryManager.Net9ImageTag, pcp.ParsedContainerTag);
+        Assert.HasCount(1, pcp.NewContainerEnvironmentVariables);
+        Assert.AreEqual("Foo", pcp.NewContainerEnvironmentVariables[0].GetMetadata("Value"));
 
-        Assert.Equal("dotnet/envvarvalidation", pcp.NewContainerRepository);
-        Assert.Equal("latest", pcp.NewContainerTags[0]);
+        Assert.AreEqual("dotnet/envvarvalidation", pcp.NewContainerRepository);
+        Assert.AreEqual("latest", pcp.NewContainerTags[0]);
 
         CreateNewImage cni = new();
         (buildEngine, errors) = SetupBuildEngine();
@@ -202,17 +202,17 @@ public class CreateNewImageTests
         cni.RuntimeIdentifierGraphPath = ToolsetUtils.GetRuntimeGraphFilePath();
         cni.LocalRegistry = DockerAvailableFactAttribute.LocalRegistry;
 
-        Assert.True(cni.Execute(), FormatBuildMessages(errors));
+        Assert.IsTrue(cni.Execute(), FormatBuildMessages(errors));
 
         var config = GetImageConfigFromTask(cni);
         // because we're building off of .net 8 images for this test, we can validate the user id and aspnet https urls
-        Assert.Equal("1654", config.GetUser());
+        Assert.AreEqual("1654", config.GetUser());
 
         var ports = config.Ports;
-        Assert.Single(ports);
-        Assert.Equal(new(8080, PortType.tcp), ports.First());
+        Assert.HasCount(1, ports);
+        Assert.AreEqual(new(8080, PortType.tcp), ports.First());
 
-        ContainerCli.RunCommand(_testOutput, "--rm", $"{pcp.NewContainerRepository}:latest")
+        ContainerCli.RunCommand(_testContext, "--rm", $"{pcp.NewContainerRepository}:latest")
             .Execute()
             .Should().Pass()
             .And.HaveStdOut("Foo");
@@ -224,7 +224,7 @@ public class CreateNewImageTests
         const string RootlessBase = "dotnet/rootlessbase";
         const string AppImage = "dotnet/testimagerootless";
         const string RootlessUser = "1654";
-        var loggerFactory = new TestLoggerFactory(_testOutput);
+        var loggerFactory = new TestLoggerFactory(_testContext);
         var logger = loggerFactory.CreateLogger(nameof(CreateNewImage_RootlessBaseImage));
 
         // Build a rootless base runtime image.
@@ -237,7 +237,7 @@ public class CreateNewImageTests
             ToolsetUtils.RidGraphManifestPicker,
             cancellationToken: default).ConfigureAwait(false);
 
-        Assert.NotNull(imageBuilder);
+        Assert.IsNotNull(imageBuilder);
 
 
         BuiltImage builtImage = imageBuilder.Build();
@@ -257,13 +257,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testOutput, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testOutput, "publish", "-c", "Release", "-r", "linux-x64", "--no-self-contained")
+        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", "linux-x64", "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -284,7 +284,7 @@ public class CreateNewImageTests
         task.Entrypoint = new TaskItem[] { new("dotnet"), new("build") };
         task.RuntimeIdentifierGraphPath = ToolsetUtils.GetRuntimeGraphFilePath();
 
-        Assert.True(task.Execute());
+        Assert.IsTrue(task.Execute());
         newProjectDir.Delete(true);
 
         // Verify the application image uses the non-root user from the base image.
@@ -295,7 +295,7 @@ public class CreateNewImageTests
             ToolsetUtils.RidGraphManifestPicker,
             cancellationToken: default).ConfigureAwait(false);
 
-        Assert.Equal(RootlessUser, imageBuilder.BaseImageConfig.GetUser());
+        Assert.AreEqual(RootlessUser, imageBuilder.BaseImageConfig.GetUser());
     }
 
     private static (IBuildEngine buildEngine, List<string?> errors) SetupBuildEngine()

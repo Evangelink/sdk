@@ -24,75 +24,75 @@ Arguments:
 Options:
   -?, -h, --help    Show command line help.";
 
-        public GivenDotnetSlnRemove(ITestOutputHelper log) : base(log)
+        public GivenDotnetSlnRemove(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("sln", "--help")]
-        [InlineData("sln", "-h")]
-        [InlineData("solution", "--help")]
-        [InlineData("solution", "-h")]
+        [TestMethod]
+        [DataRow("sln", "--help")]
+        [DataRow("sln", "-h")]
+        [DataRow("solution", "--help")]
+        [DataRow("solution", "-h")]
         public void WhenHelpOptionIsPassedItPrintsUsage(string solutionCommand, string helpArg)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, "remove", helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized(HelpText(Directory.GetCurrentDirectory()));
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenTooManyArgumentsArePassedItPrintsError(string solutionCommand)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, "one.sln", "two.sln", "three.slnx", "remove");
             cmd.Should().Fail();
             cmd.StdErr.Should().BeVisuallyEquivalentTo($@"{string.Format(CommandLineValidation.LocalizableStrings.UnrecognizedCommandOrArgument, "two.sln")}
 {string.Format(CommandLineValidation.LocalizableStrings.UnrecognizedCommandOrArgument, "three.slnx")}");
         }
 
-        [Theory]
-        [InlineData("sln", "")]
-        [InlineData("sln", "unknownCommandName")]
-        [InlineData("solution", "")]
-        [InlineData("solution", "unknownCommandName")]
+        [TestMethod]
+        [DataRow("sln", "")]
+        [DataRow("sln", "unknownCommandName")]
+        [DataRow("solution", "")]
+        [DataRow("solution", "unknownCommandName")]
         public void WhenNoCommandIsPassedItPrintsError(string solutionCommand, string commandName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, commandName);
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(CommonLocalizableStrings.RequiredCommandNotPassed);
         }
 
-        [Theory]
-        [InlineData("sln", "idontexist.sln")]
-        [InlineData("sln", "idontexist.slnx")]
-        [InlineData("sln", "ihave?invalidcharacters")]
-        [InlineData("sln", "ihaveinv@lidcharacters")]
-        [InlineData("sln", "ihaveinvalid/characters")]
-        [InlineData("sln", "ihaveinvalidchar\\acters")]
-        [InlineData("solution", "idontexist.sln")]
-        [InlineData("solution", "idontexist.slnx")]
-        [InlineData("solution", "ihave?invalidcharacters")]
-        [InlineData("solution", "ihaveinv@lidcharacters")]
-        [InlineData("solution", "ihaveinvalid/characters")]
-        [InlineData("solution", "ihaveinvalidchar\\acters")]
+        [TestMethod]
+        [DataRow("sln", "idontexist.sln")]
+        [DataRow("sln", "idontexist.slnx")]
+        [DataRow("sln", "ihave?invalidcharacters")]
+        [DataRow("sln", "ihaveinv@lidcharacters")]
+        [DataRow("sln", "ihaveinvalid/characters")]
+        [DataRow("sln", "ihaveinvalidchar\\acters")]
+        [DataRow("solution", "idontexist.sln")]
+        [DataRow("solution", "idontexist.slnx")]
+        [DataRow("solution", "ihave?invalidcharacters")]
+        [DataRow("solution", "ihaveinv@lidcharacters")]
+        [DataRow("solution", "ihaveinvalid/characters")]
+        [DataRow("solution", "ihaveinvalidchar\\acters")]
         public void WhenNonExistingSolutionIsPassedItPrintsErrorAndUsage(string solutionCommand, string solutionName)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(solutionCommand, solutionName, "remove", "p.csproj");
             cmd.Should().Fail();
             cmd.StdErr.Should().Be(string.Format(CommonLocalizableStrings.CouldNotFindSolutionOrDirectory, solutionName));
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenInvalidSolutionIsPassedItPrintsErrorAndUsage(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -101,7 +101,7 @@ Options:
                 .Path;
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"InvalidSolution{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Fail();
@@ -109,11 +109,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenInvalidSolutionIsFoundRemovePrintsErrorAndUsage(string solutionCommand, string solutionExtension)
         {
             var projectDirectoryRoot = _testAssetsManager
@@ -127,7 +127,7 @@ Options:
 
             var solutionPath = Path.Combine(projectDirectory, $"InvalidSolution{solutionExtension}");
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "remove", projectToRemove);
             cmd.Should().Fail();
@@ -135,11 +135,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenNoProjectIsPassedItPrintsErrorAndUsage(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -147,7 +147,7 @@ Options:
                 .WithSource()
                 .Path;
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove");
             cmd.Should().Fail();
@@ -155,9 +155,9 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenNoSolutionExistsInTheDirectoryRemovePrintsErrorAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -166,7 +166,7 @@ Options:
                 .Path;
 
             var solutionPath = Path.Combine(projectDirectory, "App");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(solutionPath)
                 .Execute(solutionCommand, "remove", "App.csproj");
             cmd.Should().Fail();
@@ -174,9 +174,9 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenMoreThanOneSolutionExistsInTheDirectoryItPrintsErrorAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -185,7 +185,7 @@ Options:
                 .Path;
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "remove", projectToRemove);
             cmd.Should().Fail();
@@ -193,11 +193,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenPassedAReferenceNotInSlnItPrintsStatus(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -207,7 +207,7 @@ Options:
 
             var solutionPath = Path.Combine(projectDirectory, $"App{solutionExtension}");
             var contentBefore = File.ReadAllText(solutionPath);
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", "referenceDoesNotExistInSln.csproj");
             cmd.Should().Pass();
@@ -216,11 +216,11 @@ Options:
                 .Should().BeVisuallyEquivalentTo(contentBefore);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenPassedAReferenceItRemovesTheReferenceButNotOtherReferences(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -236,7 +236,7 @@ Options:
             solution.SolutionProjects.Count.Should().Be(2);
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -247,11 +247,11 @@ Options:
             solution.SolutionProjects.Single().FilePath.Should().Be(Path.Combine("App", "App.csproj"));
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenSolutionItemsExistInFolderParentFoldersAreNotRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -262,7 +262,7 @@ Options:
             var solutionPath = Path.Combine(projectDirectory, $"App{solutionExtension}");
 
             var projectToRemove = Path.Combine("ConsoleApp1", "ConsoleApp1.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -274,9 +274,9 @@ Options:
                 .BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory(Skip = "vs-solutionpersistence does not allow duplicate references.")]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod(IgnoreMessage = "vs-solutionpersistence does not allow duplicate references.")]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public async Task WhenDuplicateReferencesArePresentItRemovesThemAll(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -290,25 +290,25 @@ Options:
             solution.SolutionProjects.Count.Should().Be(3);
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "App.sln", "remove", projectToRemove);
             cmd.Should().Pass();
 
-            string outputText = string.Format(CommonLocalizableStrings.ProjectRemovedFromTheSolution, projectToRemove);
-            outputText += Environment.NewLine + outputText;
-            cmd.StdOut.Should().BeVisuallyEquivalentTo(outputText);
+            string testContextText = string.Format(CommonLocalizableStrings.ProjectRemovedFromTheSolution, projectToRemove);
+            testContextText += Environment.NewLine + testContextText;
+            cmd.StdOut.Should().BeVisuallyEquivalentTo(testContextText);
 
             solution = await serializer.OpenAsync(solutionPath, CancellationToken.None);
             solution.SolutionProjects.Count.Should().Be(1);
             solution.SolutionProjects.Single().FilePath.Should().Be(Path.Combine("App", "App.csproj"));
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenPassedMultipleReferencesAndOneOfThemDoesNotExistItRemovesTheOneThatExists(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -324,27 +324,27 @@ Options:
             solution.SolutionProjects.Count.Should().Be(2);
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", "idontexist.csproj", projectToRemove, "idontexisteither.csproj");
             cmd.Should().Pass();
 
-            string outputText = $@"{string.Format(CommonLocalizableStrings.ProjectNotFoundInTheSolution, "idontexist.csproj")}
+            string testContextText = $@"{string.Format(CommonLocalizableStrings.ProjectNotFoundInTheSolution, "idontexist.csproj")}
 {string.Format(CommonLocalizableStrings.ProjectRemovedFromTheSolution, projectToRemove)}
 {string.Format(CommonLocalizableStrings.ProjectNotFoundInTheSolution, "idontexisteither.csproj")}";
 
-            cmd.StdOut.Should().BeVisuallyEquivalentTo(outputText);
+            cmd.StdOut.Should().BeVisuallyEquivalentTo(testContextText);
 
             solution = await serializer.OpenAsync(solutionPath, CancellationToken.None);
             solution.SolutionProjects.Count.Should().Be(1);
             solution.SolutionProjects.Single().FilePath.Should().Be(Path.Combine("App", "App.csproj"));
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenReferenceIsRemovedBuildConfigsAreAlsoRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -360,7 +360,7 @@ Options:
             solution.SolutionProjects.Count.Should().Be(2);
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -370,11 +370,11 @@ Options:
                 .Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenDirectoryContainingProjectIsGivenProjectIsRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -389,7 +389,7 @@ Options:
 
             solution.SolutionProjects.Count.Should().Be(2);
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", "Lib");
             cmd.Should().Pass();
@@ -399,11 +399,11 @@ Options:
                 .Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenDirectoryContainsNoProjectsItCancelsWholeOperation(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -412,7 +412,7 @@ Options:
                 .Path;
             var directoryToRemove = "Empty";
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", directoryToRemove);
             cmd.Should().Fail();
@@ -423,11 +423,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenDirectoryContainsMultipleProjectsItCancelsWholeOperation(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -436,7 +436,7 @@ Options:
                 .Path;
             var directoryToRemove = "Multiple";
 
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", directoryToRemove);
             cmd.Should().Fail();
@@ -447,11 +447,11 @@ Options:
             cmd.StdOut.Should().BeVisuallyEquivalentToIfNotLocalized("");
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenReferenceIsRemovedSlnBuilds(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -467,35 +467,35 @@ Options:
             solution.SolutionProjects.Count.Should().Be(2);
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute($"restore", $"App{solutionExtension}")
                 .Should().Pass();
 
-            new DotnetCommand(Log)
+            new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute("build", $"App{solutionExtension}", "--configuration", "Release", "/p:ProduceReferenceAssembly=false")
                 .Should().Pass();
 
             var reasonString = "should be built in release mode, otherwise it means build configurations are missing from the sln file";
 
-            var outputCalculator = OutputPathCalculator.FromProject(Path.Combine(projectDirectory, "App"));
+            var testContextCalculator = OutputPathCalculator.FromProject(Path.Combine(projectDirectory, "App"));
 
-            new DirectoryInfo(outputCalculator.GetOutputDirectory(configuration: "Debug")).Should().NotExist(reasonString);
+            new DirectoryInfo(testContextCalculator.GetOutputDirectory(configuration: "Debug")).Should().NotExist(reasonString);
 
-            var outputDirectory = new DirectoryInfo(outputCalculator.GetOutputDirectory(configuration: "Release"));
+            var outputDirectory = new DirectoryInfo(testContextCalculator.GetOutputDirectory(configuration: "Release"));
             outputDirectory.Should().Exist();
             outputDirectory.Should().HaveFile("App.dll");
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenProjectIsRemovedSolutionHasUTF8BOM(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -504,7 +504,7 @@ Options:
                 .Path;
 
             var projectToRemove = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "App.sln", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -521,11 +521,11 @@ Options:
             }
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public async Task WhenFinalReferenceIsRemovedEmptySectionsAreRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -541,7 +541,7 @@ Options:
 
             var appPath = Path.Combine("App", "App.csproj");
             var libPath = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", libPath, appPath);
             cmd.Should().Pass();
@@ -551,11 +551,11 @@ Options:
             solutionContents.Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenNestedProjectIsRemovedItsSolutionFoldersAreRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -566,7 +566,7 @@ Options:
             var solutionPath = Path.Combine(projectDirectory, $"App{solutionExtension}");
 
             var projectToRemove = Path.Combine("src", "NotLastProjInSrc", "NotLastProjInSrc.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -576,11 +576,11 @@ Options:
                 .Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenFinalNestedProjectIsRemovedSolutionFoldersAreRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -591,7 +591,7 @@ Options:
             var solutionPath = Path.Combine(projectDirectory, $"App{solutionExtension}");
 
             var projectToRemove = Path.Combine("src", "Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -601,11 +601,11 @@ Options:
                 .Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln", ".sln")]
-        [InlineData("solution", ".sln")]
-        [InlineData("sln", ".slnx")]
-        [InlineData("solution", ".slnx")]
+        [TestMethod]
+        [DataRow("sln", ".sln")]
+        [DataRow("solution", ".sln")]
+        [DataRow("sln", ".slnx")]
+        [DataRow("solution", ".slnx")]
         public void WhenProjectIsRemovedThenDependenciesOnProjectAreAlsoRemoved(string solutionCommand, string solutionExtension)
         {
             var projectDirectory = _testAssetsManager
@@ -616,7 +616,7 @@ Options:
             var solutionPath = Path.Combine(projectDirectory, $"App{solutionExtension}");
 
             var projectToRemove = Path.Combine("Second", "Second.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, $"App{solutionExtension}", "remove", projectToRemove);
             cmd.Should().Pass();
@@ -626,9 +626,9 @@ Options:
                 .Should().BeVisuallyEquivalentTo(templateContents);
         }
 
-        [Theory]
-        [InlineData("sln")]
-        [InlineData("solution")]
+        [TestMethod]
+        [DataRow("sln")]
+        [DataRow("solution")]
         public void WhenSolutionIsPassedAsProjectItPrintsSuggestionAndUsage(string solutionCommand)
         {
             var projectDirectory = _testAssetsManager
@@ -637,7 +637,7 @@ Options:
                 .Path;
 
             var projectArg = Path.Combine("Lib", "Lib.csproj");
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .WithWorkingDirectory(projectDirectory)
                 .Execute(solutionCommand, "remove", "App.sln", projectArg);
             cmd.Should().Fail();

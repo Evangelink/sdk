@@ -7,15 +7,15 @@ namespace Microsoft.NET.Build.Containers.UnitTests;
 
 public class ImageIndexGeneratorTests
 {
-    [Fact]
+    [TestMethod]
     public void ImagesCannotBeEmpty()
     {
         ImageInfo[] images = Array.Empty<ImageInfo>();
         var ex = Assert.Throws<ArgumentException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal(Strings.ImagesEmpty, ex.Message);
+        Assert.AreEqual(Strings.ImagesEmpty, ex.Message);
     }
 
-    [Fact]
+    [TestMethod]
     public void UnsupportedMediaTypeThrows()
     {
         ImageInfo[] images = new ImageInfo[]
@@ -27,12 +27,12 @@ public class ImageIndexGeneratorTests
         };
 
         var ex = Assert.Throws<NotSupportedException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal(string.Format(Strings.UnsupportedMediaType, "unsupported"), ex.Message);
+        Assert.AreEqual(string.Format(Strings.UnsupportedMediaType, "unsupported"), ex.Message);
     }
 
-    [Theory]
-    [InlineData(SchemaTypes.DockerManifestV2)]
-    [InlineData(SchemaTypes.OciManifestV1)]
+    [TestMethod]
+    [DataRow(SchemaTypes.DockerManifestV2)]
+    [DataRow(SchemaTypes.OciManifestV1)]
     public void ConfigIsNotJsonObjectThrows(string supportedMediaType)
     {
         ImageInfo[] images = new ImageInfo[]
@@ -46,12 +46,12 @@ public class ImageIndexGeneratorTests
         };
 
         var ex = Assert.Throws<ArgumentException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal($"Config should be a JSON object. (Parameter 'Config')", ex.Message);
+        Assert.AreEqual($"Config should be a JSON object. (Parameter 'Config')", ex.Message);
     }
 
-    [Theory]
-    [InlineData(SchemaTypes.DockerManifestV2)]
-    [InlineData(SchemaTypes.OciManifestV1)]
+    [TestMethod]
+    [DataRow(SchemaTypes.DockerManifestV2)]
+    [DataRow(SchemaTypes.OciManifestV1)]
     public void ConfigDoesNotContainArchitectureThrows(string supportedMediaType)
     {
         ImageInfo[] images = new ImageInfo[]
@@ -65,12 +65,12 @@ public class ImageIndexGeneratorTests
         };
 
         var ex = Assert.Throws<ArgumentException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal($"Config should contain 'architecture'. (Parameter 'Config')", ex.Message);
+        Assert.AreEqual($"Config should contain 'architecture'. (Parameter 'Config')", ex.Message);
     }
 
-    [Theory]
-    [InlineData(SchemaTypes.DockerManifestV2)]
-    [InlineData(SchemaTypes.OciManifestV1)]
+    [TestMethod]
+    [DataRow(SchemaTypes.DockerManifestV2)]
+    [DataRow(SchemaTypes.OciManifestV1)]
     public void ConfigDoesNotContainOsThrows(string supportedMediaType)
     {
         ImageInfo[] images = new ImageInfo[]
@@ -84,12 +84,12 @@ public class ImageIndexGeneratorTests
         };
 
         var ex = Assert.Throws<ArgumentException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal($"Config should contain 'os'. (Parameter 'Config')", ex.Message);
+        Assert.AreEqual($"Config should contain 'os'. (Parameter 'Config')", ex.Message);
     }
 
-    [Theory]
-    [InlineData(SchemaTypes.DockerManifestV2)]
-    [InlineData(SchemaTypes.OciManifestV1)]
+    [TestMethod]
+    [DataRow(SchemaTypes.DockerManifestV2)]
+    [DataRow(SchemaTypes.OciManifestV1)]
     public void ImagesWithMixedMediaTypes(string supportedMediaType)
     {
         ImageInfo[] images = new ImageInfo[]
@@ -109,10 +109,10 @@ public class ImageIndexGeneratorTests
         };
 
         var ex = Assert.Throws<ArgumentException>(() => ImageIndexGenerator.GenerateImageIndex(images));
-        Assert.Equal(Strings.MixedMediaTypes, ex.Message);
+        Assert.AreEqual(Strings.MixedMediaTypes, ex.Message);
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateDockerManifestList()
     {
         ImageInfo[] images =
@@ -134,11 +134,11 @@ public class ImageIndexGeneratorTests
         ];
 
         var (imageIndex, mediaType) = ImageIndexGenerator.GenerateImageIndex(images);
-        Assert.Equal("{\"schemaVersion\":2,\"mediaType\":\"application/vnd.docker.distribution.manifest.list.v2\\u002Bjson\",\"manifests\":[{\"mediaType\":\"application/vnd.docker.distribution.manifest.v2\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest1\",\"platform\":{\"architecture\":\"arch1\",\"os\":\"os1\",\"variant\":null,\"features\":null,\"os.version\":null}},{\"mediaType\":\"application/vnd.docker.distribution.manifest.v2\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest2\",\"platform\":{\"architecture\":\"arch2\",\"os\":\"os2\",\"variant\":null,\"features\":null,\"os.version\":null}}]}", imageIndex);
-        Assert.Equal(SchemaTypes.DockerManifestListV2, mediaType);
+        Assert.AreEqual("{\"schemaVersion\":2,\"mediaType\":\"application/vnd.docker.distribution.manifest.list.v2\\u002Bjson\",\"manifests\":[{\"mediaType\":\"application/vnd.docker.distribution.manifest.v2\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest1\",\"platform\":{\"architecture\":\"arch1\",\"os\":\"os1\",\"variant\":null,\"features\":null,\"os.version\":null}},{\"mediaType\":\"application/vnd.docker.distribution.manifest.v2\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest2\",\"platform\":{\"architecture\":\"arch2\",\"os\":\"os2\",\"variant\":null,\"features\":null,\"os.version\":null}}]}", imageIndex);
+        Assert.AreEqual(SchemaTypes.DockerManifestListV2, mediaType);
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateOciImageIndex()
     {
         ImageInfo[] images = new ImageInfo[]
@@ -160,7 +160,7 @@ public class ImageIndexGeneratorTests
         };
 
         var (imageIndex, mediaType) = ImageIndexGenerator.GenerateImageIndex(images);
-        Assert.Equal("{\"schemaVersion\":2,\"mediaType\":\"application/vnd.oci.image.index.v1\\u002Bjson\",\"manifests\":[{\"mediaType\":\"application/vnd.oci.image.manifest.v1\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest1\",\"platform\":{\"architecture\":\"arch1\",\"os\":\"os1\",\"variant\":null,\"features\":null,\"os.version\":null}},{\"mediaType\":\"application/vnd.oci.image.manifest.v1\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest2\",\"platform\":{\"architecture\":\"arch2\",\"os\":\"os2\",\"variant\":null,\"features\":null,\"os.version\":null}}]}", imageIndex);
-        Assert.Equal(SchemaTypes.OciImageIndexV1, mediaType);
+        Assert.AreEqual("{\"schemaVersion\":2,\"mediaType\":\"application/vnd.oci.image.index.v1\\u002Bjson\",\"manifests\":[{\"mediaType\":\"application/vnd.oci.image.manifest.v1\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest1\",\"platform\":{\"architecture\":\"arch1\",\"os\":\"os1\",\"variant\":null,\"features\":null,\"os.version\":null}},{\"mediaType\":\"application/vnd.oci.image.manifest.v1\\u002Bjson\",\"size\":3,\"digest\":\"sha256:digest2\",\"platform\":{\"architecture\":\"arch2\",\"os\":\"os2\",\"variant\":null,\"features\":null,\"os.version\":null}}]}", imageIndex);
+        Assert.AreEqual(SchemaTypes.OciImageIndexV1, mediaType);
     }
 }

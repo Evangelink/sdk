@@ -9,23 +9,23 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAnAppWithoutTransitiveProjectRefs : SdkTest
     {
-        public GivenThatWeWantToBuildAnAppWithoutTransitiveProjectRefs(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAnAppWithoutTransitiveProjectRefs(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully_when_RAR_finds_all_references()
         {
             BuildAppWithTransitiveDependenciesAndTransitiveCompileReference(new[] { "/p:DisableTransitiveProjectReferences=true" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully_with_static_graph_and_isolation()
         {
             BuildAppWithTransitiveDependenciesAndTransitiveCompileReference(new[] { "/graph" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_cleans_the_project_successfully_with_static_graph_and_isolation()
         {
             var (testAsset, outputDirectories) = BuildAppWithTransitiveDependenciesAndTransitiveCompileReference(new[] { "/graph" });
@@ -139,7 +139,7 @@ namespace Microsoft.NET.Build.Tests
             return (testAsset, outputDirectories);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_project_successfully_when_RAR_does_not_find_all_references()
         {
             var testAsset = _testAssetsManager.CreateTestProject(GraphWithoutRuntimeDependencies());
@@ -164,7 +164,7 @@ namespace Microsoft.NET.Build.Tests
                 $"1{EnvironmentInfo.ExecutableExtension}",
             });
 
-            new DotnetCommand(Log, Path.Combine(outputDirectory.FullName, "1.dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "1.dll"))
                 .Execute()
                 .Should()
                 .Pass()

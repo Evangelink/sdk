@@ -15,12 +15,12 @@ public class ImageBuilderTests
 
     private static readonly string StaticKnownDigestValue = "sha256:338c0b702da88157ba4bb706678e43346ece2e4397b888d59fb2d9f6113c8070";
 
-    public ImageBuilderTests(ITestOutputHelper output)
+    public ImageBuilderTests(MSTestContext testContext)
     {
-        _loggerFactory = new TestLoggerFactory(output);
+        _loggerFactory = new TestLoggerFactory(testContext);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanAddLabelsToImage()
     {
         string simpleImageConfig =
@@ -68,7 +68,7 @@ public class ImageBuilderTests
                 """;
 
         JsonNode? node = JsonNode.Parse(simpleImageConfig);
-        Assert.NotNull(node);
+        Assert.IsNotNull(node);
 
         ImageConfig baseConfig = new(node);
 
@@ -80,14 +80,14 @@ public class ImageBuilderTests
         JsonNode? result = JsonNode.Parse(readyImage);
 
         var resultLabels = result?["config"]?["Labels"] as JsonObject;
-        Assert.NotNull(resultLabels);
+        Assert.IsNotNull(resultLabels);
 
-        Assert.Equal(2, resultLabels.Count);
-        Assert.Equal("v1", resultLabels["testLabel1"]?.ToString());
-        Assert.Equal("v2", resultLabels["testLabel2"]?.ToString());
+        Assert.AreEqual(2, resultLabels.Count);
+        Assert.AreEqual("v1", resultLabels["testLabel1"]?.ToString());
+        Assert.AreEqual("v2", resultLabels["testLabel2"]?.ToString());
     }
 
-    [Fact]
+    [TestMethod]
     public void CanPreserveExistingLabels()
     {
         string simpleImageConfig =
@@ -139,7 +139,7 @@ public class ImageBuilderTests
                 """;
 
         JsonNode? node = JsonNode.Parse(simpleImageConfig);
-        Assert.NotNull(node);
+        Assert.IsNotNull(node);
 
         ImageConfig baseConfig = new(node);
 
@@ -151,15 +151,15 @@ public class ImageBuilderTests
         JsonNode? result = JsonNode.Parse(readyImage);
 
         var resultLabels = result?["config"]?["Labels"] as JsonObject;
-        Assert.NotNull(resultLabels);
+        Assert.IsNotNull(resultLabels);
 
-        Assert.Equal(3, resultLabels.Count);
-        Assert.Equal("v1", resultLabels["testLabel1"]?.ToString());
-        Assert.Equal("v2", resultLabels["existing2"]?.ToString());
-        Assert.Equal("e1", resultLabels["existing"]?.ToString());
+        Assert.AreEqual(3, resultLabels.Count);
+        Assert.AreEqual("v1", resultLabels["testLabel1"]?.ToString());
+        Assert.AreEqual("v2", resultLabels["existing2"]?.ToString());
+        Assert.AreEqual("e1", resultLabels["existing"]?.ToString());
     }
 
-    [Fact]
+    [TestMethod]
     public void CanAddPortsToImage()
     {
         string simpleImageConfig =
@@ -207,7 +207,7 @@ public class ImageBuilderTests
                 """;
 
         JsonNode? node = JsonNode.Parse(simpleImageConfig);
-        Assert.NotNull(node);
+        Assert.IsNotNull(node);
 
         ImageConfig baseConfig = new(node);
 
@@ -219,14 +219,14 @@ public class ImageBuilderTests
         JsonNode? result = JsonNode.Parse(readyImage);
 
         var resultPorts = result?["config"]?["ExposedPorts"] as JsonObject;
-        Assert.NotNull(resultPorts);
+        Assert.IsNotNull(resultPorts);
 
-        Assert.Equal(2, resultPorts.Count);
-        Assert.NotNull(resultPorts["6000/tcp"] as JsonObject);
-        Assert.NotNull(resultPorts["6010/udp"] as JsonObject);
+        Assert.AreEqual(2, resultPorts.Count);
+        Assert.IsNotNull(resultPorts["6000/tcp"] as JsonObject);
+        Assert.IsNotNull(resultPorts["6010/udp"] as JsonObject);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanPreserveExistingPorts()
     {
         string simpleImageConfig =
@@ -279,7 +279,7 @@ public class ImageBuilderTests
                 """;
 
         JsonNode? node = JsonNode.Parse(simpleImageConfig);
-        Assert.NotNull(node);
+        Assert.IsNotNull(node);
 
         ImageConfig baseConfig = new(node);
 
@@ -293,17 +293,17 @@ public class ImageBuilderTests
         JsonNode? result = JsonNode.Parse(readyImage);
 
         var resultPorts = result?["config"]?["ExposedPorts"] as JsonObject;
-        Assert.NotNull(resultPorts);
+        Assert.IsNotNull(resultPorts);
 
-        Assert.Equal(5, resultPorts.Count);
-        Assert.NotNull(resultPorts["6000/tcp"] as JsonObject);
-        Assert.NotNull(resultPorts["6010/udp"] as JsonObject);
-        Assert.NotNull(resultPorts["6100/udp"] as JsonObject);
-        Assert.NotNull(resultPorts["6100/tcp"] as JsonObject);
-        Assert.NotNull(resultPorts["6200/tcp"] as JsonObject);
+        Assert.AreEqual(5, resultPorts.Count);
+        Assert.IsNotNull(resultPorts["6000/tcp"] as JsonObject);
+        Assert.IsNotNull(resultPorts["6010/udp"] as JsonObject);
+        Assert.IsNotNull(resultPorts["6100/udp"] as JsonObject);
+        Assert.IsNotNull(resultPorts["6100/tcp"] as JsonObject);
+        Assert.IsNotNull(resultPorts["6200/tcp"] as JsonObject);
     }
 
-    [Fact]
+    [TestMethod]
     public void HistoryEntriesMatchNonEmptyLayers()
     {
         // Note how the base image config is already "corrupt" by having
@@ -368,7 +368,7 @@ public class ImageBuilderTests
                 """;
 
         JsonNode? node = JsonNode.Parse(simpleImageConfig);
-        Assert.NotNull(node);
+        Assert.IsNotNull(node);
 
         ImageConfig baseConfig = new(node);
 
@@ -377,19 +377,19 @@ public class ImageBuilderTests
         JsonNode? result = JsonNode.Parse(readyImage);
 
         var historyNode = result?["history"];
-        Assert.NotNull(historyNode);
+        Assert.IsNotNull(historyNode);
 
         var layerDiffsNode = result?["rootfs"]?["diff_ids"];
-        Assert.NotNull(layerDiffsNode);
+        Assert.IsNotNull(layerDiffsNode);
 
         int nonEmptyHistoryNodes = historyNode.AsArray()
             .Count(h => h?.AsObject()["empty_layer"]?.GetValue<bool>() is null or false);
         int layerCount = layerDiffsNode.AsArray().Count;
-        Assert.Equal(nonEmptyHistoryNodes, layerCount);
+        Assert.AreEqual(nonEmptyHistoryNodes, layerCount);
     }
 
 
-    [Fact]
+    [TestMethod]
     public void CanSetUserFromAppUIDEnvVarFromBaseImage()
     {
         var expectedUid = "12345";
@@ -426,12 +426,12 @@ public class ImageBuilderTests
         var builtImage = builder.Build();
 
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var assignedUid = result["config"]?["User"]?.GetValue<string>();
-        Assert.Equal(assignedUid, expectedUid);
+        Assert.AreEqual(assignedUid, expectedUid);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanSetUserFromAppUIDEnvVarFromUser()
     {
         var expectedUid = "12345";
@@ -468,15 +468,15 @@ public class ImageBuilderTests
         var builtImage = builder.Build();
 
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var assignedUser = result["config"]?["User"]?.GetValue<string>();
-        Assert.Equal(assignedUser, expectedUid);
+        Assert.AreEqual(assignedUser, expectedUid);
     }
 
-    [InlineData("ASPNETCORE_URLS", "https://*:12345;http://+:1234;http://localhost:123;http://1.2.3.4:12", 12345, 1234, 123, 12)]
-    [InlineData("ASPNETCORE_HTTP_PORTS", "999;666", 999, 666)]
-    [InlineData("ASPNETCORE_HTTPS_PORTS", "456;789", 456, 789)]
-    [Theory]
+    [DataRow("ASPNETCORE_URLS", "https://*:12345;http://+:1234;http://localhost:123;http://1.2.3.4:12", 12345, 1234, 123, 12)]
+    [DataRow("ASPNETCORE_HTTP_PORTS", "999;666", 999, 666)]
+    [DataRow("ASPNETCORE_HTTPS_PORTS", "456;789", 456, 789)]
+    [TestMethod]
     public void CanSetPortFromEnvVarFromBaseImage(string envVar, string envValue, params int[] expectedPorts)
     {
         var builder = FromBaseImageConfig($$"""
@@ -512,16 +512,16 @@ public class ImageBuilderTests
         var builtImage = builder.Build();
 
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var portsObject = result["config"]?["ExposedPorts"]?.AsObject();
         var assignedPorts = portsObject?.AsEnumerable().Select(portString => int.Parse(portString.Key.Split('/')[0])).ToArray();
-        Assert.Equal(assignedPorts, expectedPorts);
+        Assert.AreEqual(assignedPorts, expectedPorts);
     }
 
-    [InlineData("ASPNETCORE_URLS", "https://*:12345;http://+:1234;http://localhost:123;http://1.2.3.4:12", 12345, 1234, 123, 12)]
-    [InlineData("ASPNETCORE_HTTP_PORTS", "999;666", 999, 666)]
-    [InlineData("ASPNETCORE_HTTPS_PORTS", "456;789", 456, 789)]
-    [Theory]
+    [DataRow("ASPNETCORE_URLS", "https://*:12345;http://+:1234;http://localhost:123;http://1.2.3.4:12", 12345, 1234, 123, 12)]
+    [DataRow("ASPNETCORE_HTTP_PORTS", "999;666", 999, 666)]
+    [DataRow("ASPNETCORE_HTTPS_PORTS", "456;789", 456, 789)]
+    [TestMethod]
     public void CanSetPortFromEnvVarFromUser(string envVar, string envValue, params int[] expectedPorts)
     {
         var builder = FromBaseImageConfig($$"""
@@ -558,14 +558,14 @@ public class ImageBuilderTests
         var builtImage = builder.Build();
 
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var portsObject = result["config"]?["ExposedPorts"]?.AsObject();
         var assignedPorts = portsObject?.AsEnumerable().Select(portString => int.Parse(portString.Key.Split('/')[0])).ToArray();
-        Assert.Equal(assignedPorts, expectedPorts);
+        Assert.AreEqual(assignedPorts, expectedPorts);
     }
 
 
-    [Fact]
+    [TestMethod]
     public void CanSetContainerUserAndOverrideAppUID()
     {
         var userId = "1646";
@@ -604,7 +604,7 @@ public class ImageBuilderTests
         config!["config"]?["User"]?.GetValue<string>().Should().Be(expected: userId, because: "The precedence of SetUser should override inferred user ids");
     }
 
-    [Fact]
+    [TestMethod]
     public void WhenMultipleUrlSourcesAreSetOnlyAspnetcoreUrlsIsUsed()
     {
         int[] expected = [12345];
@@ -641,13 +641,13 @@ public class ImageBuilderTests
         builder.AddEnvironmentVariable(ImageBuilder.EnvironmentVariables.ASPNETCORE_HTTPS_PORTS, "456");
         var builtImage = builder.Build();
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var portsObject = result["config"]?["ExposedPorts"]?.AsObject();
         var assignedPorts = portsObject?.AsEnumerable().Select(portString => int.Parse(portString.Key.Split('/')[0])).ToArray();
-        Assert.Equal(expected, assignedPorts);
+        Assert.AreEqual(expected, assignedPorts);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanSetBaseImageDigestLabel()
     {
         var builder = FromBaseImageConfig($$"""
@@ -682,7 +682,7 @@ public class ImageBuilderTests
         builder.AddBaseImageDigestLabel();
         var builtImage = builder.Build();
         JsonNode? result = JsonNode.Parse(builtImage.Config);
-        Assert.NotNull(result);
+        Assert.IsNotNull(result);
         var labels = result["config"]?["Labels"]?.AsObject();
         var digest = labels?.AsEnumerable().First(label => label.Key == "org.opencontainers.image.base.digest").Value!;
         digest.GetValue<string>().Should().Be(StaticKnownDigestValue);

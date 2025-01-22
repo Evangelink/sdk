@@ -10,11 +10,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildALibraryWithFSharp : SdkTest
     {
-        public GivenThatWeWantToBuildALibraryWithFSharp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildALibraryWithFSharp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_library_successfully()
         {
             var testAsset = _testAssetsManager
@@ -36,7 +36,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_the_library_twice_in_a_row()
         {
             var testAsset = _testAssetsManager
@@ -56,7 +56,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
         internal static List<string> GetValuesFromTestLibrary(
-            ITestOutputHelper log,
+            MSTestContext testContext,
             TestAssetsManager testAssetsManager,
             string itemTypeOrPropertyName,
             Action<GetValuesCommand> setup = null,
@@ -80,7 +80,7 @@ namespace Microsoft.NET.Build.Tests
 
             var libraryProjectDirectory = Path.Combine(testAsset.TestRoot, "TestLibrary");
 
-            var getValuesCommand = new GetValuesCommand(log, libraryProjectDirectory,
+            var getValuesCommand = new GetValuesCommand(testContext, libraryProjectDirectory,
                 targetFramework, itemTypeOrPropertyName, valueType);
 
             if (setup != null)
@@ -98,7 +98,7 @@ namespace Microsoft.NET.Build.Tests
             return itemValues;
         }
 
-        [Fact]
+        [TestMethod]
         public void The_build_fails_if_nuget_restore_has_not_occurred()
         {
             var testAsset = _testAssetsManager
@@ -112,7 +112,7 @@ namespace Microsoft.NET.Build.Tests
                 .Fail();
         }
 
-        [Fact]
+        [TestMethod]
         public void Restore_succeeds_even_if_the_project_extension_is_for_a_different_language()
         {
             var testAsset = _testAssetsManager
@@ -126,7 +126,7 @@ namespace Microsoft.NET.Build.Tests
 
             File.Move(oldProjectFile, newProjectFile);
 
-            var restoreCommand = new RestoreCommand(Log, libraryProjectDirectory, "TestLibrary.different_language_proj");
+            var restoreCommand = new RestoreCommand(MSTestContext, libraryProjectDirectory, "TestLibrary.different_language_proj");
 
             restoreCommand
                 .Execute()
@@ -134,11 +134,11 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Theory]
-        [InlineData("Debug", "DEBUG")]
-        [InlineData("Release", "RELEASE")]
-        [InlineData("CustomConfiguration", "CUSTOMCONFIGURATION")]
-        [InlineData("Debug-NetCore", "DEBUG_NETCORE")]
+        [TestMethod]
+        [DataRow("Debug", "DEBUG")]
+        [DataRow("Release", "RELEASE")]
+        [DataRow("CustomConfiguration", "CUSTOMCONFIGURATION")]
+        [DataRow("Debug-NetCore", "DEBUG_NETCORE")]
         public void It_implicitly_defines_compilation_constants_for_the_configuration(string configuration, string expectedDefine)
         {
             var testAsset = _testAssetsManager
@@ -147,7 +147,7 @@ namespace Microsoft.NET.Build.Tests
 
             var libraryProjectDirectory = Path.Combine(testAsset.TestRoot, "TestLibrary");
 
-            var getValuesCommand = new GetValuesCommand(Log, libraryProjectDirectory,
+            var getValuesCommand = new GetValuesCommand(MSTestContext, libraryProjectDirectory,
                 "netstandard1.6", "DefineConstants")
             {
                 ShouldCompile = true,
@@ -165,14 +165,14 @@ namespace Microsoft.NET.Build.Tests
                 "NETSTANDARD1_2_OR_GREATER", "NETSTANDARD1_3_OR_GREATER", "NETSTANDARD1_4_OR_GREATER", "NETSTANDARD1_5_OR_GREATER", "NETSTANDARD1_6_OR_GREATER" });
         }
 
-        [Theory]
-        [InlineData("netstandard1.6", new[] { "NETSTANDARD", "NETSTANDARD1_6", "NETSTANDARD1_0_OR_GREATER", "NETSTANDARD1_1_OR_GREATER", "NETSTANDARD1_2_OR_GREATER",
+        [TestMethod]
+        [DataRow("netstandard1.6", new[] { "NETSTANDARD", "NETSTANDARD1_6", "NETSTANDARD1_0_OR_GREATER", "NETSTANDARD1_1_OR_GREATER", "NETSTANDARD1_2_OR_GREATER",
             "NETSTANDARD1_3_OR_GREATER", "NETSTANDARD1_4_OR_GREATER", "NETSTANDARD1_5_OR_GREATER", "NETSTANDARD1_6_OR_GREATER" })]
-        [InlineData("net45", new[] { "NETFRAMEWORK", "NET45", "NET20_OR_GREATER", "NET30_OR_GREATER", "NET35_OR_GREATER", "NET40_OR_GREATER", "NET45_OR_GREATER" })]
-        [InlineData("net461", new[] { "NETFRAMEWORK", "NET461", "NET20_OR_GREATER", "NET30_OR_GREATER", "NET35_OR_GREATER", "NET40_OR_GREATER", "NET45_OR_GREATER",
+        [DataRow("net45", new[] { "NETFRAMEWORK", "NET45", "NET20_OR_GREATER", "NET30_OR_GREATER", "NET35_OR_GREATER", "NET40_OR_GREATER", "NET45_OR_GREATER" })]
+        [DataRow("net461", new[] { "NETFRAMEWORK", "NET461", "NET20_OR_GREATER", "NET30_OR_GREATER", "NET35_OR_GREATER", "NET40_OR_GREATER", "NET45_OR_GREATER",
             "NET451_OR_GREATER", "NET452_OR_GREATER", "NET46_OR_GREATER", "NET461_OR_GREATER" })]
-        [InlineData("netcoreapp2.0", new[] { "NETCOREAPP", "NETCOREAPP2_0", "NETCOREAPP1_0_OR_GREATER", "NETCOREAPP1_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER" })]
-        [InlineData("net5.0", new[] { "NETCOREAPP", "NET", "NET5_0", "NETCOREAPP1_0_OR_GREATER", "NETCOREAPP1_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER",
+        [DataRow("netcoreapp2.0", new[] { "NETCOREAPP", "NETCOREAPP2_0", "NETCOREAPP1_0_OR_GREATER", "NETCOREAPP1_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER" })]
+        [DataRow("net5.0", new[] { "NETCOREAPP", "NET", "NET5_0", "NETCOREAPP1_0_OR_GREATER", "NETCOREAPP1_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER",
             "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_2_OR_GREATER", "NETCOREAPP3_0_OR_GREATER", "NETCOREAPP3_1_OR_GREATER", "NET5_0_OR_GREATER" })]
         public void It_implicitly_defines_compilation_constants_for_the_target_framework(string targetFramework, string[] expectedDefines)
         {
@@ -214,7 +214,7 @@ namespace Microsoft.NET.Build.Tests
 
             var libraryProjectDirectory = Path.Combine(testAsset.TestRoot, "TestLibrary");
 
-            var getValuesCommand = new GetValuesCommand(Log, libraryProjectDirectory,
+            var getValuesCommand = new GetValuesCommand(MSTestContext, libraryProjectDirectory,
                 targetFramework, "DefineConstants")
             {
                 DependsOnTargets = "AddImplicitDefineConstants"

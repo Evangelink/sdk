@@ -7,14 +7,14 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 {
     public class GivenDotnetRunThrowsAParseError : SdkTest
     {
-        public GivenDotnetRunThrowsAParseError(ITestOutputHelper log) : base(log)
+        public GivenDotnetRunThrowsAParseError(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItFailsWithAnAppropriateErrorMessage()
         {
-            new DotnetCommand(Log, "run")
+            new DotnetCommand(MSTestContext, "run")
                 // executing in a known path, with no project, is a sure way to get run to throw a parse error
                 .WithWorkingDirectory(Path.GetTempPath())
                 .Execute("--", "1")

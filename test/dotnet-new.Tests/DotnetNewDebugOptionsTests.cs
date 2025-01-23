@@ -7,11 +7,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class DotnetNewDebugOptionsTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public DotnetNewDebugOptionsTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -20,7 +17,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string cacheFilePath = Path.Combine(home, "dotnetcli", Product.Version, "templatecache.json");
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(home)
                 .Execute();
 
@@ -28,7 +25,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(File.Exists(cacheFilePath));
             DateTime lastUpdateDate = File.GetLastWriteTimeUtc(cacheFilePath);
 
-            CommandResult reinitCommandResult = new DotnetNewCommand(_testContext, "--debug:reinit")
+            CommandResult reinitCommandResult = new DotnetNewCommand(MSTestContext, "--debug:reinit")
                .WithCustomHive(home)
                .Execute();
 
@@ -44,7 +41,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string cacheFilePath = Path.Combine(home, "dotnetcli", Product.Version, "templatecache.json");
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(home)
                 .Execute();
 
@@ -52,7 +49,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(File.Exists(cacheFilePath));
             DateTime lastUpdateDate = File.GetLastWriteTimeUtc(cacheFilePath);
 
-            CommandResult reinitCommandResult = new DotnetNewCommand(_testContext, "--debug:rebuildcache")
+            CommandResult reinitCommandResult = new DotnetNewCommand(MSTestContext, "--debug:rebuildcache")
                .WithCustomHive(home)
                .Execute();
 
@@ -66,7 +63,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public Task CanShowConfigWithDebugShowConfig()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "--debug:show-config")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "--debug:show-config")
                .WithCustomHive(home)
                .Execute();
 
@@ -95,20 +92,20 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string envVariable = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "USERPROFILE" : "HOME";
 
-            new DotnetNewCommand(_testContext, "--debug:ephemeral-hive")
+            new DotnetNewCommand(MSTestContext, "--debug:ephemeral-hive")
                .WithoutCustomHive()
                .WithEnvironmentVariable(envVariable, home)
                .Execute()
                .Should().Pass().And.NotHaveStdErr();
 
-            Assert.HasCount(0, new DirectoryInfo(home).EnumerateFiles());
+            Assert.IsEmpty(new DirectoryInfo(home).EnumerateFiles());
         }
 
         [TestMethod]
         public void DoesCreateCacheInDifferentLocationWhenCustomHiveIsUsed()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "--debug:custom-hive", home)
+            new DotnetNewCommand(MSTestContext, "--debug:custom-hive", home)
                .WithoutCustomHive()
                .Execute()
                .Should().Pass().And.NotHaveStdErr();
@@ -123,7 +120,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void CanDisableBuiltInTemplates_List()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "list", "--debug:disable-sdk-templates")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "list", "--debug:disable-sdk-templates")
                 .WithCustomHive(CreateTemporaryFolder())
                 .Execute();
 
@@ -137,7 +134,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void CanDisableBuiltInTemplates_Instantiate()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--debug:disable-sdk-templates")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "console", "--debug:disable-sdk-templates")
                 .WithCustomHive(CreateTemporaryFolder())
                 .Execute();
 

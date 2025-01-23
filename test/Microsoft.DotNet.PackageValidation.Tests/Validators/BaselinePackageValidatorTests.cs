@@ -61,8 +61,8 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
                 targetFrameworkFilter: targetFrameworkRegexFilter));
 
             Assert.Contains(string.Format(Resources.BaselineTargetFrameworksIgnored, "netcoreapp3.1"), log.info);
-            Assert.HasCount(0, log.warnings);
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.warnings);
+            Assert.IsEmpty(log.errors);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
             Assert.Contains(DiagnosticIds.BaselineTargetFrameworkIgnoredButPresentInCurrentPackage + " " +
                 string.Format(Resources.BaselineTargetFrameworkIgnoredButPresentInCurrentPackage, "portable-net45+win8+wp8+wpa81"),
                 log.warnings);
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
         }
     }
 }

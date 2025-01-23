@@ -66,7 +66,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             apiCompatRunner.EnqueueWorkItem(new ApiCompatRunnerWorkItem(left, new ApiCompatRunnerOptions(), right1));
             apiCompatRunner.EnqueueWorkItem(new ApiCompatRunnerWorkItem(left, new ApiCompatRunnerOptions(), right2));
 
-            Assert.HasCount(1, apiCompatRunner.WorkItems);
+            Assert.ContainsSingle(apiCompatRunner.WorkItems);
             Assert.AreEqual(2, apiCompatRunner.WorkItems.First().Right.Count);
         }
 
@@ -81,8 +81,8 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             apiCompatRunner.EnqueueWorkItem(new ApiCompatRunnerWorkItem(left, new ApiCompatRunnerOptions(), right));
             apiCompatRunner.EnqueueWorkItem(new ApiCompatRunnerWorkItem(left, new ApiCompatRunnerOptions(), right));
 
-            Assert.HasCount(1, apiCompatRunner.WorkItems);
-            Assert.HasCount(1, apiCompatRunner.WorkItems.First().Right);
+            Assert.ContainsSingle(apiCompatRunner.WorkItems);
+            Assert.ContainsSingle(apiCompatRunner.WorkItems.First().Right);
         }
 
         [TestMethod]
@@ -105,9 +105,9 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
         {
             ApiCompatRunner apiCompatRunner = MockApiCompatRunner();
 
-            Assert.HasCount(0, apiCompatRunner.WorkItems);
+            Assert.IsEmpty(apiCompatRunner.WorkItems);
             apiCompatRunner.ExecuteWorkItems();
-            Assert.HasCount(0, apiCompatRunner.WorkItems);
+            Assert.IsEmpty(apiCompatRunner.WorkItems);
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             apiCompatRunner.EnqueueWorkItem(new ApiCompatRunnerWorkItem(left, options, right));
             apiCompatRunner.ExecuteWorkItems();
 
-            Assert.HasCount(0, apiCompatRunner.WorkItems);
+            Assert.IsEmpty(apiCompatRunner.WorkItems);
         }
     }
 }

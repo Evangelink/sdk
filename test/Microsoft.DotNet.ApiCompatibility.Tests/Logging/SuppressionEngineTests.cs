@@ -18,7 +18,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             suppressionEngine.AddSuppression(suppression);
             suppressionEngine.AddSuppression(suppression);
 
-            Assert.HasCount(1, suppressionEngine.Suppressions);
+            Assert.ContainsSingle(suppressionEngine.Suppressions);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             TestSuppressionEngine suppressionEngine = new();
             suppressionEngine.LoadSuppressions("NonExistentFile.xml");
 
-            Assert.HasCount(0, suppressionEngine.Suppressions);
+            Assert.IsEmpty(suppressionEngine.Suppressions);
             Assert.NotEmpty(suppressionEngine.BaselineSuppressions);
         }
 
@@ -104,7 +104,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             var (suppressionFileUpdated, updatedSuppressions) = suppressionEngine.WriteSuppressionsToFile(filePath);
 
             Assert.IsTrue(suppressionFileUpdated);
-            Assert.HasCount(0, updatedSuppressions);
+            Assert.IsEmpty(updatedSuppressions);
         }
 
         [TestMethod]
@@ -143,11 +143,11 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
         public void SuppressionEngine_WriteSuppressionsToFile_ReturnsEmptyWithEmptyFilePath()
         {
             EmptyTestSuppressionEngine suppressionEngine = new();
-            Assert.HasCount(0, suppressionEngine.Suppressions);
+            Assert.IsEmpty(suppressionEngine.Suppressions);
 
             var (suppressionFileUpdated, updatedSuppressions) = suppressionEngine.WriteSuppressionsToFile(string.Empty, preserveUnnecessarySuppressions: true);
             Assert.IsFalse(suppressionFileUpdated);
-            Assert.HasCount(0, updatedSuppressions);
+            Assert.IsEmpty(updatedSuppressions);
         }
 
         [TestMethod]

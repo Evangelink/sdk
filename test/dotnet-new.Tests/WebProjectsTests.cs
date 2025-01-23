@@ -8,12 +8,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public class WebProjectsTests : BaseIntegrationTest, IClassFixture<WebProjectsFixture>
     {
         private readonly WebProjectsFixture _fixture;
-        private readonly MSTestContext _testContext;
 
         public WebProjectsTests(WebProjectsFixture fixture, MSTestContext testContext) : base(testContext)
         {
             _fixture = fixture;
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -42,7 +40,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDir = Path.Combine(_fixture.BaseWorkingDirectory, testName);
             Directory.CreateDirectory(workingDir);
 
-            new DotnetNewCommand(_testContext, args)
+            new DotnetNewCommand(MSTestContext, args)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDir)
                 .Execute()
@@ -51,7 +49,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetRestoreCommand(_testContext)
+            new DotnetRestoreCommand(MSTestContext)
                 .WithWorkingDirectory(workingDir)
                 .Execute()
                 .Should()
@@ -59,7 +57,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetBuildCommand(_testContext)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(workingDir)
                 .Execute()
                 .Should()
@@ -73,7 +71,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public Task CanShowHelp_WebAPI()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "webapi", "-h")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "webapi", "-h")
                .WithCustomHive(_fixture.HomeDirectory)
                .WithWorkingDirectory(_fixture.BaseWorkingDirectory)
                .Execute();
@@ -90,7 +88,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public Task CanShowHelp_Mvc()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "mvc", "-h")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "mvc", "-h")
                .WithCustomHive(_fixture.HomeDirectory)
                .WithWorkingDirectory(_fixture.BaseWorkingDirectory)
                .Execute();
@@ -110,7 +108,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("razor")]
         public Task CanShowHelp_Webapp(string templateName)
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "-h")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "-h")
                .WithCustomHive(_fixture.HomeDirectory)
                .WithWorkingDirectory(_fixture.BaseWorkingDirectory)
                .Execute();

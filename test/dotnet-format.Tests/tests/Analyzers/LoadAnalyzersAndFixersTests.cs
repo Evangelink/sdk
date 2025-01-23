@@ -38,10 +38,10 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
             };
 
             var (analyzers, fixers) = GetAnalyzersAndFixers(assemblies, LanguageNames.CSharp);
-            var analyzer = Assert.HasCount(1, analyzers);
-            var fixer = Assert.HasCount(1, fixers);
-            var analyzerDiagnosticDescriptor = Assert.HasCount(1, analyzer.SupportedDiagnostics);
-            var fixerDiagnosticId = Assert.HasCount(1, fixer.FixableDiagnosticIds);
+            var analyzer = Assert.ContainsSingle(analyzers);
+            var fixer = Assert.ContainsSingle(fixers);
+            var analyzerDiagnosticDescriptor = Assert.ContainsSingle(analyzer.SupportedDiagnostics);
+            var fixerDiagnosticId = Assert.ContainsSingle(fixer.FixableDiagnosticIds);
             Assert.AreEqual(analyzerDiagnosticDescriptor.Id, fixerDiagnosticId);
         }
 

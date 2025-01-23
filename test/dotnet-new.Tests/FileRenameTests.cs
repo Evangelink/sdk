@@ -5,11 +5,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class FileRenameTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public FileRenameTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -17,8 +14,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithFileRenameDate", _testContext, home, workingDirectory);
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithFileRenameDate", "--migrationName", "MyTestName")
+            InstallTestTemplate("TemplateWithFileRenameDate", MSTestContext, home, workingDirectory);
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithFileRenameDate", "--migrationName", "MyTestName")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()

@@ -20,7 +20,7 @@ namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
         {
             CSharpCompilation compilation = CreateCSharpCompilationFromSyntax(syntax, assemblyName, enableNullable, publicKey, allowUnsafe);
 
-            Assert.HasCount(0, compilation.GetDiagnostics());
+            Assert.IsEmpty(compilation.GetDiagnostics());
 
             string assemblyDir = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid().ToString("D").Substring(0, 4)}-{assemblyName}");
             Directory.CreateDirectory(assemblyDir);
@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
         {
             CSharpCompilation compilation = CreateCSharpCompilationFromSyntax(syntax, assemblyName, enableNullable, publicKey, allowUnsafe);
 
-            Assert.HasCount(0, compilation.GetDiagnostics());
+            Assert.IsEmpty(compilation.GetDiagnostics());
 
             MemoryStream stream = new();
             compilation.Emit(stream);
@@ -54,7 +54,7 @@ namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
         {
             CSharpCompilation compilation = CreateCSharpCompilationFromSyntax(syntax, assemblyName, enableNullable, publicKey, allowUnsafe);
 
-            Assert.HasCount(0, compilation.GetDiagnostics());
+            Assert.IsEmpty(compilation.GetDiagnostics());
 
             return compilation.Assembly;
         }
@@ -71,7 +71,7 @@ namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
 
             compilation = compilation.AddReferences(compilationWithReferences.ToMetadataReference());
 
-            Assert.HasCount(0, compilation.GetDiagnostics());
+            Assert.IsEmpty(compilation.GetDiagnostics());
 
             return compilation.Assembly;
         }

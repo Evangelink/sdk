@@ -7,12 +7,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class TemplateDiscoveryTests : BaseIntegrationTest, IClassFixture<TemplateDiscoveryTool>
     {
-        private readonly MSTestContext _testContext;
         private readonly TemplateDiscoveryTool _templateDiscoveryTool;
 
         public TemplateDiscoveryTests(MSTestContext testContext, TemplateDiscoveryTool templateDiscoveryTool) : base(testContext)
         {
-            _testContext = testContext;
             _templateDiscoveryTool = templateDiscoveryTool;
         }
 
@@ -20,14 +18,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public async Task CanRunDiscoveryTool()
         {
             string testDir = CreateTemporaryFolder();
-            string testTemplatesPackagePath = PackTestNuGetPackage(_testContext);
+            string testTemplatesPackagePath = PackTestNuGetPackage(MSTestContext);
             using var packageManager = new PackageManager();
             string packagePath = await packageManager.GetNuGetPackage(
                 templatePackName: "Microsoft.Azure.WebJobs.ProjectTemplates",
                 downloadDirectory: Path.GetDirectoryName(testTemplatesPackagePath));
 
             _templateDiscoveryTool.Run(
-                _testContext,
+                MSTestContext,
                 "--basePath",
                 testDir,
                 "--packagesPath",
@@ -44,7 +42,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             foreach (var cacheFilePath in cacheFilePaths)
             {
                 Assert.IsTrue(File.Exists(cacheFilePath));
-                new DotnetNewCommand(_testContext)
+                new DotnetNewCommand(MSTestContext)
                     .WithCustomHive(settingsPath)
                     .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                     .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -53,7 +51,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                     .ExitWith(0)
                     .And.NotHaveStdErr();
 
-                new DotnetNewCommand(_testContext, "search", "func")
+                new DotnetNewCommand(MSTestContext, "search", "func")
                     .WithCustomHive(settingsPath)
                     .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                     .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -72,10 +70,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void CanReadCliData()
         {
             string testDir = CreateTemporaryFolder();
-            string packageLocation = PackTestNuGetPackage(_testContext);
+            string packageLocation = PackTestNuGetPackage(MSTestContext);
 
             _templateDiscoveryTool.Run(
-                _testContext,
+                MSTestContext,
                 "--basePath",
                 testDir,
                 "--packagesPath",
@@ -97,10 +95,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void CanReadCliDataFromDiff()
         {
             string testDir = CreateTemporaryFolder();
-            string packageLocation = PackTestNuGetPackage(_testContext);
+            string packageLocation = PackTestNuGetPackage(MSTestContext);
 
             _templateDiscoveryTool.Run(
-                _testContext,
+                MSTestContext,
                 "--basePath",
                 testDir,
                 "--packagesPath",
@@ -119,7 +117,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             string testDir2 = CreateTemporaryFolder();
             _templateDiscoveryTool.Run(
-                _testContext,
+                MSTestContext,
                 "--basePath",
                 testDir2,
                 "--packagesPath",
@@ -144,7 +142,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             foreach (var cacheFilePath in cacheFilePaths)
             {
                 Assert.IsTrue(File.Exists(cacheFilePath));
-                new DotnetNewCommand(_testContext)
+                new DotnetNewCommand(MSTestContext)
                       .WithCustomHive(settingsPath)
                       .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                       .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -153,7 +151,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                       .ExitWith(0)
                       .And.NotHaveStdErr();
 
-                new DotnetNewCommand(_testContext, "search", "CliHostFile")
+                new DotnetNewCommand(MSTestContext, "search", "CliHostFile")
                     .WithCustomHive(settingsPath)
                     .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                     .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -165,7 +163,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                     .And.HaveStdOutContaining("TestAssets.TemplateWithCliHostFile")
                     .And.HaveStdOutContaining("Microsoft.TemplateEngine.TestTemplates");
 
-                new DotnetNewCommand(_testContext, "search", "--param")
+                new DotnetNewCommand(MSTestContext, "search", "--param")
                      .WithCustomHive(settingsPath)
                      .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                      .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -177,7 +175,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                      .And.HaveStdOutContaining("TestAssets.TemplateWithCliHostFile")
                      .And.HaveStdOutContaining("Microsoft.TemplateEngine.TestTemplates");
 
-                new DotnetNewCommand(_testContext, "search", "-p")
+                new DotnetNewCommand(MSTestContext, "search", "-p")
                     .WithCustomHive(settingsPath)
                     .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                     .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")
@@ -189,7 +187,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                     .And.HaveStdOutContaining("TestAssets.TemplateWithCliHostFile")
                     .And.HaveStdOutContaining("Microsoft.TemplateEngine.TestTemplates");
 
-                new DotnetNewCommand(_testContext, "search", "--test-param")
+                new DotnetNewCommand(MSTestContext, "search", "--test-param")
                     .WithCustomHive(settingsPath)
                     .WithEnvironmentVariable("DOTNET_NEW_SEARCH_FILE_OVERRIDE", cacheFilePath)
                     .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_VERBOSE", "true")

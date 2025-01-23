@@ -10,13 +10,6 @@ namespace Microsoft.DotNet.Tests.ParserTests
 {
     public class UpdateInstallToolParserTests
     {
-        private readonly ITestOutputHelper _testContext;
-
-        public UpdateInstallToolParserTests(MSTestContext testContext)
-        {
-            _testContext = testContext;
-        }
-
         [TestMethod]
         public void UpdateGlobaltoolParserCanGetPackageId()
         {

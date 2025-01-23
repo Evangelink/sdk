@@ -45,7 +45,7 @@ namespace CompatTests
 
             ApiComparer differ = new(s_ruleFactory);
 
-            Assert.HasCount(0, differ.GetDifferences(left, right));
+            Assert.IsEmpty(differ.GetDifferences(left, right));
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace CompatTests
             }
             else
             {
-                Assert.HasCount(0, differences);
+                Assert.IsEmpty(differences);
             }
         }
 
@@ -205,7 +205,7 @@ namespace CompatTests
 
             ApiComparer differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: strictMode));
 
-            Assert.HasCount(0, differ.GetDifferences(left, right));
+            Assert.IsEmpty(differ.GetDifferences(left, right));
         }
 
         [TestMethod]
@@ -332,7 +332,7 @@ namespace CompatTests
             IAssemblySymbol right = SymbolFactory.GetAssemblyFromSyntax(rightSyntax);
             ApiComparer differ = new(s_ruleFactory);
 
-            Assert.HasCount(0, differ.GetDifferences(left, right));
+            Assert.IsEmpty(differ.GetDifferences(left, right));
         }
     }
 }

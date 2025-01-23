@@ -33,7 +33,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 
             var result = await TestFormattedFiles(testCode);
 
-            Assert.HasCount(1, result);
+            Assert.ContainsSingle(result);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 
             var result = await TestFormattedFiles(testCode);
 
-            Assert.HasCount(0, result);
+            Assert.IsEmpty(result);
         }
 
         private async Task<List<FormattedFile>> TestFormattedFiles(string testCode)

@@ -15,12 +15,13 @@ namespace Microsoft.NET.Build.Containers.UnitTests;
 
 public class RegistryTests : IDisposable
 {
-    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
+
+    private MSTestContext MSTestContext { get; }
 
     public RegistryTests(MSTestContext testContext)
     {
-        _testContext = testContext;
+        MSTestContext = testContext;
         _loggerFactory = new TestLoggerFactory(testContext);
     }
 
@@ -188,7 +189,7 @@ public class RegistryTests : IDisposable
     [TestMethod]
     public async Task PushAsync_Logging()
     {
-        using TestLoggerFactory loggerFactory = new(_testContext);
+        using TestLoggerFactory loggerFactory = new(MSTestContext);
         List<(LogLevel, string)> loggedMessages = new();
         loggerFactory.AddProvider(new InMemoryLoggerProvider(loggedMessages));
         ILogger logger = loggerFactory.CreateLogger(nameof(PushAsync_Logging));

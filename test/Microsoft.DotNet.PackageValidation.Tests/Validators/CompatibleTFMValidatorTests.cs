@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.HasCount(1, log.errors);
+            Assert.ContainsSingle(log.errors);
             Assert.AreEqual(DiagnosticIds.CompatibleRuntimeRidLessAsset + " " + string.Format(Resources.NoCompatibleRuntimeAsset, ".NETCoreApp,Version=v3.1"), log.errors[0]);
         }
 
@@ -102,7 +102,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
         }
 
         [TestMethod]
@@ -155,7 +155,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
         }
 
         [TestMethod]
@@ -189,7 +189,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
         }
 
         [TestMethod]
@@ -207,7 +207,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
         }
     }
 }

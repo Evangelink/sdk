@@ -5,11 +5,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class SourcesTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public SourcesTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -17,8 +14,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("SourceWithExcludeAndWithout", _testContext, home, workingDirectory);
-            new DotnetNewCommand(_testContext, "withexclude")
+            InstallTestTemplate("SourceWithExcludeAndWithout", MSTestContext, home, workingDirectory);
+            new DotnetNewCommand(MSTestContext, "withexclude")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -29,7 +26,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 Directory.EnumerateFiles(workingDirectory, "*", SearchOption.AllDirectories).Select(Path.GetFileName).OrderBy(s => s));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_testContext, "withoutexclude")
+            new DotnetNewCommand(MSTestContext, "withoutexclude")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()

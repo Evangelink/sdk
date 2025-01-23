@@ -9,12 +9,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewInstantiateTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _fixture;
-        private readonly MSTestContext _testContext;
 
         public DotnetNewInstantiateTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
             _fixture = fixture;
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -22,7 +20,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, "console")
+            new DotnetNewCommand(MSTestContext, "console")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -40,7 +38,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, "console", "--alias", "csharpconsole")
+            new DotnetNewCommand(MSTestContext, "console", "--alias", "csharpconsole")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -49,7 +47,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("Successfully created alias named 'csharpconsole' with value 'console'");
 
-            new DotnetNewCommand(_testContext, "console", "-n", "MyConsole", "-o", "no-alias")
+            new DotnetNewCommand(MSTestContext, "console", "-n", "MyConsole", "-o", "no-alias")
              .WithCustomHive(home)
              .WithWorkingDirectory(workingDirectory)
              .Execute()
@@ -58,7 +56,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
              .And.NotHaveStdErr()
              .And.HaveStdOutContaining("The template \"Console App\" was created successfully.");
 
-            new DotnetNewCommand(_testContext, "csharpconsole", "-n", "MyConsole", "-o", "alias")
+            new DotnetNewCommand(MSTestContext, "csharpconsole", "-n", "MyConsole", "-o", "alias")
                .WithCustomHive(home)
                .WithWorkingDirectory(workingDirectory)
                .Execute()
@@ -80,9 +78,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _testContext, home, workingDirectory);
+            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_testContext, "basic")
+            new DotnetNewCommand(MSTestContext, "basic")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -97,7 +95,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--no-restore")
+            Utils.CommandResult commandResult = new DotnetNewCommand(MSTestContext, "console", "--no-restore")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -107,7 +105,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("The template \"Console App\" was created successfully.");
 
-            Utils.CommandResult forceCommandResult = new DotnetNewCommand(_testContext, "console", "--no-restore", "--force")
+            Utils.CommandResult forceCommandResult = new DotnetNewCommand(MSTestContext, "console", "--no-restore", "--force")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -125,9 +123,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallNuGetTemplate("Microsoft.DotNet.Web.ProjectTemplates.5.0", _testContext, home, workingDirectory);
+            InstallNuGetTemplate("Microsoft.DotNet.Web.ProjectTemplates.5.0", MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_testContext, "webapp", "-o", "webapp")
+            new DotnetNewCommand(MSTestContext, "webapp", "-o", "webapp")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -136,7 +134,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("The template \"ASP.NET Core Web App (Razor Pages)\" was created successfully.");
 
-            new DotnetNewCommand(_testContext, "razor", "-o", "razor")
+            new DotnetNewCommand(MSTestContext, "razor", "-o", "razor")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -153,9 +151,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string templateLocation = GetTestTemplateLocation("TemplateWithBinaryFile");
 
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithBinaryFile")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithBinaryFile")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -179,10 +177,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
 
-            string packageLocation = PackTestNuGetPackage(_testContext);
-            InstallNuGetTemplate(packageLocation, _testContext, home, workingDirectory);
+            string packageLocation = PackTestNuGetPackage(MSTestContext);
+            InstallNuGetTemplate(packageLocation, MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithBinaryFile")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithBinaryFile")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -206,10 +204,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string templateLocation = GetTestTemplateLocation("TemplateWithParamsSharingPrefix");
 
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
             // not asserting on actual generated content - as there is none
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithParamsSharingPrefix")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithParamsSharingPrefix")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -259,8 +257,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             //baz
             //For extension test cases the template has 'test.<extension>' file defined.
 
-            InstallTestTemplate("TemplateWithConditions", _testContext, home, workingDirectory);
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--A", "true")
+            InstallTestTemplate("TemplateWithConditions", MSTestContext, home, workingDirectory);
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithConditions", "--A", "true")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -274,7 +272,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.AreEqual($"{string.Format(expectedCommandFormat, "foo")}{expectedEol}foo{expectedEol}baz{expectedEol}", File.ReadAllText(testFile));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--A", "false")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithConditions", "--A", "false")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -288,7 +286,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.AreEqual($"baz{expectedEol}", File.ReadAllText(testFile));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--B", "true")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithConditions", "--B", "true")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -309,10 +307,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("TemplateWithPreferDefaultName", _testContext, home, workingDirectory);
+            InstallTestTemplate("TemplateWithPreferDefaultName", MSTestContext, home, workingDirectory);
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithPreferDefaultName", "-n", name)
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithPreferDefaultName", "-n", name)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -338,11 +336,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             InstallNuGetTemplate(
                 Path.Combine(DotnetNewTestPackagesBasePath, nugetFileName),
-                _testContext,
+                MSTestContext,
                 home,
                 workingDirectory);
 
-            new DotnetNewCommand(_testContext, templateName, "--dry-run")
+            new DotnetNewCommand(MSTestContext, templateName, "--dry-run")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -355,7 +353,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void WhenSwitchIsSkippedThenItPrintsError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("Web1.1");
 
@@ -371,7 +369,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void ItCanCreateTemplate()
         {
             string tempDir = CreateTemporaryFolder();
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("console", "-o", tempDir);
             cmd.Should().Pass();
@@ -380,7 +378,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowHelp()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("--help");
             cmd.Should().Pass()
@@ -391,7 +389,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowHelpForTemplate()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("classlib", "--help");
 
@@ -407,7 +405,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("-lang", "C#", "--no-exist")]
         public void ExampleHasLanguageForSepecifiedLanguageWithInvalidOption(string languageOption, string language, string invalidOption)
         {
-            CommandResult cmd = new DotnetNewCommand(MSTestContext, "console", languageOption, language, invalidOption)
+            CommandResult cmd = new DotnetNewCommand(base.MSTestContext, "console", languageOption, language, invalidOption)
                 .WithVirtualHive()
                 .Execute();
             cmd.Should().Fail()
@@ -419,7 +417,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowParseError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("update", "--bla");
             cmd.Should().ExitWith(127)
@@ -430,7 +428,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void WhenTemplateNameIsNotUniquelyMatchedThenItIndicatesProblemToUser()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .Execute("c");
 
@@ -447,14 +445,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(MSTestContext)
+            new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");
 
             DateTime expectedState = Directory.GetLastWriteTime(rootPath);
 
-            CommandResult result = new DotnetNewCommand(MSTestContext)
+            CommandResult result = new DotnetNewCommand(base.MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");

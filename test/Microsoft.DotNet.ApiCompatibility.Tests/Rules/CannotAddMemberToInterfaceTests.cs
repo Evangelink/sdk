@@ -65,7 +65,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]

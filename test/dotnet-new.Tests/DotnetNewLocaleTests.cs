@@ -10,11 +10,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class DotnetNewLocaleTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public DotnetNewLocaleTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
@@ -27,7 +24,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string? thisDir = Path.GetDirectoryName(typeof(DotnetNewLocaleTests).Assembly.Location);
             string testTemplatesFolder = GetTestTemplateLocation("TemplateWithLocalization");
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "-i", testTemplatesFolder)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "-i", testTemplatesFolder)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", string.Empty)
@@ -51,7 +48,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string? thisDir = Path.GetDirectoryName(typeof(DotnetNewLocaleTests).Assembly.Location);
             string testTemplatesFolder = GetTestTemplateLocation("TemplateWithLocalization");
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "-i", testTemplatesFolder)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "-i", testTemplatesFolder)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", dotnetCliEnvVar)
@@ -71,7 +68,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDir = CreateTemporaryFolder();
             string testTemplateLocation = GetTestTemplateLocation("Invalid/Localization/InvalidFormat");
-            new DotnetNewCommand(_testContext, "-i", testTemplateLocation)
+            new DotnetNewCommand(MSTestContext, "-i", testTemplateLocation)
                 .WithDebug()
                 .WithoutBuiltInTemplates()
                 .WithCustomHive(home)
@@ -114,7 +111,7 @@ Error: The template 'name' (TestAssets.Invalid.Localiation.ValidationFailure) ha
 
   };
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "-i", testTemplateLocation)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "-i", testTemplateLocation)
                 .WithDebug()
                 .WithoutBuiltInTemplates()
                 .WithCustomHive(home)
@@ -142,7 +139,7 @@ Error: The template 'name' (TestAssets.Invalid.Localiation.ValidationFailure) ha
             string tmpTemplateLocation = CreateTemporaryFolder();
             TestUtils.DirectoryCopy(validTestTemplateLocation, tmpTemplateLocation, copySubDirs: true);
 
-            new DotnetNewCommand(_testContext, "-i", tmpTemplateLocation)
+            new DotnetNewCommand(MSTestContext, "-i", tmpTemplateLocation)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDir)
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "de-DE")
@@ -162,7 +159,7 @@ Error: The template 'name' (TestAssets.Invalid.Localiation.ValidationFailure) ha
                 Path.Combine(tmpTemplateLocation, ".template.config", "localize", "templatestrings.de-DE.json"),
                 overwrite: true);
 
-            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithLocalization")
+            new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithLocalization")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDir)
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "de-DE")
@@ -195,7 +192,7 @@ Error: The template 'name' (TestAssets.Invalid.Localiation.ValidationFailure) ha
                     "Warnung: Lokalisierung „de-DE“ der Vorlage 'name' (TestAssets.TemplateWithLocalization) konnte nicht geladen werden: Die Lokalisierungsdatei ist ungültig. Die Lokalisierung wird übersprungen."
                 };
 
-            CommandResult result = new DotnetNewCommand(_testContext, "-i", tmpTemplateLocation)
+            CommandResult result = new DotnetNewCommand(MSTestContext, "-i", tmpTemplateLocation)
                 .WithCustomHive(home)
                 .WithDebug()
                 .WithoutBuiltInTemplates()
@@ -222,7 +219,7 @@ Error: The template 'name' (TestAssets.Invalid.Localiation.ValidationFailure) ha
                 Path.Combine(tmpTemplateLocation, ".template.config", "localize", "templatestrings.de-DE.json"),
                 overwrite: true);
 
-            result = new DotnetNewCommand(_testContext, "TestAssets.TemplateWithLocalization")
+            result = new DotnetNewCommand(MSTestContext, "TestAssets.TemplateWithLocalization")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDir)
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "de-DE")

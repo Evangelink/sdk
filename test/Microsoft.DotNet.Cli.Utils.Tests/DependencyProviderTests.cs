@@ -32,11 +32,11 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             try
             {
                 // We should not have any dependents
-                Assert.HasCount(0, dep.Dependents);
+                Assert.IsEmpty(dep.Dependents);
 
                 dep.AddDependent("Microsoft.NET.SDK,v6.0.100");
 
-                Assert.HasCount(1, dep.Dependents);
+                Assert.ContainsSingle(dep.Dependents);
                 Assert.AreEqual("Microsoft.NET.SDK,v6.0.100", dep.Dependents.First());
             }
             finally
@@ -53,7 +53,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             try
             {
                 // We should not have any dependents
-                Assert.HasCount(0, dep.Dependents);
+                Assert.IsEmpty(dep.Dependents);
 
                 // Write the VS dependents key
                 dep.AddDependent(DependencyProvider.VisualStudioDependentKeyName);

@@ -50,7 +50,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = compositeRazorProjectFileSystem.EnumerateItems(basePath);
 
             // Assert
-            Assert.HasCount(0, result);
+            Assert.IsEmpty(result);
         }
 
         [TestMethod]

@@ -5,12 +5,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewHelpTests : IClassFixture<SharedHomeDirectory>
     {
-        private readonly MSTestContext _testContext;
         private readonly SharedHomeDirectory _fixture;
 
         public DotnetNewHelpTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
             _fixture = fixture;
         }
 
@@ -19,7 +17,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, "globaljson", "--help")
+            new DotnetNewCommand(MSTestContext, "globaljson", "--help")
                     .WithCustomHive(_fixture.HomeDirectory)
                     .WithWorkingDirectory(workingDirectory)
                     .Execute()

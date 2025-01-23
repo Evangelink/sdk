@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
 
             Assert.AreEqual(new MetadataInformation[] { left }, workItem.Left);
             Assert.AreEqual(apiCompatOptions, workItem.Options);
-            Assert.HasCount(1, workItem.Right);
+            Assert.ContainsSingle(workItem.Right);
             Assert.AreEqual(new MetadataInformation[] { right }, workItem.Right[0]);
         }
 

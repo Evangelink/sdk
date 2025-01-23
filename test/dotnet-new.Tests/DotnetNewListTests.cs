@@ -8,13 +8,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewListTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _sharedHome;
-        private readonly MSTestContext _testContext;
 
         public DotnetNewListTests(SharedHomeDirectory sharedHome, MSTestContext testContext) : base(testContext)
         {
             _sharedHome = sharedHome;
             _sharedHome.InstallPackage("Microsoft.DotNet.Web.ProjectTemplates.5.0::5.0.0");
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -24,7 +22,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("c --list")]
         public void BasicTest_WithNameCriteria(string command)
         {
-            new DotnetNewCommand(_testContext, command.Split(" "))
+            new DotnetNewCommand(MSTestContext, command.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -43,7 +41,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("list --columns-all")]
         public void CanShowAllColumns(string command)
         {
-            new DotnetNewCommand(_testContext, command.Split(" "))
+            new DotnetNewCommand(MSTestContext, command.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -60,7 +58,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("--tag Common --list")]
         public void CanFilterTags(string command)
         {
-            new DotnetNewCommand(_testContext, command.Split(" "))
+            new DotnetNewCommand(MSTestContext, command.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -80,7 +78,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("list app --tag Common")]
         public void CanFilterTags_WithNameCriteria(string command)
         {
-            new DotnetNewCommand(_testContext, command.Split(" "))
+            new DotnetNewCommand(MSTestContext, command.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -99,7 +97,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, "--install", "Microsoft.DotNet.Web.ProjectTemplates.5.0")
+            new DotnetNewCommand(MSTestContext, "--install", "Microsoft.DotNet.Web.ProjectTemplates.5.0")
                   .WithCustomHive(home)
                   .WithWorkingDirectory(workingDirectory)
                   .Execute()
@@ -109,7 +107,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                   .NotHaveStdErr()
                   .And.HaveStdOutMatching("ASP\\.NET Core Web App\\s+webapp,razor\\s+\\[C#\\]\\s+Web/MVC/Razor Pages");
 
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(home)
                 .WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
@@ -120,7 +118,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("These templates matched your input:")
                 .And.HaveStdOutMatching("ASP\\.NET Core Web App\\s+webapp,razor\\s+\\[C#\\]\\s+Web/MVC/Razor Pages");
 
-            new DotnetNewCommand(_testContext, "webapp", "--list")
+            new DotnetNewCommand(MSTestContext, "webapp", "--list")
                 .WithCustomHive(home)
                 .WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
@@ -131,7 +129,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("These templates matched your input: 'webapp'")
                 .And.HaveStdOutMatching("ASP\\.NET Core Web App\\s+webapp,razor\\s+\\[C#\\]\\s+Web/MVC/Razor Pages");
 
-            new DotnetNewCommand(_testContext, "razor", "--list")
+            new DotnetNewCommand(MSTestContext, "razor", "--list")
                 .WithCustomHive(home)
                 .WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
@@ -148,7 +146,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByChoiceParameter()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -160,7 +158,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list")
+            new DotnetNewCommand(MSTestContext, "c", "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -172,7 +170,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--framework")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--framework")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -184,7 +182,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "-f")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "-f")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should()
@@ -197,7 +195,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
               .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
               .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--framework")
+            new DotnetNewCommand(MSTestContext, "--list", "--framework")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -209,7 +207,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "-f")
+            new DotnetNewCommand(MSTestContext, "--list", "-f")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should()
@@ -228,7 +226,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByNonChoiceParameter()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -240,7 +238,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list")
+            new DotnetNewCommand(MSTestContext, "c", "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -252,7 +250,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--langVersion")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--langVersion")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -264,7 +262,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--langVersion")
+            new DotnetNewCommand(MSTestContext, "--list", "--langVersion")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -282,7 +280,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void IgnoresValueForNonChoiceParameter()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -294,7 +292,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list")
+            new DotnetNewCommand(MSTestContext, "c", "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -306,7 +304,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--no-restore", "invalid")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--no-restore", "invalid")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -318,7 +316,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--no-restore", "invalid")
+            new DotnetNewCommand(MSTestContext, "--list", "--no-restore", "invalid")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -336,7 +334,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByChoiceParameterWithValue()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -348,7 +346,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list")
+            new DotnetNewCommand(MSTestContext, "c", "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -360,7 +358,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--framework", "net5.0")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--framework", "net5.0")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -372,7 +370,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "-f", "net5.0")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "-f", "net5.0")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should()
@@ -384,7 +382,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
               .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
               .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--framework", "net5.0")
+            new DotnetNewCommand(MSTestContext, "--list", "--framework", "net5.0")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -396,7 +394,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.NotHaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "-f", "net5.0")
+            new DotnetNewCommand(MSTestContext, "--list", "-f", "net5.0")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should()
@@ -414,7 +412,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CannotListTemplatesWithUnknownParameter()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -426,7 +424,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--unknown")
+            new DotnetNewCommand(MSTestContext, "--list", "--unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -434,7 +432,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdErrContaining("9 template(s) partially matched, but failed on --unknown.")
                 .And.HaveStdErrContaining($"To search for the templates on NuGet.org, run:{Environment.NewLine}   dotnet new <TEMPLATE_NAME> --search");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--unknown")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -442,7 +440,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdErrContaining("6 template(s) partially matched, but failed on --unknown.")
                 .And.HaveStdErrContaining($"To search for the templates on NuGet.org, run:{Environment.NewLine}   dotnet new c --search");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--unknown", "--language", "C#")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--unknown", "--language", "C#")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should().Fail()
@@ -456,7 +454,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CannotListTemplatesWithUnknownValueForChoiceParameter()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -468,7 +466,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--framework", "unknown")
+            new DotnetNewCommand(MSTestContext, "--list", "--framework", "unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -476,7 +474,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdErrContaining("9 template(s) partially matched, but failed on --framework='unknown'.")
                 .And.HaveStdErrContaining($"To search for the templates on NuGet.org, run:{Environment.NewLine}   dotnet new <TEMPLATE_NAME> --search");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--framework", "unknown")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--framework", "unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -490,7 +488,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CannotListTemplatesForInvalidFilters()
         {
-            new DotnetNewCommand(_testContext, "--list")
+            new DotnetNewCommand(MSTestContext, "--list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should()
@@ -502,7 +500,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutMatching("Class Library\\s+classlib\\s+\\[C#\\],F#,VB\\s+Common/Library")
                 .And.HaveStdOutMatching("NuGet Config\\s+nugetconfig\\s+Config");
 
-            new DotnetNewCommand(_testContext, "--list", "--language", "unknown", "--framework", "unknown")
+            new DotnetNewCommand(MSTestContext, "--list", "--language", "unknown", "--framework", "unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -510,7 +508,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdErrContaining("9 template(s) partially matched, but failed on language='unknown'.")
                 .And.HaveStdErrContaining($"To search for the templates on NuGet.org, run:{Environment.NewLine}   dotnet new <TEMPLATE_NAME> --search");
 
-            new DotnetNewCommand(_testContext, "c", "--list", "--language", "unknown", "--framework", "unknown")
+            new DotnetNewCommand(MSTestContext, "c", "--list", "--language", "unknown", "--framework", "unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -524,9 +522,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDir = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateGrouping", _testContext, home, workingDir);
+            InstallTestTemplate("TemplateGrouping", MSTestContext, home, workingDir);
 
-            new DotnetNewCommand(_testContext, "--list", "--columns-all")
+            new DotnetNewCommand(MSTestContext, "--list", "--columns-all")
                 .WithCustomHive(home)
                 .Execute()
                 .Should()
@@ -546,14 +544,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, "--install", "Microsoft.DotNet.Web.ProjectTemplates.5.0")
+            new DotnetNewCommand(MSTestContext, "--install", "Microsoft.DotNet.Web.ProjectTemplates.5.0")
                   .WithCustomHive(home)
                   .WithWorkingDirectory(workingDirectory)
                   .Execute()
                   .Should()
                   .ExitWith(0);
 
-            new DotnetNewCommand(_testContext, "list", "--columns", columnName)
+            new DotnetNewCommand(MSTestContext, "list", "--columns", columnName)
                 .WithCustomHive(home)
                 .Execute()
                 .Should()
@@ -570,11 +568,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("c --list --columns-all", "--list c --columns-all")]
         public void CanFallbackToListOption(string command1, string command2)
         {
-            CommandResult commandResult1 = new DotnetNewCommand(_testContext, command1.Split())
+            CommandResult commandResult1 = new DotnetNewCommand(MSTestContext, command1.Split())
              .WithCustomHive(_sharedHome.HomeDirectory)
              .Execute();
 
-            CommandResult commandResult2 = new DotnetNewCommand(_testContext, command2.Split())
+            CommandResult commandResult2 = new DotnetNewCommand(MSTestContext, command2.Split())
                .WithCustomHive(_sharedHome.HomeDirectory)
                .Execute();
 
@@ -595,7 +593,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("foo --list --columns-all -other-param --framework net6.0 bar", "bar|--framework|net6.0|foo", "-other-param")]
         public void CannotShowListOnParseError(string command, string invalidArguments, string validArguments)
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, command.Split())
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, command.Split())
              .WithCustomHive(_sharedHome.HomeDirectory)
              .Execute();
 

@@ -17,7 +17,7 @@ namespace Microsoft.NET.TestFramework
     {
         private readonly MSTestContext _testContext;
         private readonly LogLevel _minLevel;
-        private readonly DateTimeOffset? _testContextStart;
+        private readonly DateTimeOffset? _logStart;
 
         public MSTestLoggerProvider(MSTestContext testContext)
             : this(testContext, LogLevel.Trace)
@@ -33,12 +33,12 @@ namespace Microsoft.NET.TestFramework
         {
             _testContext = testContext;
             _minLevel = minLevel;
-            _testContextStart = logStart;
+            _logStart = logStart;
         }
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new MSTestLogger(_testContext, categoryName, _minLevel, _testContextStart);
+            return new MSTestLogger(_testContext, categoryName, _minLevel, _logStart);
         }
 
         public void Dispose()
@@ -51,14 +51,14 @@ namespace Microsoft.NET.TestFramework
             private readonly string _category;
             private readonly LogLevel _minLogLevel;
             private readonly MSTestContext _testContext;
-            private readonly DateTimeOffset? _testContextStart;
+            private readonly DateTimeOffset? _logStart;
 
             public MSTestLogger(MSTestContext testContext, string category, LogLevel minLogLevel, DateTimeOffset? logStart)
             {
                 _minLogLevel = minLogLevel;
                 _category = category;
                 _testContext = testContext;
-                _testContextStart = logStart;
+                _logStart = logStart;
             }
 
             public void Log<TState>(
@@ -72,7 +72,7 @@ namespace Microsoft.NET.TestFramework
                 // Buffer the message into a single string in order to avoid shearing the message when running across multiple threads.
                 var messageBuilder = new StringBuilder();
 
-                var timestamp = _testContextStart.HasValue ? $"{(DateTimeOffset.UtcNow - _testContextStart.Value).TotalSeconds:N3}s" : DateTimeOffset.UtcNow.ToString("s");
+                var timestamp = _logStart.HasValue ? $"{(DateTimeOffset.UtcNow - _logStart.Value).TotalSeconds:N3}s" : DateTimeOffset.UtcNow.ToString("s");
 
                 var firstLinePrefix = $"| [{timestamp}] {_category} {logLevel}: ";
                 var lines = formatter(state, exception).Split(NewLineChars, StringSplitOptions.RemoveEmptyEntries);

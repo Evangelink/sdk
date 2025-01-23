@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
         public void AssemblyMapper_GetNamespacesWithoutLeftAndRight_EmptyResult()
         {
             AssemblyMapper assemblyMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1);
-            Assert.HasCount(0, assemblyMapper.GetNamespaces());
+            Assert.IsEmpty(assemblyMapper.GetNamespaces());
         }
 
         [TestMethod]

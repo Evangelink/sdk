@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
         public void NamespaceMapper_GetTypesWithoutLeftAndRight_EmptyResult()
         {
             NamespaceMapper namespaceMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1, Mock.Of<IAssemblyMapper>());
-            Assert.HasCount(0, namespaceMapper.GetTypes());
+            Assert.IsEmpty(namespaceMapper.GetTypes());
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace NamespaceMapper
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.HasCount(1, namespaceMappers);
+            Assert.ContainsSingle(namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
             Assert.AreEqual(2, typeMappers.Count());

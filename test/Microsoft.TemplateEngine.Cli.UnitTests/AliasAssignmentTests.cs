@@ -96,7 +96,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Contains("--foo", result["foo"].Aliases);
             Assert.Contains("-f", result["foo"].Aliases);
             Assert.Contains("--bar", result["bar"].Aliases);
-            Assert.HasCount(1, result["bar"].Aliases);
+            Assert.ContainsSingle(result["bar"].Aliases);
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
 
@@ -109,8 +109,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             var result = AliasAssignmentCoordinator.AssignAliasesForParameter(paramList, InitiallyTakenAliases).ToDictionary(r => r.Parameter.Name, r => r);
-            Assert.HasCount(0, result["foo:bar"].Aliases);
-            Assert.HasCount(1, result["foo:bar"].Errors);
+            Assert.IsEmpty(result["foo:bar"].Aliases);
+            Assert.ContainsSingle(result["foo:bar"].Errors);
             Assert.Contains("Parameter name 'foo:bar' contains colon, which is forbidden.", result["foo:bar"].Errors);
         }
 
@@ -201,7 +201,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             Assert.Contains("-au", result["auth"].Aliases);
             Assert.Contains("--auth", result["auth"].Aliases);
-            Assert.HasCount(1, result["AAdB2CInstance"].Aliases);
+            Assert.ContainsSingle(result["AAdB2CInstance"].Aliases);
             Assert.Contains("--aad-b2c-instance", result["AAdB2CInstance"].Aliases);
             Assert.Contains("-ssp", result["SignUpSignInPolicyId"].Aliases);
             Assert.Contains("--susi-policy-id", result["SignUpSignInPolicyId"].Aliases);
@@ -209,15 +209,15 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Contains("--reset-password-policy-id", result["ResetPasswordPolicyId"].Aliases);
             Assert.Contains("-ep", result["EditProfilePolicyId"].Aliases);
             Assert.Contains("--edit-profile-policy-id", result["EditProfilePolicyId"].Aliases);
-            Assert.HasCount(1, result["AADInstance"].Aliases);
+            Assert.ContainsSingle(result["AADInstance"].Aliases);
             Assert.Contains("--aad-instance", result["AADInstance"].Aliases);
-            Assert.HasCount(1, result["ClientId"].Aliases);
+            Assert.ContainsSingle(result["ClientId"].Aliases);
             Assert.Contains("--client-id", result["ClientId"].Aliases);
-            Assert.HasCount(1, result["Domain"].Aliases);
+            Assert.ContainsSingle(result["Domain"].Aliases);
             Assert.Contains("--domain", result["Domain"].Aliases);
-            Assert.HasCount(1, result["TenantId"].Aliases);
+            Assert.ContainsSingle(result["TenantId"].Aliases);
             Assert.Contains("--tenant-id", result["TenantId"].Aliases);
-            Assert.HasCount(1, result["CallbackPath"].Aliases);
+            Assert.ContainsSingle(result["CallbackPath"].Aliases);
             Assert.Contains("--callback-path", result["CallbackPath"].Aliases);
             Assert.Contains("-r", result["OrgReadAccess"].Aliases);
             Assert.Contains("--org-read-access", result["OrgReadAccess"].Aliases);
@@ -233,13 +233,13 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.Contains("--IISExpressPort", result["IISExpressPort"].Aliases);
             Assert.Contains("-uld", result["UseLocalDB"].Aliases);
             Assert.Contains("--use-local-db", result["UseLocalDB"].Aliases);
-            Assert.HasCount(1, result["TargetFrameworkOverride"].Aliases);
+            Assert.ContainsSingle(result["TargetFrameworkOverride"].Aliases);
             Assert.Contains("--target-framework-override", result["TargetFrameworkOverride"].Aliases);
             Assert.Contains("-f", result["Framework"].Aliases);
             Assert.Contains("--framework", result["Framework"].Aliases);
             Assert.Contains("-nt", result["NoTools"].Aliases);
             Assert.Contains("--no-tools", result["NoTools"].Aliases);
-            Assert.HasCount(1, result["skipRestore"].Aliases);
+            Assert.ContainsSingle(result["skipRestore"].Aliases);
             Assert.Contains("--no-restore", result["skipRestore"].Aliases);
             Assert.DoesNotContain(result, r => r.Value.Errors.Any());
         }
@@ -266,7 +266,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
                 .FromTemplateList(CliTemplateInfo.FromTemplateInfo(templates, A.Fake<IHostSpecificDataLoader>()))
                 .Single();
             var templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             var templateOption = templateCommands.Single().TemplateOptions[parameterName];
             Assert.Contains(expectedContainedAlias, templateOption.Aliases);
         }
@@ -294,7 +294,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             ParseResult parseResult = myCommand.Parse(" new foo");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             var templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, templatePackageManager, templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             foreach (var expectedResult in expectedResults)
             {
                 var expectedValues = expectedResult.Value!.Select(s => ((JValue)s).Value).ToArray();

@@ -74,7 +74,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             var templateConstraintManager = new TemplateConstraintManager(settings);
 
-            Assert.HasCount(0, await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
+            Assert.IsEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
         }
 
         [TestMethod]

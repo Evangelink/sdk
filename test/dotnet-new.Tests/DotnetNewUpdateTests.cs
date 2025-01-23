@@ -5,11 +5,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewUpdateTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public DotnetNewUpdateTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
         }
 
         [TestMethod]
@@ -19,7 +16,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void CanCheckForUpdate(string testCase)
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -31,7 +28,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, testCase.Split(" "))
+            new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -59,11 +56,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             InstallNuGetTemplate(
                 Path.Combine(DotnetNewTestPackagesBasePath, nugetFileName),
-                _testContext,
+                MSTestContext,
                 home,
                 workingDirectory);
 
-            new DotnetNewCommand(_testContext, "--update-check")
+            new DotnetNewCommand(MSTestContext, "--update-check")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -83,8 +80,8 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _testContext, home, workingDirectory);
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
+            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", MSTestContext, home, workingDirectory);
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -96,7 +93,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, testCase.Split(" "))
+            new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -111,7 +108,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
         public void PrintInfoOnUpdateOnCreation()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -123,7 +120,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, "console")
+            new DotnetNewCommand(MSTestContext, "console")
                   .WithCustomHive(home).WithoutBuiltInTemplates()
                   .WithWorkingDirectory(CreateTemporaryFolder())
                   .Execute()
@@ -141,7 +138,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
         public void DoesNotPrintUpdateInfoOnCreation_WhenNoUpdateCheckOption()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -153,7 +150,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, "console", "--no-update-check", "-o", "no-update-check")
+            new DotnetNewCommand(MSTestContext, "console", "--no-update-check", "-o", "no-update-check")
                   .WithCustomHive(home).WithoutBuiltInTemplates()
                   .WithWorkingDirectory(CreateTemporaryFolder())
                   .Execute()
@@ -166,7 +163,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
                   .And.NotHaveStdOutContaining("To update the package use:")
                   .And.NotHaveStdOutContaining("   dotnet new --install Microsoft.DotNet.Common.ProjectTemplates.5.0::([\\d\\.a-z-])+");
 
-            new DotnetNewCommand(_testContext, "console", "-o", "update-check")
+            new DotnetNewCommand(MSTestContext, "console", "-o", "update-check")
                   .WithCustomHive(home).WithoutBuiltInTemplates()
                   .WithWorkingDirectory(CreateTemporaryFolder())
                   .Execute()
@@ -184,7 +181,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
         public void DoesNotPrintUpdateInfoOnCreation_WhenLatestVersionIsInstalled()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -196,7 +193,7 @@ For details on the exit code, refer to https://aka.ms/templating-exit-codes#106"
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, "console")
+            new DotnetNewCommand(MSTestContext, "console")
                   .WithCustomHive(home).WithoutBuiltInTemplates()
                   .WithWorkingDirectory(CreateTemporaryFolder())
                   .Execute()
@@ -219,7 +216,7 @@ For more information, run:
    dotnet new update -h";
 
             string home = CreateTemporaryFolder(folderName: "Home");
-            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "--update-check")
+            Utils.CommandResult commandResult = new DotnetNewCommand(MSTestContext, "--update-check")
                 .WithCustomHive(home)
                 .Execute();
 
@@ -234,7 +231,7 @@ For more information, run:
         public void DoNotShowDeprecationMessage_WhenNewCommandIsUsed_Check()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "update", "--check-only")
+            Utils.CommandResult commandResult = new DotnetNewCommand(MSTestContext, "update", "--check-only")
                 .WithCustomHive(home)
                 .Execute();
 
@@ -251,7 +248,7 @@ For more information, run:
         public void CanApplyUpdates(string testCase)
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -263,7 +260,7 @@ For more information, run:
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, "update", "--check-only")
+            new DotnetNewCommand(MSTestContext, "update", "--check-only")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -278,7 +275,7 @@ For more information, run:
                 .And.HaveStdOutContaining("   dotnet new install <package>::<version>")
                 .And.HaveStdOutMatching("   dotnet new install Microsoft\\.DotNet\\.Common\\.ProjectTemplates\\.5\\.0::([\\d\\.a-z-])+");
 
-            new DotnetNewCommand(_testContext, testCase)
+            new DotnetNewCommand(MSTestContext, testCase)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -301,8 +298,8 @@ For more information, run:
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            string templateLocation = InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _testContext, home, workingDirectory);
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
+            string templateLocation = InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", MSTestContext, home, workingDirectory);
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -314,7 +311,7 @@ For more information, run:
                 .And.HaveStdOutContaining("console")
                 .And.HaveStdOutContaining("classlib");
 
-            new DotnetNewCommand(_testContext, commandName)
+            new DotnetNewCommand(MSTestContext, commandName)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -334,7 +331,7 @@ For more information, run:
    dotnet new update -h";
 
             string home = CreateTemporaryFolder(folderName: "Home");
-            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "--update-apply")
+            Utils.CommandResult commandResult = new DotnetNewCommand(MSTestContext, "--update-apply")
                 .WithCustomHive(home)
                 .Execute();
 
@@ -349,7 +346,7 @@ For more information, run:
         public void DoNotShowDeprecationMessage_WhenNewCommandIsUsed()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "update")
+            Utils.CommandResult commandResult = new DotnetNewCommand(MSTestContext, "update")
                 .WithCustomHive(home)
                 .Execute();
 

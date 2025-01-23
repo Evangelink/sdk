@@ -15,11 +15,11 @@ namespace Microsoft.NET.Build.Containers.Tasks.IntegrationTests;
 [Collection("Docker tests")]
 public class CreateImageIndexTests
 {
-    private MSTestContext _testContext;
+    private MSTestContext MSTestContext { get; }
 
     public CreateImageIndexTests(MSTestContext testContext)
     {
-        _testContext = testContext;
+        MSTestContext = testContext;
     }
 
     [DockerAvailableFact]
@@ -58,7 +58,7 @@ public class CreateImageIndexTests
         imageIndex.manifests[1].platform.architecture.Should().Be("arm64");
 
         // Assert that the image index is pushed to the registry
-        var loggerFactory = new TestLoggerFactory(_testContext);
+        var loggerFactory = new TestLoggerFactory(MSTestContext);
         var logger = loggerFactory.CreateLogger(nameof(CreateImageIndex_Baseline));
         Registry registry = new(outputRegistry, logger, RegistryMode.Pull);
 
@@ -76,7 +76,7 @@ public class CreateImageIndexTests
             newProjectDir.Delete(recursive: true);
         }
         newProjectDir.Create();
-        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(MSTestContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
@@ -93,7 +93,7 @@ public class CreateImageIndexTests
         IBuildEngine buildEngine,
         List<string?> errors)
     {
-        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", rid, "--no-self-contained")
+        new DotnetCommand(MSTestContext, "publish", "-c", "Release", "-r", rid, "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();

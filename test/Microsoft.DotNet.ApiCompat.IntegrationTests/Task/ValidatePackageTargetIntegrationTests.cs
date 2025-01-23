@@ -170,7 +170,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             // removed an interface due to it's base class removing that implementation. We validate that APICompat doesn't
             // log errors when not using references.
             validator.Validate(new PackageValidatorOption(package));
-            Assert.HasCount(0, log.errors);
+            Assert.IsEmpty(log.errors);
 
             // Now we do pass in references. With references, ApiCompat should now detect that an interface was removed in a
             // dependent assembly, causing one of our types to stop implementing that assembly. We validate that a CP0008 is logged.
@@ -298,7 +298,7 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
             TestAsset asset = _testAssetsManager.CreateTestProject(testProject, testProject.Name);
             PackCommand packCommand = new(Log, Path.Combine(asset.TestRoot, testProject.Name));
             var result = packCommand.Execute();
-            Assert.HasCount(0, result.StdErr);
+            Assert.IsEmpty(result.StdErr);
 
             Dictionary<NuGetFramework, IEnumerable<string>> references = new()
             {

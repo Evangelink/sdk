@@ -10,13 +10,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public class DotnetClassTemplateTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _fixture;
-        private readonly MSTestContext _testContext;
         private readonly ILogger _logger;
 
         public DotnetClassTemplateTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
             _fixture = fixture;
-            _testContext = testContext;
             _logger = new TestLoggerFactory(testContext).CreateLogger(nameof(DotnetClassTemplateTests));
         }
 
@@ -229,7 +227,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
         private void ValidateInstantiatedProject(string workingDir)
         {
-            new DotnetBuildCommand(_testContext)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(workingDir)
                 .Execute()
                 .Should()

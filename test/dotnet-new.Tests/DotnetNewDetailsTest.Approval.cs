@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_NuGetFeedWithVersion()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", _nuGetPackageId, "--version", "4.8.0-dev.604")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", _nuGetPackageId, "--version", "4.8.0-dev.604")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             var folder = CreateTemporaryFolder();
 
-            var createCommandResult = () => new DotnetNewCommand(_testContext, "details", _nuGetPackageId)
+            var createCommandResult = () => new DotnetNewCommand(MSTestContext, "details", _nuGetPackageId)
                 .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(folder)
                 .Execute();
@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_OtherFeedWithVersion()
         {
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", "Microsoft.Azure.WebJobs.ItemTemplates", "--version", "4.0.2288")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", "Microsoft.Azure.WebJobs.ItemTemplates", "--version", "4.0.2288")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -79,7 +79,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string packageName = "Microsoft.Azure.WebJobs.ItemTemplates";
             string latestVersion = await GetLatestVersion(packageName);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", packageName)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", packageName)
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -96,9 +96,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public Task CanDisplayDetails_InstalledPackage_LocalPackage()
         {
-            string packageLocation = PackTestNuGetPackage(_testContext);
+            string packageLocation = PackTestNuGetPackage(MSTestContext);
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", packageLocation)
+            new DotnetNewCommand(MSTestContext, "install", packageLocation)
                 .WithoutBuiltInTemplates()
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", "Microsoft.TemplateEngine.TestTemplates")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", "Microsoft.TemplateEngine.TestTemplates")
                 .WithCustomHive(home)
                 .WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
@@ -125,7 +125,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public Task CanDisplayDetails_InstalledPackage_NuGetFeed()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", _nuGetPackageId, "--nuget-source", "https://api.nuget.org/v3/index.json")
+            new DotnetNewCommand(MSTestContext, "install", _nuGetPackageId, "--nuget-source", "https://api.nuget.org/v3/index.json")
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -133,7 +133,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", _nuGetPackageId)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", _nuGetPackageId)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -152,7 +152,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string latestVersion = await GetLatestVersion(packageName);
 
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", packageName)
+            new DotnetNewCommand(MSTestContext, "install", packageName)
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -160,7 +160,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", packageName)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", packageName)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -179,14 +179,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string basicFSharp = GetTestTemplateLocation("TemplateResolution/DifferentLanguagesGroup/BasicFSharp");
-            new DotnetNewCommand(_testContext, "install", basicFSharp)
+            new DotnetNewCommand(MSTestContext, "install", basicFSharp)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
                 .Should()
                 .ExitWith(0);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "details", basicFSharp)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "details", basicFSharp)
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();

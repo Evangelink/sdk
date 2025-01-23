@@ -7,12 +7,10 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
 public class RegistryTests : IDisposable
 {
-    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
 
     public RegistryTests(MSTestContext testContext)
     {
-        _testContext = testContext;
         _loggerFactory = new TestLoggerFactory(testContext);
     }
 

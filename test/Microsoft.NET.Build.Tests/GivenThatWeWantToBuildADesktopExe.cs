@@ -235,7 +235,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow("false", false)]
         [DataRow("true", true)]
         [DataRow("", false)]
-        public void It_includes_platform_in_testContext_path_if_requested(string appendPlatformValue, bool shouldIncludePlatform)
+        public void It_includes_platform_in_output_path_if_requested(string appendPlatformValue, bool shouldIncludePlatform)
         {
             var testAsset = _testAssetsManager
                 .CopyTestAsset("DesktopMinusRid")

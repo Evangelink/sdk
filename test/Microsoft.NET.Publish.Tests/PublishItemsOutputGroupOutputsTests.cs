@@ -52,7 +52,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Pass();
 
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.Path, testProject.Name),
                 testProject.TargetFrameworks,
                 "PublishItemsOutputGroupOutputs",

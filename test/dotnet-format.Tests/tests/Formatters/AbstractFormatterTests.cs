@@ -106,7 +106,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
                 Assert.AreEqual(code, formattedText.ToString());
 
                 // Ensure no non-fixable diagnostics were reported
-                Assert.HasCount(0, formattedFiles);
+                Assert.IsEmpty(formattedFiles);
             }
             catch
             {

@@ -77,7 +77,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert 1
             Assert.IsNotNull(result);
-            var entry = Assert.HasCount(1, metadataCache.Cache.TestingEnumerable);
+            var entry = Assert.ContainsSingle(metadataCache.Cache.TestingEnumerable);
             Assert.Same(result, entry.Value.Metadata);
 
             // Act 2
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert 2
             Assert.NotSame(result, cacheResult);
-            entry = Assert.HasCount(1, metadataCache.Cache.TestingEnumerable);
+            entry = Assert.ContainsSingle(metadataCache.Cache.TestingEnumerable);
             Assert.Same(cacheResult, entry.Value.Metadata);
         }
     }

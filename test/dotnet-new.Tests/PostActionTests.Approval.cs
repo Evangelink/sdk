@@ -13,9 +13,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateLocation = _testAssetsManager.CopyTestAsset("PostActions/RestoreNuGet/Basic", testAssetSubdirectory: DotnetNewTestTemplatesBasePath).WithSource().Path;
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "TestAssets.PostActions.RestoreNuGet.Basic", "-n", "MyProject")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "TestAssets.PostActions.RestoreNuGet.Basic", "-n", "MyProject")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -45,9 +45,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.RunScript.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "--allow-scripts", "yes")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "--allow-scripts", "yes")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -68,9 +68,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.AddPackageReference.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "-n", "MyProject")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "-n", "MyProject")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -99,9 +99,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.AddProjectReference.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "-n", "MyProject")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "-n", "MyProject")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -130,10 +130,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.AddProjectToSolution.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
             //creating solution file to add to
-            new DotnetNewCommand(_testContext, "sln", "-n", "MySolution")
+            new DotnetNewCommand(MSTestContext, "sln", "-n", "MySolution")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -141,7 +141,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "-n", "MyProject")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "-n", "MyProject")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -170,9 +170,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.Instructions.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -192,9 +192,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.RestoreNuGet.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "-n", "MyProject", "--dry-run")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "-n", "MyProject", "--dry-run")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -216,9 +216,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.UnknownPostAction";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName)
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -236,9 +236,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string templateName = "TestAssets.PostActions.RunScript.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
+            InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "--allow-scripts", "no")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, templateName, "--allow-scripts", "no")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();

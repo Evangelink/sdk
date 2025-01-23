@@ -11,9 +11,9 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public Task CanShowMessageInCaseShortNameConflict()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("TemplateWithConflictShortName", _testContext, customHivePath);
+            InstallTestTemplate("TemplateWithConflictShortName", MSTestContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "update")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "update")
                   .WithCustomHive(customHivePath)
                   .WithoutBuiltInTemplates()
                   .Execute();
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public Task CanShowError_WhenGlobalSettingsFileIsCorrupted()
         {
             string homeDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_testContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
+            new DotnetNewCommand(MSTestContext, "install", "Microsoft.DotNet.Common.ProjectTemplates.5.0::5.0.0")
                 .WithCustomHive(homeDirectory)
                 .WithoutBuiltInTemplates()
                 .Execute()
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             var globalSettingsFile = Path.Combine(homeDirectory, "packages.json");
             File.WriteAllText(globalSettingsFile, string.Empty);
 
-            CommandResult commandResult = new DotnetNewCommand(_testContext, "update")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "update")
                 .WithCustomHive(homeDirectory)
                 .WithoutBuiltInTemplates()
                 .Execute();

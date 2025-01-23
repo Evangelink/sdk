@@ -11,12 +11,10 @@ public class DaemonTestsCollection
 [Collection("Daemon Tests")]
 public class DockerDaemonTests : IDisposable
 {
-    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
 
     public DockerDaemonTests(MSTestContext testContext)
     {
-        _testContext = testContext;
         _loggerFactory = new TestLoggerFactory(testContext);
     }
 

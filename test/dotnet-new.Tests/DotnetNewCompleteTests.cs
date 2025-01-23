@@ -7,21 +7,18 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class DotnetNewCompleteTests : BaseIntegrationTest
     {
-        private readonly MSTestContext _testContext;
-
         public DotnetNewCompleteTests(MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
         }
 
         [TestMethod]
         public Task CanDoTabCompletion()
         {
             string homeDir = CreateTemporaryFolder();
-            CommandResult commandResult = new DotnetCommand(_testContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
+            CommandResult commandResult = new DotnetCommand(MSTestContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
 
             // need to run twice to avoid https://github.com/dotnet/templating/pull/7103
-            commandResult = new DotnetCommand(_testContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
+            commandResult = new DotnetCommand(MSTestContext, "complete", $"new --debug:custom-hive {homeDir} ").Execute();
 
             commandResult
                 .Should()
@@ -37,7 +34,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void CanDoTabCompletionAtGivenPosition()
         {
             string homeDir = CreateTemporaryFolder();
-            CommandResult commandResult = new DotnetCommand(_testContext, "complete", $"new co --debug:custom-hive {homeDir} --language C#", "--position", "7")
+            CommandResult commandResult = new DotnetCommand(MSTestContext, "complete", $"new co --debug:custom-hive {homeDir} --language C#", "--position", "7")
                 .Execute();
 
             commandResult

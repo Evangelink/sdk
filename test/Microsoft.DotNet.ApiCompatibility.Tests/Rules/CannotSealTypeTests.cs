@@ -72,7 +72,7 @@ namespace CompatTests
 
             if (!includeInternals)
             {
-                Assert.HasCount(0, differences);
+                Assert.IsEmpty(differences);
             }
             else
             {
@@ -192,7 +192,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftContainer, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]

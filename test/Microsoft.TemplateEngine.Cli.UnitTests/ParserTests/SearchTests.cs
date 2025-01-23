@@ -65,7 +65,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             SearchCommandArgs args = new((BaseSearchCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.HasCount(1, args.AppliedFilters);
+            Assert.ContainsSingle(args.AppliedFilters);
             Assert.Contains("filter-value", args.GetFilterValue(expectedDef));
             Assert.AreEqual("source", args.SearchNameCriteria);
         }
@@ -99,7 +99,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             SearchCommandArgs args = new((BaseSearchCommand)parseResult.CommandResult.Command, parseResult);
 
-            Assert.HasCount(1, args.AppliedFilters);
+            Assert.ContainsSingle(args.AppliedFilters);
             Assert.Contains("filter-value", args.GetFilterValue(expectedDef));
             Assert.Null(args.SearchNameCriteria);
         }

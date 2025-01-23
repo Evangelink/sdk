@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
 public sealed class LayerEndToEndTests : IDisposable
 {
-    private MSTestContext _testContext;
+    private MSTestContext MSTestContext { get; }
 
     public LayerEndToEndTests(MSTestContext testContext)
     {
-        _testContext = testContext;
+        MSTestContext = testContext;
         testSpecificArtifactRoot = new();
         priorArtifactRoot = ContentStore.ArtifactRoot;
         ContentStore.ArtifactRoot = testSpecificArtifactRoot.Path;

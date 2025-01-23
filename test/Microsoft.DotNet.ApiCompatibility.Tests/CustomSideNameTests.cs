@@ -39,7 +39,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             AssertNames(differences.First(), expectedLeftName, expectedRightName);
         }
 
@@ -73,12 +73,12 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString);
 
             // Use the single assembly override
             differences = differ.GetDifferences(left, right);
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString);
         }
 
@@ -112,7 +112,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             AssertNames(differences.First(), left.MetadataInformation.DisplayString, right.MetadataInformation.DisplayString, leftFirst: false);
         }
 

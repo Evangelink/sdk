@@ -5,21 +5,19 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewDetailsTest : BaseIntegrationTest, IClassFixture<DiagnosticFixture>
     {
-        private readonly MSTestContext _testContext;
         private readonly IMessageSink _messageSink;
 
         public DotnetNewDetailsTest(DiagnosticFixture diagnosisFixture, MSTestContext testContext) : base(testContext)
         {
-            _testContext = testContext;
             _messageSink = diagnosisFixture.DiagnosticSink;
         }
 
         [TestMethod]
         public void CanDisplayDetails_LocalPackage()
         {
-            string packageLocation = PackTestNuGetPackage(_testContext);
+            string packageLocation = PackTestNuGetPackage(MSTestContext);
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_testContext, "install", packageLocation)
+            new DotnetNewCommand(MSTestContext, "install", packageLocation)
                 .WithoutBuiltInTemplates().WithCustomHive(home)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -27,7 +25,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .ExitWith(0)
                 .And.NotHaveStdErr();
 
-            new DotnetNewCommand(_testContext, "details", "Microsoft.TemplateEngine.TestTemplates")
+            new DotnetNewCommand(MSTestContext, "details", "Microsoft.TemplateEngine.TestTemplates")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()
@@ -45,7 +43,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             {
                 return;
             }
-            new DotnetNewCommand(_testContext, "details", "Some package that does not exist")
+            new DotnetNewCommand(MSTestContext, "details", "Some package that does not exist")
             .WithCustomHive(CreateTemporaryFolder(folderName: "Home"))
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute()

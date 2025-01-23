@@ -62,9 +62,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithClearCache)]);
 
-            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.HasCount(1, actions.ClearCache);
-            Assert.HasCount(0, actions.UpdateApplication);
+            Assert.IsEmpty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.ContainsSingle(actions.ClearCache);
+            Assert.IsEmpty(actions.UpdateApplication);
         }
 
         [TestMethod]
@@ -74,9 +74,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithUpdateApplication)]);
 
-            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.HasCount(0, actions.ClearCache);
-            Assert.HasCount(1, actions.UpdateApplication);
+            Assert.IsEmpty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.IsEmpty(actions.ClearCache);
+            Assert.ContainsSingle(actions.UpdateApplication);
         }
 
         [TestMethod]
@@ -86,9 +86,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var invoker = new MetadataUpdateHandlerInvoker(reporter);
             var actions = invoker.GetMetadataUpdateHandlerActions([typeof(HandlerWithBothActions)]);
 
-            Assert.HasCount(0, reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
-            Assert.HasCount(1, actions.ClearCache);
-            Assert.HasCount(1, actions.UpdateApplication);
+            Assert.IsEmpty(reporter.GetAndClearLogEntries(ResponseLoggingLevel.Verbose));
+            Assert.ContainsSingle(actions.ClearCache);
+            Assert.ContainsSingle(actions.UpdateApplication);
         }
 
         [TestMethod]
@@ -101,11 +101,11 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.HasCount(1, testContext);
+            var logEntry = Assert.ContainsSingle(testContext);
             Assert.AreEqual($"Type '{handlerType}' has method 'Void ClearCache()' that does not match the required signature.", logEntry.message);
             Assert.AreEqual(AgentMessageSeverity.Warning, logEntry.severity);
-            Assert.HasCount(0, actions.ClearCache);
-            Assert.HasCount(1, actions.UpdateApplication);
+            Assert.IsEmpty(actions.ClearCache);
+            Assert.ContainsSingle(actions.UpdateApplication);
         }
 
         [TestMethod]
@@ -118,13 +118,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.HasCount(1, testContext);
+            var logEntry = Assert.ContainsSingle(testContext);
             Assert.AreEqual(
                 $"Expected to find a static method 'ClearCache' or 'UpdateApplication' on type '{handlerType.AssemblyQualifiedName}' but neither exists.", logEntry.message);
 
             Assert.AreEqual(AgentMessageSeverity.Warning, logEntry.severity);
-            Assert.HasCount(0, actions.ClearCache);
-            Assert.HasCount(0, actions.UpdateApplication);
+            Assert.IsEmpty(actions.ClearCache);
+            Assert.IsEmpty(actions.UpdateApplication);
         }
 
         private static Assembly GetAssembly(string fullName, AssemblyName[] dependencies)

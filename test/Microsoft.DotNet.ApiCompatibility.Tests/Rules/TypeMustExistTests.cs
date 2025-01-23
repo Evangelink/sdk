@@ -167,7 +167,7 @@ namespace CompatTests
             IAssemblySymbol right = SymbolFactory.GetAssemblyFromSyntaxWithReferences(syntax, references);
             ApiComparer differ = new(s_ruleFactory);
 
-            Assert.HasCount(0, differ.GetDifferences(left, right));
+            Assert.IsEmpty(differ.GetDifferences(left, right));
         }
 
         [TestMethod]
@@ -235,7 +235,7 @@ namespace CompatTests
 
             if (!includeInternalSymbols)
             {
-                Assert.HasCount(0, differences);
+                Assert.IsEmpty(differences);
             }
             else
             {
@@ -449,7 +449,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]
@@ -473,7 +473,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]

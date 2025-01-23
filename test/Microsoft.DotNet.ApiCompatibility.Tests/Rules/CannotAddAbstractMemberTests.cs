@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]

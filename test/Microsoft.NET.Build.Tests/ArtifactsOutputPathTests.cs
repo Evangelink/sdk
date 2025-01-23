@@ -382,7 +382,7 @@ namespace Microsoft.NET.Build.Tests
         [TestMethod]
         public void PackageOutputNameCanBeSet()
         {
-            var testAsset = CreateCustomizedTestProject("ArtifactsPackageOutputName", "package_testContext");
+            var testAsset = CreateCustomizedTestProject("ArtifactsPackageOutputName", "package_output");
 
             new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testAsset.Path)
@@ -390,7 +390,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should()
                 .Pass();
 
-            new FileInfo(Path.Combine(testAsset.Path, "artifacts", "package_testContext", "release", "App.1.0.0.nupkg"))
+            new FileInfo(Path.Combine(testAsset.Path, "artifacts", "package_output", "release", "App.1.0.0.nupkg"))
                 .Should()
                 .Exist();
         }

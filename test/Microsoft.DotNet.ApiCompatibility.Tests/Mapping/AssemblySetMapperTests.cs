@@ -31,7 +31,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
         public void AssemblySetMapper_GetAssembliesWithoutLeftAndRight_EmptyResult()
         {
             AssemblySetMapper assemblySetMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1);
-            Assert.HasCount(0, assemblySetMapper.GetAssemblies());
+            Assert.IsEmpty(assemblySetMapper.GetAssemblies());
             Assert.AreEqual(0, assemblySetMapper.AssemblyCount);
         }
 

@@ -21,7 +21,7 @@ namespace Microsoft.DotNet.Tests
                 .Execute();
 
             result.ExitCode.Should().Be(0);
-            Assert.HasCount(0, new DirectoryInfo(dir.Path).GetFiles());
+            Assert.IsEmpty(new DirectoryInfo(dir.Path).GetFiles());
         }
 
         [TestMethod]

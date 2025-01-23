@@ -1402,7 +1402,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> actual = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, actual);
+            Assert.IsEmpty(actual);
         }
 
         [TestMethod]

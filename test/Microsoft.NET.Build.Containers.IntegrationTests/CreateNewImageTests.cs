@@ -13,11 +13,11 @@ namespace Microsoft.NET.Build.Containers.Tasks.IntegrationTests;
 [Collection("Docker tests")]
 public class CreateNewImageTests
 {
-    private MSTestContext _testContext;
+    private MSTestContext MSTestContext { get; }
 
     public CreateNewImageTests(MSTestContext testContext)
     {
-        _testContext = testContext;
+        MSTestContext = testContext;
     }
 
     [DockerAvailableFact]
@@ -31,13 +31,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(MSTestContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", "linux-arm64", "--no-self-contained")
+        new DotnetCommand(MSTestContext, "publish", "-c", "Release", "-r", "linux-arm64", "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -82,13 +82,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(MSTestContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testContext, "build", "--configuration", "release")
+        new DotnetCommand(MSTestContext, "build", "--configuration", "release")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -145,7 +145,7 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(MSTestContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
@@ -155,7 +155,7 @@ public class CreateNewImageTests
 
         File.WriteAllText(Path.Combine(newProjectDir.FullName, "Program.cs"), $"Console.Write(Environment.GetEnvironmentVariable(\"GoodEnvVar\"));");
 
-        new DotnetCommand(_testContext, "build", "--configuration", "release", "/p:runtimeidentifier=linux-x64")
+        new DotnetCommand(MSTestContext, "build", "--configuration", "release", "/p:runtimeidentifier=linux-x64")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -178,7 +178,7 @@ public class CreateNewImageTests
         Assert.AreEqual("mcr.microsoft.com", pcp.ParsedContainerRegistry);
         Assert.AreEqual("dotnet/runtime", pcp.ParsedContainerImage);
         Assert.AreEqual(DockerRegistryManager.Net9ImageTag, pcp.ParsedContainerTag);
-        Assert.HasCount(1, pcp.NewContainerEnvironmentVariables);
+        Assert.ContainsSingle(pcp.NewContainerEnvironmentVariables);
         Assert.AreEqual("Foo", pcp.NewContainerEnvironmentVariables[0].GetMetadata("Value"));
 
         Assert.AreEqual("dotnet/envvarvalidation", pcp.NewContainerRepository);
@@ -209,10 +209,10 @@ public class CreateNewImageTests
         Assert.AreEqual("1654", config.GetUser());
 
         var ports = config.Ports;
-        Assert.HasCount(1, ports);
+        Assert.ContainsSingle(ports);
         Assert.AreEqual(new(8080, PortType.tcp), ports.First());
 
-        ContainerCli.RunCommand(_testContext, "--rm", $"{pcp.NewContainerRepository}:latest")
+        ContainerCli.RunCommand(MSTestContext, "--rm", $"{pcp.NewContainerRepository}:latest")
             .Execute()
             .Should().Pass()
             .And.HaveStdOut("Foo");
@@ -224,7 +224,7 @@ public class CreateNewImageTests
         const string RootlessBase = "dotnet/rootlessbase";
         const string AppImage = "dotnet/testimagerootless";
         const string RootlessUser = "1654";
-        var loggerFactory = new TestLoggerFactory(_testContext);
+        var loggerFactory = new TestLoggerFactory(MSTestContext);
         var logger = loggerFactory.CreateLogger(nameof(CreateNewImage_RootlessBaseImage));
 
         // Build a rootless base runtime image.
@@ -257,13 +257,13 @@ public class CreateNewImageTests
 
         newProjectDir.Create();
 
-        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(MSTestContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
 
-        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", "linux-x64", "--no-self-contained")
+        new DotnetCommand(MSTestContext, "publish", "-c", "Release", "-r", "linux-x64", "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();

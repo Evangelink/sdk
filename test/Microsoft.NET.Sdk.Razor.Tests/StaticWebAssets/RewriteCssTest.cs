@@ -14,7 +14,7 @@ public class RewriteCssTest
         var result = RewriteCss.AddScopeToSelectors("file.css", string.Empty, "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(string.Empty, result);
     }
 
@@ -27,7 +27,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .myclass[TestScope] { color: red; }
 ", result);
@@ -46,7 +46,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .first[TestScope], .second[TestScope] { color: red; }
     .third[TestScope] { color: blue; }
@@ -65,7 +65,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .first div > li[TestScope], body .second:not(.fancy)[attr~=whatever][TestScope] { color: red; }
 ", result);
@@ -80,7 +80,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .first /* space at end {} */ div[TestScope] , .myclass[TestScope] /* comment at end */ { color: red; }
 ", result);
@@ -100,7 +100,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a:fake-pseudo-class[TestScope] { color: red; }
     a:focus b:hover[TestScope] { color: green; }
@@ -126,7 +126,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a[TestScope]::before { content: ""✋""; }
     a[TestScope]::after::placeholder { content: ""🐯""; }
@@ -152,7 +152,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a[TestScope]:after { content: ""x""; }
     a[TestScope]:before { content: ""x""; }
@@ -173,7 +173,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .first[TestScope]  .second { color: red; }
     a[TestScope]  b, c[TestScope]  d { color: blue; }
@@ -190,7 +190,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a[TestScope]  >   b { color: red; }
     c[TestScope]   >  d { color: blue; }
@@ -207,7 +207,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a[TestScope] +  b { color: red; }
     c[TestScope]  + d { color: blue; }
@@ -224,7 +224,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     a[TestScope] ~  b { color: red; }
     c[TestScope]  ~ d { color: blue; }
@@ -240,7 +240,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .first[TestScope]  .second ::deep .third { color:red; }
 ", result);
@@ -257,7 +257,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .a .b[TestScope] /* comment ::deep 1 */    /* comment ::deep 2 */  .c /* ::deep */ .d { color: red; }
     [TestScope] * { color: blue; } /* Leading deep combinator */
@@ -280,7 +280,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .myclass[TestScope] { color: red; }
 
@@ -301,7 +301,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     @keyframes my-animation-TestScope { /* whatever */ }
 ", result);
@@ -327,7 +327,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .myclass[TestScope] {
         color: red;
@@ -356,7 +356,7 @@ public class RewriteCssTest
 ", "TestScope", out var errors);
 
         // Assert
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.AreEqual(@"
     .myclass1[TestScope] { animation-name: my-animation-TestScope , different-animation-TestScope }
     .myclass2[TestScope] { animation: 4s linear 0s alternate my-animation-TestScope infinite, different-animation-TestScope 0s }

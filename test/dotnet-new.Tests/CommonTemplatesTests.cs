@@ -15,13 +15,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public class CommonTemplatesTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _fixture;
-        private readonly MSTestContext _testContext;
         private readonly ILogger _logger;
 
         public CommonTemplatesTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
             _fixture = fixture;
-            _testContext = testContext;
             _logger = new TestLoggerFactory(testContext).CreateLogger(nameof(CommonTemplatesTests));
         }
 
@@ -131,7 +129,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string expectedTemplateName = "NuGet Config";
             string workingDir = TestUtils.CreateTemporaryFolder();
 
-            new DotnetNewCommand(_testContext, templateShortName)
+            new DotnetNewCommand(MSTestContext, templateShortName)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDir)
                 .Execute()
@@ -420,7 +418,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             if (buildPass)
             {
-                new DotnetBuildCommand(_testContext, "MyProject")
+                new DotnetBuildCommand(MSTestContext, "MyProject")
                     .WithWorkingDirectory(workingDir)
                     .Execute()
                     .Should()

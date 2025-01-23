@@ -42,7 +42,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: false, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Success, result);
-            Assert.HasCount(1, postActionProcessor.Calls);
+            Assert.ContainsSingle(postActionProcessor.Calls);
             Assert.AreEqual(engineEnvironmentSettings, postActionProcessor.Calls.Single().EngineEnvironmentSettings);
             Assert.AreEqual(postAction, postActionProcessor.Calls.Single().PostAction);
             Assert.AreEqual(creationEffects, postActionProcessor.Calls.Single().CreationEffects);
@@ -73,7 +73,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: true, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Success, result);
-            Assert.HasCount(0, postActionProcessor.Calls);
+            Assert.IsEmpty(postActionProcessor.Calls);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: true, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Success, result);
-            Assert.HasCount(0, postActionProcessor.Calls);
+            Assert.IsEmpty(postActionProcessor.Calls);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: false, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Failure, result);
-            Assert.HasCount(0, postActionProcessor.Calls);
+            Assert.IsEmpty(postActionProcessor.Calls);
         }
 
         [TestMethod]
@@ -231,8 +231,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.AreEqual(PostActionExecutionStatus.Success, result);
 
             //2 post actions were executed
-            Assert.HasCount(1, trueProcessor.Calls);
-            Assert.HasCount(1, falseProcessor.Calls);
+            Assert.ContainsSingle(trueProcessor.Calls);
+            Assert.ContainsSingle(falseProcessor.Calls);
             Assert.AreEqual(postAction1, falseProcessor.Calls[0].PostAction);
             Assert.AreEqual(postAction2, trueProcessor.Calls[0].PostAction);
         }
@@ -277,8 +277,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.AreEqual(PostActionExecutionStatus.Failure, result);
 
             //only first post action was executed
-            Assert.HasCount(0, trueProcessor.Calls);
-            Assert.HasCount(1, falseProcessor.Calls);
+            Assert.IsEmpty(trueProcessor.Calls);
+            Assert.ContainsSingle(falseProcessor.Calls);
             Assert.AreEqual(postAction1, falseProcessor.Calls[0].PostAction);
         }
 
@@ -484,7 +484,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: false, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Cancelled, result);
-            Assert.HasCount(1, postActionProcessor.Calls);
+            Assert.ContainsSingle(postActionProcessor.Calls);
             Assert.AreEqual(postAction2, postActionProcessor.Calls.Single().PostAction);
         }
 
@@ -528,7 +528,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             var result = dispatcher.Process(templateCreationResult, isDryRun: false, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Cancelled, result);
             Assert.AreNotEqual(PostActionExecutionStatus.Failure, result);
-            Assert.HasCount(1, postActionProcessor.Calls);
+            Assert.ContainsSingle(postActionProcessor.Calls);
             Assert.AreEqual(postAction2, postActionProcessor.Calls.Single().PostAction);
         }
 

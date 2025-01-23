@@ -34,8 +34,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(1, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.ContainsSingle(analyzers);
         }
 
         [TestMethod]
@@ -56,8 +56,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(0, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.IsEmpty(analyzers);
         }
 
         [TestMethod]
@@ -78,8 +78,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(0, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.IsEmpty(analyzers);
         }
 
         [TestMethod]
@@ -100,8 +100,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(1, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.ContainsSingle(analyzers);
         }
 
         [TestMethod]
@@ -122,8 +122,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(0, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.IsEmpty(analyzers);
         }
 
         [TestMethod]
@@ -144,8 +144,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
                 diagnostics,
                 excludeDiagnostics,
                 CancellationToken.None);
-            var (_, analyzers) = Assert.HasCount(1, result);
-            Assert.HasCount(0, analyzers);
+            var (_, analyzers) = Assert.ContainsSingle(result);
+            Assert.IsEmpty(analyzers);
         }
 
         private static async Task<AnalyzersAndFixers> GetAnalyzersAndFixersAsync(string language)

@@ -42,7 +42,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
             string outputBasePath = targetBasePath;
 
             IReadOnlyList<string> projFilesFound = DotnetAddPostActionProcessor.FindProjFileAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, outputBasePath, new HashSet<string>());
-            Assert.HasCount(1, projFilesFound);
+            Assert.ContainsSingle(projFilesFound);
         }
 
         [Fact(DisplayName = nameof(AddRefFindsOneNameConfiguredProjFileInOutputDirectory))]
@@ -57,7 +57,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 
             HashSet<string> projectFileExtensions = new() { ".fooproj" };
             IReadOnlyList<string> projFilesFound = DotnetAddPostActionProcessor.FindProjFileAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, outputBasePath, projectFileExtensions);
-            Assert.HasCount(1, projFilesFound);
+            Assert.ContainsSingle(projFilesFound);
         }
 
         [Fact(DisplayName = nameof(AddRefFindsOneNameConfiguredProjFileWhenMultipleExtensionsAreAllowed))]
@@ -72,7 +72,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 
             HashSet<string> projectFileExtensions = new() { ".fooproj", ".barproj" };
             IReadOnlyList<string> projFilesFound = DotnetAddPostActionProcessor.FindProjFileAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, outputBasePath, projectFileExtensions);
-            Assert.HasCount(1, projFilesFound);
+            Assert.ContainsSingle(projFilesFound);
         }
 
         [Fact(DisplayName = nameof(AddRefIgnoresOtherProjectTypesWhenMultipleTypesAreAllowed))]
@@ -96,7 +96,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 
             HashSet<string> projectFileExtensions = new() { ".bazproj", ".fsproj" };
             IReadOnlyList<string> projFilesFound = DotnetAddPostActionProcessor.FindProjFileAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, outputBasePath, projectFileExtensions);
-            Assert.HasCount(1, projFilesFound);
+            Assert.ContainsSingle(projFilesFound);
         }
 
         [Fact(DisplayName = nameof(AddRefFindsOneDefaultProjFileInAncestorOfOutputDirectory))]
@@ -111,7 +111,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
 
             DotnetAddPostActionProcessor actionProcessor = new();
             IReadOnlyList<string> projFilesFound = DotnetAddPostActionProcessor.FindProjFileAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, outputBasePath, new HashSet<string>());
-            Assert.HasCount(1, projFilesFound);
+            Assert.ContainsSingle(projFilesFound);
         }
 
         [Fact(DisplayName = nameof(AddRefFindsMultipleDefaultProjFilesInOutputDirectory))]

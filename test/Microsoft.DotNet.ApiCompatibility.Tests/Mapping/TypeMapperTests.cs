@@ -36,14 +36,14 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
         public void TypeMapper_GetNestedTypesWithoutLeftAndRight_EmptyResult()
         {
             TypeMapper typeMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1, Mock.Of<INamespaceMapper>());
-            Assert.HasCount(0, typeMapper.GetNestedTypes());
+            Assert.IsEmpty(typeMapper.GetNestedTypes());
         }
 
         [TestMethod]
         public void TypeMapper_GetMembersWithoutLeftAndRight_EmptyResult()
         {
             TypeMapper typeMapper = new(Mock.Of<IRuleRunner>(), Mock.Of<IMapperSettings>(), rightSetSize: 1, Mock.Of<INamespaceMapper>());
-            Assert.HasCount(0, typeMapper.GetMembers());
+            Assert.IsEmpty(typeMapper.GetMembers());
         }
 
         [TestMethod]
@@ -73,10 +73,10 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.HasCount(1, namespaceMappers);
+            Assert.ContainsSingle(namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.HasCount(1, typeMappers);
+            Assert.ContainsSingle(typeMappers);
 
             IEnumerable<ITypeMapper> nestedTypeMappers = typeMappers.Single().GetNestedTypes();
 
@@ -114,10 +114,10 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.HasCount(1, namespaceMappers);
+            Assert.ContainsSingle(namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.HasCount(1, typeMappers);
+            Assert.ContainsSingle(typeMappers);
 
             IEnumerable<IMemberMapper> memberMappers = typeMappers.Single().GetMembers();
 
@@ -154,16 +154,16 @@ public class A
             assemblyMapper.AddElement(right, ElementSide.Right);
 
             IEnumerable<INamespaceMapper> namespaceMappers = assemblyMapper.GetNamespaces();
-            Assert.HasCount(1, namespaceMappers);
+            Assert.ContainsSingle(namespaceMappers);
 
             IEnumerable<ITypeMapper> typeMappers = namespaceMappers.Single().GetTypes();
-            Assert.HasCount(1, typeMappers);
+            Assert.ContainsSingle(typeMappers);
 
             IEnumerable<IMemberMapper> memberMappers = typeMappers.Single().GetMembers();
-            Assert.HasCount(0, memberMappers);
+            Assert.IsEmpty(memberMappers);
 
             IEnumerable<ITypeMapper> nestedTypeMappers = typeMappers.Single().GetNestedTypes();
-            Assert.HasCount(0, nestedTypeMappers);
+            Assert.IsEmpty(nestedTypeMappers);
         }
     }
 }

@@ -120,9 +120,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             var depsFilePath = Path.Combine(outputPath, "SimpleMvc.deps.json");
             var dependencyContext = ReadDependencyContext(depsFilePath);
 
-            var library = Assert.HasCount(1, dependencyContext.CompileLibraries);
-            Assert.HasCount(0, library.Assemblies);
-            Assert.HasCount(0, dependencyContext.CompilationOptions.Defines);
+            var library = Assert.ContainsSingle(dependencyContext.CompileLibraries);
+            Assert.IsEmpty(library.Assemblies);
+            Assert.IsEmpty(dependencyContext.CompilationOptions.Defines);
 
             // Verify no refs folder is produced
             new DirectoryInfo(Path.Combine(outputPath, "publish", "refs")).Should().NotExist();

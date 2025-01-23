@@ -162,7 +162,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             Assert.IsNotNull(args.ParseResult);
             Assert.AreEqual("console", args.ShortName);
-            Assert.HasCount(0, args.RemainingArguments);
+            Assert.IsEmpty(args.RemainingArguments);
             Assert.AreEqual("val", args.ParseResult.GetValue(customOption));
         }
 

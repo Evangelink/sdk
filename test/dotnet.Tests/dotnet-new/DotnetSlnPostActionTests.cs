@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
             _engineEnvironmentSettings.Host.FileSystem.WriteAllText(solutionFileFullPath, string.Empty);
 
             IReadOnlyList<string> solutionFiles = DotnetSlnPostActionProcessor.FindSolutionFilesAtOrAbovePath(_engineEnvironmentSettings.Host.FileSystem, targetBasePath);
-            Assert.HasCount(1, solutionFiles);
+            Assert.ContainsSingle(solutionFiles);
             Assert.AreEqual(solutionFileFullPath, solutionFiles[0]);
         }
 
@@ -94,7 +94,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
             ICreationResult creationResult = new MockCreationResult(primaryOutputs: new[] { new MockCreationPath("outputProj1.csproj") });
 
             Assert.IsFalse(DotnetSlnPostActionProcessor.TryGetProjectFilesToAdd(postAction, creationResult, string.Empty, out IReadOnlyList<string>? foundProjectFiles));
-            Assert.HasCount(0, foundProjectFiles);
+            Assert.IsEmpty(foundProjectFiles);
         }
 
         [TestMethod(nameof(AddProjectToSolutionPostActionFindsMultipleProjectsToAddWithOutputBasePath))]

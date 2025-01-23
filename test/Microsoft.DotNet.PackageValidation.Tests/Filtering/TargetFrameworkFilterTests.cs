@@ -84,7 +84,7 @@ namespace Microsoft.DotNet.PackageValidation.Tests.Filtering
                 Assert.IsFalse(targetFrameworkFilter.IsExcluded(targetFramework));
             }
 
-            Assert.HasCount(0, targetFrameworkFilter.FoundExcludedTargetFrameworks);
+            Assert.IsEmpty(targetFrameworkFilter.FoundExcludedTargetFrameworks);
         }
     }
 }

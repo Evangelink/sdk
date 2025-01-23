@@ -106,7 +106,7 @@ namespace CompatTests
             IAssemblySymbol right = SymbolFactory.GetAssemblyFromSyntaxWithReferences(syntax, references);
             ApiComparer differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: true));
 
-            Assert.HasCount(0, differ.GetDifferences(left, right));
+            Assert.IsEmpty(differ.GetDifferences(left, right));
         }
 
         [TestMethod]

@@ -43,7 +43,7 @@ public class ParserTests
 
         Assert.IsNotNull(labels);
         Assert.AreEqual(6, labels.Count);
-        Assert.HasCount(0, labels["NoValue"]);
+        Assert.IsEmpty(labels["NoValue"]);
         Assert.AreEqual("Val2", labels["Valid2"]);
         Assert.AreEqual("Val 3", labels["Valid3"]);
         Assert.AreEqual("\"Val4\"", labels["Valid4"]);
@@ -81,7 +81,7 @@ public class ParserTests
 
         Assert.IsNotNull(labels);
         Assert.AreEqual(2, labels.Count);
-        Assert.HasCount(0, labels["NoValue"]);
+        Assert.IsEmpty(labels["NoValue"]);
         Assert.AreEqual("Val2", labels["Valid2"]);
     }
 
@@ -114,7 +114,7 @@ public class ParserTests
         }
 
         ParseResult parseResult = command.Parse(baseArgs.ToArray());
-        Assert.HasCount(1, parseResult.Errors);
+        Assert.ContainsSingle(parseResult.Errors);
 
         Assert.AreEqual($"Incorrectly formatted labels: {string.Join(";", labelStr)}", parseResult.Errors[0].Message);
     }
@@ -149,13 +149,13 @@ public class ParserTests
 
 
         ParseResult parseResult = command.Parse(baseArgs.ToArray());
-        Assert.HasCount(0, parseResult.Errors);
+        Assert.IsEmpty(parseResult.Errors);
 
         Dictionary<string, string>? envVars = parseResult.GetValue(command.EnvVarsOption);
 
         Assert.IsNotNull(envVars);
         Assert.AreEqual(6, envVars.Count);
-        Assert.HasCount(0, envVars["NoValue"]);
+        Assert.IsEmpty(envVars["NoValue"]);
         Assert.AreEqual("Val2", envVars["Valid2"]);
         Assert.AreEqual("Val 3", envVars["Valid3"]);
         Assert.AreEqual("\"Val4\"", envVars["Valid4"]);
@@ -191,7 +191,7 @@ public class ParserTests
 
 
         ParseResult parseResult = command.Parse(baseArgs.ToArray());
-        Assert.HasCount(0, parseResult.Errors);
+        Assert.IsEmpty(parseResult.Errors);
 
         Port[]? ports = parseResult.GetValue(command.PortsOption);
 
@@ -232,7 +232,7 @@ public class ParserTests
         baseArgs.Add(portStr);
 
         ParseResult parseResult = command.Parse(baseArgs.ToArray());
-        Assert.HasCount(1, parseResult.Errors);
+        Assert.ContainsSingle(parseResult.Errors);
 
         Assert.AreEqual(errorMessage, parseResult.Errors[0].Message);
     }

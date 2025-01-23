@@ -99,7 +99,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace CompatTests
             }
             else
             {
-                Assert.HasCount(0, differences);
+                Assert.IsEmpty(differences);
             }
         }
 

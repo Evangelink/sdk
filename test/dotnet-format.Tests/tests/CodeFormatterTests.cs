@@ -43,11 +43,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
 
         private Regex FindFormattingLogLine => new Regex(@"((.*)\(\d+,\d+\): (.*))\r|((.*)\(\d+,\d+\): (.*))");
 
-        private readonly MSTestContext _testContext;
+        private MSTestContext MSTestContext { get; }
 
         public CodeFormatterTests(MSTestContext testContext)
         {
-            _testContext = testContext;
+            MSTestContext = testContext;
         }
 
         [MSBuildFact]
@@ -314,7 +314,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             var formatLocations = log.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Where(line => FindFormattingLogLine.Match(line).Success);
 
-            Assert.HasCount(0, formatLocations);
+            Assert.IsEmpty(formatLocations);
         }
 
         [MSBuildFact]
@@ -458,7 +458,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
         [MSBuildFact]
         public async Task FilesFormattedInCodeStyleSolutionFilter_WhenFixingCodeStyleWarnings()
         {
-            var restoreExitCode = await Utilities.DotNetHelper.PerformRestoreAsync(s_codeStyleSolutionFilterFilePath, _testContext);
+            var restoreExitCode = await Utilities.DotNetHelper.PerformRestoreAsync(s_codeStyleSolutionFilterFilePath, MSTestContext);
             Assert.AreEqual(0, restoreExitCode);
 
             await TestFormatWorkspaceAsync(
@@ -545,7 +545,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             {
                 var solutionFilePath = Path.Combine(solutionPath, s_generatorSolutionFileName);
 
-                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _testContext);
+                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, MSTestContext);
                 Assert.AreEqual(0, buildExitCode);
 
                 // Fix PublicAPI analyzer diagnostics.
@@ -593,7 +593,7 @@ Greeter.Greeter() -> void";
             {
                 var solutionFilePath = Path.Combine(solutionPath, s_generatorSolutionFileName);
 
-                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _testContext);
+                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, MSTestContext);
                 Assert.AreEqual(0, buildExitCode);
 
                 // Fix PublicAPI analyzer diagnostics.

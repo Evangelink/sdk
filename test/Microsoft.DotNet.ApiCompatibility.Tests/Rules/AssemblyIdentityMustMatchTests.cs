@@ -39,7 +39,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(left, right);
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, "AssemblyB, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
             Assert.AreEqual(expected, differences.First());
         }
@@ -59,7 +59,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             ApiComparer differ = new(s_ruleFactory);
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftSymbol, rightSymbol);
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, $"{leftSymbol.Name}, Version=0.0.0.0, Culture=de, PublicKeyToken=null");
             Assert.AreEqual(expected, differences.First());
         }
@@ -80,7 +80,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftSymbol, rightSymbol);
 
             // right assembly should have same or higher version than left
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, $"{rightSymbol.Name}, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
             Assert.AreEqual(expected, differences.First());
         }
@@ -100,13 +100,13 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             // Compatible assembly versions
             ApiComparer differ = new(s_ruleFactory);
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftSymbol, rightSymbol);
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
 
             differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: true));
 
             // Not strictly compatible
             differences = differ.GetDifferences(leftSymbol, rightSymbol);
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
 
             CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, $"{leftSymbol.Name}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
             Assert.AreEqual(expected, differences.First());
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             ApiComparer differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: strictMode));
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftSymbol, rightSymbol);
-            Assert.HasCount(0, differences);
+            Assert.IsEmpty(differences);
         }
 
         [TestMethod]
@@ -150,13 +150,13 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             if (strictMode)
             {
-                Assert.HasCount(1, differences);
+                Assert.ContainsSingle(differences);
                 CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, $"{rightSymbol.Name}, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
                 Assert.AreEqual(expected, differences.First());
             }
             else
             {
-                Assert.HasCount(0, differences);
+                Assert.IsEmpty(differences);
             }
         }
 
@@ -176,7 +176,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
             ApiComparer differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: strictMode));
             IEnumerable<CompatDifference> differences = differ.GetDifferences(leftSymbol, rightSymbol);
 
-            Assert.HasCount(1, differences);
+            Assert.ContainsSingle(differences);
             CompatDifference expected = CompatDifference.CreateWithDefaultMetadata(DiagnosticIds.AssemblyIdentityMustMatch, string.Empty, DifferenceType.Changed, $"{leftSymbol.Name}, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
             Assert.AreEqual(expected, differences.First());
         }
@@ -207,7 +207,7 @@ using System.Reflection;
 
             ApiComparer differ = new(s_ruleFactory, new ApiComparerSettings(strictMode: strictMode));
 
-            Assert.HasCount(0, differ.GetDifferences(leftSymbol, rightSymbol));
+            Assert.IsEmpty(differ.GetDifferences(leftSymbol, rightSymbol));
         }
     }
 }

@@ -5,21 +5,21 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewArgumentsTests
     {
-        private readonly MSTestContext _testContext;
+        private MSTestContext MSTestContext { get; }
 
         public DotnetNewArgumentsTests(MSTestContext testContext)
         {
-            _testContext = testContext;
+            MSTestContext = testContext;
         }
 
         [TestMethod]
         public void ShowsDetailedOutputOnMissedRequiredParam()
         {
-            var dotnetNewHelpOutput = new DotnetNewCommand(_testContext, "--help")
+            var dotnetNewHelpOutput = new DotnetNewCommand(MSTestContext, "--help")
                 .WithoutCustomHive()
                 .Execute();
 
-            new DotnetNewCommand(_testContext, "-v")
+            new DotnetNewCommand(MSTestContext, "-v")
                 .WithoutCustomHive()
                 .Execute()
                 .Should()

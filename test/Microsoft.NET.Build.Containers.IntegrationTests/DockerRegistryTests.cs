@@ -8,19 +8,20 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests;
 [Collection("Docker tests")]
 public class DockerRegistryTests
 {
-    private MSTestContext _testContext;
     private readonly TestLoggerFactory _loggerFactory;
+
+    private MSTestContext MSTestContext { get; }
 
     public DockerRegistryTests(MSTestContext testContext)
     {
-        _testContext = testContext;
+        MSTestContext = testContext;
         _loggerFactory = new TestLoggerFactory(testContext);
     }
 
     [DockerAvailableFact]
     public async Task GetFromRegistry()
     {
-        var loggerFactory = new TestLoggerFactory(_testContext);
+        var loggerFactory = new TestLoggerFactory(MSTestContext);
         var logger = loggerFactory.CreateLogger(nameof(GetFromRegistry));
         Registry registry = new(DockerRegistryManager.LocalRegistry, logger, RegistryMode.Push);
         var ridgraphfile = ToolsetUtils.GetRuntimeGraphFilePath();
@@ -54,10 +55,10 @@ public class DockerRegistryTests
             var registryCertFile = Path.Combine(registryCertsDir.FullName, "domain.crt");
 
             // export dev cert, using --no-password also generates a matching key file
-            new DotnetCommand(_testContext, $"dev-certs", "https", "--trust").Execute().Should().Pass();
-            new DotnetCommand(_testContext, $"dev-certs", "https", "--export-path", registryCertFile, "--format", "PEM", "--no-password").Execute().Should().Pass();
+            new DotnetCommand(MSTestContext, $"dev-certs", "https", "--trust").Execute().Should().Pass();
+            new DotnetCommand(MSTestContext, $"dev-certs", "https", "--export-path", registryCertFile, "--format", "PEM", "--no-password").Execute().Should().Pass();
             // start up an authenticated registry using that dev cert
-            ContainerCli.RunCommand(_testContext,
+            ContainerCli.RunCommand(MSTestContext,
                 "-d", "--rm",
                 "--name", "auth-registry",
                 "-p", "5555:5000",
@@ -71,9 +72,9 @@ public class DockerRegistryTests
                 "registry:2")
             .WithWorkingDirectory(registryDir.FullName).Execute().Should().Pass();
             // verify that the registry container started successfully
-            ContainerCli.InspectCommand(_testContext, "auth-registry").Execute().Should().Pass();
+            ContainerCli.InspectCommand(MSTestContext, "auth-registry").Execute().Should().Pass();
             // login to that registry
-            ContainerCli.LoginCommand(_testContext, "--username", "testuser", "--password", "testpassword", registryName).Execute().Should().Pass();
+            ContainerCli.LoginCommand(MSTestContext, "--username", "testuser", "--password", "testpassword", registryName).Execute().Should().Pass();
             // push an image to that registry using username/password
             Registry localAuthed = new(new Uri($"https://{registryName}"), logger, RegistryMode.Push, settings: new() { ParallelUploadEnabled = false, ForceChunkedUpload = true });
             var ridgraphfile = ToolsetUtils.GetRuntimeGraphFilePath();
@@ -93,7 +94,7 @@ public class DockerRegistryTests
         finally
         {
             //stop the registry
-            ContainerCli.StopCommand(_testContext, "auth-registry").WithWorkingDirectory(registryDir.FullName).Execute().Should().Pass();
+            ContainerCli.StopCommand(MSTestContext, "auth-registry").WithWorkingDirectory(registryDir.FullName).Execute().Should().Pass();
         }
     }
 }

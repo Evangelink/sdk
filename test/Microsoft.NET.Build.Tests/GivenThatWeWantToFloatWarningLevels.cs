@@ -366,7 +366,7 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdErr.Should().Be(string.Empty);
             var analyzerConfigFiles = buildCommand.GetValues();
             var expectedAnalyzerConfigFiles = analyzerConfigFiles.Where(file => string.Equals(Path.GetFileName(file), expectedMappedAnalyzerConfig));
-            var expectedAnalyzerConfigFile = Assert.HasCount(1, expectedAnalyzerConfigFiles);
+            var expectedAnalyzerConfigFile = Assert.ContainsSingle(expectedAnalyzerConfigFiles);
             File.Exists(expectedAnalyzerConfigFile).Should().BeTrue();
         }
 

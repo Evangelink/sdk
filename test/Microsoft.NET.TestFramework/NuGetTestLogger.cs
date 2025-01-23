@@ -8,7 +8,7 @@ namespace Microsoft.NET.TestFramework
 {
     public class NuGetTestLogger : ILogger
     {
-        private readonly ITestOutputHelper? _testContext;
+        private readonly MSTestContext? _testContext;
 
         public NuGetTestLogger()
         {

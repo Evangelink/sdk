@@ -120,7 +120,7 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             // Verify
             DirectoryInfo d = new(resultsDirectory);
             FileInfo[] coverageFileInfos = d.GetFiles("*.coverage", SearchOption.AllDirectories);
-            Assert.HasCount(1, coverageFileInfos);
+            Assert.ContainsSingle(coverageFileInfos);
         }
 
         [TestMethod]

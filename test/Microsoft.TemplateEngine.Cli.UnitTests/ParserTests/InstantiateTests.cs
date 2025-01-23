@@ -613,7 +613,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($"new {shortName}");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             HashSet<TemplateCommand> templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             Assert.AreEqual("MultiName.Test.High.CSharp", templateCommands.Single().Template.Identity);
         }
 
@@ -642,7 +642,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse(command);
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             HashSet<TemplateCommand> templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             Assert.AreEqual("Multiname.Test.Only.FSharp", templateCommands.Single().Template.Identity);
 
         }
@@ -673,7 +673,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new {command}");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             HashSet<TemplateCommand> templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             Assert.AreEqual(expectedIdentity, templateCommands.Single().Template.Identity);
         }
 
@@ -703,7 +703,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new {command}");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             HashSet<TemplateCommand> templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
             Assert.AreEqual(expectedIdentity, templateCommands.Single().Template.Identity);
         }
         #endregion
@@ -771,7 +771,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = rootCommand.Parse("new foo");
             InstantiateCommandArgs args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             HashSet<TemplateCommand> templateCommands = InstantiateCommand.GetTemplateCommand(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.HasCount(1, templateCommands);
+            Assert.ContainsSingle(templateCommands);
         }
     }
 }

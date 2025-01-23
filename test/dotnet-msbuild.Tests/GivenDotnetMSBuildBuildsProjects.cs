@@ -52,7 +52,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         [DataRow("pack")]
         [DataRow("publish")]
         [DataRow("restore")]
-        public void When_help_is_invoked_Then_MSBuild_extra_options_text_is_included_in_testContext(string commandName)
+        public void When_help_is_invoked_Then_MSBuild_extra_options_text_is_included_in_output(string commandName)
         {
             const string MSBuildHelpText = " Any extra options that should be passed to MSBuild. See 'dotnet msbuild -h' for available options.";
 

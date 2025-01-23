@@ -34,7 +34,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsNotNull(matchResult.UnambiguousTemplateGroup);
             Assert.AreEqual("console2", matchResult.UnambiguousTemplateGroup?.Templates.Single().ShortNameList.Single());
             Assert.AreEqual("Console.App2", matchResult.UnambiguousTemplateGroup?.Templates.Single().Identity);
-            Assert.HasCount(1, matchResult.UnambiguousTemplateGroup?.Templates!);
+            Assert.ContainsSingle(matchResult.UnambiguousTemplateGroup?.Templates!);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_ExactMatchOnShortNameMatchesCorrectly))]
@@ -76,7 +76,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
             Assert.AreEqual(3, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates.Count);
             Assert.IsNotNull(matchResult.UnambiguousTemplateGroup);
             Assert.AreEqual(3, matchResult.UnambiguousTemplateGroup?.Templates.Count);
@@ -123,7 +123,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
             Assert.IsNotNull(matchResult.UnambiguousTemplateGroup);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
             Assert.AreEqual(2, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates.Count);
             Assert.IsNotNull(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates.Single(t => t.Identity == "Console.App.L1"));
             Assert.IsNotNull(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates.Single(t => t.Identity == "Console.App.L2"));
@@ -168,9 +168,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsTrue(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -195,9 +195,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -222,9 +222,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsTrue(matchResult.HasBaselineMismatch);
@@ -249,9 +249,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsTrue(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsTrue(matchResult.HasBaselineMismatch);
@@ -277,8 +277,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 
             Assert.IsFalse(matchResult.HasTemplateGroupMatches);
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(0, matchResult.TemplateGroups);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.IsEmpty(matchResult.TemplateGroups);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -305,8 +305,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                      default);
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -337,8 +337,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                      default);
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -370,8 +370,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                      default);
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-            Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -398,10 +398,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                      default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
             Assert.IsTrue(matchResult.HasTemplateGroupMatches);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsTrue(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -434,17 +434,17 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             if (matchExpected)
             {
                 Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-                Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-                Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
+                Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+                Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
                 Assert.IsFalse(matchResult.HasAuthorMismatch);
             }
             else
             {
                 Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-                Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+                Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
                 Assert.IsTrue(matchResult.HasTemplateGroupMatches);
-                Assert.HasCount(1, matchResult.TemplateGroups);
-                Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+                Assert.ContainsSingle(matchResult.TemplateGroups);
+                Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
                 Assert.IsTrue(matchResult.HasAuthorMismatch);
             }
 
@@ -486,17 +486,17 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             if (matchExpected)
             {
                 Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-                Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo);
-                Assert.HasCount(1, matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
+                Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo);
+                Assert.ContainsSingle(matchResult.TemplateGroupsWithMatchingTemplateInfo.Single().Templates);
                 Assert.IsFalse(matchResult.HasClassificationMismatch);
             }
             else
             {
                 Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-                Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+                Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
                 Assert.IsTrue(matchResult.HasTemplateGroupMatches);
-                Assert.HasCount(1, matchResult.TemplateGroups);
-                Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+                Assert.ContainsSingle(matchResult.TemplateGroups);
+                Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
                 Assert.IsTrue(matchResult.HasClassificationMismatch);
             }
 
@@ -522,10 +522,10 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsFalse(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfo);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfo);
             Assert.IsTrue(matchResult.HasTemplateGroupMatches);
-            Assert.HasCount(1, matchResult.TemplateGroups);
-            Assert.HasCount(1, matchResult.TemplateGroups.Single().Templates);
+            Assert.ContainsSingle(matchResult.TemplateGroups);
+            Assert.ContainsSingle(matchResult.TemplateGroups.Single().Templates);
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
@@ -557,7 +557,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.AreEqual(2, matchResult.ContraintsMismatchGroupCount);
-            Assert.HasCount(0, matchResult.TemplateGroupsWithMatchingTemplateInfoAndParameters);
+            Assert.IsEmpty(matchResult.TemplateGroupsWithMatchingTemplateInfoAndParameters);
             Assert.IsTrue(matchResult.HasTemplateGroupMatches);
             Assert.AreEqual(2, matchResult.TemplateGroups.Count());
         }

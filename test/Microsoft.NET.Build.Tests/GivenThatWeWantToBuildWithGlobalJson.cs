@@ -5,12 +5,12 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildWithGlobalJson : SdkTest
     {
-        public GivenThatWeWantToBuildWithGlobalJson(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildWithGlobalJson(MSTestContext testContext) : base(testContext)
         { }
 
-        [FullMSBuildOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [FullMSBuildOnlyTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_fails_build_on_failed_sdk_resolution(bool runningInVS)
         {
             var prevIncludeDefault = Environment.GetEnvironmentVariable("MSBUILDINCLUDEDEFAULTSDKRESOLVER");

@@ -7,9 +7,9 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToGenerateGlobalUsings_Worker : SdkTest
     {
-        public GivenThatWeWantToGenerateGlobalUsings_Worker(ITestOutputHelper log) : base(log) { }
+        public GivenThatWeWantToGenerateGlobalUsings_Worker(MSTestContext testContext) : base(testContext) { }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_generates_worker_implicit_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -44,7 +44,7 @@ global using System.Threading.Tasks;
 ");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_can_disable_worker_usings()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

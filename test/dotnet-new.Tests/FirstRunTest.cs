@@ -5,18 +5,18 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class FirstRunTest : BaseIntegrationTest
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public FirstRunTest(ITestOutputHelper log) : base(log)
+        public FirstRunTest(MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void FirstRunSuccess()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
-            new DotnetNewCommand(_log)
+            new DotnetNewCommand(_testContext)
                 .WithCustomHive(home)
                 .Execute()
                 .Should()
@@ -24,7 +24,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.NotHaveStdOutContaining("Error");
 
-            new DotnetNewCommand(_log, "--list")
+            new DotnetNewCommand(_testContext, "--list")
                 .WithCustomHive(home)
                 .Execute()
                 .Should()

@@ -10,13 +10,13 @@ namespace Microsoft.NET.Build.Tests
         private const string targetFrameworkNet6 = "net6.0";
         private const string targetFrameworkNetFramework472 = "net472";
 
-        public GivenThatWeWantToFloatWarningLevels(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToFloatWarningLevels(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [InlineData(targetFrameworkNet6, "6")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
-        [InlineData(targetFrameworkNetFramework472, "4")]
+        [DataRow(targetFrameworkNet6, "6")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
+        [DataRow(targetFrameworkNetFramework472, "4")]
         [RequiresMSBuildVersionTheory("16.8")]
         public void It_defaults_WarningLevel_To_The_Current_TFM_When_Net(string tfm, string warningLevel)
         {
@@ -60,8 +60,8 @@ namespace Microsoft.NET.Build.Tests
             computedWarningLevel.Should().Be(parsedWarningLevel.ToString());
         }
 
-        [InlineData(1, "1")]
-        [InlineData(null, ToolsetInfo.CurrentTargetFrameworkVersion)]
+        [DataRow(1, "1")]
+        [DataRow(null, ToolsetInfo.CurrentTargetFrameworkVersion)]
         [RequiresMSBuildVersionTheory("16.8")]
         public void It_always_accepts_user_defined_WarningLevel(int? warningLevel, string expectedWarningLevel)
         {
@@ -104,9 +104,9 @@ namespace Microsoft.NET.Build.Tests
             computedWarningLevel.Should().Be(((int)float.Parse(expectedWarningLevel)).ToString());
         }
 
-        [InlineData(targetFrameworkNet6, "6.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
-        [InlineData(targetFrameworkNetFramework472, null)]
+        [DataRow(targetFrameworkNet6, "6.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
+        [DataRow(targetFrameworkNetFramework472, null)]
         [RequiresMSBuildVersionTheory("16.8")]
         public void It_defaults_AnalysisLevel_To_The_Current_TFM_When_NotLatestTFM(string tfm, string analysisLevel)
         {
@@ -158,7 +158,7 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdErr.Should().Be(string.Empty);
         }
 
-        [InlineData(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.NextTargetFrameworkVersion)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.NextTargetFrameworkVersion)]
         // Fixing this test requires bumping _LatestAnalysisLevel and _PreviewAnalysisLevel
         // Bumping will cause It_maps_analysis_properties_to_globalconfig to fail which requires changes in dotnet/roslyn-analyzers repo.
         // See instructions in the comment in It_maps_analysis_properties_to_globalconfig
@@ -206,9 +206,9 @@ namespace Microsoft.NET.Build.Tests
             computedEffectiveAnalysisLevel.Should().Be(nextTFMVersionNumber.ToString());
         }
 
-        [InlineData("preview")]
-        [InlineData("latest")]
-        [InlineData("none")]
+        [DataRow("preview")]
+        [DataRow("latest")]
+        [DataRow("none")]
         [RequiresMSBuildVersionTheory("16.8")]
         public void It_resolves_all_nonnumeric_AnalysisLevel_strings(string analysisLevel)
         {
@@ -253,30 +253,30 @@ namespace Microsoft.NET.Build.Tests
             computedEffectiveAnalysisLevel.Should().NotBe(analysisLevel);
         }
 
-        [InlineData("latest", "all", "false", "")]
-        [InlineData("latest", "", "true", "")]
-        [InlineData("latest", "all", "false", "Design")]
-        [InlineData("latest", "", "true", "Documentation")]
-        [InlineData("5", "", "true", "")]
-        [InlineData("5.0", "minimum", "false", "")]
-        [InlineData("5", "", "true", "Globalization")]
-        [InlineData("5.0", "minimum", "false", "Interoperability")]
-        [InlineData("6", "recommended", "false", "")]
-        [InlineData("6.0", "", "true", "")]
-        [InlineData("6", "recommended", "false", "Maintainability")]
-        [InlineData("6.0", "", "true", "Naming")]
-        [InlineData("7", "none", "true", "")]
-        [InlineData("7.0", "", "false", "")]
-        [InlineData("7", "none", "true", "Performance")]
-        [InlineData("7.0", "", "false", "Reliability")]
-        [InlineData("8", "default", "false", "")]
-        [InlineData("8.0", "", "true", "")]
-        [InlineData("8", "default", "false", "Security")]
-        [InlineData("8.0", "", "true", "Usage")]
-        [InlineData("9", "default", "false", "")]
-        [InlineData("9.0", "", "true", "")]
-        [InlineData("9", "default", "false", "Security")]
-        [InlineData("9.0", "", "true", "Usage")]
+        [DataRow("latest", "all", "false", "")]
+        [DataRow("latest", "", "true", "")]
+        [DataRow("latest", "all", "false", "Design")]
+        [DataRow("latest", "", "true", "Documentation")]
+        [DataRow("5", "", "true", "")]
+        [DataRow("5.0", "minimum", "false", "")]
+        [DataRow("5", "", "true", "Globalization")]
+        [DataRow("5.0", "minimum", "false", "Interoperability")]
+        [DataRow("6", "recommended", "false", "")]
+        [DataRow("6.0", "", "true", "")]
+        [DataRow("6", "recommended", "false", "Maintainability")]
+        [DataRow("6.0", "", "true", "Naming")]
+        [DataRow("7", "none", "true", "")]
+        [DataRow("7.0", "", "false", "")]
+        [DataRow("7", "none", "true", "Performance")]
+        [DataRow("7.0", "", "false", "Reliability")]
+        [DataRow("8", "default", "false", "")]
+        [DataRow("8.0", "", "true", "")]
+        [DataRow("8", "default", "false", "Security")]
+        [DataRow("8.0", "", "true", "Usage")]
+        [DataRow("9", "default", "false", "")]
+        [DataRow("9.0", "", "true", "")]
+        [DataRow("9", "default", "false", "Security")]
+        [DataRow("9.0", "", "true", "Usage")]
         [RequiresMSBuildVersionTheory("16.8")]
         public void It_maps_analysis_properties_to_globalconfig(string analysisLevel, string analysisMode, string codeAnalysisTreatWarningsAsErrors, string category)
         {
@@ -366,20 +366,20 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdErr.Should().Be(string.Empty);
             var analyzerConfigFiles = buildCommand.GetValues();
             var expectedAnalyzerConfigFiles = analyzerConfigFiles.Where(file => string.Equals(Path.GetFileName(file), expectedMappedAnalyzerConfig));
-            var expectedAnalyzerConfigFile = Assert.Single(expectedAnalyzerConfigFiles);
+            var expectedAnalyzerConfigFile = Assert.HasCount(1, expectedAnalyzerConfigFiles);
             File.Exists(expectedAnalyzerConfigFile).Should().BeTrue();
         }
 
-        [InlineData("none", "false", new string[] { })]
-        [InlineData("none", "true", new string[] { })]
-        [InlineData("default", "false", new string[] { "CA2200" })]
-        [InlineData("default", "true", new string[] { "CA2200" })]
-        [InlineData("minimum", "false", new string[] { "CA1068", "CA2200" })]
-        [InlineData("minimum", "true", new string[] { "CA1068", "CA2200" })]
-        [InlineData("recommended", "false", new string[] { "CA1310", "CA1068", "CA2200" })]
-        [InlineData("recommended", "true", new string[] { "CA1310", "CA1068", "CA2200" })]
-        [InlineData("all", "false", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
-        [InlineData("all", "true", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
+        [DataRow("none", "false", new string[] { })]
+        [DataRow("none", "true", new string[] { })]
+        [DataRow("default", "false", new string[] { "CA2200" })]
+        [DataRow("default", "true", new string[] { "CA2200" })]
+        [DataRow("minimum", "false", new string[] { "CA1068", "CA2200" })]
+        [DataRow("minimum", "true", new string[] { "CA1068", "CA2200" })]
+        [DataRow("recommended", "false", new string[] { "CA1310", "CA1068", "CA2200" })]
+        [DataRow("recommended", "true", new string[] { "CA1310", "CA1068", "CA2200" })]
+        [DataRow("all", "false", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
+        [DataRow("all", "true", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
         [RequiresMSBuildVersionTheory("17.12.0")]
         public void It_bulk_configures_rules_with_different_analysis_modes(string analysisMode, string codeAnalysisTreatWarningsAsErrors, string[] expectedViolations)
         {
@@ -460,7 +460,7 @@ namespace Microsoft.NET.Build.Tests
             var testAsset = _testAssetsManager
                 .CreateTestProject(testProject, identifier: "analysisLevelConsoleApp" + ToolsetInfo.CurrentTargetFramework + analysisLevel + $"Warnaserror:{codeAnalysisTreatWarningsAsErrors}", targetExtension: ".csproj");
 
-            var buildCommand = new BuildCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name));
+            var buildCommand = new BuildCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name));
             var buildResult = buildCommand.Execute();
 
             var expectedToPass = analysisMode == "none" || codeAnalysisTreatWarningsAsErrors != "true";

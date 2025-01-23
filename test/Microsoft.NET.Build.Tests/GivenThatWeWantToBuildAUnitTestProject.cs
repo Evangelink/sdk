@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAUnitTestProject : SdkTest
     {
-        public GivenThatWeWantToBuildAUnitTestProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAUnitTestProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_generates_runtime_config()
         {
             var testAsset = _testAssetsManager

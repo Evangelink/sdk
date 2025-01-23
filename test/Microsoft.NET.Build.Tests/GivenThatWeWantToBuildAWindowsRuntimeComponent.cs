@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAWindowsRuntimeComponent : SdkTest
     {
-        public GivenThatWeWantToBuildAWindowsRuntimeComponent(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAWindowsRuntimeComponent(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_to_produce_winmds_for_net5_0_or_newer()
         {
             var testAsset = _testAssetsManager
@@ -26,7 +26,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining("NETSDK1131: ");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_when_referencing_windows_sdk_contracts_nuget_package_for_net5_0_or_newer()
         {
             var testProject = new TestProject("WinMDClasslibrary")
@@ -48,7 +48,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.NotHaveStdOutContaining("NETSDK1149");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_when_referencing_a_library_using_built_in_winrt_support()
         {
             var testProject = new TestProject("WinMDClasslibrary")
@@ -69,9 +69,9 @@ namespace Microsoft.NET.Build.Tests
                 .And.NotHaveStdOutContaining("NETSDK1130");
         }
 
-        [Theory]
-        [InlineData("netcoreapp3.1")]
-        [InlineData("net48")]
+        [TestMethod]
+        [DataRow("netcoreapp3.1")]
+        [DataRow("net48")]
         public void It_successfully_builds_when_referencing_winmds(string targetFramework)
         {
             var testProject = new TestProject("WinMDClasslibrary")
@@ -189,7 +189,7 @@ class Program
 
             //  Make sure the app can run successfully
             var exePath = Path.Combine(buildCommand.GetOutputDirectory(consoleApp.TargetFrameworks).FullName, consoleApp.Name + ".exe");
-            new RunExeCommand(Log, exePath)
+            new RunExeCommand(MSTestContext, exePath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -197,7 +197,7 @@ class Program
                 .HaveStdOut("(0, 0)");
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void WinMDInteropProjectCanBeReferenced()
         {
 
@@ -257,7 +257,7 @@ Console.WriteLine(x.add(5.5, 6.5).ToString());";
                 File.Copy(file, Path.Combine(cppWinTargetDirectory, Path.GetFileName(file)));
             }
 
-            new NuGetExeRestoreCommand(Log, cppWinTargetDirectory)
+            new NuGetExeRestoreCommand(MSTestContext, cppWinTargetDirectory)
             {
                 PackagesDirectory = Path.Combine(testAsset.Path, "packages")
             }

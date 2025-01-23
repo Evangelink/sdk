@@ -17,13 +17,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public SharedHomeDirectory(IMessageSink messageSink)
         {
             Log = new SharedTestOutputHelper(messageSink);
-            Log.WriteLine("Initializing SharedHomeDirectory for folder {0}", HomeDirectory);
+            MSTestContext.WriteLine("Initializing SharedHomeDirectory for folder {0}", HomeDirectory);
             Initialize();
         }
 
         public string HomeDirectory { get; } = Utilities.CreateTemporaryFolder(nameof(SharedHomeDirectory));
 
-        protected ITestOutputHelper Log { get; private set; }
+        protected MSTestContext MSTestContext { get; private set; }
 
         public void Dispose()
         {
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             {
                 args.AddRange(new[] { "--nuget-source", nugetSource });
             }
-            new DotnetNewCommand(Log, args.ToArray())
+            new DotnetNewCommand(MSTestContext, args.ToArray())
                 .WithCustomHive(HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -58,7 +58,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
         private void Initialize()
         {
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(HomeDirectory)
                 .WithDebug()
                 .Execute()
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetNewCommand(Log, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates60Path)
+            new DotnetNewCommand(MSTestContext, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates60Path)
                 .WithCustomHive(HomeDirectory)
                 .WithDebug()
                 .Execute()
@@ -76,7 +76,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetNewCommand(Log, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates70Path)
+            new DotnetNewCommand(MSTestContext, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates70Path)
                 .WithCustomHive(HomeDirectory)
                 .Execute()
                 .Should()
@@ -84,7 +84,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetNewCommand(Log, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates80Path)
+            new DotnetNewCommand(MSTestContext, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates80Path)
                 .WithCustomHive(HomeDirectory)
                 .Execute()
                 .Should()
@@ -92,7 +92,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And
                 .NotHaveStdErr();
 
-            new DotnetNewCommand(Log, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates90Path)
+            new DotnetNewCommand(MSTestContext, "install", TemplatePackagesPaths.MicrosoftDotNetCommonProjectTemplates90Path)
                 .WithCustomHive(HomeDirectory)
                 .Execute()
                 .Should()

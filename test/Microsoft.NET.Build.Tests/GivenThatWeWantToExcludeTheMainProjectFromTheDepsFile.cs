@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToExcludeTheMainProjectFromTheDepsFile : SdkTest
     {
-        public GivenThatWeWantToExcludeTheMainProjectFromTheDepsFile(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToExcludeTheMainProjectFromTheDepsFile(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_successfully()
         {
             TestProject testProject = new()

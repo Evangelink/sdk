@@ -10,49 +10,49 @@ namespace Microsoft.NET.Build.Containers.IntegrationTests.FullFramework;
 
 public class CreateNewImageToolTaskTests
 {
-    private ITestOutputHelper _testOutput;
+    private MSTestContext _testContext;
 
-    public CreateNewImageToolTaskTests(ITestOutputHelper testOutput)
+    public CreateNewImageToolTaskTests(MSTestContext testContext)
     {
-        _testOutput = testOutput;
+        _testContext = testContext;
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_ThrowsWhenRequiredPropertiesNotSet()
     {
         CreateNewImage task = new();
 
         Exception e = Assert.Throws<InvalidOperationException>(() => task.GenerateCommandLineCommandsInt());
-        Assert.Equal("CONTAINER4001: Required property 'PublishDirectory' was not set or empty.", e.Message);
+        Assert.AreEqual("CONTAINER4001: Required property 'PublishDirectory' was not set or empty.", e.Message);
 
         DirectoryInfo publishDir = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMddHHmmssfff")));
 
         task.PublishDirectory = publishDir.FullName;
 
         e = Assert.Throws<InvalidOperationException>(() => task.GenerateCommandLineCommandsInt());
-        Assert.Equal("CONTAINER4001: Required property 'BaseRegistry' was not set or empty.", e.Message);
+        Assert.AreEqual("CONTAINER4001: Required property 'BaseRegistry' was not set or empty.", e.Message);
 
         task.BaseRegistry = "MyBaseRegistry";
 
         e = Assert.Throws<InvalidOperationException>(() => task.GenerateCommandLineCommandsInt());
-        Assert.Equal("CONTAINER4001: Required property 'BaseImageName' was not set or empty.", e.Message);
+        Assert.AreEqual("CONTAINER4001: Required property 'BaseImageName' was not set or empty.", e.Message);
 
         task.BaseImageName = "MyBaseImageName";
 
         e = Assert.Throws<InvalidOperationException>(() => task.GenerateCommandLineCommandsInt());
-        Assert.Equal("CONTAINER4001: Required property 'Repository' was not set or empty.", e.Message);
+        Assert.AreEqual("CONTAINER4001: Required property 'Repository' was not set or empty.", e.Message);
 
         task.Repository = "MyImageName";
 
         e = Assert.Throws<InvalidOperationException>(() => task.GenerateCommandLineCommandsInt());
-        Assert.Equal("CONTAINER4001: Required property 'WorkingDirectory' was not set or empty.", e.Message);
+        Assert.AreEqual("CONTAINER4001: Required property 'WorkingDirectory' was not set or empty.", e.Message);
 
         task.WorkingDirectory = "MyWorkingDirectory";
 
         string args = task.GenerateCommandLineCommandsInt();
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
@@ -60,11 +60,11 @@ public class CreateNewImageToolTaskTests
 
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("ValidTag", true)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("ValidTag", true)]
     public void GenerateCommandLineCommands_BaseImageTag(string? value, bool optionExpected = false)
     {
         CreateNewImage task = new();
@@ -94,11 +94,11 @@ public class CreateNewImageToolTaskTests
     }
 
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("Valid", true)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("Valid", true)]
     public void GenerateCommandLineCommands_OutputRegistry(string? value, bool optionExpected = false)
     {
         CreateNewImage task = new();
@@ -127,11 +127,11 @@ public class CreateNewImageToolTaskTests
         }
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("Valid", true)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("Valid", true)]
     public void GenerateCommandLineCommands_ContainerRuntimeIdentifier(string? value, bool optionExpected = false)
     {
         CreateNewImage task = new();
@@ -159,11 +159,11 @@ public class CreateNewImageToolTaskTests
         }
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("Valid", true)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("Valid", true)]
     public void GenerateCommandLineCommands_RuntimeIdentifierGraphPath(string? value, bool optionExpected = false)
     {
         CreateNewImage task = new();
@@ -192,7 +192,7 @@ public class CreateNewImageToolTaskTests
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_Labels()
     {
         CreateNewImage task = new();
@@ -227,18 +227,18 @@ public class CreateNewImageToolTaskTests
         Assert.Contains("""
                                       --labels NoValue= Valid1=Val1 Valid12=Val2 Valid12= "Valid3=has space" "Valid4=has\"quotes\""
                                       """, args);
-        Assert.Equal("Items 'Labels' contain empty item(s) which will be ignored.", Assert.Single(warnings));
+        Assert.AreEqual("Items 'Labels' contain empty item(s) which will be ignored.", Assert.Single(warnings));
 
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
             .And.NotHaveStdOutContaining("Description:"); //standard help output for parse error
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_ContainerEnvironmentVariables()
     {
         CreateNewImage task = new();
@@ -273,23 +273,23 @@ public class CreateNewImageToolTaskTests
         Assert.Contains("""
                                       --environmentvariables NoValue= Valid1=Val1 Valid12=Val2 Valid12= "Valid3=has space" "Valid4=has\"quotes\""
                                       """, args);
-        Assert.Equal("Items 'ContainerEnvironmentVariables' contain empty item(s) which will be ignored.", Assert.Single(warnings));
+        Assert.AreEqual("Items 'ContainerEnvironmentVariables' contain empty item(s) which will be ignored.", Assert.Single(warnings));
 
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
             .And.NotHaveStdOutContaining("Description:"); //standard help output for parse error
     }
 
-    [InlineData(nameof(CreateNewImage.Entrypoint), "entrypoint")]
-    [InlineData(nameof(CreateNewImage.EntrypointArgs), "entrypointargs", true)]
-    [InlineData(nameof(CreateNewImage.DefaultArgs), "defaultargs", true)]
-    [InlineData(nameof(CreateNewImage.AppCommand), "appcommand", true)]
-    [InlineData(nameof(CreateNewImage.AppCommandArgs), "appcommandargs", true)]
-    [Theory]
+    [DataRow(nameof(CreateNewImage.Entrypoint), "entrypoint")]
+    [DataRow(nameof(CreateNewImage.EntrypointArgs), "entrypointargs", true)]
+    [DataRow(nameof(CreateNewImage.DefaultArgs), "defaultargs", true)]
+    [DataRow(nameof(CreateNewImage.AppCommand), "appcommand", true)]
+    [DataRow(nameof(CreateNewImage.AppCommandArgs), "appcommandargs", true)]
+    [TestMethod]
     public void GenerateCommandLineCommands_EntryPointAndCommand(string propertyName, string commandArgName, bool warningExpected = false)
     {
         CreateNewImage task = new();
@@ -368,21 +368,21 @@ public class CreateNewImageToolTaskTests
 
         if (warningExpected)
         {
-            Assert.Equal($"Items '{propertyName}' contain empty item(s) which will be ignored.", Assert.Single(warnings));
+            Assert.AreEqual($"Items '{propertyName}' contain empty item(s) which will be ignored.", Assert.Single(warnings));
         }
 
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
             .And.NotHaveStdOutContaining("Description:"); //standard help output for parse error
     }
 
-    [InlineData("")]
-    [InlineData("  ")]
-    [Theory]
+    [DataRow("")]
+    [DataRow("  ")]
+    [TestMethod]
     public void GenerateCommandLineCommands_EntryPointCanHaveEmptyItems(string itemValue)
     {
         CreateNewImage task = new();
@@ -401,11 +401,11 @@ public class CreateNewImageToolTaskTests
         task.GenerateCommandLineCommandsInt();
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    [InlineData("Valid", true)]
+    [TestMethod]
+    [DataRow(null)]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("Valid", true)]
     public void GenerateCommandLineCommands_AppCommandInstruction(string? value, bool optionExpected = false)
     {
         CreateNewImage task = new();
@@ -433,7 +433,7 @@ public class CreateNewImageToolTaskTests
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_ImageTags()
     {
         CreateNewImage task = new();
@@ -459,18 +459,18 @@ public class CreateNewImageToolTaskTests
         Assert.Contains("""
                                       --imagetags Valid1 "To be quoted"
                                       """, actualString: args);
-        Assert.Equal("Property 'ImageTags' is empty or contains whitespace and will be ignored.", Assert.Single(warnings));
+        Assert.AreEqual("Property 'ImageTags' is empty or contains whitespace and will be ignored.", Assert.Single(warnings));
 
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
             .And.NotHaveStdOutContaining("Description:"); //standard help output for parse error
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_ExposedPorts()
     {
         CreateNewImage task = new();
@@ -504,18 +504,18 @@ public class CreateNewImageToolTaskTests
         Assert.Contains("""
                                       --ports 1500 1501/udp 1501/tcp 1502/tcp 1503
                                       """, args);
-        Assert.Equal("Items 'ExposedPorts' contain empty item(s) which will be ignored.", Assert.Single(warnings));
+        Assert.AreEqual("Items 'ExposedPorts' contain empty item(s) which will be ignored.", Assert.Single(warnings));
 
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
             .And.NotHaveStdOutContaining("Description:"); //standard help output for parse error
     }
 
-    [Fact]
+    [TestMethod]
     public void Logging_CanEnableTraceLogging()
     {
         CreateNewImage task = new();
@@ -532,7 +532,7 @@ public class CreateNewImageToolTaskTests
         string args = task.GenerateCommandLineCommandsInt();
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .WithEnvironmentVariable("CONTAINERIZE_TRACE_LOGGING_ENABLED", "1")
@@ -541,7 +541,7 @@ public class CreateNewImageToolTaskTests
             .And.HaveStdOutContaining("Trace logging: enabled.");
     }
 
-    [Fact]
+    [TestMethod]
     public void Logging_TraceLoggingIsDisabledByDefault()
     {
         CreateNewImage task = new();
@@ -558,7 +558,7 @@ public class CreateNewImageToolTaskTests
         string args = task.GenerateCommandLineCommandsInt();
         string workDir = GetPathToContainerize();
 
-        new DotnetCommand(_testOutput, args)
+        new DotnetCommand(_testContext, args)
             .WithRawArguments()
             .WithWorkingDirectory(workDir)
             .Execute().Should().Fail()
@@ -566,7 +566,7 @@ public class CreateNewImageToolTaskTests
             .And.NotHaveStdOutContaining("Trace logging: enabled.");
     }
 
-    [Fact]
+    [TestMethod]
     public void GenerateCommandLineCommands_LabelGeneration()
     {
         CreateNewImage task = new();

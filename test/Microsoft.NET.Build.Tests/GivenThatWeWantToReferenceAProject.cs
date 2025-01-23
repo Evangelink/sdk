@@ -8,7 +8,7 @@ namespace Microsoft.NET.Build.Tests
     public class GivenThatWeWantToReferenceAProject : SdkTest
     {
         const string tfm = ToolsetInfo.CurrentTargetFramework;
-        public GivenThatWeWantToReferenceAProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToReferenceAProject(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -37,27 +37,27 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("16.8.0.42407")]
-        [InlineData("net5.0-windows", "net5.0", true)]
-        [InlineData("net5.0", "net5.0-windows", false)]
-        [InlineData("net5.0-windows", "net5.0-windows", true)]
-        [InlineData("net5.0-windows", "net5.0-windows7.0", true)]
-        [InlineData("net5.0-windows7.0", "net5.0-windows", true)]
+        [DataRow("net5.0-windows", "net5.0", true)]
+        [DataRow("net5.0", "net5.0-windows", false)]
+        [DataRow("net5.0-windows", "net5.0-windows", true)]
+        [DataRow("net5.0-windows", "net5.0-windows7.0", true)]
+        [DataRow("net5.0-windows7.0", "net5.0-windows", true)]
         public void It_checks_for_valid_platform_references(string referencerTarget, string dependencyTarget, bool succeeds)
         {
             It_checks_for_valid_references(referencerTarget, true, dependencyTarget, true, succeeds, succeeds);
         }
 
-        [Theory]
-        [InlineData("netstandard1.2", true, "netstandard1.5", true, false, false)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}", true, "net45;netstandard1.5", true, true, true)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}", true, "net45;net46", true, true, true)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework};net462", true, "netstandard1.4", true, true, true)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework};net45", true, "netstandard1.4", true, false, false)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework};net46", true, "net45;netstandard1.6", true, true, true)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework};net45", true, "net46;netstandard1.6", true, false, false)]
-        [InlineData("v4.5.2", false, "netstandard1.6", true, true, false)]
-        [InlineData("v4.7.2", false, "netstandard1.6;net472", true, true, true)]
-        [InlineData("v4.5.2", false, "netstandard1.6;net472", true, true, false)]
+        [TestMethod]
+        [DataRow("netstandard1.2", true, "netstandard1.5", true, false, false)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}", true, "net45;netstandard1.5", true, true, true)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}", true, "net45;net46", true, true, true)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework};net462", true, "netstandard1.4", true, true, true)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework};net45", true, "netstandard1.4", true, false, false)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework};net46", true, "net45;netstandard1.6", true, true, true)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework};net45", true, "net46;netstandard1.6", true, false, false)]
+        [DataRow("v4.5.2", false, "netstandard1.6", true, true, false)]
+        [DataRow("v4.7.2", false, "netstandard1.6;net472", true, true, true)]
+        [DataRow("v4.5.2", false, "netstandard1.6;net472", true, true, false)]
         public void It_checks_for_valid_references(string referencerTarget, bool referencerIsSdkProject,
             string dependencyTarget, bool dependencyIsSdkProject,
             bool restoreSucceeds, bool buildSucceeds)
@@ -87,7 +87,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(referencerProject, nameof(It_checks_for_valid_references), identifier);
 
-            var restoreCommand = testAsset.GetRestoreCommand(Log, relativePath: "Referencer");
+            var restoreCommand = testAsset.GetRestoreCommand(MSTestContext, relativePath: "Referencer");
 
             if (restoreSucceeds)
             {
@@ -108,7 +108,7 @@ namespace Microsoft.NET.Build.Tests
             {
                 //  The Restore target currently seems to be a no-op for non-SDK projects,
                 //  so we need to explicitly restore the dependency
-                testAsset.GetRestoreCommand(Log, relativePath: "Dependency")
+                testAsset.GetRestoreCommand(MSTestContext, relativePath: "Dependency")
                     .Execute()
                     .Should()
                     .Pass();
@@ -153,9 +153,9 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("16.7.1")]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
+        [DataRow(true, true)]
+        [DataRow(false, true)]
+        [DataRow(false, false)]
         public void It_disables_copying_conflicting_transitive_content(bool copyConflictingTransitiveContent, bool explicitlySet)
         {
             var contentName = "script.sh";
@@ -184,7 +184,7 @@ namespace Microsoft.NET.Build.Tests
             var buildCommand = new BuildCommand(parentAsset);
             buildCommand.Execute().Should().Pass();
 
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(parentAsset.Path, parentProject.Name), tfm, "ResultOutput")
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(parentAsset.Path, parentProject.Name), tfm, "ResultOutput")
             {
                 DependsOnTargets = "Build"
             };
@@ -233,7 +233,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [RequiresMSBuildVersionFact("16.8.0")]
+        [RequiresMSBuildVersionTestMethod("16.8.0")]
         public void It_copies_content_transitively()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -287,7 +287,7 @@ namespace Microsoft.NET.Build.Tests
             File.Exists(contentPath).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_conditionally_references_project_based_on_tfm()
         {
             var testProjectA = new TestProject()

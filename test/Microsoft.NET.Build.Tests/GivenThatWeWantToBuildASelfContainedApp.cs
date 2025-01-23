@@ -11,7 +11,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildASelfContainedApp : SdkTest
     {
-        public GivenThatWeWantToBuildASelfContainedApp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildASelfContainedApp(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Microsoft.NET.Build.Tests
                 $"apphost{Constants.ExeSuffix}",
             });
 
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -82,7 +82,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_errors_out_when_RuntimeIdentifier_architecture_and_PlatformTarget_do_not_match()
         {
             const string RuntimeIdentifier = $"{ToolsetInfo.LatestWinRuntimeIdentifier}-x64";
@@ -111,7 +111,7 @@ namespace Microsoft.NET.Build.Tests
                     PlatformTarget));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_succeeds_when_RuntimeIdentifier_and_PlatformTarget_mismatch_but_PT_is_AnyCPU()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -139,7 +139,7 @@ namespace Microsoft.NET.Build.Tests
 
             string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
 
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -147,7 +147,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_resolves_runtimepack_from_packs_folder()
         {
             var testProject = new TestProject()
@@ -230,7 +230,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_resolves_pack_versions_from_workload_manifest()
         {
             static string GetVersionBand(string sdkVersion)
@@ -343,7 +343,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.4.0.51802")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_runtime_specific_apps_with_library_dependencies_self_contained(string targetFramework)
         {
 
@@ -376,9 +376,9 @@ namespace Microsoft.NET.Build.Tests
             publishCommand.Execute(new[] { "-property:SelfContained=true", "-property:_CommandLineDefinedSelfContained=true", $"-property:RuntimeIdentifier={rid}", "-property:_CommandLineDefinedRuntimeIdentifier=true" }).Should().Pass().And.NotHaveStdOutContaining("warning");
         }
 
-        [Theory]
-        [InlineData("net7.0")]
-        [InlineData("net8.0")]
+        [TestMethod]
+        [DataRow("net7.0")]
+        [DataRow("net8.0")]
         public void It_does_or_doesnt_imply_SelfContained_based_on_RuntimeIdentifier_and_TargetFramework(string targetFramework)
         {
             var runtimeIdentifier = EnvironmentInfo.GetCompatibleRid(targetFramework);
@@ -393,20 +393,20 @@ namespace Microsoft.NET.Build.Tests
             testProject.AdditionalProperties["RuntimeIdentifier"] = runtimeIdentifier;
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: targetFramework);
-            new DotnetBuildCommand(Log)
+            new DotnetBuildCommand(MSTestContext)
                 .WithWorkingDirectory(Path.Combine(testAsset.Path, "MainProject"))
                 .Execute()
                 .Should()
                 .Pass();
 
             var properties = testProject.GetPropertyValues(testAsset.TestRoot, targetFramework: targetFramework);
-            Assert.Equal(bool.Parse(properties["SelfContained"]), resultShouldBeSelfContained);
+            Assert.AreEqual(bool.Parse(properties["SelfContained"]), resultShouldBeSelfContained);
         }
 
-        [Theory]
-        [InlineData("net7.0", true)]
-        [InlineData("net7.0", false)]
-        [InlineData("net8.0", false)]
+        [TestMethod]
+        [DataRow("net7.0", true)]
+        [DataRow("net7.0", false)]
+        [DataRow("net8.0", false)]
         public void It_does_or_doesnt_warn_based_on_SelfContained_and_TargetFramework_breaking_RID_change(string targetFramework, bool defineSelfContained)
         {
             var runtimeIdentifier = EnvironmentInfo.GetCompatibleRid(targetFramework);
@@ -425,7 +425,7 @@ namespace Microsoft.NET.Build.Tests
                     }
                 });
 
-            var buildCommand = new DotnetBuildCommand(Log, "/bl");
+            var buildCommand = new DotnetBuildCommand(MSTestContext, "/bl");
             var commandResult = buildCommand
                 .WithWorkingDirectory(testAsset.Path)
                 .Execute();
@@ -448,7 +448,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_build_SelfContained_due_to_PublishSelfContained_being_true()
         {
             string targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -475,7 +475,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().NotHaveFile($"hostfxr{FileNameSuffixes.CurrentPlatform.DynamicLib}"); // This file will only appear if SelfContained.
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_using_regular_apphost_with_PublishSingleFile()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -490,7 +490,7 @@ namespace Microsoft.NET.Build.Tests
             var asset = _testAssetsManager.CreateTestProject(project);
 
             // Validate apphost is used, not singlefilehost
-            var command = new GetValuesCommand(Log,
+            var command = new GetValuesCommand(MSTestContext,
                 Path.Combine(asset.Path, project.Name),
                 project.TargetFrameworks,
                 "AllItemsFullPathWithTargetPath",
@@ -515,7 +515,7 @@ namespace Microsoft.NET.Build.Tests
             string exePath = Path.Combine(
                 buildCommand.GetOutputDirectory(tfm, runtimeIdentifier: EnvironmentInfo.GetCompatibleRid(tfm)).FullName,
                 $"{project.Name}{Constants.ExeSuffix}");
-            new RunExeCommand(Log, exePath)
+            new RunExeCommand(MSTestContext, exePath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -523,11 +523,11 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [Theory]
-        [InlineData("PublishReadyToRun")]
-        [InlineData("PublishSingleFile")]
-        [InlineData("PublishSelfContained")]
-        [InlineData("PublishAot")]
+        [TestMethod]
+        [DataRow("PublishReadyToRun")]
+        [DataRow("PublishSingleFile")]
+        [DataRow("PublishSelfContained")]
+        [DataRow("PublishAot")]
         public void It_builds_without_implicit_rid_with_RuntimeIdentifier_specific_during_publish_only_properties(string property)
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -585,7 +585,7 @@ namespace Microsoft.NET.Build.Tests
             var selfContainedExecutable = $"HelloWorld{Constants.ExeSuffix}";
 
             string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()
@@ -628,7 +628,7 @@ namespace Microsoft.NET.Build.Tests
             var selfContainedExecutable = $"HelloWorld{Constants.ExeSuffix}";
 
             string selfContainedExecutableFullPath = Path.Combine(outputDirectory.FullName, selfContainedExecutable);
-            new RunExeCommand(Log, selfContainedExecutableFullPath)
+            new RunExeCommand(MSTestContext, selfContainedExecutableFullPath)
                 .Execute()
                 .Should()
                 .Pass()

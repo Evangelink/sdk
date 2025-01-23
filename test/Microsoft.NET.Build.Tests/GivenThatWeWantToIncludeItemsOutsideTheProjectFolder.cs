@@ -7,15 +7,15 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToIncludeItemsOutsideTheProjectFolder : SdkTest
     {
-        public GivenThatWeWantToIncludeItemsOutsideTheProjectFolder(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToIncludeItemsOutsideTheProjectFolder(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData(false, false)]
-        [InlineData(false, true)]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
         public void Link_metadata_is_added_to_items_outside_the_project_folder(bool includeWithGlob, bool useLinkBase)
         {
             string identifier = (includeWithGlob ? "Globbed" : "Direct") + (useLinkBase ? "_LinkBase" : "");
@@ -30,7 +30,7 @@ namespace Microsoft.NET.Build.Tests
                     propertyGroup.Add(new XElement(ns + "UseLinkBase", useLinkBase));
                 });
 
-            var command = new MSBuildCommand(Log, "WriteItems", testAsset.TestRoot, "LinkTest");
+            var command = new MSBuildCommand(MSTestContext, "WriteItems", testAsset.TestRoot, "LinkTest");
 
             command.Execute()
                 .Should()

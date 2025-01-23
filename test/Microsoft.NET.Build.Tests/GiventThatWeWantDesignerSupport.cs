@@ -11,7 +11,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantDesignerSupport : SdkTest
     {
-        public GivenThatWeWantDesignerSupport(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantDesignerSupport(MSTestContext testContext) : base(testContext)
         {
         }
 

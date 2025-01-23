@@ -9,13 +9,13 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToResolveConflicts : SdkTest
     {
-        public GivenThatWeWantToResolveConflicts(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToResolveConflicts(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0")]
-        [InlineData("netstandard2.0")]
+        [TestMethod]
+        [DataRow("netcoreapp2.0")]
+        [DataRow("netstandard2.0")]
         public void The_same_references_are_used_with_or_without_DisableDefaultPackageConflictOverrides(string targetFramework)
         {
             var defaultProject = new TestProject()
@@ -45,8 +45,8 @@ namespace Microsoft.NET.Build.Tests
                 referenceCopyLocalPaths: out List<string> disableReferenceCopyLocalPaths,
                 targetFramework);
 
-            Assert.Equal(defaultReferences, disableReferences);
-            Assert.Equal(defaultReferenceCopyLocalPaths, disableReferenceCopyLocalPaths);
+            Assert.AreEqual(defaultReferences, disableReferences);
+            Assert.AreEqual(defaultReferenceCopyLocalPaths, disableReferenceCopyLocalPaths);
         }
 
         private void AddConflictReferences(TestProject testProject)
@@ -99,7 +99,7 @@ namespace Microsoft.NET.Build.Tests
             referenceCopyLocalPaths = getReferenceCopyLocalPathsCommand.GetValues();
         }
 
-        [Fact]
+        [TestMethod]
         public void CompileConflictsAreNotRemovedFromRuntimeDepsAssets()
         {
             TestProject testProject = new()
@@ -134,7 +134,7 @@ namespace Microsoft.NET.Build.Tests
 
         }
 
-        [Fact]
+        [TestMethod]
         public void AProjectCanReferenceADllInAPackageDirectly()
         {
             TestProject testProject = new()
@@ -165,7 +165,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void DuplicateFrameworkAssembly()
         {
             TestProject testProject = new()
@@ -188,7 +188,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void FilesFromAspNetCoreSharedFrameworkAreNotIncluded()
         {
             var testProject = new TestProject()
@@ -222,7 +222,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().NotHaveFile("Microsoft.Extensions.DependencyInjection.Abstractions.dll");
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void AnalyzersAreConflictResolved()
         {
             var testProject = new TestProject()

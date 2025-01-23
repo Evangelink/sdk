@@ -5,21 +5,21 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewHelpTests : IClassFixture<SharedHomeDirectory>
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
         private readonly SharedHomeDirectory _fixture;
 
-        public DotnetNewHelpTests(SharedHomeDirectory fixture, ITestOutputHelper log) : base(log)
+        public DotnetNewHelpTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
             _fixture = fixture;
         }
 
-        [Fact]
+        [TestMethod]
         public void WontShowLanguageHintInCaseOfOneLang()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_log, "globaljson", "--help")
+            new DotnetNewCommand(_testContext, "globaljson", "--help")
                     .WithCustomHive(_fixture.HomeDirectory)
                     .WithWorkingDirectory(workingDirectory)
                     .Execute()

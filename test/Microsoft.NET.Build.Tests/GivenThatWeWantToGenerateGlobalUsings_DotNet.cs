@@ -7,9 +7,9 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToGenerateGlobalUsings_DotNet : SdkTest
     {
-        public GivenThatWeWantToGenerateGlobalUsings_DotNet(ITestOutputHelper log) : base(log) { }
+        public GivenThatWeWantToGenerateGlobalUsings_DotNet(MSTestContext testContext) : base(testContext) { }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_can_generate_global_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -40,7 +40,7 @@ global using System.Threading.Tasks;
 ");
         }
 
-        [Fact]
+        [TestMethod]
         public void Implicit_Usings_Are_Not_Enabled_By_Default()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -59,7 +59,7 @@ global using System.Threading.Tasks;
             outputDirectory.Should().NotHaveFile(globalUsingsFileName);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_can_remove_specific_usings_in_project_file()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -91,7 +91,7 @@ global using System.Threading.Tasks;
 ");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_can_generate_custom_usings()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -135,7 +135,7 @@ global using static TestStaticNamespace;
 ");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_considers_switches_when_deduping()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -180,7 +180,7 @@ global using static TestStaticNamespace;
 ");
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_can_persist_generatedfile_between_cleans()
         {
             // Regression test for https://devdiv.visualstudio.com/DevDiv/_workitems/edit/1405579
@@ -220,7 +220,7 @@ global using System.Threading.Tasks;
 ");
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_not_generate_global_usings_for_system_net_http_when_multitarget()
         {
             var tfm = "net472;netstandard2.0;net6.0";

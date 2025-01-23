@@ -101,7 +101,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                .Execute()
                .Should().Pass().And.NotHaveStdErr();
 
-            Assert.Empty(new DirectoryInfo(home).EnumerateFiles());
+            Assert.HasCount(0, new DirectoryInfo(home).EnumerateFiles());
         }
 
         [TestMethod]

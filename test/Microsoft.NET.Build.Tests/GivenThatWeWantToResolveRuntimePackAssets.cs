@@ -9,11 +9,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToResolveRuntimePackAssets : SdkTest
     {
-        public GivenThatWeWantToResolveRuntimePackAssets(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToResolveRuntimePackAssets(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_errors_if_the_runtime_list_is_missing()
         {
             var testProject = new TestProject()
@@ -46,7 +46,7 @@ namespace Microsoft.NET.Build.Tests
                         Path.Combine(projectDirectory, "data", "RuntimeList.xml")));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_errors_if_the_runtime_list_has_duplicates()
         {
             var testProject = new TestProject()

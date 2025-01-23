@@ -13,12 +13,12 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToGenerateADepsFileForATool : SdkTest
     {
-        public GivenThatWeWantToGenerateADepsFileForATool(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToGenerateADepsFileForATool(MSTestContext testContext) : base(testContext)
         {
         }
 
         //  Disabled on full Framework MSBuild due to https://github.com/dotnet/sdk/issues/1293
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void It_creates_a_deps_file_for_the_tool_and_the_tool_runs()
         {
             TestProject toolProject = new()
@@ -38,7 +38,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
         //  Disabled on full Framework MSBuild due to https://github.com/dotnet/sdk/issues/1293
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void It_handles_conflicts_when_creating_a_tool_deps_file()
         {
             TestProject toolProject = new()
@@ -93,7 +93,7 @@ class Program
             // Workaround https://github.com/dotnet/cli/issues/9701
             var useBundledNETCoreAppPackage = "/p:UseBundledNETCoreAppPackageVersionAsDefaultNetCorePatchVersion=true";
 
-            var packCommand = new PackCommand(Log, Path.Combine(toolProjectInstance.TestRoot, toolProject.Name));
+            var packCommand = new PackCommand(MSTestContext, Path.Combine(toolProjectInstance.TestRoot, toolProject.Name));
 
             packCommand.Execute(useBundledNETCoreAppPackage)
                 .Should()
@@ -122,7 +122,7 @@ class Program
             sources.Add(nupkgPath);
 
             NuGetConfigWriter.Write(toolReferencerInstance.TestRoot, sources);
-            var restoreCommand = toolReferencerInstance.GetRestoreCommand(Log, toolReferencer.Name);
+            var restoreCommand = toolReferencerInstance.GetRestoreCommand(MSTestContext, toolReferencer.Name);
             restoreCommand.Execute("/v:n").Should().Pass();
 
             string toolAssetsFilePath = Path.Combine(TestContext.Current.NuGetCachePath, ".tools", toolProject.Name.ToLowerInvariant(), "1.0.0", toolProject.TargetFrameworks, "project.assets.json");
@@ -176,7 +176,7 @@ class Program
 
             args.Add("/v:n");
 
-            var generateDepsCommand = new MSBuildCommand(Log, "BuildDepsJson", generateDepsProjectDirectoryPath, generateDepsProjectFileName);
+            var generateDepsCommand = new MSBuildCommand(MSTestContext, "BuildDepsJson", generateDepsProjectDirectoryPath, generateDepsProjectFileName);
 
             generateDepsCommand.ExecuteWithoutRestore(args)
                 .Should()

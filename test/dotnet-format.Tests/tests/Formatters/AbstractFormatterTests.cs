@@ -55,7 +55,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 
         private protected abstract ICodeFormatter Formatter { get; }
 
-        protected ITestOutputHelper? TestOutputHelper { get; set; }
+        protected MSTestContext? MSTestContext { get; set; }
 
         protected AbstractFormatterTest()
         {
@@ -103,14 +103,14 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
             try
             {
                 // Ensure the code is unchanged
-                Assert.Equal(code, formattedText.ToString());
+                Assert.AreEqual(code, formattedText.ToString());
 
                 // Ensure no non-fixable diagnostics were reported
-                Assert.Empty(formattedFiles);
+                Assert.HasCount(0, formattedFiles);
             }
             catch
             {
-                TestOutputHelper?.WriteLine(logger.GetLog());
+                MSTestContext?.WriteLine(logger.GetLog());
                 throw;
             }
 
@@ -145,11 +145,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
             try
             {
                 // Ensure the code is unchanged
-                Assert.Equal(code, formattedText.ToString());
+                Assert.AreEqual(code, formattedText.ToString());
             }
             catch
             {
-                TestOutputHelper?.WriteLine(logger.GetLog());
+                MSTestContext?.WriteLine(logger.GetLog());
                 throw;
             }
 
@@ -185,11 +185,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 
             try
             {
-                Assert.Equal(expectedCode, formattedText.ToString());
+                Assert.AreEqual(expectedCode, formattedText.ToString());
             }
             catch
             {
-                TestOutputHelper?.WriteLine(logger.GetLog());
+                MSTestContext?.WriteLine(logger.GetLog());
                 throw;
             }
 

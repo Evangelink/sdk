@@ -16,7 +16,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildANetCoreApp : SdkTest
     {
-        public GivenThatWeWantToBuildANetCoreApp(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildANetCoreApp(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -29,16 +29,16 @@ namespace Microsoft.NET.Build.Tests
             return new BuildCommand(testAsset);
         }
 
-        [Theory]
+        [TestMethod]
         //  TargetFramework, RuntimeFrameworkVersion, ExpectedPackageVersion, ExpectedRuntimeFrameworkVersion
-        [InlineData("netcoreapp1.0", null, "1.0.5", "1.0.5")]
-        [InlineData("netcoreapp1.0", "1.0.0", "1.0.0", "1.0.0")]
-        [InlineData("netcoreapp1.0", "1.0.3", "1.0.3", "1.0.3")]
-        [InlineData("netcoreapp1.1", null, "1.1.2", "1.1.2")]
-        [InlineData("netcoreapp1.1", "1.1.0", "1.1.0", "1.1.0")]
-        [InlineData("netcoreapp1.1.1", null, "1.1.1", "1.1.1")]
-        [InlineData("netcoreapp2.0", null, "2.0.0", "2.0.0")]
-        [InlineData("netcoreapp2.1", null, "2.1.0", "2.1.0")]
+        [DataRow("netcoreapp1.0", null, "1.0.5", "1.0.5")]
+        [DataRow("netcoreapp1.0", "1.0.0", "1.0.0", "1.0.0")]
+        [DataRow("netcoreapp1.0", "1.0.3", "1.0.3", "1.0.3")]
+        [DataRow("netcoreapp1.1", null, "1.1.2", "1.1.2")]
+        [DataRow("netcoreapp1.1", "1.1.0", "1.1.0", "1.1.0")]
+        [DataRow("netcoreapp1.1.1", null, "1.1.1", "1.1.1")]
+        [DataRow("netcoreapp2.0", null, "2.0.0", "2.0.0")]
+        [DataRow("netcoreapp2.1", null, "2.1.0", "2.1.0")]
         public void It_targets_the_right_shared_framework(string targetFramework, string runtimeFrameworkVersion,
             string expectedPackageVersion, string expectedRuntimeVersion)
         {
@@ -72,7 +72,7 @@ namespace Microsoft.NET.Build.Tests
             It_targets_the_right_framework(testIdentifier, targetFramework, null, selfContained, isExe, expectedFrameworkVersion, expectedFrameworkVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void The_RuntimeFrameworkVersion_can_float()
         {
             var testProject = new TestProject()
@@ -178,9 +178,9 @@ namespace Microsoft.NET.Build.Tests
             netCoreAppLibrary.Version.ToString().Should().Be(expectedPackageVersion);
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [TestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
         public void It_handles_mismatched_implicit_package_versions(bool allowMismatch)
         {
             var testProject = new TestProject()
@@ -229,14 +229,14 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_restores_only_ridless_tfm()
         {
             var testAsset = _testAssetsManager
                 .CopyTestAsset("HelloWorld")
                 .WithSource();
 
-            var getValuesCommand = new GetValuesCommand(Log, testAsset.TestRoot,
+            var getValuesCommand = new GetValuesCommand(MSTestContext, testAsset.TestRoot,
                 ToolsetInfo.CurrentTargetFramework, "TargetDefinitions", GetValuesCommand.ValueType.Item)
             {
                 DependsOnTargets = "RunResolvePackageDependencies",
@@ -255,37 +255,37 @@ namespace Microsoft.NET.Build.Tests
             targetDefs.Should().Contain(ToolsetInfo.CurrentTargetFramework);
         }
 
-        [Theory]
-        [InlineData("net6.0")]
-        [InlineData("net7.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("net6.0")]
+        [DataRow("net7.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_runs_the_app_from_the_output_folder(string targetFramework)
         {
             RunAppFromOutputFolder("RunFromOutputFolder_" + targetFramework, false, false, targetFramework);
         }
 
-        [Theory]
-        [InlineData("net6.0")]
-        [InlineData("net7.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("net6.0")]
+        [DataRow("net7.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_runs_a_rid_specific_app_from_the_output_folder(string targetFramework)
-        {         
+        {
             RunAppFromOutputFolder("RunFromOutputFolderWithRID_" + targetFramework, true, false, targetFramework);
         }
 
-        [Theory]
-        [InlineData("net6.0")]
-        [InlineData("net7.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("net6.0")]
+        [DataRow("net7.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_runs_the_app_with_conflicts_from_the_output_folder(string targetFramework)
         {
             RunAppFromOutputFolder("RunFromOutputFolderConflicts_" + targetFramework, false, true, targetFramework);
         }
 
-        [Theory]
-        [InlineData("net6.0")]
-        [InlineData("net7.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("net6.0")]
+        [DataRow("net7.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_runs_a_rid_specific_app_with_conflicts_from_the_output_folder(string targetFramework)
         {
             RunAppFromOutputFolder("RunFromOutputFolderWithRIDConflicts_" + targetFramework, true, true, targetFramework);
@@ -346,7 +346,7 @@ public static class Program
 
             string outputFolder = buildCommand.GetOutputDirectory(project.TargetFrameworks, runtimeIdentifier: runtimeIdentifier ?? "").FullName;
 
-            new DotnetCommand(Log, Path.Combine(outputFolder, project.Name + ".dll"))
+            new DotnetCommand(MSTestContext, Path.Combine(outputFolder, project.Name + ".dll"))
                 .Execute()
                 .Should()
                 .Pass()
@@ -355,11 +355,11 @@ public static class Program
 
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0", true)]
-        [InlineData("netcoreapp3.0", true)]
-        [InlineData("net5.0", true)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, false)]
+        [TestMethod]
+        [DataRow("netcoreapp2.0", true)]
+        [DataRow("netcoreapp3.0", true)]
+        [DataRow("net5.0", true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, false)]
         public void It_stops_generating_runtimeconfig_dev_json_after_net6(string targetFramework, bool shouldGenerateRuntimeConfigDevJson)
         {
             TestProject proj = new()
@@ -385,10 +385,10 @@ public static class Program
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData("netcoreapp2.0")]
-        [InlineData("netcoreapp3.0")]
-        [InlineData("net5.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("netcoreapp2.0")]
+        [DataRow("netcoreapp3.0")]
+        [DataRow("net5.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_stops_generating_runtimeconfig_dev_json_after_net6_allow_property_override(string targetFramework)
         {
             TestProject proj = new()
@@ -417,9 +417,9 @@ public static class Program
             File.Exists(runtimeconfigFile).Should().BeFalse();
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow("netcoreapp2.0")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_trims_conflicts_from_the_deps_file(string targetFramework)
         {
             TestProject project = new()
@@ -480,9 +480,9 @@ public static class Program
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_generates_rid_fallback_graph(bool isSelfContained)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -524,7 +524,7 @@ public static class Program
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void There_are_no_conflicts_when_targeting_netcoreapp_1_1()
         {
             var testProject = new TestProject()
@@ -546,9 +546,9 @@ public static class Program
                 .NotHaveStdOutMatching("Encountered conflict", System.Text.RegularExpressions.RegexOptions.CultureInvariant | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_publishes_package_satellites_correctly(bool crossTarget)
         {
             var testProject = new TestProject()
@@ -640,7 +640,7 @@ public static class Program
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void BuildWithTransitiveReferenceToNetCoreAppPackage()
         {
             var testProject = new TestProject()
@@ -721,7 +721,7 @@ class Program
                 .Pass();
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/3044")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/3044")]
         public void ReferenceLegacyContracts()
         {
             var testProject = new TestProject()
@@ -748,7 +748,7 @@ class Program
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItHasNoPackageReferences()
         {
             var testProject = new TestProject()
@@ -823,7 +823,7 @@ class Program
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_regenerates_files_if_self_contained_changes()
         {
             const string TFM = ToolsetInfo.CurrentTargetFramework;
@@ -867,7 +867,7 @@ class Program
             runtimeConfigLastWriteTime.Should().NotBe(File.GetLastWriteTimeUtc(runtimeConfigPath));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_passes_when_building_single_file_app_without_rid()
         {
             GetBuildCommand()
@@ -876,7 +876,7 @@ class Program
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void It_errors_when_publishing_single_file_without_apphost()
         {
             GetBuildCommand()
@@ -885,9 +885,9 @@ class Program
                 .Pass();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_builds_the_project_successfully_with_only_reference_assembly_set(bool produceOnlyReferenceAssembly)
         {
             var testProject = new TestProject()
@@ -966,23 +966,23 @@ class Program
             return packageProject;
         }
 
-        [Theory]
+        [TestMethod]
         // Non-portable RID should warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, true, true, null, true)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, true, false, null, true)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, false, true, null, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, true, true, null, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, true, false, null, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64" }, false, true, null, true)]
         // Non-portable and portable RIDs should warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64", "win7-x86", "unix" }, true, true, null, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "ubuntu.22.04-x64", "win7-x86", "unix" }, true, true, null, true)]
         // Portable RIDs only should not warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "win-x86", "win", "linux", "linux-musl-x64", "osx", "osx-arm64", "unix", "browser", "browser-wasm", "ios-arm64" }, true, true, null, false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "win-x86", "win", "linux", "linux-musl-x64", "osx", "osx-arm64", "unix", "browser", "browser-wasm", "ios-arm64" }, true, true, null, false)]
         // No RID assets should not warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new string[] { }, false, false, null, false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new string[] { }, false, false, null, false)]
         // Below .NET 8 should not warn
-        [InlineData("net7.0", new string[] { "ubuntu.22.04-x64", "win7-x86" }, true, true, null, false)]
+        [DataRow("net7.0", new string[] { "ubuntu.22.04-x64", "win7-x86" }, true, true, null, false)]
         // Explicitly set to use RID graph should not warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "alpine-x64" }, true, true, true, false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "alpine-x64" }, true, true, true, false)]
         // Explicitly set to not use RID graph should warn
-        [InlineData(ToolsetInfo.CurrentTargetFramework, new[] { "alpine-x64" }, true, true, false, true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, new[] { "alpine-x64" }, true, true, false, true)]
         public void It_warns_on_nonportable_rids(string targetFramework, string[] rids, bool addLibAssets, bool addNativeAssets, bool? useRidGraph, bool shouldWarn)
         {
             var packageProject = CreateProjectWithRidAssets(targetFramework, rids, addLibAssets, addNativeAssets);
@@ -1001,7 +1001,7 @@ class Program
                 IsExe = true
             };
 
-            // Reference the package, add it to restore sources, and use a test-specific packages folder 
+            // Reference the package, add it to restore sources, and use a test-specific packages folder
             testProject.PackageReferences.Add(package);
             testProject.AdditionalProperties["RestoreAdditionalProjectSources"] = Path.GetDirectoryName(package.NupkgPath);
             testProject.AdditionalProperties["RestorePackagesPath"] = @"$(MSBuildProjectDirectory)\packages";
@@ -1038,7 +1038,7 @@ class Program
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_warn_on_rids_if_no_framework_references()
         {
             var packageProject = CreateProjectWithRidAssets(ToolsetInfo.CurrentTargetFramework, new string[] { "unix", "win", "alpine-x64" }, true, true);
@@ -1054,7 +1054,7 @@ class Program
                 IsExe = true
             };
 
-            // Reference the package, add it to restore sources, and use a test-specific packages folder 
+            // Reference the package, add it to restore sources, and use a test-specific packages folder
             testProject.PackageReferences.Add(package);
             testProject.AdditionalProperties["RestoreAdditionalProjectSources"] = Path.GetDirectoryName(package.NupkgPath);
             testProject.AdditionalProperties["RestorePackagesPath"] = @"$(MSBuildProjectDirectory)\packages";
@@ -1072,9 +1072,9 @@ class Program
                 .And.NotHaveStdOutContaining("NETSDK1206");
         }
 
-        [Theory]
-        [InlineData(true, "TRACE DISABLED")]
-        [InlineData(false, "TRACE ENABLED")]
+        [TestMethod]
+        [DataRow(true, "TRACE DISABLED")]
+        [DataRow(false, "TRACE ENABLED")]
         public void It_can_use_implicitly_defined_compilation_constants(bool disableTracing, string expectedOutput)
         {
             var testProj = new TestProject()
@@ -1104,13 +1104,13 @@ class Program
 }";
             var testAsset = _testAssetsManager.CreateTestProject(testProj, identifier: disableTracing.ToString());
 
-            var buildCommand = new BuildCommand(Log, Path.Combine(testAsset.Path, testProj.Name));
+            var buildCommand = new BuildCommand(MSTestContext, Path.Combine(testAsset.Path, testProj.Name));
             buildCommand
                 .Execute()
                 .Should()
                 .Pass();
 
-            var runCommand = new RunExeCommand(Log, Path.Combine(buildCommand.GetOutputDirectory(ToolsetInfo.CurrentTargetFramework).FullName, $"{testProj.Name}{EnvironmentInfo.ExecutableExtension}"));
+            var runCommand = new RunExeCommand(MSTestContext, Path.Combine(buildCommand.GetOutputDirectory(ToolsetInfo.CurrentTargetFramework).FullName, $"{testProj.Name}{EnvironmentInfo.ExecutableExtension}"));
             runCommand
                 .Execute()
                 .Should().HaveStdOut(expectedOutput);

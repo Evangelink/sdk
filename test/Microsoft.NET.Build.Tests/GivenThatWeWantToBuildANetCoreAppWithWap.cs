@@ -5,11 +5,11 @@ namespace Microsoft.NET.Publish.Tests
 {
     public class GivenThatWeWantToBuildANetCoreAppWithWap : SdkTest
     {
-        public GivenThatWeWantToBuildANetCoreAppWithWap(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildANetCoreAppWithWap(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [FullMSBuildOnlyFact]
+        [FullMSBuildOnlyTestMethod]
         public void WhenNetCoreProjectIsReferencedByAWapProject()
         {
             var testInstance = _testAssetsManager

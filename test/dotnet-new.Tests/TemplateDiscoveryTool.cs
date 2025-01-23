@@ -39,13 +39,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Pass();
         }
 
-        public AndConstraint<CommandResultAssertions> Run(ITestOutputHelper log, params string[] args)
+        public AndConstraint<CommandResultAssertions> Run(MSTestContext testContext, params string[] args)
         {
             var arguments = new List<string>();
             arguments.Add("run");
             arguments.Add("Microsoft.TemplateSearch.TemplateDiscovery");
             arguments.AddRange(args);
-            return new DotnetToolCommand(log, arguments.ToArray())
+            return new DotnetToolCommand(testContext, arguments.ToArray())
                 .WithWorkingDirectory(dotnetNewTestExecutionDir)
                 .Execute()
                 .Should()

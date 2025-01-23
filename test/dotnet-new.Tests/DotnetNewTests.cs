@@ -8,18 +8,18 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public class DotnetNewTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _sharedHome;
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public DotnetNewTests(SharedHomeDirectory sharedHome, ITestOutputHelper log) : base(log)
+        public DotnetNewTests(SharedHomeDirectory sharedHome, MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
             _sharedHome = sharedHome;
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowBasicInfo()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log)
+            CommandResult commandResult = new DotnetNewCommand(_testContext)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -29,14 +29,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut).UniqueForOSPlatform();
         }
 
-        [Theory]
-        [InlineData("-v", "q")]
-        [InlineData("-v", "quiet")]
-        [InlineData("--verbosity", "q")]
-        [InlineData("--verbosity", "quiet")]
+        [TestMethod]
+        [DataRow("-v", "q")]
+        [DataRow("-v", "quiet")]
+        [DataRow("--verbosity", "q")]
+        [DataRow("--verbosity", "quiet")]
         public void CanUseQuietMode(string optionName, string optionValue)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "template-does-not-exist", optionName, optionValue)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", "template-does-not-exist", optionName, optionValue)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -46,10 +46,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdOut();
         }
 
-        [Fact]
+        [TestMethod]
         public void CanUseQuietMode_ViaEnvVar()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "template-does-not-exist")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", "template-does-not-exist")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_OUTPUT", "false")
                 .WithEnvironmentVariable("DOTNET_CLI_CONTEXT_ERROR", "false")
@@ -61,14 +61,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdOut();
         }
 
-        [Theory]
-        [InlineData("-v", "m")]
-        [InlineData("-v", "minimal")]
-        [InlineData("--verbosity", "m")]
-        [InlineData("--verbosity", "minimal")]
+        [TestMethod]
+        [DataRow("-v", "m")]
+        [DataRow("-v", "minimal")]
+        [DataRow("--verbosity", "m")]
+        [DataRow("--verbosity", "minimal")]
         public Task CanUseMinimalMode(string optionName, string optionValue)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "template-does-not-exist", optionName, optionValue)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", "template-does-not-exist", optionName, optionValue)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -81,14 +81,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-v", "n")]
-        [InlineData("-v", "normal")]
-        [InlineData("--verbosity", "n")]
-        [InlineData("--verbosity", "normal")]
+        [TestMethod]
+        [DataRow("-v", "n")]
+        [DataRow("-v", "normal")]
+        [DataRow("--verbosity", "n")]
+        [DataRow("--verbosity", "normal")]
         public Task CanUseNormalMode(string optionName, string optionValue)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "template-does-not-exist", optionName, optionValue)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", "template-does-not-exist", optionName, optionValue)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -100,17 +100,17 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-v", "diag")]
-        [InlineData("-v", "diagnostic")]
-        [InlineData("--verbosity", "diag")]
-        [InlineData("--verbosity", "diagnostic")]
-        [InlineData("--diagnostics", null)]
-        [InlineData("-d", null)]
+        [TestMethod]
+        [DataRow("-v", "diag")]
+        [DataRow("-v", "diagnostic")]
+        [DataRow("--verbosity", "diag")]
+        [DataRow("--verbosity", "diagnostic")]
+        [DataRow("--diagnostics", null)]
+        [DataRow("-d", null)]
         public void CanUseDiagMode(string optionName, string? optionValue)
         {
             CommandResult commandResult = new DotnetNewCommand(
-                _log,
+                _testContext,
                 string.IsNullOrEmpty(optionValue)
                     ? new[] { "search", "template-does-not-exist", optionName }
                     : new[] { "search", "template-does-not-exist", optionName, optionValue })
@@ -122,13 +122,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                  .And.HaveStdOutContaining("[Debug] [Template Engine] => [Execute]: Execute started");
         }
 
-        [Fact]
+        [TestMethod]
         public void CanUseDebugPathWhenEnvVarIsSet_Instantiate()
         {
             string cliHomePath = CreateTemporaryFolder(folderName: "CLI_HOME_TEST_FOLDER");
             string home = CreateTemporaryFolder(folderName: "Home");
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--dry-run")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--dry-run")
                 .WithDebug()
                 .WithCustomHive(home)
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", cliHomePath)
@@ -143,12 +143,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void CanUseEnvVarPathWhenDebugPathIsNotSet_Instantiate()
         {
             string cliHomePath = CreateTemporaryFolder(folderName: "CLI_HOME_TEST_FOLDER");
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--dry-run")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--dry-run")
                 .WithDebug()
                 .WithoutCustomHive()
                 .WithEnvironmentVariable("DOTNET_CLI_HOME", cliHomePath)

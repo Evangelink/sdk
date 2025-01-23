@@ -5,14 +5,14 @@ namespace Microsoft.DotNet.Cli.Format.Tests
 {
     public class GivenDotnetFormatExecutesAndGeneratesHelpText : SdkTest
     {
-        public GivenDotnetFormatExecutesAndGeneratesHelpText(ITestOutputHelper log) : base(log)
+        public GivenDotnetFormatExecutesAndGeneratesHelpText(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRuns()
         {
-            new DotnetCommand(Log, "format")
+            new DotnetCommand(MSTestContext, "format")
                 .Execute("--help")
                 .Should().Pass();
         }

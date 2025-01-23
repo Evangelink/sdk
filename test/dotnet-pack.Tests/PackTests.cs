@@ -7,17 +7,17 @@ namespace Microsoft.DotNet.Pack.Tests
 {
     public class PackTests : SdkTest
     {
-        public PackTests(ITestOutputHelper log) : base(log)
+        public PackTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void OutputsPackagesToConfigurationSubdirWhenOutputParameterIsNotPassed()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestLibraryWithConfiguration")
                                          .WithSource();
 
-            var packCommand = new DotnetPackCommand(Log)
+            var packCommand = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path);
 
             var result = packCommand.Execute("-c", "Test");
@@ -33,7 +33,7 @@ namespace Microsoft.DotNet.Pack.Tests
                                             });
         }
 
-        [Fact]
+        [TestMethod]
         public void OutputsPackagesFlatIntoOutputDirWhenOutputParameterIsPassed()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestLibraryWithConfiguration")
@@ -41,7 +41,7 @@ namespace Microsoft.DotNet.Pack.Tests
 
             var outputDir = new DirectoryInfo(Path.Combine(testInstance.Path, "bin2"));
 
-            var packCommand = new DotnetPackCommand(Log)
+            var packCommand = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("-o", outputDir.FullName)
                 .Should().Pass();
@@ -53,13 +53,13 @@ namespace Microsoft.DotNet.Pack.Tests
                                             });
         }
 
-        [Fact]
+        [TestMethod]
         public void SettingVersionSuffixFlag_ShouldStampAssemblyInfoInOutputAssemblyAndPackage()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestLibraryWithConfiguration")
                 .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--version-suffix", "85", "-c", "Debug")
                 .Should().Pass();
@@ -80,13 +80,13 @@ namespace Microsoft.DotNet.Pack.Tests
             outputPackage.Should().Exist();
         }
 
-        [Fact(Skip = "Test project missing")]
+        [TestMethod(IgnoreMessage = "Test project missing")]
         public void HasIncludedFiles()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("EndToEndTestApp")
                 .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().Pass();
@@ -104,13 +104,13 @@ namespace Microsoft.DotNet.Pack.Tests
                      .And.Contain(e => e.FullName == "anotherpath/pack2.txt");
         }
 
-        [Fact(Skip = "Test project doesn't override assembly name")]
+        [TestMethod(IgnoreMessage = "Test project doesn't override assembly name")]
         public void PackAddsCorrectFilesForProjectsWithOutputNameSpecified()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("LibraryWithOutputAssemblyName")
                     .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().Pass();
@@ -138,39 +138,39 @@ namespace Microsoft.DotNet.Pack.Tests
                      .And.Contain(e => e.FullName == "lib/netstandard1.5/MyLibrary.pdb");
         }
 
-        [Theory]
-        [InlineData("TestAppSimple")]
-        [InlineData("FSharpTestAppSimple")]
+        [TestMethod]
+        [DataRow("TestAppSimple")]
+        [DataRow("FSharpTestAppSimple")]
         public void PackWorksWithLocalProject(string projectName)
         {
             var testInstance = _testAssetsManager.CopyTestAsset(projectName)
                 .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItImplicitlyRestoresAProjectWhenPackaging()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute()
                 .Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotImplicitlyBuildAProjectWhenPackagingWithTheNoBuildOption()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource();
 
-            var result = new DotnetPackCommand(Log)
+            var result = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--no-build");
 
@@ -182,26 +182,26 @@ namespace Microsoft.DotNet.Pack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesNotImplicitlyRestoreAProjectWhenPackagingWithTheNoRestoreOption()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--no-restore")
                 .Should().Fail()
                 .And.HaveStdOutContaining("project.assets.json");
         }
 
-        [Fact]
+        [TestMethod]
         public void HasServiceableFlagWhenArgumentPassed()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestLibraryWithConfiguration")
                 .WithSource();
 
-            var packCommand = new DotnetPackCommand(Log)
+            var packCommand = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path);
 
             var result = packCommand.Execute("-c", "Debug", "--serviceable");
@@ -225,10 +225,10 @@ namespace Microsoft.DotNet.Pack.Tests
 
             var node = nuspecXml.Descendants().Single(e => e.Name.LocalName == "serviceable");
 
-            Assert.Equal("true", node.Value);
+            Assert.AreEqual("true", node.Value);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItPacksAppWhenRestoringToSpecificPackageDirectory()
         {
             var rootPath = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, "TestProject");
@@ -237,19 +237,19 @@ namespace Microsoft.DotNet.Pack.Tests
 
             string dir = "pkgs";
 
-            new DotnetNewCommand(Log, "console", "-o", rootPath, "--no-restore")
+            new DotnetNewCommand(MSTestContext, "console", "-o", rootPath, "--no-restore")
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute()
                 .Should()
                 .Pass();
 
-            new DotnetRestoreCommand(Log, rootPath)
+            new DotnetRestoreCommand(MSTestContext, rootPath)
                 .Execute("--packages", dir)
                 .Should()
                 .Pass();
 
-            new DotnetPackCommand(Log)
+            new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(rootPath)
                 .Execute("--no-restore")
                 .Should()
@@ -259,13 +259,13 @@ namespace Microsoft.DotNet.Pack.Tests
                 .Should().HaveFilesMatching("*.nupkg", SearchOption.AllDirectories);
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetPackDoesNotPrintCopyrightInfo()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
                 .WithSource();
 
-            var result = new DotnetPackCommand(Log)
+            var result = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--nologo");
 
@@ -277,13 +277,13 @@ namespace Microsoft.DotNet.Pack.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void DotnetPackAcceptsRuntimeOption()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource();
 
-            var result = new DotnetPackCommand(Log)
+            var result = new DotnetPackCommand(MSTestContext)
                 .WithWorkingDirectory(testInstance.Path)
                 .Execute("--runtime", "unknown");
 

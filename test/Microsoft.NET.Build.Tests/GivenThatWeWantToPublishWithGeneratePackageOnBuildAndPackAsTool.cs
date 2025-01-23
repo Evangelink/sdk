@@ -9,14 +9,14 @@ namespace Microsoft.NET.ToolPack.Tests
 {
     public class GivenThatWeWantToBuildWithGeneratePackageOnBuildAndPackAsTool : SdkTest
     {
-        public GivenThatWeWantToBuildWithGeneratePackageOnBuildAndPackAsTool(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildWithGeneratePackageOnBuildAndPackAsTool(MSTestContext testContext) : base(testContext)
         { }
 
-        [Theory]
-        [InlineData(false, false)]
-        [InlineData(false, true)]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
+        [TestMethod]
+        [DataRow(false, false)]
+        [DataRow(false, true)]
+        [DataRow(true, false)]
+        [DataRow(true, true)]
         public void It_builds_successfully(bool generatePackageOnBuild, bool packAsTool)
         {
             TestAsset testAsset = _testAssetsManager

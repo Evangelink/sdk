@@ -7,17 +7,17 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewHelpTests : BaseIntegrationTest
     {
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("/h")]
-        [InlineData("--help")]
-        [InlineData("-?")]
-        [InlineData("/?")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("/h")]
+        [DataRow("--help")]
+        [DataRow("-?")]
+        [DataRow("/?")]
         public Task CanShowHelp(string command)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, command)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, command)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -30,14 +30,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_Create(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "create", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "create", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -50,14 +50,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_Install(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "install", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "install", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -70,14 +70,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_Update(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "update", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "update", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -90,14 +90,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_Uninstall(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "uninstall", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "uninstall", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -110,14 +110,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_List(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "list", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "list", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -130,14 +130,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("-h")]
-        [InlineData("--help")]
+        [TestMethod]
+        [DataRow("-h")]
+        [DataRow("--help")]
         public Task CanShowHelp_Search(string option)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", option)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "search", option)
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -150,17 +150,17 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Theory]
-        [InlineData("console -h", "console")]
-        [InlineData("console --help", "console")]
-        [InlineData("classlib -h", "classlib")]
-        [InlineData("classlib --help", "classlib")]
-        [InlineData("globaljson -h", "globaljson")]
+        [TestMethod]
+        [DataRow("console -h", "console")]
+        [DataRow("console --help", "console")]
+        [DataRow("classlib -h", "classlib")]
+        [DataRow("classlib --help", "classlib")]
+        [DataRow("globaljson -h", "globaljson")]
         public Task CanShowHelpForTemplate(string command, string setName)
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, command.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(_testContext, command.Split(" "))
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -176,12 +176,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_PartialNameMatch()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "classli", "-h")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "classli", "-h")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -190,12 +190,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_FullNameMatch()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "Console App", "-h")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "Console App", "-h")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -205,14 +205,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_WhenAmbiguousLanguageChoice()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _log, _fixture.HomeDirectory, workingDirectory);
-            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicVB", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _testContext, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicVB", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "basic", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "basic", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -222,13 +222,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_MultipleValueChoice()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithMultiValueChoice", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate("TemplateWithMultiValueChoice", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "TestAssets.TemplateWithMultiValueChoice", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "TestAssets.TemplateWithMultiValueChoice", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -238,12 +238,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_MatchOnChoice()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--framework", "net7.0")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--framework", "net7.0")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -256,12 +256,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_MatchOnChoiceWithoutValue()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--framework")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--framework")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -271,12 +271,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_MatchOnUnexistingParam()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--do-not-exist")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--do-not-exist")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -286,12 +286,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_MatchOnNonChoiceParam()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--langVersion", "8.0")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--langVersion", "8.0")
                     .WithCustomHive(_fixture.HomeDirectory)
                     .WithWorkingDirectory(workingDirectory)
                     .Execute();
@@ -301,12 +301,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_MatchOnLanguage()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--language", "F#")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--language", "F#")
                     .WithCustomHive(_fixture.HomeDirectory)
                     .WithWorkingDirectory(workingDirectory)
                     .Execute();
@@ -319,31 +319,31 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CannotShowHelpForTemplate_MatchOnNonChoiceParamWithoutValue()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "console", "--help", "--langVersion")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--help", "--langVersion")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
 
-            //help command cannot fail, therefore the output is written to stdout
+            //help command cannot fail, therefore the testContext is written to stdout
             commandResult.Should().Pass().And.NotHaveStdErr();
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowAllowScriptsOption()
         {
             string templateLocation = "PostActions/RunScript/Basic";
             string templateName = "TestAssets.PostActions.RunScript.Basic";
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate(templateLocation, _log, home, workingDirectory);
+            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, templateName, "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, templateName, "--help")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -352,13 +352,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_RequiredParams()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithRequiredParameters", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate("TemplateWithRequiredParameters", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "TestAssets.TemplateWithRequiredParameters", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "TestAssets.TemplateWithRequiredParameters", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -371,13 +371,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplate_ConditionalParams()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithConditionalParameters", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate("TemplateWithConditionalParameters", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "TestAssets.TemplateWithConditionalParameters", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditionalParameters", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -390,13 +390,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplateWhenRequiredParamIsMissed()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate($"TemplateResolution/MissedRequiredParameter/BasicTemplate1", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate($"TemplateResolution/MissedRequiredParameter/BasicTemplate1", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "basic", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "basic", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -409,13 +409,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowHelpForTemplateWhenRequiredParamIsMissedAndConditionIntroduced()
         {
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate($"TemplateResolution/MissedRequiredParameter/BasicTemplate2", _log, _fixture.HomeDirectory, workingDirectory);
+            InstallTestTemplate($"TemplateResolution/MissedRequiredParameter/BasicTemplate2", _testContext, _fixture.HomeDirectory, workingDirectory);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "basic2", "--help")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "basic2", "--help")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();

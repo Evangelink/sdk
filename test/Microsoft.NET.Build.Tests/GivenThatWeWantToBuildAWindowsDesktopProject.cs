@@ -9,12 +9,12 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAWindowsDesktopProject : SdkTest
     {
-        public GivenThatWeWantToBuildAWindowsDesktopProject(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAWindowsDesktopProject(MSTestContext testContext) : base(testContext)
         { }
 
-        [WindowsOnlyRequiresMSBuildVersionTheory("16.7.0")]
-        [InlineData("UseWindowsForms")]
-        [InlineData("UseWPF")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.7.0")]
+        [DataRow("UseWindowsForms")]
+        [DataRow("UseWPF")]
         public void It_errors_when_missing_windows_target_platform(string propertyName)
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -37,9 +37,9 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1136");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTheory("16.7.0")]
-        [InlineData("UseWindowsForms")]
-        [InlineData("UseWPF")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.7.0")]
+        [DataRow("UseWindowsForms")]
+        [DataRow("UseWPF")]
         public void It_errors_when_missing_transitive_windows_target_platform(string propertyName)
         {
             TestProject testProjectA = new()
@@ -74,7 +74,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1136");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0")]
         public void It_warns_when_specifying_windows_desktop_sdk()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -142,11 +142,11 @@ namespace Microsoft.NET.Build.Tests
             getValuesCommand.GetValues().Should().BeEquivalentTo(new[] { "true" });
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/29968")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/29968")]
         public void It_builds_successfully_when_targeting_net_framework()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
-            new DotnetNewCommand(Log, "wpf", "--no-restore")
+            new DotnetNewCommand(MSTestContext, "wpf", "--no-restore")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDirectory)
                 .Execute()
@@ -164,7 +164,7 @@ namespace Microsoft.NET.Build.Tests
             project.Root.Elements(ns + "PropertyGroup").Elements(ns + "ImplicitUsings").Remove();
             project.Save(projFile);
 
-            var buildCommand = new BuildCommand(Log, testDirectory);
+            var buildCommand = new BuildCommand(MSTestContext, testDirectory);
             buildCommand.Execute()
                 .Should()
                 .Pass();
@@ -189,8 +189,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_succeeds_if_windows_target_platform_version_does_not_have_trailing_zeros(bool setInTargetframework)
         {
             if (!setInTargetframework)
@@ -227,7 +227,7 @@ namespace Microsoft.NET.Build.Tests
             getValuesCommand.GetValues().Should().BeEquivalentTo(new[] { "10.0.18362.0" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_if_target_platform_identifier_and_version_are_invalid()
         {
             var testProject = new TestProject()
@@ -247,12 +247,12 @@ namespace Microsoft.NET.Build.Tests
                 .NotHaveStdOutContaining("NETSDK1140");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("17.0.0.32901")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void UseWPFCanBeSetInDirectoryBuildTargets()
         {
             var testDir = _testAssetsManager.CreateTestDirectory();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDir.Path)
                 .Execute("wpf")
@@ -280,7 +280,7 @@ namespace Microsoft.NET.Build.Tests
 
             File.WriteAllText(Path.Combine(testDir.Path, "Directory.Build.targets"), DirectoryBuildTargetsContent);
 
-            var buildCommand = new BuildCommand(Log, testDir.Path);
+            var buildCommand = new BuildCommand(MSTestContext, testDir.Path);
 
             buildCommand.Execute()
                 .Should()
@@ -353,10 +353,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", true)]
-        [InlineData("netcoreapp3.1", false)]
-        [InlineData("net472", false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", true)]
+        [DataRow("netcoreapp3.1", false)]
+        [DataRow("net472", false)]
         public void WindowsWorkloadIsInstalledForNet5AndUp(string targetFramework, bool supportsWindowsTargetPlatformIdentifier)
         {
             var testProject = new TestProject()
@@ -386,14 +386,14 @@ namespace Microsoft.NET.Build.Tests
 
         [WindowsOnlyTheory]
         //  Basic Windows TargetFramework
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", false, null, "10.0.19041.*")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", false, null, "10.0.19041.*")]
         //  Basic UseWindowsSdkPreview usage
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.99999.0", true, null, "10.0.99999-preview")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.99999.0", true, null, "10.0.99999-preview")]
         //  Basic WindowsSdkPackageVersion usage
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", null, "10.0.99999-abc", "10.0.99999-abc")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", null, "10.0.99999.0", "10.0.99999.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", null, "10.0.99999-abc", "10.0.99999-abc")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", null, "10.0.99999.0", "10.0.99999.0")]
         //  WindowsSdkPackageVersion should supercede UseWindowsSDKPreview property
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", true, "10.0.99999-abc", "10.0.99999-abc")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", true, "10.0.99999-abc", "10.0.99999-abc")]
         public void ItUsesCorrectWindowsSdkPackVersion(string targetFramework, bool? useWindowsSDKPreview, string windowsSdkPackageVersion, string expectedWindowsSdkPackageVersion)
         {
             var testProject = new TestProject()
@@ -424,9 +424,9 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData("net5.0-windows10.0.22000.0", "10.0.22000.25")]
-        [InlineData("net6.0-windows10.0.22000.0", "10.0.22000.26")]
-        [InlineData("net6.0-windows10.0.19041.0", "10.0.19041.25")]
+        [DataRow("net5.0-windows10.0.22000.0", "10.0.22000.25")]
+        [DataRow("net6.0-windows10.0.22000.0", "10.0.22000.26")]
+        [DataRow("net6.0-windows10.0.19041.0", "10.0.19041.25")]
         public void ItUsesTheHighestMatchingWindowsSdkPackageVersion(string targetFramework, string expectedWindowsSdkPackageVersion)
         {
             var testProject = new TestProject()

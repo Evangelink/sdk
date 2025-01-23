@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAP2PReferenceWithTargetPlatform : SdkTest
     {
-        public GivenThatWeWantToBuildAP2PReferenceWithTargetPlatform(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAP2PReferenceWithTargetPlatform(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_successfully()
         {
             var appProject = new TestProject()

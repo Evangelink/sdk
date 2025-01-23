@@ -5,12 +5,12 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToProduceReferenceAssembly : SdkTest
     {
-        public GivenThatWeWantToProduceReferenceAssembly(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToProduceReferenceAssembly(MSTestContext testContext) : base(testContext)
         { }
 
         [RequiresMSBuildVersionTheory("16.8.0")]
-        [InlineData("netcoreapp3.1", false)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow("netcoreapp3.1", false)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void It_produces_ref_assembly_for_appropriate_frameworks(string targetFramework, bool expectedExists)
         {
             TestProject testProject = new()

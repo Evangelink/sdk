@@ -5,20 +5,20 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class FileRenameTests : BaseIntegrationTest
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public FileRenameTests(ITestOutputHelper log) : base(log)
+        public FileRenameTests(MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void CanUseFileRenameWithNowGenerator()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithFileRenameDate", _log, home, workingDirectory);
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithFileRenameDate", "--migrationName", "MyTestName")
+            InstallTestTemplate("TemplateWithFileRenameDate", _testContext, home, workingDirectory);
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithFileRenameDate", "--migrationName", "MyTestName")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()

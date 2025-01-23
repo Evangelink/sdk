@@ -68,36 +68,36 @@ Additional commands from bundled tools:
 
 Run 'dotnet [command] --help' for more information on a command.";
 
-        public GivenThatIWantToShowHelpForDotnetCommand(ITestOutputHelper log) : base(log)
+        public GivenThatIWantToShowHelpForDotnetCommand(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("--help")]
-        [InlineData("-h")]
-        [InlineData("-?")]
-        [InlineData("/?")]
+        [TestMethod]
+        [DataRow("--help")]
+        [DataRow("-h")]
+        [DataRow("-?")]
+        [DataRow("/?")]
         public void WhenHelpOptionIsPassedToDotnetItPrintsUsage(string helpArg)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                 .Execute(helpArg);
             cmd.Should().Pass();
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(HelpText);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenHelpCommandIsPassedToDotnetItPrintsUsage()
         {
-            var cmd = new DotnetCommand(Log, "help")
+            var cmd = new DotnetCommand(MSTestContext, "help")
                 .Execute();
             cmd.Should().Pass();
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(HelpText);
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenInvalidCommandIsPassedToDotnetHelpItPrintsError()
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                   .Execute("help", "invalid");
 
             cmd.Should().Fail();
@@ -105,12 +105,12 @@ Run 'dotnet [command] --help' for more information on a command.";
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(HelpText);
         }
 
-        [Theory]
-        [InlineData("complete")]
-        [InlineData("parse")]
+        [TestMethod]
+        [DataRow("complete")]
+        [DataRow("parse")]
         public void WhenCommandWithoutDocLinkIsPassedToDotnetHelpItPrintsError(string command)
         {
-            var cmd = new DotnetCommand(Log)
+            var cmd = new DotnetCommand(MSTestContext)
                   .Execute($"help", command);
 
             cmd.Should().Fail();
@@ -123,7 +123,7 @@ Run 'dotnet [command] --help' for more information on a command.";
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");
             Assert.EndsWith("cmd.exe", proc.StartInfo.FileName);
-            Assert.Equal("/c start https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
+            Assert.AreEqual("/c start https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
         }
 
         [LinuxOnlyFact]
@@ -131,7 +131,7 @@ Run 'dotnet [command] --help' for more information on a command.";
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");
             Assert.Contains("xdg-open", proc.StartInfo.FileName);
-            Assert.Equal("https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
+            Assert.AreEqual("https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
 
         }
         [MacOsOnlyFact]
@@ -139,7 +139,7 @@ Run 'dotnet [command] --help' for more information on a command.";
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");
             Assert.EndsWith("open", proc.StartInfo.FileName);
-            Assert.Equal("https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
+            Assert.AreEqual("https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
         }
     }
 }

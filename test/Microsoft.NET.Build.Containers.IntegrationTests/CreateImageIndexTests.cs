@@ -15,11 +15,11 @@ namespace Microsoft.NET.Build.Containers.Tasks.IntegrationTests;
 [Collection("Docker tests")]
 public class CreateImageIndexTests
 {
-    private ITestOutputHelper _testOutput;
+    private MSTestContext _testContext;
 
-    public CreateImageIndexTests(ITestOutputHelper testOutput)
+    public CreateImageIndexTests(MSTestContext testContext)
     {
-        _testOutput = testOutput;
+        _testContext = testContext;
     }
 
     [DockerAvailableFact]
@@ -42,7 +42,7 @@ public class CreateImageIndexTests
         cii.Repository = repository;
         cii.ImageTags = tags;
         cii.GeneratedContainers = [image1, image2];
-        Assert.True(cii.Execute(), FormatBuildMessages(errors));
+        Assert.IsTrue(cii.Execute(), FormatBuildMessages(errors));
 
         // Assert that the image index is created correctly
         cii.GeneratedImageIndex.Should().NotBeNullOrEmpty();
@@ -58,7 +58,7 @@ public class CreateImageIndexTests
         imageIndex.manifests[1].platform.architecture.Should().Be("arm64");
 
         // Assert that the image index is pushed to the registry
-        var loggerFactory = new TestLoggerFactory(_testOutput);
+        var loggerFactory = new TestLoggerFactory(_testContext);
         var logger = loggerFactory.CreateLogger(nameof(CreateImageIndex_Baseline));
         Registry registry = new(outputRegistry, logger, RegistryMode.Pull);
 
@@ -76,7 +76,7 @@ public class CreateImageIndexTests
             newProjectDir.Delete(recursive: true);
         }
         newProjectDir.Create();
-        new DotnetNewCommand(_testOutput, "console", "-f", ToolsetInfo.CurrentTargetFramework)
+        new DotnetNewCommand(_testContext, "console", "-f", ToolsetInfo.CurrentTargetFramework)
             .WithVirtualHive()
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
@@ -93,7 +93,7 @@ public class CreateImageIndexTests
         IBuildEngine buildEngine,
         List<string?> errors)
     {
-        new DotnetCommand(_testOutput, "publish", "-c", "Release", "-r", rid, "--no-self-contained")
+        new DotnetCommand(_testContext, "publish", "-c", "Release", "-r", rid, "--no-self-contained")
             .WithWorkingDirectory(newProjectDir.FullName)
             .Execute()
             .Should().Pass();
@@ -116,7 +116,7 @@ public class CreateImageIndexTests
         cni.Entrypoint = new TaskItem[] { new("dotnet"), new("build") };
         cni.RuntimeIdentifierGraphPath = ToolsetUtils.GetRuntimeGraphFilePath();
 
-        Assert.True(cni.Execute(), FormatBuildMessages(errors));
+        Assert.IsTrue(cni.Execute(), FormatBuildMessages(errors));
 
         TaskItem generatedContainer = new("GeneratedContainer" + rid);
         generatedContainer.SetMetadata("Manifest", cni.GeneratedContainerManifest);

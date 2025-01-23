@@ -5,7 +5,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildAppsWithFrameworkRefs : SdkTest
     {
-        public GivenThatWeWantToBuildAppsWithFrameworkRefs(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildAppsWithFrameworkRefs(MSTestContext testContext) : base(testContext)
         {
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.NET.Build.Tests
             var buildCommand = new BuildCommand(testAsset, "EntityFrameworkApp");
             var outputDirectory = buildCommand.GetOutputDirectory("net451", runtimeIdentifier: $"{ToolsetInfo.LatestWinRuntimeIdentifier}-x86");
 
-            new RunExeCommand(Log, Path.Combine(outputDirectory.FullName, "EntityFrameworkApp.exe"))
+            new RunExeCommand(MSTestContext, Path.Combine(outputDirectory.FullName, "EntityFrameworkApp.exe"))
                 .Execute()
                 .Should()
                 .Pass()
@@ -92,7 +92,7 @@ namespace Microsoft.NET.Build.Tests
 
             outputDirectory.Should().HaveFiles(expectedFiles);
 
-            var cleanCommand = new MSBuildCommand(Log, "Clean", buildCommand.FullPathProjectFile);
+            var cleanCommand = new MSBuildCommand(MSTestContext, "Clean", buildCommand.FullPathProjectFile);
 
             cleanCommand
                 .Execute()

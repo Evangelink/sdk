@@ -18,18 +18,18 @@ Arguments:
 Options:
   -?, -h, --help  Show command line help.";
 
-        public GivenThatIWantToShowHelpForDotnetHelpCommand(ITestOutputHelper log) : base(log)
+        public GivenThatIWantToShowHelpForDotnetHelpCommand(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("--help")]
-        [InlineData("-h")]
-        [InlineData("-?")]
-        [InlineData("/?")]
+        [TestMethod]
+        [DataRow("--help")]
+        [DataRow("-h")]
+        [DataRow("-?")]
+        [DataRow("/?")]
         public void WhenHelpOptionIsPassedToDotnetHelpCommandItPrintsUsage(string helpArg)
         {
-            var cmd = new DotnetCommand(Log, "help")
+            var cmd = new DotnetCommand(MSTestContext, "help")
                 .Execute($"{helpArg}");
             cmd.Should().Pass();
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(HelpText);

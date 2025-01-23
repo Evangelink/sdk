@@ -5,14 +5,14 @@ namespace Microsoft.DotNet.Cli.Fsi.Tests
 {
     public class GivenDotnetFsiExecutesAndGeneratesHelpText : SdkTest
     {
-        public GivenDotnetFsiExecutesAndGeneratesHelpText(ITestOutputHelper log) : base(log)
+        public GivenDotnetFsiExecutesAndGeneratesHelpText(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRuns()
         {
-            new DotnetCommand(Log, "fsi")
+            new DotnetCommand(MSTestContext, "fsi")
                 .Execute("--help")
                 .Should().Pass();
         }

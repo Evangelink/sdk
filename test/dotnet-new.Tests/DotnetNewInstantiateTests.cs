@@ -9,20 +9,20 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewInstantiateTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _fixture;
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public DotnetNewInstantiateTests(SharedHomeDirectory fixture, ITestOutputHelper log) : base(log)
+        public DotnetNewInstantiateTests(SharedHomeDirectory fixture, MSTestContext testContext) : base(testContext)
         {
             _fixture = fixture;
-            _log = log;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplate()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_log, "console")
+            new DotnetNewCommand(_testContext, "console")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -33,14 +33,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/42539")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42539")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanInstantiateTemplate_WithAlias()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
 
-            new DotnetNewCommand(_log, "console", "--alias", "csharpconsole")
+            new DotnetNewCommand(_testContext, "console", "--alias", "csharpconsole")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -49,7 +49,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("Successfully created alias named 'csharpconsole' with value 'console'");
 
-            new DotnetNewCommand(_log, "console", "-n", "MyConsole", "-o", "no-alias")
+            new DotnetNewCommand(_testContext, "console", "-n", "MyConsole", "-o", "no-alias")
              .WithCustomHive(home)
              .WithWorkingDirectory(workingDirectory)
              .Execute()
@@ -58,7 +58,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
              .And.NotHaveStdErr()
              .And.HaveStdOutContaining("The template \"Console App\" was created successfully.");
 
-            new DotnetNewCommand(_log, "csharpconsole", "-n", "MyConsole", "-o", "alias")
+            new DotnetNewCommand(_testContext, "csharpconsole", "-n", "MyConsole", "-o", "alias")
                .WithCustomHive(home)
                .WithWorkingDirectory(workingDirectory)
                .Execute()
@@ -69,20 +69,20 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                .And.HaveStdOutContaining("After expanding aliases, the command is:")
                .And.HaveStdOutContaining("dotnet new console -n MyConsole -o alias");
 
-            Assert.Equal(
+            Assert.AreEqual(
                 new DirectoryInfo(Path.Combine(workingDirectory, "no-alias")).EnumerateFileSystemInfos().Select(fi => fi.Name),
                 new DirectoryInfo(Path.Combine(workingDirectory, "alias")).EnumerateFileSystemInfos().Select(fi => fi.Name));
 
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplate_WithSingleNonDefaultLanguageChoice()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _log, home, workingDirectory);
+            InstallTestTemplate("TemplateResolution/DifferentLanguagesGroup/BasicFSharp", _testContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, "basic")
+            new DotnetNewCommand(_testContext, "basic")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -92,12 +92,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"Basic FSharp\" was created successfully.");
         }
 
-        [Fact]
+        [TestMethod]
         public void CanOverwriteFilesWithForce()
         {
             string workingDirectory = CreateTemporaryFolder();
 
-            Utils.CommandResult commandResult = new DotnetNewCommand(_log, "console", "--no-restore")
+            Utils.CommandResult commandResult = new DotnetNewCommand(_testContext, "console", "--no-restore")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("The template \"Console App\" was created successfully.");
 
-            Utils.CommandResult forceCommandResult = new DotnetNewCommand(_log, "console", "--no-restore", "--force")
+            Utils.CommandResult forceCommandResult = new DotnetNewCommand(_testContext, "console", "--no-restore", "--force")
                 .WithCustomHive(_fixture.HomeDirectory)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute();
@@ -117,17 +117,17 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("The template \"Console App\" was created successfully.");
 
-            Assert.Equal(commandResult.StdOut, forceCommandResult.StdOut);
+            Assert.AreEqual(commandResult.StdOut, forceCommandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplateWithSecondShortName()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallNuGetTemplate("Microsoft.DotNet.Web.ProjectTemplates.5.0", _log, home, workingDirectory);
+            InstallNuGetTemplate("Microsoft.DotNet.Web.ProjectTemplates.5.0", _testContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, "webapp", "-o", "webapp")
+            new DotnetNewCommand(_testContext, "webapp", "-o", "webapp")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -136,7 +136,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr()
                 .And.HaveStdOutContaining("The template \"ASP.NET Core Web App (Razor Pages)\" was created successfully.");
 
-            new DotnetNewCommand(_log, "razor", "-o", "razor")
+            new DotnetNewCommand(_testContext, "razor", "-o", "razor")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -146,16 +146,16 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"ASP.NET Core Web App (Razor Pages)\" was created successfully.");
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplate_WithBinaryFile_FromFolder()
         {
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
             string templateLocation = GetTestTemplateLocation("TemplateWithBinaryFile");
 
-            InstallTestTemplate(templateLocation, _log, home, workingDirectory);
+            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithBinaryFile")
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithBinaryFile")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -164,25 +164,25 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string sourceImage = Path.Combine(templateLocation, "image.png");
             string targetImage = Path.Combine(workingDirectory, "image.png");
 
-            Assert.True(File.Exists(targetImage));
+            Assert.IsTrue(File.Exists(targetImage));
 
-            Assert.Equal(
+            Assert.AreEqual(
                 new FileInfo(sourceImage).Length,
                 new FileInfo(targetImage).Length);
-            Assert.True(TestUtils.CompareFiles(sourceImage, targetImage), $"The content of {sourceImage} and {targetImage} is not same.");
+            Assert.IsTrue(TestUtils.CompareFiles(sourceImage, targetImage), $"The content of {sourceImage} and {targetImage} is not same.");
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplate_WithBinaryFile_FromPackage()
         {
             string templateLocation = GetTestTemplateLocation("TemplateWithBinaryFile");
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
 
-            string packageLocation = PackTestNuGetPackage(_log);
-            InstallNuGetTemplate(packageLocation, _log, home, workingDirectory);
+            string packageLocation = PackTestNuGetPackage(_testContext);
+            InstallNuGetTemplate(packageLocation, _testContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithBinaryFile")
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithBinaryFile")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -191,25 +191,25 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string sourceImage = Path.Combine(templateLocation, "image.png");
             string targetImage = Path.Combine(workingDirectory, "image.png");
 
-            Assert.True(File.Exists(targetImage));
+            Assert.IsTrue(File.Exists(targetImage));
 
-            Assert.Equal(
+            Assert.AreEqual(
                 new FileInfo(sourceImage).Length,
                 new FileInfo(targetImage).Length);
-            Assert.True(TestUtils.CompareFiles(sourceImage, targetImage), $"The content of {sourceImage} and {targetImage} is not same.");
+            Assert.IsTrue(TestUtils.CompareFiles(sourceImage, targetImage), $"The content of {sourceImage} and {targetImage} is not same.");
         }
 
-        [Fact]
+        [TestMethod]
         public void CanInstantiateTemplate_WithParamsSharingPrefix()
         {
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
             string templateLocation = GetTestTemplateLocation("TemplateWithParamsSharingPrefix");
 
-            InstallTestTemplate(templateLocation, _log, home, workingDirectory);
+            InstallTestTemplate(templateLocation, _testContext, home, workingDirectory);
 
             // not asserting on actual generated content - as there is none
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithParamsSharingPrefix")
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithParamsSharingPrefix")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -218,17 +218,17 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdErr();
         }
 
-        [Theory]
-        [InlineData(".dockerignore", "singleHash", false)]
-        [InlineData(".editorconfig", "singleHash", false)]
-        [InlineData(".gitattributes", "singleHash", false)]
-        [InlineData(".gitignore", "singleHash", false)]
-        [InlineData("Dockerfile", "singleHash", false)]
-        [InlineData("nuget.config", "xml", false)]
-        [InlineData("cake", "cSharpNoComments")]
-        [InlineData("sln", "singleHash")]
-        [InlineData("yaml", "singleHash")]
-        [InlineData("md", "xml")]
+        [TestMethod]
+        [DataRow(".dockerignore", "singleHash", false)]
+        [DataRow(".editorconfig", "singleHash", false)]
+        [DataRow(".gitattributes", "singleHash", false)]
+        [DataRow(".gitignore", "singleHash", false)]
+        [DataRow("Dockerfile", "singleHash", false)]
+        [DataRow("nuget.config", "xml", false)]
+        [DataRow("cake", "cSharpNoComments")]
+        [DataRow("sln", "singleHash")]
+        [DataRow("yaml", "singleHash")]
+        [DataRow("md", "xml")]
         public void CanInstantiateTemplate_WithConditions_BasedOnFileName(string testCase, string conditionType, bool useAsExtension = true)
         {
             string expectedCommandFormat = conditionType switch
@@ -259,8 +259,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             //baz
             //For extension test cases the template has 'test.<extension>' file defined.
 
-            InstallTestTemplate("TemplateWithConditions", _log, home, workingDirectory);
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithConditions", "--A", "true")
+            InstallTestTemplate("TemplateWithConditions", _testContext, home, workingDirectory);
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--A", "true")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -270,11 +270,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"TemplateWithConditions\" was created successfully.");
 
             string testFile = Path.Combine(workingDirectory, fileName);
-            Assert.True(File.Exists(testFile));
-            Assert.Equal($"{string.Format(expectedCommandFormat, "foo")}{expectedEol}foo{expectedEol}baz{expectedEol}", File.ReadAllText(testFile));
+            Assert.IsTrue(File.Exists(testFile));
+            Assert.AreEqual($"{string.Format(expectedCommandFormat, "foo")}{expectedEol}foo{expectedEol}baz{expectedEol}", File.ReadAllText(testFile));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithConditions", "--A", "false")
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--A", "false")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -284,11 +284,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"TemplateWithConditions\" was created successfully.");
 
             testFile = Path.Combine(workingDirectory, fileName);
-            Assert.True(File.Exists(testFile));
-            Assert.Equal($"baz{expectedEol}", File.ReadAllText(testFile));
+            Assert.IsTrue(File.Exists(testFile));
+            Assert.AreEqual($"baz{expectedEol}", File.ReadAllText(testFile));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithConditions", "--B", "true")
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithConditions", "--B", "true")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -298,21 +298,21 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"TemplateWithConditions\" was created successfully.");
 
             testFile = Path.Combine(workingDirectory, fileName);
-            Assert.True(File.Exists(testFile));
-            Assert.Equal($"{string.Format(expectedCommandFormat, "bar")}{expectedEol}bar{expectedEol}baz{expectedEol}", File.ReadAllText(testFile));
+            Assert.IsTrue(File.Exists(testFile));
+            Assert.AreEqual($"{string.Format(expectedCommandFormat, "bar")}{expectedEol}bar{expectedEol}baz{expectedEol}", File.ReadAllText(testFile));
         }
 
-        [Theory]
-        [InlineData("", "theDefaultName.cs")]
-        [InlineData("newName", "newName.cs")]
+        [TestMethod]
+        [DataRow("", "theDefaultName.cs")]
+        [DataRow("newName", "newName.cs")]
         public void CanInstantiateTemplate_WithDefaultName(string name, string expectedFileName)
         {
             string workingDirectory = CreateTemporaryFolder();
             string home = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("TemplateWithPreferDefaultName", _log, home, workingDirectory);
+            InstallTestTemplate("TemplateWithPreferDefaultName", _testContext, home, workingDirectory);
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_log, "TestAssets.TemplateWithPreferDefaultName", "-n", name)
+            new DotnetNewCommand(_testContext, "TestAssets.TemplateWithPreferDefaultName", "-n", name)
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -322,10 +322,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("The template \"TemplateWithPreferDefaultName\" was created successfully.");
 
             string testFile = Path.Combine(workingDirectory, expectedFileName);
-            Assert.True(File.Exists(testFile));
+            Assert.IsTrue(File.Exists(testFile));
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotReportErrorOnDefaultUpdateCheckOfLocalPackageDuringInstantiation()
         {
             string nugetName = "TestNupkgInstallTemplate";
@@ -338,11 +338,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             InstallNuGetTemplate(
                 Path.Combine(DotnetNewTestPackagesBasePath, nugetFileName),
-                _log,
+                _testContext,
                 home,
                 workingDirectory);
 
-            new DotnetNewCommand(_log, templateName, "--dry-run")
+            new DotnetNewCommand(_testContext, templateName, "--dry-run")
                 .WithCustomHive(home).WithoutBuiltInTemplates()
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -352,10 +352,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("File actions would have been taken:");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenSwitchIsSkippedThenItPrintsError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("Web1.1");
 
@@ -367,20 +367,20 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanCreateTemplate()
         {
             string tempDir = CreateTemporaryFolder();
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("console", "-o", tempDir);
             cmd.Should().Pass();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanShowHelp()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("--help");
             cmd.Should().Pass()
@@ -388,10 +388,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("dotnet new [command] [options]");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanShowHelpForTemplate()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("classlib", "--help");
 
@@ -401,13 +401,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("--framework");
         }
 
-        [Theory]
-        [InlineData("-lang", "F#", "--use-program-main")]
-        [InlineData("--language", "F#", "--use-program-main")]
-        [InlineData("-lang", "C#", "--no-exist")]
+        [TestMethod]
+        [DataRow("-lang", "F#", "--use-program-main")]
+        [DataRow("--language", "F#", "--use-program-main")]
+        [DataRow("-lang", "C#", "--no-exist")]
         public void ExampleHasLanguageForSepecifiedLanguageWithInvalidOption(string languageOption, string language, string invalidOption)
         {
-            CommandResult cmd = new DotnetNewCommand(Log, "console", languageOption, language, invalidOption)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext, "console", languageOption, language, invalidOption)
                 .WithVirtualHive()
                 .Execute();
             cmd.Should().Fail()
@@ -416,10 +416,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdErrContaining($"dotnet new console --language {language} -h");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanShowParseError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("update", "--bla");
             cmd.Should().ExitWith(127)
@@ -427,10 +427,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining("dotnet new update [options]");
         }
 
-        [Fact]
+        [TestMethod]
         public void WhenTemplateNameIsNotUniquelyMatchedThenItIndicatesProblemToUser()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(Log)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("c");
 
@@ -442,36 +442,36 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void When_dotnet_new_is_invoked_multiple_times_it_should_fail()
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");
 
             DateTime expectedState = Directory.GetLastWriteTime(rootPath);
 
-            CommandResult result = new DotnetNewCommand(Log)
+            CommandResult result = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");
 
             DateTime actualState = Directory.GetLastWriteTime(rootPath);
 
-            Assert.Equal(expectedState, actualState);
+            Assert.AreEqual(expectedState, actualState);
 
             result.Should().Fail();
         }
 
-        [Fact]
+        [TestMethod]
         public void When_dotnet_new_is_invoked_with_preferred_lang_env_var_set()
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .WithEnvironmentVariable("DOTNET_NEW_PREFERRED_LANG", "F#")
@@ -479,45 +479,45 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Should().Pass();
 
             string expectedFsprojPath = Path.Combine(rootPath, "f1", "f1.fsproj");
-            Assert.True(File.Exists(expectedFsprojPath), $"expected '{expectedFsprojPath}' but was not found");
+            Assert.IsTrue(File.Exists(expectedFsprojPath), $"expected '{expectedFsprojPath}' but was not found");
         }
 
-        [Fact]
+        [TestMethod]
         public void When_dotnet_new_is_invoked_default_is_csharp()
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore", "-n", "c1")
                 .Should().Pass();
 
             string expectedCsprojPath = Path.Combine(rootPath, "c1", "c1.csproj");
-            Assert.True(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
+            Assert.IsTrue(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
         }
 
-        [Fact]
+        [TestMethod]
         public void Dotnet_new_can_be_invoked_with_lang_option()
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore", "-n", "vb1", "-lang", "vb")
                 .Should().Pass();
 
             string expectedCsprojPath = Path.Combine(rootPath, "vb1", "vb1.vbproj");
-            Assert.True(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
+            Assert.IsTrue(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
         }
 
-        [Fact]
+        [TestMethod]
         public void When_dotnet_new_is_invoked_with_preferred_lang_env_var_empty()
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(Log)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .WithEnvironmentVariable("DOTNET_NEW_PREFERRED_LANG", "")
@@ -525,7 +525,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .Should().Pass();
 
             string expectedCsprojPath = Path.Combine(rootPath, "c1", "c1.csproj");
-            Assert.True(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
+            Assert.IsTrue(File.Exists(expectedCsprojPath), $"expected '{expectedCsprojPath}' but was not found");
         }
     }
 }

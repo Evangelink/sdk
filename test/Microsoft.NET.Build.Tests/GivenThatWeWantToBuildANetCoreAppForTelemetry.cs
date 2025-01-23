@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildANetCoreAppAndPassingALogger : SdkTest
     {
-        public GivenThatWeWantToBuildANetCoreAppAndPassingALogger(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildANetCoreAppAndPassingALogger(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void It_collects_TargetFramework_version_and_other_properties()
         {
             string targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Build.Tests
                 .Contain($"{{\"EventName\":\"targetframeworkeval\",\"Properties\":{{\"TargetFrameworkVersion\":\".NETCoreApp,Version=v{ToolsetInfo.CurrentTargetFrameworkVersion}\",\"RuntimeIdentifier\":\"null\",\"SelfContained\":\"null\",\"UseApphost\":\"null\",\"OutputType\":\"Library\",\"UseArtifactsOutput\":\"null\",\"ArtifactsPathLocationType\":\"null\"}}");
         }
 
-        [CoreMSBuildOnlyFact]
+        [CoreMSBuildOnlyTestMethod]
         public void It_collects_multi_TargetFramework_version_and_other_properties()
         {
             string targetFramework = $"net46;{ToolsetInfo.CurrentTargetFramework}";

@@ -43,11 +43,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
 
         private Regex FindFormattingLogLine => new Regex(@"((.*)\(\d+,\d+\): (.*))\r|((.*)\(\d+,\d+\): (.*))");
 
-        private readonly ITestOutputHelper _output;
+        private readonly MSTestContext _testContext;
 
-        public CodeFormatterTests(ITestOutputHelper output)
+        public CodeFormatterTests(MSTestContext testContext)
         {
-            _output = output;
+            _testContext = testContext;
         }
 
         [MSBuildFact]
@@ -177,7 +177,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             var pattern = string.Format(Resources.Could_not_format_0_Format_currently_supports_only_CSharp_and_Visual_Basic_projects, "(.*)");
             var match = new Regex(pattern, RegexOptions.Multiline).Match(log);
 
-            Assert.True(match.Success, log);
+            Assert.IsTrue(match.Success, log);
             Assert.EndsWith(s_fSharpProjectFilePath, match.Groups[1].Value);
         }
 
@@ -244,7 +244,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             var pattern = string.Format(Resources.Formatted_code_file_0, @"(.*)");
             var match = new Regex(pattern, RegexOptions.Multiline).Match(log);
 
-            Assert.True(match.Success, log);
+            Assert.IsTrue(match.Success, log);
             Assert.EndsWith("Program.cs", match.Groups[1].Value);
         }
 
@@ -286,16 +286,16 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
 
             // We can't assert the location of the format message because different platform
             // line endings change the position in the file.
-            Assert.Equal(expectedFormatLocations.Length, formatLocations.Length);
+            Assert.AreEqual(expectedFormatLocations.Length, formatLocations.Length);
             for (var index = 0; index < expectedFormatLocations.Length; index++)
             {
                 var expectedParts = FindFormattingLogLine.Match(expectedFormatLocations[index]);
                 var formatParts = FindFormattingLogLine.Match(formatLocations[index]);
 
                 // Match filename
-                Assert.Equal(expectedParts.Groups[2].Value, formatParts.Groups[2].Value);
+                Assert.AreEqual(expectedParts.Groups[2].Value, formatParts.Groups[2].Value);
                 // Match formatter message
-                Assert.Equal(expectedParts.Groups[3].Value, formatParts.Groups[3].Value);
+                Assert.AreEqual(expectedParts.Groups[3].Value, formatParts.Groups[3].Value);
             }
         }
 
@@ -314,7 +314,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             var formatLocations = log.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
                 .Where(line => FindFormattingLogLine.Match(line).Success);
 
-            Assert.Empty(formatLocations);
+            Assert.HasCount(0, formatLocations);
         }
 
         [MSBuildFact]
@@ -334,7 +334,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             var pattern = string.Format(Resources.Formatted_code_file_0, @"(.*)");
             var match = new Regex(pattern, RegexOptions.Multiline).Match(log);
 
-            Assert.True(match.Success, log);
+            Assert.IsTrue(match.Success, log);
             Assert.EndsWith("Program.cs", match.Groups[1].Value);
         }
 
@@ -458,8 +458,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
         [MSBuildFact]
         public async Task FilesFormattedInCodeStyleSolutionFilter_WhenFixingCodeStyleWarnings()
         {
-            var restoreExitCode = await Utilities.DotNetHelper.PerformRestoreAsync(s_codeStyleSolutionFilterFilePath, _output);
-            Assert.Equal(0, restoreExitCode);
+            var restoreExitCode = await Utilities.DotNetHelper.PerformRestoreAsync(s_codeStyleSolutionFilterFilePath, _testContext);
+            Assert.AreEqual(0, restoreExitCode);
 
             await TestFormatWorkspaceAsync(
                 s_codeStyleSolutionFilterFilePath,
@@ -545,8 +545,8 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
             {
                 var solutionFilePath = Path.Combine(solutionPath, s_generatorSolutionFileName);
 
-                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _output);
-                Assert.Equal(0, buildExitCode);
+                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _testContext);
+                Assert.AreEqual(0, buildExitCode);
 
                 // Fix PublicAPI analyzer diagnostics.
                 await TestFormatWorkspaceAsync(
@@ -564,7 +564,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
 
                 // Verify that changes were persisted to disk.
                 var unshippedPublicApi = File.ReadAllText(Path.Combine(solutionPath, "console_app", "PublicAPI.Unshipped.txt"));
-                Assert.Equal(string.Empty, unshippedPublicApi);
+                Assert.AreEqual(string.Empty, unshippedPublicApi);
             }
             finally
             {
@@ -593,8 +593,8 @@ Greeter.Greeter() -> void";
             {
                 var solutionFilePath = Path.Combine(solutionPath, s_generatorSolutionFileName);
 
-                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _output);
-                Assert.Equal(0, buildExitCode);
+                var buildExitCode = await Utilities.DotNetHelper.PerformBuildAsync(solutionFilePath, _testContext);
+                Assert.AreEqual(0, buildExitCode);
 
                 // Fix PublicAPI analyzer diagnostics.
                 await TestFormatWorkspaceAsync(
@@ -612,7 +612,7 @@ Greeter.Greeter() -> void";
 
                 // Verify that changes were persisted to disk.
                 var unshippedPublicApi = File.ReadAllText(Path.Combine(solutionPath, "console_app", "PublicAPI.Unshipped.txt"));
-                Assert.Equal(ExpectedPublicApi, unshippedPublicApi);
+                Assert.AreEqual(ExpectedPublicApi, unshippedPublicApi);
             }
             finally
             {
@@ -688,9 +688,9 @@ Greeter.Greeter() -> void";
 
             try
             {
-                Assert.Equal(expectedExitCode, formatResult.ExitCode);
-                Assert.Equal(expectedFilesFormatted, formatResult.FilesFormatted);
-                Assert.Equal(expectedFileCount, formatResult.FileCount);
+                Assert.AreEqual(expectedExitCode, formatResult.ExitCode);
+                Assert.AreEqual(expectedFilesFormatted, formatResult.FilesFormatted);
+                Assert.AreEqual(expectedFileCount, formatResult.FileCount);
             }
             catch
             {

@@ -7,13 +7,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public partial class DotnetNewUninstallTests
     {
-        [Fact]
+        [TestMethod]
         public Task CanShowMessageInCaseShortNameConflict()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            string templateLocation = InstallTestTemplate("TemplateWithConflictShortName", _log, customHivePath);
+            string templateLocation = InstallTestTemplate("TemplateWithConflictShortName", _testContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "uninstall")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "uninstall")
                   .WithCustomHive(customHivePath)
                   .WithoutBuiltInTemplates()
                   .Execute();
@@ -26,16 +26,16 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .AddScrubber(output => output.ScrubAndReplace(templateLocation, "%TEMPLATE FOLDER%"));
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowError_WhenGlobalSettingsFileIsCorrupted()
         {
             string homeDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("TemplateWithRequiredParameters", _log, homeDirectory);
+            InstallTestTemplate("TemplateWithRequiredParameters", _testContext, homeDirectory);
 
             var globalSettingsFile = Path.Combine(homeDirectory, "packages.json");
             File.WriteAllText(globalSettingsFile, string.Empty);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "uninstall", "TemplateWithRequiredParameters")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "uninstall", "TemplateWithRequiredParameters")
                 .WithCustomHive(homeDirectory)
                 .Execute();
 

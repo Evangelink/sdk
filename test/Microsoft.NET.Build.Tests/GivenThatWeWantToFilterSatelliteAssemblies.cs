@@ -7,14 +7,14 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToFilterSatelliteAssemblies : SdkTest
     {
-        public GivenThatWeWantToFilterSatelliteAssemblies(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToFilterSatelliteAssemblies(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("netcoreapp2.0", true, false)]
-        [InlineData("netcoreapp3.0", false, false)]
-        [InlineData("net47", false, true)]
+        [TestMethod]
+        [DataRow("netcoreapp2.0", true, false)]
+        [DataRow("netcoreapp3.0", false, false)]
+        [DataRow("net47", false, true)]
         public void It_only_publish_selected_ResourceLanguages(string targetFramework, bool explicitCopyLocalLockFile,
             bool needsNetFrameworkReferenceAssemblies)
         {
@@ -78,9 +78,9 @@ namespace Microsoft.NET.Build.Tests
 
             outputDirectory.Should().OnlyHaveFiles(expectedFiles);
         }
-        [Theory]
-        [InlineData("netcoreapp2.0", true, false)]
-        [InlineData("net47", false, true)]
+        [TestMethod]
+        [DataRow("netcoreapp2.0", true, false)]
+        [DataRow("net47", false, true)]
         public void It_copies_all_satellites_when_not_filtered(string targetFramework, bool explicitCopyLocalLockFile,
             bool needsNetFrameworkReferenceAssemblies)
         {

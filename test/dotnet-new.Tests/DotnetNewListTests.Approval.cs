@@ -8,12 +8,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewListTests
     {
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/45406")]
-        [InlineData("-l")]
-        [InlineData("--list")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45406")]
+        [DataRow("-l")]
+        [DataRow("--list")]
         public Task BasicTest_WhenLegacyCommandIsUsed(string commandName)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, commandName)
+            CommandResult commandResult = new DotnetNewCommand(_testContext, commandName)
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -28,10 +28,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [Fact(Skip = "https://github.com/dotnet/sdk/issues/45406")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45406")]
         public Task BasicTest_WhenListCommandIsUsed()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "list")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "list")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithWorkingDirectory(CreateTemporaryFolder())
                 .Execute();
@@ -44,14 +44,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 #pragma warning restore xUnit1004
 
-        [Fact]
+        [TestMethod]
         public Task Constraints_CanShowMessageIfTemplateGroupIsRestricted()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("Constraints/RestrictedTemplate", _log, customHivePath);
-            InstallTestTemplate("TemplateWithSourceName", _log, customHivePath);
+            InstallTestTemplate("Constraints/RestrictedTemplate", _testContext, customHivePath);
+            InstallTestTemplate("TemplateWithSourceName", _testContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "list", "RestrictedTemplate")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "list", "RestrictedTemplate")
                   .WithCustomHive(customHivePath)
                   .Execute();
 
@@ -62,14 +62,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdErr);
         }
 
-        [Fact]
+        [TestMethod]
         public Task Constraints_CanIgnoreConstraints()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("Constraints/RestrictedTemplate", _log, customHivePath);
-            InstallTestTemplate("TemplateWithSourceName", _log, customHivePath);
+            InstallTestTemplate("Constraints/RestrictedTemplate", _testContext, customHivePath);
+            InstallTestTemplate("TemplateWithSourceName", _testContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "list", "RestrictedTemplate", "--ignore-constraints")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "list", "RestrictedTemplate", "--ignore-constraints")
                   .WithCustomHive(customHivePath)
                   .Execute();
 
@@ -80,13 +80,13 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             return Verify(commandResult.StdOut);
         }
 
-        [Fact]
+        [TestMethod]
         public Task CanShowMessageInCaseShortNameConflict()
         {
             string customHivePath = CreateTemporaryFolder(folderName: "Home");
-            InstallTestTemplate("TemplateWithConflictShortName", _log, customHivePath);
+            InstallTestTemplate("TemplateWithConflictShortName", _testContext, customHivePath);
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "list")
+            CommandResult commandResult = new DotnetNewCommand(_testContext, "list")
                   .WithCustomHive(customHivePath)
                   .WithoutBuiltInTemplates()
                   .Execute();

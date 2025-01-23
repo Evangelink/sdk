@@ -7,22 +7,22 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToControlGeneratedAssemblyInfo : SdkTest
     {
-        public GivenThatWeWantToControlGeneratedAssemblyInfo(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToControlGeneratedAssemblyInfo(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Theory]
-        [InlineData("AssemblyInformationVersionAttribute")]
-        [InlineData("AssemblyFileVersionAttribute")]
-        [InlineData("AssemblyVersionAttribute")]
-        [InlineData("AssemblyCompanyAttribute")]
-        [InlineData("AssemblyConfigurationAttribute")]
-        [InlineData("AssemblyCopyrightAttribute")]
-        [InlineData("AssemblyDescriptionAttribute")]
-        [InlineData("AssemblyTitleAttribute")]
-        [InlineData("AssemblyTrademarkAttribute")]
-        [InlineData("NeutralResourcesLanguageAttribute")]
-        [InlineData("All")]
+        [TestMethod]
+        [DataRow("AssemblyInformationVersionAttribute")]
+        [DataRow("AssemblyFileVersionAttribute")]
+        [DataRow("AssemblyVersionAttribute")]
+        [DataRow("AssemblyCompanyAttribute")]
+        [DataRow("AssemblyConfigurationAttribute")]
+        [DataRow("AssemblyCopyrightAttribute")]
+        [DataRow("AssemblyDescriptionAttribute")]
+        [DataRow("AssemblyTitleAttribute")]
+        [DataRow("AssemblyTrademarkAttribute")]
+        [DataRow("NeutralResourcesLanguageAttribute")]
+        [DataRow("All")]
         public void It_respects_opt_outs(string attributeToOptOut)
         {
             var testAsset = _testAssetsManager
@@ -82,7 +82,7 @@ namespace Microsoft.NET.Build.Tests
             actualInfo.Should().Equal(expectedInfo);
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_include_source_revision_id_if_initialize_source_control_target_not_available()
         {
             TestProject testProject = new()
@@ -93,13 +93,13 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
             command.Execute().Should().Pass();
 
             command.GetValues().Should().BeEquivalentTo(new[] { "1.0.0" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_include_source_revision_id_if_source_revision_id_not_set()
         {
             TestProject testProject = new()
@@ -124,13 +124,13 @@ namespace Microsoft.NET.Build.Tests
                             new XElement("SourceControlInformationFeatureSupported", "true")));
                 });
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
             command.Execute().Should().Pass();
 
             command.GetValues().Should().BeEquivalentTo(new[] { "1.0.0" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_does_not_include_source_revision_id_if_disabled()
         {
             TestProject testProject = new()
@@ -156,13 +156,13 @@ namespace Microsoft.NET.Build.Tests
                             new XElement("IncludeSourceRevisionInInformationalVersion", "false")));
                 });
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
             command.Execute().Should().Pass();
 
             command.GetValues().Should().BeEquivalentTo(new[] { "1.0.0" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_source_revision_id_if_available__version_without_plus()
         {
             TestProject testProject = new()
@@ -192,13 +192,13 @@ namespace Microsoft.NET.Build.Tests
                             new XElement("SourceControlInformationFeatureSupported", "true")));
                 });
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
             command.Execute().Should().Pass();
 
             command.GetValues().Should().BeEquivalentTo(new[] { "1.0.0+xyz" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_source_revision_id_if_available__version_with_plus()
         {
             TestProject testProject = new()
@@ -229,15 +229,15 @@ namespace Microsoft.NET.Build.Tests
                             new XElement("InformationalVersion", "1.2.3+abc")));
                 });
 
-            var command = new GetValuesCommand(Log, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
+            var command = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.TestRoot, testProject.Name), testProject.TargetFrameworks, valueName: "InformationalVersion");
             command.Execute().Should().Pass();
 
             command.GetValues().Should().BeEquivalentTo(new[] { "1.2.3+abc.xyz" });
         }
 
         [WindowsOnlyTheory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
-        [InlineData("net45")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("net45")]
         public void It_respects_version_prefix(string targetFramework)
         {
             if (targetFramework == "net45")
@@ -264,8 +264,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [WindowsOnlyTheory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
-        [InlineData("net45")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
+        [DataRow("net45")]
         public void It_respects_version_changes_on_incremental_build(string targetFramework)
         {
             if (targetFramework == "net45")
@@ -297,7 +297,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_respects_custom_assembly_attribute_items_on_incremental_build()
         {
             var targetFramework = "netstandard1.5";
@@ -336,7 +336,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_internals_visible_to()
         {
             var testAsset = _testAssetsManager
@@ -362,10 +362,10 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [RequiresMSBuildVersionTheory("17.0.0.32901")]
-        [InlineData(true, true, "net5.0")]
-        [InlineData(true, true, ToolsetInfo.CurrentTargetFramework)]
-        [InlineData(true, false, ToolsetInfo.CurrentTargetFramework)]
-        [InlineData(false, false, ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(true, true, "net5.0")]
+        [DataRow(true, true, ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(true, false, ToolsetInfo.CurrentTargetFramework)]
+        [DataRow(false, false, ToolsetInfo.CurrentTargetFramework)]
         public void TestPreviewFeatures(bool enablePreviewFeatures, bool generateRequiresPreviewFeaturesAttribute, string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -414,24 +414,24 @@ namespace Microsoft.NET.Build.Tests
             {
                 if (targetFramework == ToolsetInfo.CurrentTargetFramework)
                 {
-                    Assert.Equal("Preview", langVersion);
-                    Assert.True(contains);
+                    Assert.AreEqual("Preview", langVersion);
+                    Assert.IsTrue(contains);
                 }
                 else
                 {
                     // The assembly level attribute is generated only for the latest TFM for the given sdk
-                    Assert.False(contains);
+                    Assert.IsFalse(contains);
                     Assert.NotEqual("Preview", langVersion);
                 }
             }
 
             if (!generateRequiresPreviewFeaturesAttribute)
             {
-                Assert.False(contains);
+                Assert.IsFalse(contains);
             }
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901")]
+        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
         public void It_doesnt_includes_requires_preview_features()
         {
             var testAsset = _testAssetsManager
@@ -463,25 +463,25 @@ namespace Microsoft.NET.Build.Tests
                 }
             }
 
-            Assert.False(contains);
+            Assert.IsFalse(contains);
         }
 
-        [Theory]
-        [InlineData(true, true, "net6.0", false)]
-        [InlineData(true, false, "net6.0", false)]
-        [InlineData(true, null, "net6.0", false)]
-        [InlineData(false, false, "net6.0", false)]
-        [InlineData(false, null, "net6.0", false)]
-        [InlineData(true, true, "net7.0", true)]
-        [InlineData(true, false, "net7.0", false)]
-        [InlineData(true, null, "net7.0", true)]
-        [InlineData(false, false, "net7.0", false)]
-        [InlineData(false, null, "net7.0", false)]
-        [InlineData(true, true, ToolsetInfo.CurrentTargetFramework, true)]
-        [InlineData(true, false, ToolsetInfo.CurrentTargetFramework, false)]
-        [InlineData(true, null, ToolsetInfo.CurrentTargetFramework, true)]
-        [InlineData(false, false, ToolsetInfo.CurrentTargetFramework, false)]
-        [InlineData(false, null, ToolsetInfo.CurrentTargetFramework, false)]
+        [TestMethod]
+        [DataRow(true, true, "net6.0", false)]
+        [DataRow(true, false, "net6.0", false)]
+        [DataRow(true, null, "net6.0", false)]
+        [DataRow(false, false, "net6.0", false)]
+        [DataRow(false, null, "net6.0", false)]
+        [DataRow(true, true, "net7.0", true)]
+        [DataRow(true, false, "net7.0", false)]
+        [DataRow(true, null, "net7.0", true)]
+        [DataRow(false, false, "net7.0", false)]
+        [DataRow(false, null, "net7.0", false)]
+        [DataRow(true, true, ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow(true, false, ToolsetInfo.CurrentTargetFramework, false)]
+        [DataRow(true, null, ToolsetInfo.CurrentTargetFramework, true)]
+        [DataRow(false, false, ToolsetInfo.CurrentTargetFramework, false)]
+        [DataRow(false, null, ToolsetInfo.CurrentTargetFramework, false)]
         public void TestDisableRuntimeMarshalling(bool disableRuntimeMarshalling, bool? generateDisableRuntimeMarshallingAttribute, string targetFramework, bool shouldHaveAttribute)
         {
             var testProject = new TestProject()
@@ -519,16 +519,16 @@ namespace Microsoft.NET.Build.Tests
 
             if (shouldHaveAttribute)
             {
-                Assert.True(contains);
+                Assert.IsTrue(contains);
             }
             else
             {
                 // The assembly level attribute is generated only for .NET 7 and newer
-                Assert.False(contains);
+                Assert.IsFalse(contains);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void It_respects_out_out_of_internals_visible_to()
         {
             var testAsset = _testAssetsManager
@@ -552,10 +552,10 @@ namespace Microsoft.NET.Build.Tests
 
             var assemblyPath = Path.Combine(buildCommand.GetOutputDirectory("netstandard2.0").FullName, "HelloWorld.dll");
 
-            Assert.False(AssemblyInfo.Get(assemblyPath).ContainsKey("InternalsVisibleToAttribute"));
+            Assert.IsFalse(AssemblyInfo.Get(assemblyPath).ContainsKey("InternalsVisibleToAttribute"));
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_internals_visible_to_with_key()
         {
             var testAsset = _testAssetsManager
@@ -581,7 +581,7 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["InternalsVisibleToAttribute"].Should().Be("Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001001d3e6bbb36e11ea61ceff6e1022b23dd779fc6230838db2d25a2c7c8433b3fcf86b16c25b281fc3db1027c0675395e7d0548e6add88b6a811962bf958101fa9e243b1618313bee11f5e3b3fefda7b1d1226311b6cc2d07e87ff893ba6890b20082df34a0aac14b605b8be055e81081a626f8c69e9ed4bbaa4eae9f94a35accd2");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_internals_visible_to_with_project_publickey()
         {
             var testAsset = _testAssetsManager
@@ -608,7 +608,7 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["InternalsVisibleToAttribute"].Should().Be("Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001001d3e6bbb36e11ea61ceff6e1022b23dd779fc6230838db2d25a2c7c8433b3fcf86b16c25b281fc3db1027c0675395e7d0548e6add88b6a811962bf958101fa9e243b1618313bee11f5e3b3fefda7b1d1226311b6cc2d07e87ff893ba6890b20082df34a0aac14b605b8be055e81081a626f8c69e9ed4bbaa4eae9f94a35accd2");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_includes_assembly_metadata()
         {
             var testAsset = _testAssetsManager
@@ -634,7 +634,7 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["AssemblyMetadataAttribute"].Should().Be("MetadataKey:MetadataValue");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_respects_out_out_of_assembly_metadata()
         {
             var testAsset = _testAssetsManager
@@ -659,14 +659,14 @@ namespace Microsoft.NET.Build.Tests
 
             var assemblyPath = Path.Combine(buildCommand.GetOutputDirectory("netstandard2.0").FullName, "HelloWorld.dll");
 
-            Assert.False(AssemblyInfo.Get(assemblyPath).ContainsKey("AssemblyMetadataAttribute"));
+            Assert.IsFalse(AssemblyInfo.Get(assemblyPath).ContainsKey("AssemblyMetadataAttribute"));
         }
 
-        [Theory]
-        [InlineData(false, false, false)]
-        [InlineData(true, false, true)]
-        [InlineData(false, true, true)]
-        [InlineData(true, true, true)]
+        [TestMethod]
+        [DataRow(false, false, false)]
+        [DataRow(true, false, true)]
+        [DataRow(false, true, true)]
+        [DataRow(true, true, true)]
         public void GenerateUserSecrets(bool referenceAspNetCore, bool referenceExtensionsUserSecrets, bool shouldHaveAttribute)
         {
             var testProject = new TestProject()
@@ -707,7 +707,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void GenerateUserSecretsForTestProject()
         {
             //  Test the scenario where a test project references a web app and uses user secrets.
@@ -746,9 +746,9 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["UserSecretsIdAttribute"].Should().Be("SecretsIdValue");
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_includes_repository_url(bool privateRepo)
         {
             var fakeUrl = "fakeUrl";
@@ -778,10 +778,10 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["AssemblyMetadataAttribute"].Should().Be("RepositoryUrl:" + fakeUrl);
         }
 
-        [Theory]
-        [InlineData("net40", false)]
-        [InlineData("net45", true)]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, true)]
+        [TestMethod]
+        [DataRow("net40", false)]
+        [DataRow("net45", true)]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void It_does_not_write_to_undefined_assembly_metadata_attribute(string targetFramework, bool containsAttribute)
         {
             var fakeUrl = "fakeUrl";
@@ -812,11 +812,11 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [Theory(Skip = "https://github.com/dotnet/sdk/issues/45148")]
-        [InlineData("netcoreapp3.1", ".NET Core 3.1")]
-        [InlineData("netcoreapp2.1", ".NET Core 2.1")]
-        [InlineData("netstandard2.1", ".NET Standard 2.1")]
-        [InlineData(ToolsetInfo.CurrentTargetFramework, $".NET {ToolsetInfo.CurrentTargetFrameworkVersion}")]
+        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45148")]
+        [DataRow("netcoreapp3.1", ".NET Core 3.1")]
+        [DataRow("netcoreapp2.1", ".NET Core 2.1")]
+        [DataRow("netstandard2.1", ".NET Standard 2.1")]
+        [DataRow(ToolsetInfo.CurrentTargetFramework, $".NET {ToolsetInfo.CurrentTargetFrameworkVersion}")]
         public void CheckTargetFrameworkDisplayName(string targetFrameworkVersion, string expectedFrameworkDisplayName)
         {
             TestProject libraryProject = new()
@@ -859,7 +859,7 @@ class Program
 
             var exePath = Path.Combine(buildCommand.GetOutputDirectory(testProject.TargetFrameworks).FullName, testProject.Name + ".dll");
 
-            var result = new DotnetCommand(Log, "exec", exePath).Execute();
+            var result = new DotnetCommand(MSTestContext, "exec", exePath).Execute();
             result.Should().Pass();
             result.StdOut.Should().BeEquivalentTo(expectedFrameworkDisplayName);
         }

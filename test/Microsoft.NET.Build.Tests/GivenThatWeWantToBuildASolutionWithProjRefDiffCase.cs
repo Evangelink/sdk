@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildASolutionWithProjRefDiffCase : SdkTest
     {
-        public GivenThatWeWantToBuildASolutionWithProjRefDiffCase(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildASolutionWithProjRefDiffCase(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [PlatformSpecificFact(TestPlatforms.Windows | TestPlatforms.OSX)]
+        [PlatformSpecificTestMethod(TestPlatforms.Windows | TestPlatforms.OSX)]
         public void ItBuildsTheSolutionSuccessfully()
         {
             const string solutionFile = "AppWithProjRefCaseDiff.sln";

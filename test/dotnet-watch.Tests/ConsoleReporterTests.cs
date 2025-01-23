@@ -9,9 +9,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
     {
         private static readonly string EOL = Environment.NewLine;
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WritesToStandardStreams(bool suppressEmojis)
         {
             var testConsole = new TestConsole();
@@ -20,26 +20,26 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             // stdout
             reporter.Verbose("verbose {0}");
-            Assert.Equal($"{dotnetWatchDefaultPrefix}verbose {{0}}" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix}verbose {{0}}" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             reporter.Output("out");
-            Assert.Equal($"{dotnetWatchDefaultPrefix}out" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix}out" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             reporter.Warn("warn");
-            Assert.Equal($"{dotnetWatchDefaultPrefix}warn" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix}warn" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             // stderr
             reporter.Error("error");
-            Assert.Equal($"dotnet watch {(suppressEmojis ? ":" : "❌")} error" + EOL, testConsole.GetError());
+            Assert.AreEqual($"dotnet watch {(suppressEmojis ? ":" : "❌")} error" + EOL, testConsole.GetError());
             testConsole.Clear();
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void WritesToStandardStreamsWithCustomEmojis(bool suppressEmojis)
         {
             var testConsole = new TestConsole();
@@ -48,20 +48,20 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             // stdout
             reporter.Verbose("verbose", emoji: "😄");
-            Assert.Equal($"{dotnetWatchDefaultPrefix} verbose" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix} verbose" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             reporter.Output("out", emoji: "😄");
-            Assert.Equal($"{dotnetWatchDefaultPrefix} out" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix} out" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             reporter.Warn("warn", emoji: "😄");
-            Assert.Equal($"{dotnetWatchDefaultPrefix} warn" + EOL, testConsole.GetOutput());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix} warn" + EOL, testConsole.GetOutput());
             testConsole.Clear();
 
             // stderr
             reporter.Error("error", emoji: "😄");
-            Assert.Equal($"{dotnetWatchDefaultPrefix} error" + EOL, testConsole.GetError());
+            Assert.AreEqual($"{dotnetWatchDefaultPrefix} error" + EOL, testConsole.GetError());
             testConsole.Clear();
         }
 

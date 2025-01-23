@@ -7,7 +7,7 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeHaveAPpContentFile : SdkTest
     {
-        public GivenThatWeHaveAPpContentFile(ITestOutputHelper log) : base(log)
+        public GivenThatWeHaveAPpContentFile(MSTestContext testContext) : base(testContext)
         { }
 
         [Fact]

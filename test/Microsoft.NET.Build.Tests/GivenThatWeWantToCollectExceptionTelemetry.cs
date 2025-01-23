@@ -7,11 +7,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToCollectExceptionTelemetry : SdkTest
     {
-        public GivenThatWeWantToCollectExceptionTelemetry(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToCollectExceptionTelemetry(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [CoreMSBuildAndWindowsOnlyFact]
+        [CoreMSBuildAndWindowsOnlyTestMethod]
         public void It_collects_Exception()
         {
             Type loggerType = typeof(LogTelemetryToStdOutForTest);
@@ -19,7 +19,7 @@ namespace Microsoft.NET.Build.Tests
 
             var testAsset = _testAssetsManager.CopyTestAsset("HelloWorld").WithSource();
 
-            var mSBuildCommand = new MSBuildCommand(Log, "GenerateToolsSettingsFileFromBuildProperty", Path.Combine(testAsset.TestRoot));
+            var mSBuildCommand = new MSBuildCommand(MSTestContext, "GenerateToolsSettingsFileFromBuildProperty", Path.Combine(testAsset.TestRoot));
 
             string invalidPath = @"\\.\COM56";
             string causeTaskToFail = $"/p:_ToolsSettingsFilePath={invalidPath}";

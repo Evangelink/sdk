@@ -5,37 +5,37 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     public class SourcesTests : BaseIntegrationTest
     {
-        private readonly ITestOutputHelper _log;
+        private readonly MSTestContext _testContext;
 
-        public SourcesTests(ITestOutputHelper log) : base(log)
+        public SourcesTests(MSTestContext testContext) : base(testContext)
         {
-            _log = log;
+            _testContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public void EnsureItsPossibleToIncludePackagesLockJson()
         {
             string home = CreateTemporaryFolder(folderName: "Home");
             string workingDirectory = CreateTemporaryFolder();
-            InstallTestTemplate("SourceWithExcludeAndWithout", _log, home, workingDirectory);
-            new DotnetNewCommand(_log, "withexclude")
+            InstallTestTemplate("SourceWithExcludeAndWithout", _testContext, home, workingDirectory);
+            new DotnetNewCommand(_testContext, "withexclude")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
                 .Should()
                 .ExitWith(0);
-            Assert.Equal(
+            Assert.AreEqual(
                 new[] { "packages.lock.json", "foo.cs", "bar.cs" }.OrderBy(s => s),
                 Directory.EnumerateFiles(workingDirectory, "*", SearchOption.AllDirectories).Select(Path.GetFileName).OrderBy(s => s));
 
             workingDirectory = CreateTemporaryFolder();
-            new DotnetNewCommand(_log, "withoutexclude")
+            new DotnetNewCommand(_testContext, "withoutexclude")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
                 .Should()
                 .ExitWith(0);
-            Assert.Equal(
+            Assert.AreEqual(
                 new[] { "foo.cs", "bar.cs" }.OrderBy(s => s),
                 Directory.EnumerateFiles(workingDirectory, "*", SearchOption.AllDirectories).Select(Path.GetFileName).OrderBy(s => s));
         }

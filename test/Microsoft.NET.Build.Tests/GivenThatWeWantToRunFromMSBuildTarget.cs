@@ -5,11 +5,11 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToRunFromMSBuildTarget : SdkTest
     {
-        public GivenThatWeWantToRunFromMSBuildTarget(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToRunFromMSBuildTarget(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_runs_successfully()
         {
             TestProject testProject = new()
@@ -27,7 +27,7 @@ namespace Microsoft.NET.Build.Tests
                 .Should()
                 .Pass();
 
-            var runTargetCommand = new MSBuildCommand(Log, "run", Path.Combine(testAsset.TestRoot, testProject.Name));
+            var runTargetCommand = new MSBuildCommand(MSTestContext, "run", Path.Combine(testAsset.TestRoot, testProject.Name));
             runTargetCommand
                 .Execute()
                 .Should()

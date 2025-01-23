@@ -7,17 +7,17 @@ namespace Microsoft.NET.Build.Tests
 {
     public class GivenThatWeWantToBuildWithATargetPlatform : SdkTest
     {
-        public GivenThatWeWantToBuildWithATargetPlatform(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToBuildWithATargetPlatform(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTheory("16.8.0.41402")]
-        [InlineData("netcoreapp3.1", ".NETCoreApp", "v3.1", "Windows", "7.0")] // Default values pre-5.0
-        [InlineData(ToolsetInfo.CurrentTargetFramework, ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "", "")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-Windows7.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-WINDOWS7.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
-        [InlineData($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "10.0.19041.0")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0.41402")]
+        [DataRow("netcoreapp3.1", ".NETCoreApp", "v3.1", "Windows", "7.0")] // Default values pre-5.0
+        [DataRow(ToolsetInfo.CurrentTargetFramework, ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "", "")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-Windows7.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-WINDOWS7.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
+        [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "10.0.19041.0")]
         public void It_defines_target_platform_from_target_framework(string targetFramework, string expectedTargetFrameworkIdentifier, string expectedTargetFrameworkVersion, string expectedTargetPlatformIdentifier, string expectedTargetPlatformVersion)
         {
             var testProj = new TestProject()
@@ -29,7 +29,7 @@ namespace Microsoft.NET.Build.Tests
 
             Action<string, string> assertValue = (string valueName, string expected) =>
             {
-                var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.Path, testProj.Name), targetFramework, valueName);
+                var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.Path, testProj.Name), targetFramework, valueName);
                 getValuesCommand
                     .Execute()
                     .Should()
@@ -54,7 +54,7 @@ namespace Microsoft.NET.Build.Tests
             assertValue("TargetPlatformDisplayName", $"{expectedTargetPlatformIdentifier} {expectedTargetPlatformVersion}");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionFact("16.8.0.41402")]
+        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0.41402")]
         public void It_defines_target_platform_from_target_framework_with_explicit_version()
         {
             var targetPlatformVersion = "10.0.19041.0";
@@ -67,7 +67,7 @@ namespace Microsoft.NET.Build.Tests
             testProj.AdditionalProperties["TargetPlatformVersion"] = targetPlatformVersion;
             var testAsset = _testAssetsManager.CreateTestProject(testProj);
 
-            var getValuesCommand = new GetValuesCommand(Log, Path.Combine(testAsset.Path, testProj.Name), targetFramework, "TargetPlatformIdentifier");
+            var getValuesCommand = new GetValuesCommand(MSTestContext, Path.Combine(testAsset.Path, testProj.Name), targetFramework, "TargetPlatformIdentifier");
             getValuesCommand
                 .Execute()
                 .Should()
@@ -75,7 +75,7 @@ namespace Microsoft.NET.Build.Tests
             getValuesCommand.GetValues().Should().BeEquivalentTo(new[] { "Windows" });
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_on_unsupported_os()
         {
             TestProject testProject = new()
@@ -85,7 +85,7 @@ namespace Microsoft.NET.Build.Tests
             };
             var testAsset = _testAssetsManager.CreateTestProject(testProject);
 
-            var build = new BuildCommand(Log, Path.Combine(testAsset.Path, testProject.Name));
+            var build = new BuildCommand(MSTestContext, Path.Combine(testAsset.Path, testProject.Name));
             build.Execute()
                 .Should()
                 .Fail()
@@ -93,7 +93,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1139");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_if_targetplatformversion_is_constant_only()
         {
             var testProject = new TestProject()
@@ -132,7 +132,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("222.0");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_fails_if_targetplatformversion_is_invalid()
         {
             var testProject = new TestProject()

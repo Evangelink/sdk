@@ -21,29 +21,29 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
             ["end_of_line"] = "lf",
         };
 
-        public FormattedFilesTests(ITestOutputHelper output)
+        public FormattedFilesTests(MSTestContext testContext)
         {
-            TestOutputHelper = output;
+            TestContext = testContext;
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ReturnsItem_WhenFileFormatted()
         {
             var testCode = "class C\n{\n}";
 
             var result = await TestFormattedFiles(testCode);
 
-            Assert.Single(result);
+            Assert.HasCount(1, result);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task ReturnsEmptyList_WhenNoFilesFormatted()
         {
             var testCode = "class C\n{\n}\n";
 
             var result = await TestFormattedFiles(testCode);
 
-            Assert.Empty(result);
+            Assert.HasCount(0, result);
         }
 
         private async Task<List<FormattedFile>> TestFormattedFiles(string testCode)

@@ -96,7 +96,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             Assert.AreEqual(generatedDefinitionThumbprint, FileThumbPrint.Create(generatedDefinitionFile));
             new FileInfo(generatedFile).Should().Exist();
             // Generated file should change and include the new content.
-            Assert.NotEqual(generatedFileThumbprint, FileThumbPrint.Create(generatedFile));
+            Assert.AreNotEqual(generatedFileThumbprint, FileThumbPrint.Create(generatedFile));
             new FileInfo(generatedFile).Should().Contain(updatedContent);
 
             // TagHelper cache should remain unchanged.
@@ -142,7 +142,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             Assert.AreEqual(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
             // In practice, this should remain unchanged. However, since our tests reference
             // binaries from other projects, this file gets updated by Microsoft.Common.targets
-            Assert.NotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
+            Assert.AreNotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
 
             // Change a cshtml file and verify ClassLibrary.Views.dll and marker file are updated
             File.AppendAllText(Path.Combine(projectDirectory.Path, "Views", "_ViewImports.cshtml"), Environment.NewLine);
@@ -153,8 +153,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 .Pass();
 
             Assert.AreEqual(classLibraryThumbPrint, FileThumbPrint.Create(classLibraryDll));
-            Assert.NotEqual(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
-            Assert.NotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
+            Assert.AreNotEqual(classLibraryViewsThumbPrint, FileThumbPrint.Create(classLibraryViewsDll));
+            Assert.AreNotEqual(markerFileThumbPrint, FileThumbPrint.Create(markerFile));
         }
 
         private static IDisposable LockDirectory(string directory)

@@ -447,7 +447,7 @@ public class EndToEndTests : IDisposable
         commandResult.Should().HaveStdOutContaining("Pushed image 'consoleapp:latest'");
     }
 
-    [DockerAvailableTheory(Skip = "https://github.com/dotnet/sdk/issues/45181")]
+    [DockerAvailableTheory(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45181")]
     [DataRow("webapi", false)]
     [DataRow("webapi", true)]
     [DataRow("worker", false)]
@@ -1183,7 +1183,7 @@ public class EndToEndTests : IDisposable
 
     [DockerSupportsArchInlineData("linux/arm/v7", "linux-arm", "/app")]
     [DockerSupportsArchInlineData("linux/arm64/v8", "linux-arm64", "/app")]
-    [DockerSupportsArchInlineData("linux/386", "linux-x86", "/app", Skip = "There's no apphost for linux-x86 so we can't execute self-contained, and there's no .NET runtime base image for linux-x86 so we can't execute framework-dependent.")]
+    [DockerSupportsArchInlineData("linux/386", "linux-x86", "/app", IgnoreMessage = "There's no apphost for linux-x86 so we can't execute self-contained, and there's no .NET runtime base image for linux-x86 so we can't execute framework-dependent.")]
     [DockerSupportsArchInlineData("windows/amd64", "win-x64", "C:\\app")]
     [DockerSupportsArchInlineData("linux/amd64", "linux-x64", "/app")]
     [DockerAvailableTheory]

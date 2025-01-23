@@ -79,7 +79,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
             ApiCompatRunnerWorkItem workItem1 = new(left1, apiCompatOptions1, right1);
             ApiCompatRunnerWorkItem workItem2 = new(left2, apiCompatOptions2, right2);
 
-            Assert.NotEqual(workItem1.GetHashCode(), workItem2.GetHashCode());
+            Assert.AreNotEqual(workItem1.GetHashCode(), workItem2.GetHashCode());
         }
     }
 }

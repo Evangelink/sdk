@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             return (log, validator);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void InvalidPackage()
         {
             var testAsset = _testAssetsManager
@@ -49,7 +49,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             Assert.Contains("error CP0002: Member 'PackageValidationTestProject.Program.SomeAPINotIn6_0()' exists on lib/netstandard2.0/PackageValidationTestProject.dll but not on lib/net6.0/PackageValidationTestProject.dll", result.StdOut);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetRunsSuccessfully()
         {
             var testAsset = _testAssetsManager
@@ -63,7 +63,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             Assert.AreEqual(0, result.ExitCode);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetRunsSuccessfullyWithBaselineCheck()
         {
             var testAsset = _testAssetsManager
@@ -83,7 +83,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             Assert.AreEqual(0, result.ExitCode);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetRunsSuccessfullyWithBaselineVersion()
         {
             var testAsset = _testAssetsManager
@@ -102,7 +102,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             Assert.AreEqual(0, result.ExitCode);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetFailsWithBaselineVersion()
         {
             var testAsset = _testAssetsManager
@@ -123,7 +123,7 @@ namespace Microsoft.DotNet.ApiCompat.Task.IntegrationTests
             Assert.Contains("error CP0002: Member 'PackageValidationTestProject.Program.SomeApiNotInLatestVersion()' exists on [Baseline] lib/netstandard2.0/PackageValidationTestProject.dll but not on lib/netstandard2.0/PackageValidationTestProject.dll", result.StdOut);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetWithIncorrectBaselinePackagePath()
         {
             var testAsset = _testAssetsManager
@@ -291,7 +291,7 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
                 Assert.Contains(log.warnings, e => e.Contains("CP1003"));
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidateReferencesAreRespectedForPlatformSpecificTFMs()
         {
             TestProject testProject = CreateTestProject("public class MyType { }", $"netstandard2.0;{ToolsetInfo.CurrentTargetFramework}-windows");
@@ -313,7 +313,7 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
             Assert.Contains(log.warnings, e => e.Contains("CP1003"));
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetFailsWithBaselineVersionInStrictMode()
         {
             var testAsset = _testAssetsManager
@@ -334,7 +334,7 @@ namespace PackageValidationTests { public class MyForwardedType : ISomeInterface
             Assert.Contains("error CP0002: Member 'PackageValidationTestProject.Program.SomeApiOnlyInLatestVersion()' exists on lib/netstandard2.0/PackageValidationTestProject.dll but not on [Baseline] lib/netstandard2.0/PackageValidationTestProject.dll", result.StdOut);
         }
 
-        [RequiresMSBuildVersionFact("17.0.0.32901", Skip = "https://github.com/dotnet/sdk/issues/23533")]
+        [RequiresMSBuildVersionFact("17.0.0.32901", IgnoreMessage = "https://github.com/dotnet/sdk/issues/23533")]
         public void ValidatePackageTargetSucceedsWithBaselineVersionNotInStrictMode()
         {
             var testAsset = _testAssetsManager

@@ -677,7 +677,7 @@ class Program
                 .And.NotHaveStdOutContaining("Could not determine");
         }
 
-        [FullMSBuildOnlyTestMethod(Skip = "https://github.com/dotnet/NuGet.BuildTasks/issues/75")]
+        [FullMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/NuGet.BuildTasks/issues/75")]
         [DataRow("4.3.3")]
         [DataRow("4.1.0")]
         public void Aliases_are_preserved_if_inbox_assembly_wins_conflict_resolution(string httpPackageVersion)
@@ -927,7 +927,7 @@ class Program
             outputDirectory.Should().HaveFile(@"fr\FluentValidation.resources.dll");
         }
 
-        [WindowsOnlyFact(Skip = "https://github.com/NuGet/Home/issues/6823")]
+        [WindowsOnlyFact(IgnoreMessage = "https://github.com/NuGet/Home/issues/6823")]
         public void It_allows_TargetFrameworkVersion_to_be_capitalized()
         {
             var testProject = new TestProject()

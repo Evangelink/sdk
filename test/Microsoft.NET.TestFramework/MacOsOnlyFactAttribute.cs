@@ -9,7 +9,7 @@ namespace Microsoft.NET.TestFramework
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Skip = "This test requires macos to run";
+                IgnoreMessage = "This test requires macos to run";
             }
         }
     }

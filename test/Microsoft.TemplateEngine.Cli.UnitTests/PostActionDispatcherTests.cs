@@ -527,7 +527,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
             var result = dispatcher.Process(templateCreationResult, isDryRun: false, AllowRunScripts.Prompt);
             Assert.AreEqual(PostActionExecutionStatus.Cancelled, result);
-            Assert.NotEqual(PostActionExecutionStatus.Failure, result);
+            Assert.AreNotEqual(PostActionExecutionStatus.Failure, result);
             Assert.HasCount(1, postActionProcessor.Calls);
             Assert.AreEqual(postAction2, postActionProcessor.Calls.Single().PostAction);
         }

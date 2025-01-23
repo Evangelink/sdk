@@ -39,7 +39,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello, World!");
         }
 
-        [FullMSBuildOnlyTestMethod(Skip = "There is no publish error when using PackageReference support which is required for testing")]
+        [FullMSBuildOnlyTestMethod(IgnoreMessage = "There is no publish error when using PackageReference support which is required for testing")]
         public void When_not_referenced_by_csharp_project_it_fails_to_publish()
         {
             var testAsset = _testAssetsManager

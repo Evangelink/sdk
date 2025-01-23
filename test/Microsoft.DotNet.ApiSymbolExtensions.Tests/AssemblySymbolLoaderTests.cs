@@ -182,7 +182,7 @@ namespace MyNamespace
             {
                 Assert.Single(matchingAssemblies);
                 Assert.False(log.HasLoggedWarnings);
-                Assert.NotEqual(fromAssembly.Identity, matchingAssemblies.FirstOrDefault().Identity);
+                Assert.AreNotEqual(fromAssembly.Identity, matchingAssemblies.FirstOrDefault().Identity);
             }
         }
 

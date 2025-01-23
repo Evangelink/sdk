@@ -23,7 +23,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             foreach (CompatDifference difference in differences)
             {
-                Assert.NotEqual(DiagnosticIds.CannotSealType, difference.DiagnosticId);
+                Assert.AreNotEqual(DiagnosticIds.CannotSealType, difference.DiagnosticId);
             }
         }
 

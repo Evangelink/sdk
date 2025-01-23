@@ -3,7 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class NoDepsAppTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
+    public class NoDepsAppTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
     {
         private const string AppName = "WatchNoDepsApp";
 
@@ -22,7 +22,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Assert.DoesNotContain(App.Process.Output, l => l.StartsWith("Exited with error code"));
 
             var processIdentifier2 = await App.AssertOutputLineStartsWith("Process identifier =");
-            Assert.NotEqual(processIdentifier, processIdentifier2);
+            Assert.AreNotEqual(processIdentifier, processIdentifier2);
         }
 
         [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
@@ -44,7 +44,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertStarted();
 
             var processIdentifier2 = await App.AssertOutputLineStartsWith("Process identifier =");
-            Assert.NotEqual(processIdentifier, processIdentifier2);
+            Assert.AreNotEqual(processIdentifier, processIdentifier2);
             await App.AssertExiting(); // process should exit after run
         }
     }

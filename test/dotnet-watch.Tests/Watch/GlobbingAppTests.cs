@@ -8,11 +8,11 @@ namespace Microsoft.DotNet.Watch.UnitTests
         private const string AppName = "WatchGlobbingApp";
 
         public GlobbingAppTests(MSTestContext testContext)
-            : base(logger)
+            : base(testContext)
         {
         }
 
-        [ConditionalTheory(Skip = "https://github.com/dotnet/sdk/issues/42921")]
+        [ConditionalTheory(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
         [DataRow(true)]
         [DataRow(false)]
         public async Task ChangeCompiledFile(bool usePollingWatcher)

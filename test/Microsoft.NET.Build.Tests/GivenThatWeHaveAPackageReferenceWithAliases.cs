@@ -13,7 +13,7 @@ namespace Microsoft.NET.Build.Tests
         public GivenThatWeHaveAPackageReferenceWithAliases(MSTestContext testContext) : base(testContext)
         { }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0", Skip = "https://github.com/dotnet/sdk/issues/39172")]
+        [RequiresMSBuildVersionTestMethod("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithPackageReferencesWithConflictingTypes()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -52,7 +52,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0", Skip = "https://github.com/dotnet/sdk/issues/39172")]
+        [RequiresMSBuildVersionTestMethod("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithMultiplePackageReferencesWithAliases()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -97,7 +97,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0", Skip = "https://github.com/dotnet/sdk/issues/39172")]
+        [RequiresMSBuildVersionTestMethod("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithAPackageReferenceWithMultipleAliases()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

@@ -1,9 +1,14 @@
 <Project>
 
   <PropertyGroup>
+    <!-- Arcade config -->
     <TestRunnerName>MSTest</TestRunnerName>
     <UseMSTestMetaPackage>true</UseMSTestMetaPackage>
     <UseMSTestRunner>true</UseMSTestRunner>
+    <!-- MSTest config -->
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -39,6 +44,7 @@
     <Using Include="Microsoft.NET.TestFramework.Utilities" />
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestContext" Alias="MSTestContext" />
+    <Using Include="Microsoft.NET.TestFramework.TestContext" Alias="TestContext" />
   </ItemGroup>
 
 </Project>

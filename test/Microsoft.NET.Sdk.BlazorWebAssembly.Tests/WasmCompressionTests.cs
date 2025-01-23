@@ -55,11 +55,11 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             var newBlazorBootJsonThumbPrint = FileThumbPrint.Create(blazorBootJson);
             var newBlazorBootJsonCompressedThumbPrint = FileThumbPrint.Create(blazorBootJsonCompressed);
 
-            Assert.NotEqual(mainAppDllThumbPrint, newMainAppDllThumbPrint);
-            Assert.NotEqual(mainAppCompressedDllThumbPrint, newMainAppCompressedDllThumbPrint);
+            Assert.AreNotEqual(mainAppDllThumbPrint, newMainAppDllThumbPrint);
+            Assert.AreNotEqual(mainAppCompressedDllThumbPrint, newMainAppCompressedDllThumbPrint);
 
-            Assert.NotEqual(blazorBootJsonThumbPrint, newBlazorBootJsonThumbPrint);
-            Assert.NotEqual(blazorBootJsonCompressedThumbPrint, newBlazorBootJsonCompressedThumbPrint);
+            Assert.AreNotEqual(blazorBootJsonThumbPrint, newBlazorBootJsonThumbPrint);
+            Assert.AreNotEqual(blazorBootJsonCompressedThumbPrint, newBlazorBootJsonCompressedThumbPrint);
         }
 
         [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
@@ -102,8 +102,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             var newMainAppDllThumbPrint = FileThumbPrint.Create(mainAppDll);
             var newMainAppCompressedDllThumbPrint = FileThumbPrint.Create(mainAppCompressedDll);
 
-            Assert.NotEqual(mainAppDllThumbPrint, newMainAppDllThumbPrint);
-            Assert.NotEqual(mainAppCompressedDllThumbPrint, newMainAppCompressedDllThumbPrint);
+            Assert.AreNotEqual(mainAppDllThumbPrint, newMainAppDllThumbPrint);
+            Assert.AreNotEqual(mainAppCompressedDllThumbPrint, newMainAppCompressedDllThumbPrint);
         }
 
         [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]

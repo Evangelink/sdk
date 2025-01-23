@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         private const string AppName = "WatchKitchenSink";
 
         public DotNetWatcherTests(MSTestContext testContext)
-            : base(logger)
+            : base(testContext)
         {
         }
 
@@ -138,7 +138,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertOutputLineEquals("Environment: Development");
         }
 
-        [CoreMSBuildOnlyTestMethod(Skip = "https://github.com/dotnet/sdk/issues/29047")]
+        [CoreMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/29047")]
         public async Task Run_WithHotReloadEnabled_DoesNotReadConsoleIn_InNonInteractiveMode()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppWithLaunchSettings")

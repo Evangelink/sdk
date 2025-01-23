@@ -12,7 +12,7 @@ public class DebugTestOutputLogger(MSTestContext testContext) : ITestOutputHelpe
     public void WriteLine(string message)
     {
         Debug.WriteLine($"[TEST] {message}");
-        logger.WriteLine(message);
+        testContext.WriteLine(message);
         OnMessage?.Invoke(message);
     }
 

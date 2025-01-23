@@ -8,7 +8,7 @@ namespace ManifestReaderTests
 
     public class SdkFeatureBandTests : SdkTest
     {
-        public SdkFeatureBandTests(MSTestContext testContext) : base(logger)
+        public SdkFeatureBandTests(MSTestContext testContext) : base(testContext)
         {
         }
 

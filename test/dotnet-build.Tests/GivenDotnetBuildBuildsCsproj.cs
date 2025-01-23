@@ -285,7 +285,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdErrContaining("NETSDK1190"); // Check that publish properties don't interfere with build either
 
             var properties = testProject.GetPropertyValues(testAsset.TestRoot, targetFramework: targetFramework);
-            Assert.NotEqual("", properties["RuntimeIdentifier"]);
+            Assert.AreNotEqual("", properties["RuntimeIdentifier"]);
         }
 
         [RequiresMSBuildVersionFact("17.4.0.41702")]

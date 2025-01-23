@@ -274,7 +274,7 @@ namespace Microsoft.NET.Publish.Tests
                 sdkOs = "osx";
             }
 
-            Assert.NotEqual("NOTHING", sdkOs); // We should know which OS we are running on
+            Assert.AreNotEqual("NOTHING", sdkOs); // We should know which OS we are running on
             MSTestContext.WriteLine($"sdkOs = {sdkOs}");
             if (!sdkSupportedOs.Contains(sdkOs))
             {

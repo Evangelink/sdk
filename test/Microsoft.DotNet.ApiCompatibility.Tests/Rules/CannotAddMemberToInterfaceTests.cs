@@ -106,7 +106,7 @@ namespace CompatTests
 
             foreach (CompatDifference difference in differences)
             {
-                Assert.NotEqual(DiagnosticIds.CannotAddMemberToInterface, difference.DiagnosticId);
+                Assert.AreNotEqual(DiagnosticIds.CannotAddMemberToInterface, difference.DiagnosticId);
             }
         }
 

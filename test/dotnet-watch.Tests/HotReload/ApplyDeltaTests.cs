@@ -5,7 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class ApplyDeltaTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
+    public class ApplyDeltaTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
     {
         [TestMethod]
         public async Task AddSourceFile()
@@ -434,13 +434,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
         /// Currently only works on Windows.
         /// Add TestPlatforms.OSX once https://github.com/dotnet/sdk/issues/45521 is fixed.
         /// </summary>
-        [PlatformSpecificFact(TestPlatforms.Windows, Skip = "https://github.com/dotnet/sdk/issues/40006")]
+        [PlatformSpecificFact(TestPlatforms.Windows, IgnoreMessage = "https://github.com/dotnet/sdk/issues/40006")]
         public async Task MauiBlazor()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchMauiBlazor")
                 .WithSource();
 
-            var workloadInstallCommandSpec = new DotnetCommand(MSTestContextger, ["workload", "install", "maui", "--include-previews"])
+            var workloadInstallCommandSpec = new DotnetCommand(MSTestContext, ["workload", "install", "maui", "--include-previews"])
             {
                 WorkingDirectory = testAsset.Path,
             };
@@ -513,7 +513,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [DataRow(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
+        [DataRow(true, IgnoreMessage = "https://github.com/dotnet/sdk/issues/43320")]
         [DataRow(false)]
         public async Task RenameSourceFile(bool useMove)
         {
@@ -565,7 +565,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [DataRow(true, Skip = "https://github.com/dotnet/sdk/issues/43320")]
+        [DataRow(true, IgnoreMessage = "https://github.com/dotnet/sdk/issues/43320")]
         [DataRow(false)]
         public async Task RenameDirectory(bool useMove)
         {

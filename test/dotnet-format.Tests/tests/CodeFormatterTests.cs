@@ -526,7 +526,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests
 
                 // Verify that changes were persisted to disk.
                 var unshippedPublicApi = File.ReadAllText(Path.Combine(solutionPath, "library", "PublicAPI.Unshipped.txt"));
-                Assert.NotEqual(string.Empty, unshippedPublicApi);
+                Assert.AreNotEqual(string.Empty, unshippedPublicApi);
             }
             finally
             {

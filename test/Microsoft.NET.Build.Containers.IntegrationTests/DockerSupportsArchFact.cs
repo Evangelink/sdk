@@ -9,7 +9,7 @@ public class DockerIsAvailableAndSupportsArchFactAttribute : FactAttribute
     {
         if (!DockerSupportsArchHelper.DaemonIsAvailable)
         {
-            base.Skip = "Skipping test because Docker is not available on this host.";
+            base.IgnoreMessage = "Skipping test because Docker is not available on this host.";
         }
         else if (!DockerSupportsArchHelper.DaemonSupportsArch(arch))
         {

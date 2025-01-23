@@ -421,7 +421,7 @@ namespace Microsoft.NET.Build.Tests
                 {
                     // The assembly level attribute is generated only for the latest TFM for the given sdk
                     Assert.IsFalse(contains);
-                    Assert.NotEqual("Preview", langVersion);
+                    Assert.AreNotEqual("Preview", langVersion);
                 }
             }
 

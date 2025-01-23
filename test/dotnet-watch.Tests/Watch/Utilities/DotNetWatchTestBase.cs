@@ -13,7 +13,7 @@ public abstract class DotNetWatchTestBase : IDisposable
 
     public DotNetWatchTestBase(MSTestContext testContext)
     {
-        var debugLogger = new DebugTestOutputLogger(logger);
+        var debugLogger = new DebugTestOutputLogger(testContext);
         App = new WatchableApp(debugLogger);
         TestAssets = new TestAssetsManager(debugLogger);
 

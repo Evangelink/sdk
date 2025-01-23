@@ -159,7 +159,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             Assert.IsTrue(indexScopeMatch.Success, "Couldn't find a scope id in the generated Index scoped css file.");
             var indexScopeId = indexScopeMatch.Groups[1].Captures[0].Value;
 
-            Assert.NotEqual(counterScopeId, indexScopeId);
+            Assert.AreNotEqual(counterScopeId, indexScopeId);
         }
 
         [TestMethod]
@@ -195,9 +195,9 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             Assert.IsTrue(contactScopeMatch.Success, "Couldn't find a scope id in the generated Contact scoped css file.");
             var contactScopeId = contactScopeMatch.Groups[1].Captures[0].Value;
 
-            Assert.NotEqual(indexScopeId, aboutScopeId);
-            Assert.NotEqual(indexScopeId, contactScopeId);
-            Assert.NotEqual(aboutScopeId, contactScopeId);
+            Assert.AreNotEqual(indexScopeId, aboutScopeId);
+            Assert.AreNotEqual(indexScopeId, contactScopeId);
+            Assert.AreNotEqual(aboutScopeId, contactScopeId);
         }
 
         [TestMethod]
@@ -228,7 +228,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             Assert.IsTrue(counterScopeMatch.Success, "Couldn't find a scope id in the generated Counter scoped css file.");
             var counterScopeId = counterScopeMatch.Groups[1].Captures[0].Value;
 
-            Assert.NotEqual(indexScopeId, counterScopeId);
+            Assert.AreNotEqual(indexScopeId, counterScopeId);
         }
 
         [TestMethod]
@@ -334,8 +334,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             var newComponentThumbprint = FileThumbPrint.Create(generatedCounter);
             var newBundleThumbprint = FileThumbPrint.Create(generatedBundle);
 
-            Assert.NotEqual(componentThumbprint, newComponentThumbprint);
-            Assert.NotEqual(bundleThumbprint, newBundleThumbprint);
+            Assert.AreNotEqual(componentThumbprint, newComponentThumbprint);
+            Assert.AreNotEqual(bundleThumbprint, newBundleThumbprint);
         }
 
         [TestMethod]

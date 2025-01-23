@@ -131,7 +131,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         [DataRow(" new foo --testChoice val2 --testChoice va", new[] { "val1", "val2", "val3" })]
         [DataRow(" new foo --testC", new[] { "--testChoice" })]
         // [DataRow(" new foo --testChoice val2 --testC", new[] { "--testChoice" },
-        //  Skip = "Multiple arity option completion does not work. https://github.com/dotnet/command-line-api/issues/1727")]
+        //  IgnoreMessage = "Multiple arity option completion does not work. https://github.com/dotnet/command-line-api/issues/1727")]
         public void CanCompleteChoice_MultichoiceTabCompletion(string command, string[] suggestions)
         {
             MockTemplateInfo template = new MockTemplateInfo("foo", identity: "foo.1", groupIdentity: "foo.group")

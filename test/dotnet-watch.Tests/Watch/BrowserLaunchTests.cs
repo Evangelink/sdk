@@ -8,7 +8,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         private const string AppName = "WatchBrowserLaunchApp";
 
         public BrowserLaunchTests(MSTestContext testContext)
-            : base(logger)
+            : base(testContext)
         {
         }
 

@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Assert.Empty(output.ToString());
 
             Assert.Null(options);
-            Assert.NotEqual(0, errorCode);
+            Assert.AreNotEqual(0, errorCode);
         }
 
         [Theory]

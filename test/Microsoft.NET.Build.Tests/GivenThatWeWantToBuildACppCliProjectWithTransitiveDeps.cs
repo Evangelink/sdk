@@ -12,7 +12,7 @@ namespace Microsoft.NET.Build.Tests
 
         private readonly Lazy<TestAsset> _buildAsset;
 
-        [FullMSBuildOnlyTestMethod(Skip = "https://github.com/dotnet/sdk/issues/11008")]
+        [FullMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/11008")]
         public void It_can_generate_correct_depsJson_file()
         {
             TestAsset testAsset = _buildAsset.Value;
@@ -23,7 +23,7 @@ namespace Microsoft.NET.Build.Tests
             depsJsonContent.Should().Contain("NETCoreCppCliTestC.dll", "should contain transitive reference");
         }
 
-        [FullMSBuildOnlyTestMethod(Skip = "https://github.com/dotnet/sdk/issues/11008")]
+        [FullMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/11008")]
         public void It_can_generate_all_runtimeconfig_files_to_output_folder()
         {
             TestAsset testAsset = _buildAsset.Value;
@@ -35,7 +35,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [FullMSBuildOnlyTestMethod(Skip = "https://github.com/dotnet/sdk/issues/11008")]
+        [FullMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/11008")]
         public void It_can_generate_all_depsjson_files_to_output_folder()
         {
             TestAsset testAsset = _buildAsset.Value;

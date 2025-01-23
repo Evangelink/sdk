@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.Tests
             FileInfo[] logFiles = logDir.GetFiles();
             Assert.NotEmpty(logFiles);
             Assert.All(logFiles, f => Assert.StartsWith("perf-", f.Name));
-            Assert.All(logFiles, f => Assert.NotEqual(0, f.Length));
+            Assert.All(logFiles, f => Assert.AreNotEqual(0, f.Length));
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.Tests
             {
                 int exitCode = Cli.Program.Main(new string[] { "--help" });
                 Assert.AreEqual(0, exitCode);
-                Assert.NotEqual(0, listener.EventCount);
+                Assert.AreNotEqual(0, listener.EventCount);
             }
         }
     }

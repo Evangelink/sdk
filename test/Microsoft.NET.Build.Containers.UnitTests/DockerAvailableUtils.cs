@@ -11,7 +11,7 @@ public class DockerAvailableTheoryAttribute : TheoryAttribute
     {
         if (!DockerCliStatus.IsAvailable)
         {
-            base.Skip = "Skipping test because Docker is not available on this host.";
+            base.IgnoreMessage = "Skipping test because Docker is not available on this host.";
         }
 
         if (skipPodman && DockerCliStatus.Command == DockerCli.PodmanCommand)
@@ -29,7 +29,7 @@ public class DockerAvailableFactAttribute : FactAttribute
     {
         if (!DockerCliStatus.IsAvailable)
         {
-            base.Skip = "Skipping test because Docker is not available on this host.";
+            base.IgnoreMessage = "Skipping test because Docker is not available on this host.";
         }
 
         if (skipPodman && DockerCliStatus.Command == DockerCli.PodmanCommand)

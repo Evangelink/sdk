@@ -170,7 +170,7 @@ namespace Microsoft.NET.Build.Tests
                 thisTargetFramework: ToolsetInfo.CurrentTargetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702", Skip = "https://github.com/dotnet/msbuild/issues/8154")]
+        [RequiresMSBuildVersionTheory("17.4.0.41702", IgnoreMessage = "https://github.com/dotnet/msbuild/issues/8154")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]

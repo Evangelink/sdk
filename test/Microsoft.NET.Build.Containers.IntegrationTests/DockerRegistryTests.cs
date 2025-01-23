@@ -37,7 +37,7 @@ public class DockerRegistryTests
         Assert.IsNotNull(downloadedImage);
     }
 
-    [DockerAvailableFact(Skip = "https://github.com/dotnet/sdk/issues/42820")]
+    [DockerAvailableFact(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42820")]
     public async Task WriteToPrivateBasicRegistry()
     {
         ILogger logger = _loggerFactory.CreateLogger(nameof(WriteToPrivateBasicRegistry));

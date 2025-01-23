@@ -17,7 +17,7 @@ namespace Microsoft.NET.TestFramework
         public TestAssetsManager(MSTestContext testContext)
         {
             var testAssetsDirectory = TestContext.Current.TestAssetsDirectory;
-            TestContext = testContext;
+            MSTestContext = testContext;
 
             if (!Directory.Exists(testAssetsDirectory))
             {
@@ -42,7 +42,7 @@ namespace Microsoft.NET.TestFramework
             testDestinationDirectory ??= GetTestDestinationDirectoryPath(testProjectName, callingMethod + "_" + fileName, identifier, allowCopyIfPresent);
             TestDestinationDirectories.Add(testDestinationDirectory);
 
-            var testAsset = new TestAsset(testProjectDirectory, testDestinationDirectory, TestContext.Current.SdkVersion, Log);
+            var testAsset = new TestAsset(testProjectDirectory, testDestinationDirectory, TestContext.Current.SdkVersion, MSTestContext);
             return testAsset;
         }
 
@@ -98,7 +98,7 @@ namespace Microsoft.NET.TestFramework
 
             var testAsset = CreateTestProjectsInDirectory(testProjects, testDestinationDirectory, targetExtension);
 
-            var slnCreationResult = new DotnetNewCommand(TestContext, "sln")
+            var slnCreationResult = new DotnetNewCommand(MSTestContext, "sln")
                 .WithVirtualHive()
                 .WithWorkingDirectory(testDestinationDirectory)
                 .Execute();
@@ -110,7 +110,7 @@ namespace Microsoft.NET.TestFramework
 
             foreach (var testProject in testProjects)
             {
-                new DotnetCommand(TestContext, "sln", "add", testProject.Name ?? string.Empty)
+                new DotnetCommand(MSTestContext, "sln", "add", testProject.Name ?? string.Empty)
                     .WithWorkingDirectory(testDestinationDirectory)
                     .Execute()
                     .Should()
@@ -125,7 +125,7 @@ namespace Microsoft.NET.TestFramework
             string testDestinationDirectory,
             string targetExtension = ".csproj")
         {
-            var testAsset = new TestAsset(testDestinationDirectory, TestContext.Current.SdkVersion, Log);
+            var testAsset = new TestAsset(testDestinationDirectory, TestContext.Current.SdkVersion, MSTestContext);
 
             Stack<TestProject> projectStack = new(testProjects);
             HashSet<TestProject> createdProjects = new();

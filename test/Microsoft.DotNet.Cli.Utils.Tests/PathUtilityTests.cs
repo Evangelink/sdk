@@ -32,7 +32,7 @@ namespace Microsoft.DotNet.Cli.Utils
         [WindowsOnlyFact]
         public void GetRelativePathRequireTrailingSlashForDirectoryPath()
         {
-            Assert.NotEqual(
+            Assert.AreNotEqual(
                 $@"mytool\1.0.1\mytool\1.0.1\tools\{ToolsetInfo.CurrentTargetFramework}\any\mytool.dll",
                 PathUtility.GetRelativePath(
                     @"C:\Users\myuser\.dotnet\tools",

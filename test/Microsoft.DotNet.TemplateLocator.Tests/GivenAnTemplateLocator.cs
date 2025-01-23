@@ -11,7 +11,7 @@ namespace Microsoft.DotNet.TemplateLocator.Tests
         private readonly string _manifestDirectory;
         private readonly string _fakeDotnetRootDirectory;
 
-        public GivenAnTemplateLocator(MSTestContext testContext) : base(logger)
+        public GivenAnTemplateLocator(MSTestContext testContext) : base(testContext)
         {
             _resolver = new TemplateLocator(Environment.GetEnvironmentVariable, null, VSSettings.Ambient, null, null);
             _fakeDotnetRootDirectory =

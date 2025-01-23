@@ -27,7 +27,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Newtonsoft.Json", ToolsetInfo.GetNewtonsoftJsonPackageVersion()));
 
-            string filenameToSkip = "Newtonsoft.Json.dll";
+            string filenameToIgnoreMessage = "Newtonsoft.Json.dll";
 
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.RuntimeIdentifier = EnvironmentInfo.GetCompatibleRid(testProject.TargetFrameworks);
 
-            string filenameToSkip = "Microsoft.CSharp.dll";
+            string filenameToIgnoreMessage = "Microsoft.CSharp.dll";
 
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
@@ -64,7 +64,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Libuv", "1.10.0"));
 
-            string filenameToSkip = "libuv" + FileConstants.DynamicLibSuffix;
+            string filenameToIgnoreMessage = "libuv" + FileConstants.DynamicLibSuffix;
 
             TestSkippingFile(testProject, filenameToSkip, "native");
         }
@@ -81,7 +81,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Libuv", "1.10.0"));
 
-            string filenameToSkip = "libuv" + FileConstants.DynamicLibSuffix;
+            string filenameToIgnoreMessage = "libuv" + FileConstants.DynamicLibSuffix;
 
             TestSkippingFile(testProject, filenameToSkip, "runtimeTargets");
         }
@@ -116,8 +116,8 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Humanizer", "2.8.26"));
 
-            string filenameToSkip = "de/Humanizer.resources.dll";
-            string filenameNotToSkip = "es/Humanizer.resources.dll";
+            string filenameToIgnoreMessage = "de/Humanizer.resources.dll";
+            string filenameNotToIgnoreMessage = "es/Humanizer.resources.dll";
             string assetType = "resources";
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, testProject.Name)

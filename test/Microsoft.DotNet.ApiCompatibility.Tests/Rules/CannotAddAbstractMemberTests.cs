@@ -71,7 +71,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 
             foreach (CompatDifference difference in differences)
             {
-                Assert.NotEqual(DiagnosticIds.CannotAddAbstractMember, difference.DiagnosticId);
+                Assert.AreNotEqual(DiagnosticIds.CannotAddAbstractMember, difference.DiagnosticId);
             }
         }
 

@@ -9,7 +9,7 @@ namespace EndToEnd.Tests
 {
     public class GivenWeWantToRequireWindowsForDesktopApps(MSTestContext testContext) : SdkTest(testContext)
     {
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD, Skip = "https://github.com/dotnet/sdk/issues/42230")]
+        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD, IgnoreMessage = "https://github.com/dotnet/sdk/issues/42230")]
         public void It_does_not_download_desktop_targeting_packs_on_unix()
         {
             var testProjectCreator = new TestProjectCreator()

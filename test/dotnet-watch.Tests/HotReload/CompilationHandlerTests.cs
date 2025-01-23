@@ -3,7 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
-public class CompilationHandlerTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
+public class CompilationHandlerTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
 {
     [TestMethod]
     public async Task ReferenceOutputAssembly_False()

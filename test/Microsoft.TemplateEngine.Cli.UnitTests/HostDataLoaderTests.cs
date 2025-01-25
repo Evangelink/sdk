@@ -150,9 +150,9 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.IsNotNull(serialized);
             Assert.AreEqual(3, serialized.Children().Count());
 
-            Assert.Single<JProperty>(serialized.Properties(), p => p.Name == "UsageExamples");
-            Assert.Single<JProperty>(serialized.Properties(), p => p.Name == "SymbolInfo");
-            Assert.Single<JProperty>(serialized.Properties(), p => p.Name == "IsHidden");
+            Assert.ContainsSingle<JProperty>(serialized.Properties(), p => p.Name == "UsageExamples");
+            Assert.ContainsSingle<JProperty>(serialized.Properties(), p => p.Name == "SymbolInfo");
+            Assert.ContainsSingle<JProperty>(serialized.Properties(), p => p.Name == "IsHidden");
         }
 
         [TestMethod]
@@ -193,7 +193,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             Assert.IsNotNull(serialized);
             Assert.ContainsSingle(serialized.Children());
 
-            Assert.Single<JProperty>(serialized.Properties(), p => p.Name == "SymbolInfo");
+            Assert.ContainsSingle<JProperty>(serialized.Properties(), p => p.Name == "SymbolInfo");
 
             var symbolInfoArray = serialized.Properties().Single().Value as JObject;
             Assert.IsNotNull(symbolInfoArray);

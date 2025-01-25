@@ -38,7 +38,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void It_does_not_pass_excess_references_to_the_compiler()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -592,7 +592,7 @@ namespace DefaultReferences
             buildResult.Should().NotHaveStdOutMatching("Encountered conflict", System.Text.RegularExpressions.RegexOptions.CultureInvariant | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         [DataRow("4.3.3")]
         [DataRow("4.1.0")]
         public void It_builds_successfully_if_inbox_assembly_wins_conflict_resolution(string httpPackageVersion)
@@ -677,7 +677,7 @@ class Program
                 .And.NotHaveStdOutContaining("Could not determine");
         }
 
-        [FullMSBuildOnlyTestMethod(IgnoreMessage = "https://github.com/dotnet/NuGet.BuildTasks/issues/75")]
+        [FullMSBuildCondition(IgnoreMessage = "https://github.com/dotnet/NuGet.BuildTasks/issues/75")]
         [DataRow("4.3.3")]
         [DataRow("4.1.0")]
         public void Aliases_are_preserved_if_inbox_assembly_wins_conflict_resolution(string httpPackageVersion)

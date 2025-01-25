@@ -324,7 +324,7 @@ public static class Program
                 .Pass();
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void ZipFileCanBeSharedWithNetStandard16()
         {
             TestZipFileSharing(false);
@@ -488,7 +488,7 @@ public static class NS16LibClass
         }
 
         //  Regression test for https://github.com/dotnet/sdk/issues/2479
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void HttpClient_can_be_used_in_project_references()
         {
             var referencedProject = new TestProject()

@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
 {
     public class AssemblySymbolLoaderTests : SdkTest
     {
-        public AssemblySymbolLoaderTests(ITestOutputHelper log) : base(log) { }
+        public AssemblySymbolLoaderTests(MSTestContext testContext) : base(testContext) { }
 
         private const string SimpleAssemblySourceContents = @"
 namespace MyNamespace
@@ -86,7 +86,7 @@ namespace MyNamespace
 
         private TestAssetInfo GetSimpleTestAsset() => TestAssetCache.Instance.GetSimpleAsset(_testAssetsManager);
 
-        [Fact]
+        [TestMethod]
         public void LoadAssembly_Throws()
         {
             TestLog log = new();
@@ -94,7 +94,7 @@ namespace MyNamespace
             Assert.Throws<FileNotFoundException>(() => loader.LoadAssembly(Guid.NewGuid().ToString("N").Substring(0, 8)));
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadAssemblyFromSourceFiles_Throws()
         {
             TestLog log = new();
@@ -105,7 +105,7 @@ namespace MyNamespace
             Assert.Throws<ArgumentNullException>("assemblyName", () => loader.LoadAssemblyFromSourceFiles(paths, null, Array.Empty<string>()));
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadMatchingAssemblies_Throws()
         {
             TestLog log = new();
@@ -116,7 +116,7 @@ namespace MyNamespace
             Assert.Throws<FileNotFoundException>(() => loader.LoadMatchingAssemblies(new[] { assembly }, paths));
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadMatchingAssembliesWarns()
         {
             IAssemblySymbol assembly = SymbolFactory.GetAssemblyFromSyntax("namespace MyNamespace { class Foo { } }");
@@ -125,13 +125,13 @@ namespace MyNamespace
             TestLog log = new();
             AssemblySymbolLoader loader = new(log);
             IEnumerable<IAssemblySymbol> symbols = loader.LoadMatchingAssemblies(new[] { assembly }, paths);
-            Assert.Empty(symbols);
-            Assert.True(log.HasLoggedWarnings);
+            Assert.IsEmpty(symbols);
+            Assert.IsTrue(log.HasLoggedWarnings);
             List<string> expected = [ $"{AssemblySymbolLoader.AssemblyNotFoundErrorCode} Could not find matching assembly: '{assembly.Identity.GetDisplayName()}' in any of the search directories." ];
-            Assert.Equal(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
+            Assert.AreEqual(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadMatchingAssembliesSameIdentitySucceeds()
         {
             string assemblyName = nameof(LoadMatchingAssembliesSameIdentitySucceeds);
@@ -155,13 +155,13 @@ namespace MyNamespace
             AssemblySymbolLoader loader = new(log);
             IEnumerable<IAssemblySymbol> matchingAssemblies = loader.LoadMatchingAssemblies(new[] { fromAssembly }, new[] { outputDirectory });
 
-            Assert.Single(matchingAssemblies);
-            Assert.False(log.HasLoggedWarnings);
+            Assert.ContainsSingle(matchingAssemblies);
+            Assert.IsFalse(log.HasLoggedWarnings);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void LoadMatchingAssemblies_DifferentIdentity(bool validateIdentities)
         {
             var assetInfo = GetSimpleTestAsset();
@@ -173,27 +173,27 @@ namespace MyNamespace
 
             if (validateIdentities)
             {
-                Assert.Empty(matchingAssemblies);
-                Assert.True(log.HasLoggedWarnings);
+                Assert.IsEmpty(matchingAssemblies);
+                Assert.IsTrue(log.HasLoggedWarnings);
                 List<string> expected = [$"{AssemblySymbolLoader.AssemblyNotFoundErrorCode} Could not find matching assembly: '{fromAssembly.Identity.GetDisplayName()}' in any of the search directories."];
-                Assert.Equal(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
+                Assert.AreEqual(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
             }
             else
             {
-                Assert.Single(matchingAssemblies);
-                Assert.False(log.HasLoggedWarnings);
+                Assert.ContainsSingle(matchingAssemblies);
+                Assert.IsFalse(log.HasLoggedWarnings);
                 Assert.AreNotEqual(fromAssembly.Identity, matchingAssemblies.FirstOrDefault().Identity);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadsSimpleAssemblyFromDirectory()
         {
             var assetInfo = GetSimpleTestAsset();
             TestLog log = new();
             AssemblySymbolLoader loader = new(log);
             IEnumerable<IAssemblySymbol> symbols = loader.LoadAssemblies(assetInfo.OutputDirectory);
-            Assert.Single(symbols);
+            Assert.ContainsSingle(symbols);
 
             IEnumerable<ITypeSymbol> types = symbols.FirstOrDefault()
                 .GlobalNamespace
@@ -201,11 +201,11 @@ namespace MyNamespace
                 .FirstOrDefault((n) => n.Name == "MyNamespace")
                 .GetTypeMembers();
 
-            Assert.Single(types);
-            Assert.Equal("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
+            Assert.ContainsSingle(types);
+            Assert.AreEqual("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadSimpleAssemblyFullPath()
         {
             var assetInfo = GetSimpleTestAsset();
@@ -218,11 +218,11 @@ namespace MyNamespace
                 .FirstOrDefault((n) => n.Name == "MyNamespace")
                 .GetTypeMembers();
 
-            Assert.Single(types);
-            Assert.Equal("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
+            Assert.ContainsSingle(types);
+            Assert.AreEqual("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadsMultipleAssembliesFromDirectory()
         {
             TestProject first = new("LoadsMultipleAssembliesFromDirectory_First")
@@ -248,17 +248,17 @@ namespace MyNamespace
             AssemblySymbolLoader loader = new(log);
             IEnumerable<IAssemblySymbol> symbols = loader.LoadAssemblies(outputDirectory);
 
-            Assert.Equal(2, symbols.Count());
+            Assert.AreEqual(2, symbols.Count());
 
             IEnumerable<string> expected = new[] { "LoadsMultipleAssembliesFromDirectory_First", "LoadsMultipleAssembliesFromDirectory_Second" };
             IEnumerable<string> actual = symbols.Select(a => a.Name).OrderBy(a => a, StringComparer.Ordinal);
 
-            Assert.Equal(expected, actual, StringComparer.Ordinal);
+            Assert.AreEqual(expected, actual, StringComparer.Ordinal);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void LoadAssemblyResolveReferences_WarnsWhenEnabled(bool resolveReferences)
         {
             var assetInfo = GetSimpleTestAsset();
@@ -268,7 +268,7 @@ namespace MyNamespace
 
             if (resolveReferences)
             {
-                Assert.True(log.HasLoggedWarnings);
+                Assert.IsTrue(log.HasLoggedWarnings);
 
                 string expectedReference = "System.Runtime.dll";
 
@@ -278,15 +278,15 @@ namespace MyNamespace
                 }
 
                 List<string> expected = [$"{AssemblySymbolLoader.AssemblyReferenceNotFoundErrorCode} Could not resolve reference '{expectedReference}' in any of the provided search directories."];
-                Assert.Equal(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
+                Assert.AreEqual(expected, log.Warnings, StringComparer.CurrentCultureIgnoreCase);
             }
             else
             {
-                Assert.Empty(log.Warnings);
+                Assert.IsEmpty(log.Warnings);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadAssembliesShouldResolveReferencesNoWarnings()
         {
             var assetInfo = GetSimpleTestAsset();
@@ -297,14 +297,14 @@ namespace MyNamespace
             loader.AddReferenceSearchPaths(Path.GetFullPath(typeof(string).Assembly.Location));
             loader.LoadAssembly(Path.Combine(assetInfo.OutputDirectory, assetInfo.TestAsset.TestProject.Name + ".dll"));
 
-            Assert.Empty(log.Warnings);
+            Assert.IsEmpty(log.Warnings);
 
             // Ensure we loaded more than one assembly since resolveReferences was set to true.
             Dictionary<string, MetadataReference> loadedAssemblies = (Dictionary<string, MetadataReference>)typeof(AssemblySymbolLoader)?.GetField("_loadedAssemblies", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(loader);
-            Assert.True(loadedAssemblies != null && loadedAssemblies.Count > 1);
+            Assert.IsTrue(loadedAssemblies != null && loadedAssemblies.Count > 1);
         }
 
-        [Fact]
+        [TestMethod]
         public void LoadAssemblyFromStreamNoWarns()
         {
             var assetInfo = GetSimpleTestAsset();
@@ -314,16 +314,16 @@ namespace MyNamespace
             using FileStream stream = File.OpenRead(Path.Combine(assetInfo.OutputDirectory, testProject.Name + ".dll"));
             IAssemblySymbol symbol = loader.LoadAssembly(testProject.Name, stream);
 
-            Assert.False(log.HasLoggedWarnings);
-            Assert.Equal(testProject.Name, symbol.Name, StringComparer.Ordinal);
+            Assert.IsFalse(log.HasLoggedWarnings);
+            Assert.AreEqual(testProject.Name, symbol.Name, StringComparer.Ordinal);
 
             IEnumerable<ITypeSymbol> types = symbol.GlobalNamespace
                 .GetNamespaceMembers()
                 .FirstOrDefault((n) => n.Name == "MyNamespace")
                 .GetTypeMembers();
 
-            Assert.Single(types);
-            Assert.Equal("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
+            Assert.ContainsSingle(types);
+            Assert.AreEqual("MyNamespace.MyClass", types.FirstOrDefault().ToDisplayString());
         }
 
         private static CommandResult BuildTestAsset(TestAsset testAsset, out string outputDirectory)

@@ -63,7 +63,7 @@ public class ParseContainerPropertiesTests
         });
         using var _ = d;
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
-        Assert.True(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
+        Assert.IsTrue(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
         Assert.Contains(logs.Messages, m => m.Message?.Contains("'dotnet testimage' was not a valid container image name, it was normalized to 'dotnet-testimage'") == true);
     }
 
@@ -79,10 +79,10 @@ public class ParseContainerPropertiesTests
         });
         using var _ = d;
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
-        Assert.False(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
+        Assert.IsFalse(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
 
-        Assert.True(logs.Errors.Count > 0);
-        Assert.Equal(logs.Errors[0].Code, ErrorCodes.CONTAINER2007);
+        Assert.IsTrue(logs.Errors.Count > 0);
+        Assert.AreEqual(logs.Errors[0].Code, ErrorCodes.CONTAINER2007);
     }
 
     [TestMethod]
@@ -100,8 +100,8 @@ public class ParseContainerPropertiesTests
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
         Assert.IsFalse(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
 
-        Assert.True(logs.Errors.Count > 0);
-        Assert.Equal(logs.Errors[0].Code, ErrorCodes.CONTAINER2008);
+        Assert.IsTrue(logs.Errors.Count > 0);
+        Assert.AreEqual(logs.Errors[0].Code, ErrorCodes.CONTAINER2008);
     }
 
     [TestMethod]
@@ -117,8 +117,8 @@ public class ParseContainerPropertiesTests
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
         Assert.IsFalse(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
 
-        Assert.True(logs.Errors.Count > 0);
-        Assert.Equal(logs.Errors[0].Code, ErrorCodes.CONTAINER2010);
+        Assert.IsTrue(logs.Errors.Count > 0);
+        Assert.AreEqual(logs.Errors[0].Code, ErrorCodes.CONTAINER2010);
     }
 
     [TestMethod]
@@ -135,8 +135,8 @@ public class ParseContainerPropertiesTests
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
         Assert.IsFalse(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
 
-        Assert.True(logs.Errors.Count > 0);
-        Assert.Equal(logs.Errors[0].Code, ErrorCodes.CONTAINER2005);
+        Assert.IsTrue(logs.Errors.Count > 0);
+        Assert.AreEqual(logs.Errors[0].Code, ErrorCodes.CONTAINER2005);
     }
 
     [TestMethod]
@@ -153,7 +153,7 @@ public class ParseContainerPropertiesTests
         var instance = project.CreateProjectInstance(global::Microsoft.Build.Execution.ProjectInstanceSettings.None);
         Assert.IsFalse(instance.Build(new[] { ComputeContainerConfig }, new[] { logs }, null, out var outputs));
 
-        Assert.True(logs.Errors.Count > 0);
-        Assert.Equal(logs.Errors[0].Code, ErrorCodes.CONTAINER2005);
+        Assert.IsTrue(logs.Errors.Count > 0);
+        Assert.AreEqual(logs.Errors[0].Code, ErrorCodes.CONTAINER2005);
     }
 }

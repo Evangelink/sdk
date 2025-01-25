@@ -930,7 +930,7 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void TransitiveFrameworkReferencesAreNotIncludedInRestore()
         {
             var testProject = new TestProject()

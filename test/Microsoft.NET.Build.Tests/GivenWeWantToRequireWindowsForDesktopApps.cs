@@ -32,7 +32,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         [DataRow("UseWPF")]
         [DataRow("UseWindowsForms")]
         public void It_errors_on_nonwindows_with_the_windows_desktop_sdk(string uiFrameworkProperty)
@@ -69,7 +69,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         [DataRow("Microsoft.WindowsDesktop.App")]
         [DataRow("Microsoft.WindowsDesktop.App.WindowsForms")]
         [DataRow("Microsoft.WindowsDesktop.App.WPF")]
@@ -89,7 +89,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.WindowsDesktopFrameworkRequiresWindows);
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         public void AppTargetingWindows10CanBuildOnNonWindows()
         {
             var testProject = new TestProject()
@@ -107,7 +107,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         public void AppTargetingWindows10WillProduceWindowsGUISubsystemExe()
         {
             // check subsystem is successfully set as WindowsGUISubsystem
@@ -142,7 +142,7 @@ namespace Microsoft.NET.Build.Tests
             subsystem.Should().Be(WindowsGUISubsystem);
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         public void WindowsFormsAppCanBuildOnNonWindows()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("WindowsFormsTestApp")

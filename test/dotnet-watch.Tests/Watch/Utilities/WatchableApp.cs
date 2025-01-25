@@ -83,7 +83,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
                 failure: failure ?? new Predicate<string>(line => line.Contains(WatchErrorOutputEmoji, StringComparison.Ordinal)));
 
         public async Task AssertOutputLineEquals(string expectedLine)
-            => Assert.Equal("", await AssertOutputLineStartsWith(expectedLine));
+            => Assert.AreEqual("", await AssertOutputLineStartsWith(expectedLine));
 
         public Task AssertStarted()
             => AssertOutputLineEquals(StartedMessage);
@@ -156,7 +156,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
         public void SendKey(char c)
         {
-            Assert.True(TestFlags.HasFlag(TestFlags.ReadKeyFromStdin));
+            Assert.IsTrue(TestFlags.HasFlag(TestFlags.ReadKeyFromStdin));
 
             Process.Process.StandardInput.Write(c);
             Process.Process.StandardInput.Flush();

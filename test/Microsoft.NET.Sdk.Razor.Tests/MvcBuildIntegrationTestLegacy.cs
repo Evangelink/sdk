@@ -17,7 +17,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         public MvcBuildIntegrationTestLegacy(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public virtual void Building_Project()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -43,7 +43,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
                 @"""Name"":""SimpleMvc.SimpleTagHelper""");
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public virtual void BuildingProject_CopyToOutputDirectoryFiles()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -63,7 +63,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public virtual void Publish_Project()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -85,7 +85,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public virtual void Publish_IncludesRefAssemblies_WhenCopyRefAssembliesToPublishDirectoryIsSet()
         {
             var testAsset = $"Razor{TestProjectName}";
@@ -99,7 +99,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "refs", "System.Threading.Tasks.Extensions.dll")).Should().Exist();
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_ProducesDepsFileWithCompilationContext_ButNoReferences()
         {
             var testAsset = $"Razor{TestProjectName}";

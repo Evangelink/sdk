@@ -3,17 +3,15 @@
 
 #if NETCOREAPP
 
-using Xunit;
-
 namespace Microsoft.NET.TestFramework
 {
-    public class RequiresSpecificFrameworkFactAttribute : FactAttribute
+    public class RequiresSpecificFrameworkTestMethodAttribute : TestMethodAttribute
     {
-        public RequiresSpecificFrameworkFactAttribute(string framework)
+        public RequiresSpecificFrameworkTestMethodAttribute(string framework)
         {
             if (!EnvironmentInfo.SupportsTargetFramework(framework))
             {
-                Skip = $"This test requires a shared framework that isn't present: {framework}";
+                IgnoreMessage = $"This test requires a shared framework that isn't present: {framework}";
             }
         }
     }

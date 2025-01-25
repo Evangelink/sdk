@@ -80,7 +80,7 @@ namespace Microsoft.DotNet.Pack.Tests
             outputPackage.Should().Exist();
         }
 
-        [TestMethod(IgnoreMessage = "Test project missing")]
+        [TestMethod][Ignore("Test project missing")]
         public void HasIncludedFiles()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("EndToEndTestApp")
@@ -104,7 +104,7 @@ namespace Microsoft.DotNet.Pack.Tests
                      .And.Contain(e => e.FullName == "anotherpath/pack2.txt");
         }
 
-        [TestMethod(IgnoreMessage = "Test project doesn't override assembly name")]
+        [TestMethod][Ignore("Test project doesn't override assembly name")]
         public void PackAddsCorrectFilesForProjectsWithOutputNameSpecified()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("LibraryWithOutputAssemblyName")

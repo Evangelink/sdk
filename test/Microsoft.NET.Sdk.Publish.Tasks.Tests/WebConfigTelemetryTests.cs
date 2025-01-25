@@ -22,7 +22,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
             XDocument output = WebConfigTelemetry.AddTelemetry(transformedWebConfig, projectGuid, true, null, null);
 
             // Assert
-            Assert.True(XNode.DeepEquals(WebConfigTransformTemplates.WebConfigTemplate, output));
+            Assert.IsTrue(XNode.DeepEquals(WebConfigTransformTemplates.WebConfigTemplate, output));
         }
     }
 }

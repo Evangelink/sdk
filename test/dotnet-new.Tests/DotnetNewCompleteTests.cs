@@ -29,7 +29,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/command-line-api/issues/1519")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/command-line-api/issues/1519")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanDoTabCompletionAtGivenPosition()
         {

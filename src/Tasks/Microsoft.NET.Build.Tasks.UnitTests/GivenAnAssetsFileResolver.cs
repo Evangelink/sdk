@@ -17,7 +17,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
     /// </summary>
     public class GivenAnAssetsFileResolver
     {
-        [Theory]
+        [TestMethod]
         [MemberData(nameof(ProjectData))]
         public void ItResolvesAssembliesFromProjectLockFiles(string projectName, string runtime, object[] expectedResolvedFiles)
         {
@@ -37,7 +37,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 .BeEquivalentTo(expectedResolvedFiles);
         }
 
-        [Theory]
+        [TestMethod]
         [MemberData(nameof(ProjectData1))]
         public void ItResolvesAssembliesFromProjectLockFilesWithStoreLayout(string projectName, string runtime, object[] expectedResolvedFiles)
         {

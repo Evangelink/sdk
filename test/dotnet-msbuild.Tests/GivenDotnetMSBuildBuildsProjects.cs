@@ -46,7 +46,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .HaveStdOutContaining("You want me to say 'GreatScott'");
         }
 
-        [TestMethod(IgnoreMessage = "New parser feature needed")]
+        [TestMethod]
+        [Ignore("New parser feature needed")]
         [DataRow("build")]
         [DataRow("clean")]
         [DataRow("pack")]
@@ -106,11 +107,5 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             result.ExitCode.Should().Be(0);
             result.StdOut.Should().Contain(AppArgumentsText);
         }
-
-
-
-
     }
-
-
 }

@@ -14,7 +14,7 @@ namespace Microsoft.NET.Publish.Tests
         // Libuv version used by LibraryWithRid/LibraryWithRids
         private const string LibuvVersion = "1.10.0";
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_a_self_contained_runnable_output()
         {
             PublishAppWithLibraryAndRid(true,
@@ -52,7 +52,7 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining($"{LibuvVersion} '{runtimeIdentifier}' {LibuvVersion} '{runtimeIdentifier}' Hello World");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_publishes_a_framework_dependent_RID_specific_runnable_output()
         {
             PublishAppWithLibraryAndRid(false,

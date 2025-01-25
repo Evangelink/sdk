@@ -10,7 +10,7 @@ namespace Microsoft.NET.Build.Tests
         public GivenThatWeHaveAPpContentFile(MSTestContext testContext) : base(testContext)
         { }
 
-        [Fact]
+        [TestMethod]
         public void It_copies_to_output_successfully()
         {
             var packageReference = GetPackageReference();

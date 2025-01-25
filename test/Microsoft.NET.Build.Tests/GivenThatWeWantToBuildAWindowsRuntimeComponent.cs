@@ -197,7 +197,7 @@ class Program
                 .HaveStdOut("(0, 0)");
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void WinMDInteropProjectCanBeReferenced()
         {
 

@@ -222,7 +222,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().NotHaveFile("Microsoft.Extensions.DependencyInjection.Abstractions.dll");
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void AnalyzersAreConflictResolved()
         {
             var testProject = new TestProject()

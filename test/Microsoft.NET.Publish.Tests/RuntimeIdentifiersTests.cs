@@ -15,7 +15,7 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void BuildWithRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -114,7 +114,7 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         [DataRow(false)]
         //  "No build" scenario doesn't currently work: https://github.com/dotnet/sdk/issues/2956
         //[DataRow(true)]

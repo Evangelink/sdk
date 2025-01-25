@@ -31,7 +31,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "doesn't work at the moment; it matches with legacy --language option which cannot be completed; to discuss how to avoid that")]
+        [TestMethod][Ignore("doesn't work at the moment; it matches with legacy --language option which cannot be completed; to discuss how to avoid that")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Instantiate_CanSuggestLanguages()
         {
@@ -48,7 +48,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "not valid behavior for parser, should suggest --nuget-source")]
+        [TestMethod][Ignore("not valid behavior for parser, should suggest --nuget-source")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Install_GetSuggestionsAfterInteractive()
         {
@@ -75,7 +75,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "not valid behavior for parser, should suggest --interactive")]
+        [TestMethod][Ignore("not valid behavior for parser, should suggest --interactive")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Install_GetSuggestionsAfterOptionWithArg()
         {
@@ -342,7 +342,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/4387")]
+        [TestMethod][Ignore("https://github.com/dotnet/templating/issues/4387")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanCompleteParameters_StartsWith_AfterOption()
         {

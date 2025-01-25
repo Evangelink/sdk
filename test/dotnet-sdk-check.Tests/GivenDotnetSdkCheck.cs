@@ -93,7 +93,7 @@ namespace Microsoft.DotNet.Cli.SdkCheck.Tests
             }
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/29382")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/29382")]
         [DataRow(new string[] { "3.1.301" }, new string[] { }, new string[] { "3.1.302" })]
         [DataRow(new string[] { "5.0.100" }, new string[] { }, new string[] { })]
         [DataRow(new string[] { }, new string[] { "3.1.3" }, new string[] { "3.1.10" })]
@@ -118,7 +118,7 @@ namespace Microsoft.DotNet.Cli.SdkCheck.Tests
             }
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/29382")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/29382")]
         [DataRow(new string[] { "1.0.10" }, new string[] { }, new string[] { "1.0.10" })]
         [DataRow(new string[] { "5.0.100" }, new string[] { }, new string[] { })]
         [DataRow(new string[] { }, new string[] { "1.0.1" }, new string[] { "1.0.1" })]

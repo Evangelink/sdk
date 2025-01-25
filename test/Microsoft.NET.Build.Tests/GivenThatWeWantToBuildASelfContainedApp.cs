@@ -15,10 +15,10 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [Theory]
-        [InlineData("netcoreapp1.1", false)]
-        [InlineData("netcoreapp2.0", false)]
-        [InlineData("netcoreapp3.0", true)]
+        [TestMethod]
+        [DataRow("netcoreapp1.1", false)]
+        [DataRow("netcoreapp2.0", false)]
+        [DataRow("netcoreapp3.0", true)]
         public void It_builds_a_runnable_output(string targetFramework, bool dependenciesIncluded)
         {
             if (!EnvironmentInfo.SupportsTargetFramework(targetFramework))
@@ -550,8 +550,8 @@ namespace Microsoft.NET.Build.Tests
             properties["RuntimeIdentifier"].Should().Be("");
         }
 
-        [Theory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_a_runnable_output_with_Prefer32Bit(string targetFramework)
         {
             if (!EnvironmentInfo.SupportsTargetFramework(targetFramework))
@@ -593,8 +593,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [Theory]
-        [InlineData(ToolsetInfo.CurrentTargetFramework)]
+        [TestMethod]
+        [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_a_runnable_output_with_PreferNativeArm64(string targetFramework)
         {
             if (!EnvironmentInfo.SupportsTargetFramework(targetFramework))

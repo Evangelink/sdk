@@ -7,7 +7,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
     public class VanillaWasmTests(MSTestContext testContext) : BlazorWasmBaselineTests(testContext, GenerateBaselines)
     {
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_Works()
         {
             var testAsset = "VanillaWasm";

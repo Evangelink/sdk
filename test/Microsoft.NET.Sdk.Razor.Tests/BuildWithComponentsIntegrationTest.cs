@@ -9,7 +9,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
     {
         public BuildWithComponentsIntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_Components_WithDotNetCoreMSBuild_Works() => Build_ComponentsWorks();
 
         [RequiresMSBuildVersionTestMethod("17.10.0.8101")]

@@ -16,7 +16,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 itemSpec: kvp.Id,
                 metadata: new Dictionary<string, string> { { "Version", kvp.Version.ToString() } })).ToArray();
 
-        [Fact]
+        [TestMethod]
         public void RemoveDuplicatePackageReference()
         {
             var knownpackage = new List<PackageIdentity>();
@@ -32,7 +32,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 
             var packagelistWithoutDups = new HashSet<PackageIdentity>(knownpackage);
 
-            Assert.True(knownpackage.Count() > packagelistWithoutDups.Count());
+            Assert.IsTrue(knownpackage.Count() > packagelistWithoutDups.Count());
 
             // execute task
             var task = new RemoveDuplicatePackageReferences()

@@ -9,7 +9,7 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void WhenNetCoreProjectIsReferencedByAWapProject()
         {
             var testInstance = _testAssetsManager

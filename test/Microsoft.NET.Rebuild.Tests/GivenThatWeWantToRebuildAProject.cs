@@ -12,7 +12,7 @@ namespace Microsoft.NET.Rebuild.Tests
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void It_rebuilds_with_logging_assets_message()
         {
             var testAsset = _testAssetsManager

@@ -21,7 +21,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void Given_ResolvedTargetingPacks_with_valid_PATH_in_PlatformManifest_It_resolves_TargetingPack()
         {
             ResolveTargetingPackAssets task = InitializeMockTargetingPackAssetsDirectory(out string mockPackageDirectory);
@@ -49,7 +49,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 because: "There should be a cache entry for the overall lookup and for the specific targeting pack");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_Uses_Multiple_Frameworks()
         {
             ResolveTargetingPackAssets task = InitializeMockTargetingPackAssetsDirectory(out string mockPackageDirectory);
@@ -70,7 +70,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 });
         }
 
-        [Fact]
+        [TestMethod]
         public void Given_Passing_ResolvedTargetingPacks_It_Passes_Again_With_Cached_Results()
         {
             ResolveTargetingPackAssets task1 = InitializeMockTargetingPackAssetsDirectory(out string packageDirectory);
@@ -97,7 +97,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 because: "the cache keys should match");
         }
 
-        [Fact]
+        [TestMethod]
         public void Given_Passing_ResolvedTargetingPacks_A_Different_Language_Parses_Again()
         {
             ResolveTargetingPackAssets task1 = InitializeMockTargetingPackAssetsDirectory(out string packageDirectory);
@@ -180,7 +180,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 </FileList>";
 
 
-        [Fact]
+        [TestMethod]
         public void It_Hashes_All_Inputs()
         {
             IEnumerable<PropertyInfo> inputProperties;
@@ -257,7 +257,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             return task;
         }
 
-        [Fact]
+        [TestMethod]
         public static void It_Hashes_All_Inputs_To_FrameworkList()
         {
             var constructor = typeof(FrameworkListDefinition).GetConstructors().Single();
@@ -298,7 +298,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public static void StronglyTypedInputs_Includes_All_Inputs_In_CacheKey()
         {
             StronglyTypedInputs defaultObject = new(

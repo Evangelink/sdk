@@ -11,7 +11,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 {
     public class GivenAProduceContentsAssetsTask
     {
-        [Fact]
+        [TestMethod]
         public void ItProcessesContentFiles()
         {
             // sample data
@@ -57,7 +57,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.ProcessedContentItems.Count().Should().Be(0); // buildAction = none
         }
 
-        [Fact]
+        [TestMethod]
         public void ItOutputsFileWritesForProcessedContent()
         {
             // sample data
@@ -110,7 +110,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.CopyLocalItems.Count().Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItOutputsCopyLocalItems()
         {
             // sample data
@@ -189,7 +189,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             copyLocalItems.Where(t => t.ItemSpec.EndsWith(contentFiles[3])).Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItOutputsContentItemsWithActiveBuildAction()
         {
             // sample data
@@ -267,7 +267,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             contentItems.Where(t => t.ItemSpec.EndsWith(contentFiles[3])).Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanOutputOnlyPreprocessedItems()
         {
             // sample data
@@ -347,7 +347,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             copyLocalItems.Where(t => t.ItemSpec.EndsWith(contentFiles[3])).Should().BeEmpty();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItIgnoresProjectLanguageIfCodeLanguageIsOnlyAny()
         {
             // sample data
@@ -386,7 +386,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             contentItems.All(t => t.GetMetadata(MetadataKeys.NuGetPackageVersion) == packageVersion).Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ItProcessesOnlyProjectLanguageIfPresent()
         {
             // sample data
@@ -430,7 +430,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             contentItems.First().GetMetadata(MetadataKeys.NuGetPackageVersion).Should().Be(packageVersion);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItProcessesOnlyAnyItemsIfProjectLanguageNotPresent()
         {
             // sample data

@@ -14,7 +14,7 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_collects_empty_Trimmer_SingleFile_ReadyToRun_Aot_publishing_properties(string targetFramework)
         {
@@ -32,7 +32,7 @@ namespace Microsoft.NET.Publish.Tests
                 "{\"EventName\":\"PublishProperties\",\"Properties\":{\"PublishReadyToRun\":\"null\",\"PublishTrimmed\":\"null\",\"PublishSingleFile\":\"null\",\"PublishAot\":\"null\",\"PublishProtocol\":\"null\"}");
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_collects_Trimmer_SingleFile_ReadyToRun_publishing_properties(string targetFramework)
         {
@@ -59,7 +59,7 @@ namespace Microsoft.NET.Publish.Tests
                 "\"CompileListCount\":\"[1-9]\\d?\"");  // Do not hardcode number of assemblies being compiled here, due to ILTrimmer
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         void It_collects_crossgen2_publishing_properties(string targetFramework)
         {
@@ -89,7 +89,7 @@ namespace Microsoft.NET.Publish.Tests
                     "\"CompileListCount\":\"1\",\"FailedCount\":\"0\"");
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_collects_Aot_publishing_properties(string targetFramework)
         {

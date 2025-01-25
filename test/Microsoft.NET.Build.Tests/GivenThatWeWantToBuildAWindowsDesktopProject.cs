@@ -142,7 +142,7 @@ namespace Microsoft.NET.Build.Tests
             getValuesCommand.GetValues().Should().BeEquivalentTo(new[] { "true" });
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/29968")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/29968")]
         public void It_builds_successfully_when_targeting_net_framework()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;

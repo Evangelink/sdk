@@ -17,7 +17,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         {
         }
 
-        [Fact]
+        [TestMethod]
         public void ItFiltersSatelliteResources()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;

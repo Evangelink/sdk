@@ -42,9 +42,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output, ignoreLineEndingDifferences: true);
+            Assert.AreEqual(expected, output, ignoreLineEndingDifferences: true);
         }
 
         [TestMethod]
@@ -59,9 +59,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input.AsMemory(6));
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -76,9 +76,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input.AsMemory(6));
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -93,9 +93,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -110,9 +110,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -127,9 +127,9 @@ $@"<footer>
             var result = await WebSocketScriptInjection.TryInjectLiveReloadScriptAsync(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -144,9 +144,9 @@ $@"<footer>
             var result = WebSocketScriptInjection.TryInjectLiveReloadScript(stream, input);
 
             // Assert
-            Assert.False(result);
+            Assert.IsFalse(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -161,9 +161,9 @@ $@"<footer>
             var result = WebSocketScriptInjection.TryInjectLiveReloadScript(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
 
         [TestMethod]
@@ -178,9 +178,9 @@ $@"<footer>
             var result = WebSocketScriptInjection.TryInjectLiveReloadScript(stream, input);
 
             // Assert
-            Assert.True(result);
+            Assert.IsTrue(result);
             var output = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(expected, output);
+            Assert.AreEqual(expected, output);
         }
     }
 }

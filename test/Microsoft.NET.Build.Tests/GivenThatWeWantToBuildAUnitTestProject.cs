@@ -26,7 +26,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().HaveFile(@"XUnitTestProject.runtimeconfig.json");
         }
 
-        [Fact]
+        [TestMethod]
         public void It_builds_when_has_runtime_output_is_true()
         {
             const string targetFramework = "netcoreapp2.1";

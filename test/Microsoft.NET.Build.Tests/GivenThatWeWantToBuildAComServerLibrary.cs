@@ -128,7 +128,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1128: ");
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
         public void It_fails_to_find_comhost_for_platforms_without_comhost()
         {
             var testAsset = _testAssetsManager

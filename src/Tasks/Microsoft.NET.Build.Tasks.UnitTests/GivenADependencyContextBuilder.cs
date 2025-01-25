@@ -23,7 +23,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         /// <summary>
         /// Tests that DependencyContextBuilder generates DependencyContexts correctly.
         /// </summary>
-        [Theory]
+        [TestMethod]
         [MemberData(nameof(ProjectData))]
         public void ItBuildsDependencyContextsFromProjectLockFiles(
             string mainProjectName,
@@ -176,7 +176,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItDoesntCreateReferenceAssembliesWhenNoCompilationOptions()
         {
             DependencyContext dependencyContext = BuildDependencyContextWithReferenceAssemblies(useCompilationOptions: false);
@@ -197,7 +197,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 .NotContain(d => d.Name == "System.Collections.NonGeneric.Reference");
         }
 
-        [Fact]
+        [TestMethod]
         public void ItHandlesReferenceAndPackageReferenceNameCollisions()
         {
             DependencyContext dependencyContext = BuildDependencyContextWithReferenceAssemblies(useCompilationOptions: true);
@@ -292,7 +292,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                     generateXmlDocumentation: true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ItCanGenerateTheRuntimeFallbackGraph()
         {
             string mainProjectName = "simple.dependencies";

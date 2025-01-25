@@ -11,11 +11,11 @@ namespace Microsoft.NET.Sdk.Razor.Tests
     {
         public BuildIntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_SimpleMvc_UsingDotnetMSBuildAndWithoutBuildServer_CanBuildSuccessfully()
             => Build_SimpleMvc_WithoutBuildServer_CanBuildSuccessfully();
 
-        [FullMSBuildOnlyTestMethodAttribute]
+        [FullMSBuildConditionAttribute]
         public void Build_SimpleMvc_UsingDesktopMSBuildAndWithoutBuildServer_CanBuildSuccessfully()
             => Build_SimpleMvc_WithoutBuildServer_CanBuildSuccessfully();
 
@@ -55,7 +55,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "SimpleMvc.Views.pdb")).Should().NotExist();
         }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_ErrorInGeneratedCode_ReportsMSBuildError()
         {
             var testAsset = "RazorSimpleMvc";

@@ -290,7 +290,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void Cpp()
         {
             var testAsset = _testAssetsManager
@@ -323,7 +323,7 @@ namespace Microsoft.NET.Build.Tests
             Assert.Contains(expectedSourceLink, pdbText);
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void LegacyDesktopWpf()
         {
             var testAsset = _testAssetsManager

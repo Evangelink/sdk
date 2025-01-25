@@ -3,18 +3,18 @@
 
 namespace Microsoft.NET.TestFramework
 {
-    public class WindowsOnlyRequiresMSBuildVersionFactAttribute : FactAttribute
+    public class WindowsOnlyRequiresMSBuildVersionTestMethodAttribute : TestMethodAttribute
     {
         /// <summary>
         /// Gets or sets the reason for potentially skipping the test if conditions are not met.
         /// </summary>
         public string? Reason { get; set; }
         
-        public WindowsOnlyRequiresMSBuildVersionFactAttribute(string version)
+        public WindowsOnlyRequiresMSBuildVersionTestMethodAttribute(string version)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Skip = "This test requires Windows to run";
+                IgnoreMessage = "This test requires Windows to run";
             }
 
             RequiresMSBuildVersionTheoryAttribute.CheckForRequiredMSBuildVersion(this, version);

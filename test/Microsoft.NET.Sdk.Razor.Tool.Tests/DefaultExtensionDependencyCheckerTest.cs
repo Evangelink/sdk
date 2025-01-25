@@ -47,11 +47,11 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = checker.Check(new[] { alphaFilePath, betaFilePath, gammaFilePath, deltaFilePath, });
 
             // Assert
-            Assert.True(result, "Check should have passed: " + output.ToString());
+            Assert.IsTrue(result, "Check should have passed: " + output.ToString());
 
         }
 
-        [Fact]
+        [TestMethod]
         public void Check_ReturnsFalse_WhenAssemblyHasDifferentMVID()
         {
             // Arrange
@@ -75,10 +75,10 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = checker.Check(new[] { alphaFilePath, gammaFilePath, deltaFilePath, });
 
             // Assert
-            Assert.False(result, "Check should not have passed: " + output.ToString());
+            Assert.IsFalse(result, "Check should not have passed: " + output.ToString());
         }
 
-        [Fact]
+        [TestMethod]
         public void Check_ReturnsFalse_WhenLoaderThrows()
         {
             // Arrange
@@ -97,7 +97,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = checker.Check(new[] { deltaFilePath, });
 
             // Assert
-            Assert.False(result, "Check should not have passed: " + output.ToString());
+            Assert.IsFalse(result, "Check should not have passed: " + output.ToString());
         }
     }
 }

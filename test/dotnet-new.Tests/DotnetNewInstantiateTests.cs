@@ -31,7 +31,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42539")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/42539")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanInstantiateTemplate_WithAlias()
         {

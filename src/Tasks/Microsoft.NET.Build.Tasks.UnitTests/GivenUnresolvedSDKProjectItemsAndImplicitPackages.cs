@@ -9,7 +9,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 {
     public class GivenUnresolvedSDKProjectItemsAndImplicitPackages
     {
-        [Fact]
+        [TestMethod]
         public void ItShouldCombineSdkReferencesWithImplicitPackageReferences()
         {
             // Arrange 

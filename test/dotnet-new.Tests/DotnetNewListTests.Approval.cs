@@ -8,7 +8,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewListTests
     {
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45406")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45406")]
         [DataRow("-l")]
         [DataRow("--list")]
         public Task BasicTest_WhenLegacyCommandIsUsed(string commandName)
@@ -28,7 +28,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .DisableRequireUniquePrefix();
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45406")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45406")]
         public Task BasicTest_WhenListCommandIsUsed()
         {
             CommandResult commandResult = new DotnetNewCommand(MSTestContext, "list")

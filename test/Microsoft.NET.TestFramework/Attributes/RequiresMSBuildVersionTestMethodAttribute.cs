@@ -3,14 +3,14 @@
 
 namespace Microsoft.NET.TestFramework
 {
-    public class RequiresMSBuildVersionFactAttribute : FactAttribute
+    public class RequiresMSBuildVersionTestMethodAttribute : TestMethodAttribute
     {
         /// <summary>
         /// Can be used to document the reason a test needs a specific version of MSBuild
         /// </summary>
         public string? Reason { get; set; }
 
-        public RequiresMSBuildVersionFactAttribute(string version)
+        public RequiresMSBuildVersionTestMethodAttribute(string version)
         {
             RequiresMSBuildVersionTheoryAttribute.CheckForRequiredMSBuildVersion(this, version);
         }

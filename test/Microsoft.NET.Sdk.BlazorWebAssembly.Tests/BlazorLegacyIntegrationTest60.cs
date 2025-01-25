@@ -16,7 +16,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         protected override string ComputeBaselineFolder() =>
             Path.Combine(MSTestContext.GetRepoRoot() ?? AppContext.BaseDirectory, "test", "Microsoft.NET.Sdk.BlazorWebAssembly.Tests", "StaticWebAssetsBaselines");
             
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build60Hosted_Works()
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [WindowsOnlyRequiresMSBuildVersionTestMethod("17.13", Reason = "Needs System.Text.Json 8.0.5")] // https://github.com/dotnet/sdk/issues/44886
-        [SkipOnPlatform(TestPlatforms.Linux | TestPlatforms.OSX, "https://github.com/dotnet/sdk/issues/42145")]
+        [SkipOnPlatform(OperatingSystems.Linux | OperatingSystems.OSX, "https://github.com/dotnet/sdk/issues/42145")]
         public void Publish60Hosted_Works()
         {
             // Arrange

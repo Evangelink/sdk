@@ -191,7 +191,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         // Test is timing out on .NET Framework: https://github.com/dotnet/sdk/issues/41669
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public async Task HandleTypeLoadFailure()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppTypeLoadFailure")
@@ -302,7 +302,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             }
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45299")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45299")]
         [CombinatorialData]
         public async Task BlazorWasm(bool projectSpecifiesCapabilities)
         {
@@ -432,9 +432,9 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
         /// <summary>
         /// Currently only works on Windows.
-        /// Add TestPlatforms.OSX once https://github.com/dotnet/sdk/issues/45521 is fixed.
+        /// Add OperatingSystems.OSX once https://github.com/dotnet/sdk/issues/45521 is fixed.
         /// </summary>
-        [PlatformSpecificFact(TestPlatforms.Windows, IgnoreMessage = "https://github.com/dotnet/sdk/issues/40006")]
+        [PlatformSpecificFact(OperatingSystems.Windows, IgnoreMessage = "https://github.com/dotnet/sdk/issues/40006")]
         public async Task MauiBlazor()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchMauiBlazor")
@@ -476,7 +476,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         // Test is timing out on .NET Framework: https://github.com/dotnet/sdk/issues/41669
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public async Task HandleMissingAssemblyFailure()
         {
             var testAsset = TestAssets.CopyTestAsset("WatchAppMissingAssemblyFailure")

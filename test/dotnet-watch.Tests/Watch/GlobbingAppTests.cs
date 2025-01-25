@@ -34,7 +34,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 2);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 1);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteSourceFolder()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await AssertCompiledAppDefinedTypes(expected: 1);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42921")]
         public async Task RenameCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             await App.AssertStarted();
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42921")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42921")]
         public async Task ChangeExcludedFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)

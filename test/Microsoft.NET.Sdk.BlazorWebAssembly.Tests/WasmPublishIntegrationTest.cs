@@ -320,7 +320,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             VerifyCompression(testInstance, blazorPublishDirectory);
         }
 
-        [RequiresMSBuildVersionTheory("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [RequiresMSBuildVersionTheory("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
         [DataRow("different-path")]
         [DataRow("/different-path")]
         public void Publish_WithStaticWebBasePathWorks(string basePath)
@@ -383,7 +383,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
                 staticWebAssetsBasePath: "different-path");
         }
 
-        [RequiresMSBuildVersionTheory("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [RequiresMSBuildVersionTheory("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
         [DataRow("different-path/")]
         [DataRow("/different-path/")]
         public void Publish_Hosted_WithStaticWebBasePathWorks(string basePath)
@@ -522,7 +522,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             VerifyAssemblyHasTypes(testContextgingAssemblyPath, new[] { "Microsoft.Extensions.Logging.Abstractions.NullLogger" });
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/runtime/issues/105399")]
+        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_SatelliteAssemblies_AreCopiedToBuildOutput()
         {
             // Arrange
@@ -709,7 +709,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             bootJsonData.config.Should().Contain("../appsettings.development.json");
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/runtime/issues/105399")]
+        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_HostedApp_WithSatelliteAssemblies()
         {
             // Arrange
@@ -1128,7 +1128,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 
         // Regression test to verify satellite assemblies from the blazor app are copied to the published app's wwwroot output directory as
         // part of publishing in VS
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/runtime/issues/105399")]
+        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_HostedApp_VisualStudio_WithSatelliteAssemblies()
         {
             var testAppName = "BlazorWasmWithLibrary";

@@ -14,7 +14,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             protected override void ExecuteCore() { }
         }
 
-        [Fact]
+        [TestMethod]
         public void ItRoutesLogMessagesToMSBuild()
         {
             var task = new TestTask();

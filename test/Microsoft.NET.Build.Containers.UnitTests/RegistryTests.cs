@@ -396,7 +396,7 @@ public class RegistryTests : IDisposable
         api.Verify(api => api.Blob.Upload.UploadChunkAsync(It.IsIn(absoluteUploadUri, uploadPath), It.IsAny<HttpContent>(), It.IsAny<CancellationToken>()), Times.Exactly(1));
     }
 
-    [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42820")]
+    [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42820")]
     [DataRow(true, true, true)]
     [DataRow(false, true, true)]
     [DataRow(true, false, true)]

@@ -35,7 +35,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 
             task.Execute();
 
-            Assert.Equal(2, task.PackageDependenciesDesignTime.Count());
+            Assert.AreEqual(2, task.PackageDependenciesDesignTime.Count());
 
             // Verify only
             // top.package1 is type 'package'
@@ -43,10 +43,10 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             //
             // top.package3 is type 'unknown'. Should not appear in the list
             var item1 = task.PackageDependenciesDesignTime[0];
-            Assert.Equal("top.package1/1.0.0", item1.ItemSpec);
+            Assert.AreEqual("top.package1/1.0.0", item1.ItemSpec);
 
             var item2 = task.PackageDependenciesDesignTime[1];
-            Assert.Equal("top.package2/1.0.0", item2.ItemSpec);
+            Assert.AreEqual("top.package2/1.0.0", item2.ItemSpec);
         }
 
         [WindowsOnlyFact]
@@ -68,20 +68,20 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 
             task.Execute();
 
-            Assert.Equal(3, task.PackageDependenciesDesignTime.Count());
+            Assert.AreEqual(3, task.PackageDependenciesDesignTime.Count());
 
             // Verify implicit packages
             var item1 = task.PackageDependenciesDesignTime[0];
-            Assert.Equal("top.package1/1.0.0", item1.ItemSpec);
-            Assert.Equal("False", item1.GetMetadata(MetadataKeys.IsImplicitlyDefined));
+            Assert.AreEqual("top.package1/1.0.0", item1.ItemSpec);
+            Assert.AreEqual("False", item1.GetMetadata(MetadataKeys.IsImplicitlyDefined));
 
             var item2 = task.PackageDependenciesDesignTime[1];
-            Assert.Equal("top.package2/1.0.0", item2.ItemSpec);
-            Assert.Equal("True", item2.GetMetadata(MetadataKeys.IsImplicitlyDefined));
+            Assert.AreEqual("top.package2/1.0.0", item2.ItemSpec);
+            Assert.AreEqual("True", item2.GetMetadata(MetadataKeys.IsImplicitlyDefined));
 
             var item3 = task.PackageDependenciesDesignTime[2];
-            Assert.Equal("top.package3/1.0.0", item3.ItemSpec);
-            Assert.Equal("True", item3.GetMetadata(MetadataKeys.IsImplicitlyDefined));
+            Assert.AreEqual("top.package3/1.0.0", item3.ItemSpec);
+            Assert.AreEqual("True", item3.GetMetadata(MetadataKeys.IsImplicitlyDefined));
         }
 
         [WindowsOnlyFact]
@@ -344,11 +344,11 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.TargetFramework = "net6.0";
             task.Execute();
 
-            Assert.Single(task.PackageDependenciesDesignTime);
+            Assert.ContainsSingle(task.PackageDependenciesDesignTime);
 
             // Verify top packages in target
             var item1 = task.PackageDependenciesDesignTime[0];
-            Assert.Equal("top.package1/1.0.0", item1.ItemSpec);
+            Assert.AreEqual("top.package1/1.0.0", item1.ItemSpec);
         }
 
         [WindowsOnlyFact]
@@ -368,19 +368,19 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.Execute();
 
             // Verify all top packages are listed here
-            Assert.Equal(3, task.PackageDependenciesDesignTime.Count());
+            Assert.AreEqual(3, task.PackageDependenciesDesignTime.Count());
 
             var item1 = task.PackageDependenciesDesignTime[0];
-            Assert.Equal("top.package1/1.0.0", item1.ItemSpec);
-            Assert.Equal("Error", item1.GetMetadata("DiagnosticLevel"));
+            Assert.AreEqual("top.package1/1.0.0", item1.ItemSpec);
+            Assert.AreEqual("Error", item1.GetMetadata("DiagnosticLevel"));
 
             var item2 = task.PackageDependenciesDesignTime[1];
-            Assert.Equal("top.package2/1.0.0", item2.ItemSpec);
-            Assert.Equal(string.Empty, item2.GetMetadata("DiagnosticLevel"));
+            Assert.AreEqual("top.package2/1.0.0", item2.ItemSpec);
+            Assert.AreEqual(string.Empty, item2.GetMetadata("DiagnosticLevel"));
 
             var item3 = task.PackageDependenciesDesignTime[2];
-            Assert.Equal("top.package3/1.0.0", item3.ItemSpec);
-            Assert.Equal("Warning", item3.GetMetadata("DiagnosticLevel"));
+            Assert.AreEqual("top.package3/1.0.0", item3.ItemSpec);
+            Assert.AreEqual("Warning", item3.GetMetadata("DiagnosticLevel"));
         }
 
         /// <summary>

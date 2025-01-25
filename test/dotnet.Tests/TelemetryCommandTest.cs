@@ -110,7 +110,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NEW"));
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/24190")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/24190")]
         public void DotnetNewCommandFirstArgumentShouldBeSentToTelemetryWithPerformanceData()
         {
             const string argumentToSend = "console";
@@ -235,7 +235,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NUGET"));
         }
 
-        [TestMethod(IgnoreMessage = "dotnet new sends the telemetry inside own commands")]
+        [TestMethod][Ignore("dotnet new sends the telemetry inside own commands")]
         public void DotnetNewCommandLanguageOpinionShouldBeSentToTelemetry()
         {
             const string optionKey = "language";

@@ -12,7 +12,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         private const string _nuGetPackageId = "Uno.ProjectTemplates.Dotnet";
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/6811")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_NuGetFeedWithVersion()
         {
@@ -57,7 +58,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/templating/issues/6811")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_OtherFeedWithVersion()
         {

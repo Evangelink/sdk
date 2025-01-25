@@ -404,7 +404,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             cmd.StdErr.Should().BeEmpty();
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42841")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/42841")]
         public void ItDefaultsToTheFirstUsableLaunchProfile()
         {
             var testAppName = "AppWithLaunchSettings";
@@ -755,7 +756,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                    .HaveStdOutContaining($"dotnet{Constants.ExeSuffix}");
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Windows | TestPlatforms.Linux | TestPlatforms.FreeBSD)]
+        [TestMethod][OSCondition(OperatingSystems.Windows | OperatingSystems.Linux | OperatingSystems.FreeBSD)]
         public void ItRunsWithApphost()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppOutputsExecutablePath").WithSource();

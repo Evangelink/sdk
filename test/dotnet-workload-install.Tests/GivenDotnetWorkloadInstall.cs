@@ -43,7 +43,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
                 .HaveStdErrContaining(string.Format(Workloads.Workload.Install.LocalizableStrings.WorkloadNotRecognized, "fake"));
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/26624")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/26624")]
         public void ItErrorUsingSkipManifestAndRollback()
         {
             var command = new DotnetCommand(MSTestContext);
@@ -582,7 +582,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
             Directory.GetFiles(installRecordPath).Count().Should().Be(2);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/25175")]
         public void HideManifestUpdateCheckWhenVerbosityIsQuiet()
         {
             var command = new DotnetCommand(MSTestContext);
@@ -597,7 +597,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/25175")]
         [DataRow("--verbosity:minimal")]
         [DataRow("--verbosity:normal")]
         public void HideManifestUpdatesWhenVerbosityIsMinimalOrNormal(string verbosityFlag)
@@ -613,7 +613,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
                 .NotHaveStdOutContaining(Workloads.Workload.Install.LocalizableStrings.AdManifestUpdated);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/25175")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/25175")]
         [DataRow("--verbosity:detailed")]
         [DataRow("--verbosity:diagnostic")]
         public void ShowManifestUpdatesWhenVerbosityIsDetailedOrDiagnostic(string verbosityFlag)

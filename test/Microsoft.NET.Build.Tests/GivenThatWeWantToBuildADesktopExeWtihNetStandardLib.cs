@@ -122,7 +122,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void It_includes_netstandard_in_design_time_builds()
         {
             //  Verify that a P2P reference to a .NET Standard 2.0 project is correctly detected

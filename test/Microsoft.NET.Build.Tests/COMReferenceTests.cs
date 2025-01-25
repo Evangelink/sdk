@@ -11,7 +11,7 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [FullMSBuildOnlyTestMethod()]
+        [FullMSBuildCondition()]
         [DataRow(true)]
         [DataRow(false)]
         public void COMReferenceBuildsAndRuns(bool embedInteropTypes)
@@ -60,7 +60,7 @@ namespace Microsoft.NET.Build.Tests
             runCommand.Execute().Should().Pass();
         }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         public void COMReferenceProperlyPublish()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

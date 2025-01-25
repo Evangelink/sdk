@@ -9,7 +9,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.XUnit
         /// in the Skip property instead of Reason. Putting it into Skip would cause the test to be unconditionally
         /// skipped vs. conditionally skipped which is the entire point of this attribute.
         /// </summary>
-        [Obsolete("ConditionalFact should use Reason or AlwaysSkip", error: true)]
+        [Obsolete("ConditionalFact should use IgnoreMessage or AlwaysSkip", error: true)]
         public new string Skip
         {
             get => base.Skip;
@@ -49,7 +49,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.XUnit
         /// in the Skip property instead of Reason. Putting it into Skip would cause the test to be unconditionally
         /// skipped vs. conditionally skipped which is the entire point of this attribute.
         /// </summary>
-        [Obsolete("ConditionalTheory should use Reason or AlwaysSkip")]
+        [Obsolete("ConditionalTheory should use IgnoreMessage or AlwaysSkip")]
         public new string Skip
         {
             get => base.Skip;

@@ -54,7 +54,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult parseResult = myCommand.Parse($" new console");
             var args = InstantiateCommandArgs.FromNewCommandArgs(new NewCommandArgs(myCommand, parseResult));
             IEnumerable<TemplateCommand> matchingTemplates = InstantiateCommand.GetMatchingTemplates(args, settings, A.Fake<TemplatePackageManager>(), templateGroup);
-            Assert.Equal(3, matchingTemplates.Count());
+            Assert.AreEqual(3, matchingTemplates.Count());
             StringWriter output = new();
             BufferedReporter reporter = new();
             Assert.IsFalse(InstantiateCommand.VerifyMatchingTemplates(settings, matchingTemplates, reporter, out _));

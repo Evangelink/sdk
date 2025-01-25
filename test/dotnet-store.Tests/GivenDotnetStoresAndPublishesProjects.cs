@@ -13,7 +13,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         {
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/cli/issues/12482")]
+        [TestMethod][Ignore("https://github.com/dotnet/cli/issues/12482")]
         public void ItPublishesARunnablePortableApp()
         {
             var testAppName = "NewtonSoftDependentProject";

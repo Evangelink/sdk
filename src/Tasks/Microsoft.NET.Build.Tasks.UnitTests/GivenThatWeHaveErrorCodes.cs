@@ -50,7 +50,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             "ILLinkOptimizedAssemblies"
         };
 
-        [Fact]
+        [TestMethod]
         public void ThereAreNoGapsDuplicatesOrIncorrectlyFormattedCodes()
         {
             var codes = new HashSet<int>(_deletedCodes);
@@ -90,7 +90,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void ResxIsCommentedWithCorrectStrBegin()
         {
             var doc = XDocument.Load("Strings.resx");

@@ -96,7 +96,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45057")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45057")]
         public void ItUsesArtifactsOutputPathForPublish()
         {
             var (testProjects, testAsset) = GetTestProjects();
@@ -497,7 +497,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1200");
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/40160")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/40160")]
         public void ItCanBuildWithMicrosoftBuildArtifactsSdk()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("ArtifactsSdkTest")

@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 
             string output = new RegexStringTransformer(CaptureGroupPattern, ReplacementPattern).Transform(Input);
 
-            Assert.Equal(Input, output);
+            Assert.AreEqual(Input, output);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 
             string output = new RegexStringTransformer(CaptureGroupPattern, ReplacementPattern).Transform(Input);
 
-            Assert.Equal(ReplacementPattern, output);
+            Assert.AreEqual(ReplacementPattern, output);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 
             string output = new RegexStringTransformer(CaptureGroupPattern, ReplacementPattern).Transform(Input);
 
-            Assert.Equal("1:abc, 2:def, 3:$3", output);
+            Assert.AreEqual("1:abc, 2:def, 3:$3", output);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 
             string output = new RegexStringTransformer(CaptureGroupPattern, ReplacementPattern).Transform(Input);
 
-            Assert.Equal("lib/net7.0-android/System.Linq.dll", output);
+            Assert.AreEqual("lib/net7.0-android/System.Linq.dll", output);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests
 
             string output = new RegexStringTransformer(patterns).Transform(Input);
 
-            Assert.Equal("runtimes/android/lib/net7.0/System.Linq.dll", output);
+            Assert.AreEqual("runtimes/android/lib/net7.0/System.Linq.dll", output);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 {
     public class GivenACheckForDuplicateItems
     {
-        [Fact]
+        [TestMethod]
         public void CheckForNoDuplicateItems()
         {
             var compile = new[]
@@ -36,7 +36,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             task.DeduplicatedItems.Length.Should().Be(0);
         }
 
-        [Fact]
+        [TestMethod]
         public void CheckForDuplicateItems()
         {
             var compile = new[]

@@ -8,7 +8,7 @@ namespace Microsoft.NET.Build.Tests
         public GivenThatWeWantToBuildWithGlobalJson(MSTestContext testContext) : base(testContext)
         { }
 
-        [FullMSBuildOnlyTestMethod]
+        [TestMethod][FullMSBuildCondition]
         [DataRow(true)]
         [DataRow(false)]
         public void It_fails_build_on_failed_sdk_resolution(bool runningInVS)

@@ -74,7 +74,7 @@ namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
             input.Descendants(elementName).Single().SetAttributeValue(attributeName, attributeValue);
 
             var output = WebConfigTransform.Transform(input, "test.dll", configureForAzure: false, useAppHost: true, extension: ".exe", aspNetCoreModuleName: null, aspNetCoreHostingModel: null, environmentName: null, projectFullPath: null);
-            Assert.Equal(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
+            Assert.AreEqual(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
         }
 
 
@@ -99,7 +99,7 @@ namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
             File.WriteAllText(webConfigPath, input.ToString());
 
             var output = WebConfigTransform.Transform(input, "test.dll", configureForAzure: false, useAppHost: true, extension: ".exe", aspNetCoreModuleName: null, aspNetCoreHostingModel: "foo", environmentName: null, projectFullPath: projectPath);
-            Assert.Equal(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
+            Assert.AreEqual(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
         public void WebConfigTransform_UsesAspNetCoreHostingVersion_ForHostingModule(string elementName, string attributeName, string attributeValue)
         {
             var output = WebConfigTransform.Transform(null, "test.dll", configureForAzure: false, useAppHost: true, extension: ".exe", aspNetCoreModuleName: attributeValue, aspNetCoreHostingModel: null, environmentName: null, projectFullPath: null);
-            Assert.Equal(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
+            Assert.AreEqual(attributeValue, (string)output.Descendants(elementName).Single().Attribute(attributeName));
         }
 
         [TestMethod]

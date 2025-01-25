@@ -227,14 +227,16 @@ namespace Microsoft.DotNet.MsiInstallerTests
             GetWorkloadVersion().Should().Be(WorkloadSetVersion2);
         }
 
-        [TestMethod(IgnoreMessage = "Not Implemented")]
+        [TestMethod]
+        [Ignore("Not Implemented")]
         public void WorkloadSetInstallationRecordIsWrittenCorrectly()
         {
             //  Should the workload set version or the package version be used in the registry?
             throw new NotImplementedException();
         }
 
-        [TestMethod(IgnoreMessage = "Not Implemented")]
+        [TestMethod]
+        [Ignore("Not Implemented")]
         public void TurnOffWorkloadSetUpdateMode()
         {
             //  If you have a workload set installed and then turn off workload set update mode, what should happen?

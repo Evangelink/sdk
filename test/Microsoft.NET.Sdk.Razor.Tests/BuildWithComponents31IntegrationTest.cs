@@ -7,7 +7,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
     {
         public BuildWithComponents31IntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [CoreMSBuildOnlyTestMethod]
+        [TestMethod][CoreMSBuildCondition]
         public void Build_Components_WithDotNetCoreMSBuild_Works()
         {
             var testAsset = "Razorblazor31";

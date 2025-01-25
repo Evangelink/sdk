@@ -80,7 +80,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.OSX)]
+        [TestMethod][OSCondition(OperatingSystems.OSX)]
         [DataRow("netcoreapp3.1")]
         [DataRow("net5.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
@@ -114,7 +114,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().OnlyHaveFiles(GetExpectedFilesFromBuild(testAsset, targetFramework));
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.OSX)]
+        [TestMethod][OSCondition(OperatingSystems.OSX)]
         [DataRow("netcoreapp3.1", "win-x64")]
         [DataRow("net5.0", "win-x64")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "win-x64")]

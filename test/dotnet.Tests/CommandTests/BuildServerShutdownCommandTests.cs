@@ -156,7 +156,7 @@ namespace Microsoft.DotNet.Tests.Commands
             VerifyShutdownCalls(mocks);
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/3684")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/3684")]
         public void GivenARunningRazorServerItShutsDownSuccessfully()
         {
             var pipeName = Path.GetRandomFileName();

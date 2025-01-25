@@ -91,7 +91,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(_defaultExpectedResult, manifestResult);
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Linux | TestPlatforms.OSX)]
+        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX)]
         public void GivenManifestFileInRootDirectoryForLinuxMacOSItGetsContent()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);
@@ -129,7 +129,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             AssertToolManifestPackageListEqual(expectedResult, manifestResult);
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Windows)]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenManifestFileInRootDirectoryItThrowsError()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);
@@ -152,7 +152,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
                 .Contain(LocalizableStrings.CannotFindAManifestFile);
         }
 
-        [PlatformSpecificTestMethod(TestPlatforms.Windows)]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenManifestFileInRootDirectoryWithEnvVariableCHECK_MANIFEST_IN_ROOTToTrueItGetsContent()
         {
             var rootDirectory = new DirectoryPath(_testDirectoryRoot);

@@ -50,7 +50,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             new FileInfo(Path.Combine(buildOutputDirectory, "wwwroot", "_framework", "blazorwasm-minimal.wasm")).Should().Exist();
         }
 
-        [RequiresMSBuildVersionTheory("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [RequiresMSBuildVersionTheory("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
         [DataRow("blazor")]
         [DataRow("blazor spaces")]
         public void Build_Works(string identifier)
@@ -562,7 +562,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             new FileInfo(Path.Combine(buildOutputDirectory, "wwwroot", "_framework", "_bin", "blazorwasm.wasm")).Should().NotExist();
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/runtime/issues/105399")]
+        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105399")]
         public void Build_SatelliteAssembliesAreCopiedToBuildOutput()
         {
             // Arrange
@@ -760,14 +760,14 @@ public class TestReference
             fileInWwwroot.Should().Exist();
         }
 
-        [RequiresMSBuildVersionTheory("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [RequiresMSBuildVersionTheory("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
         [DataRow(true)]
         [DataRow(false)]
         [DataRow(null)]
         public void Build_WithStartupMemoryCache(bool? value)
             => BuildWasmMinimalAndValidateBootConfig(new[] { ("BlazorWebAssemblyStartupMemoryCache", value?.ToString()) }, b => b.startupMemoryCache.Should().Be(value));
 
-        [RequiresMSBuildVersionTheory("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [RequiresMSBuildVersionTheory("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
         [DataRow(true)]
         [DataRow(false)]
         [DataRow(null)]

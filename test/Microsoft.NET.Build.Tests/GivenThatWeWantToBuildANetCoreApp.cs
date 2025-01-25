@@ -50,16 +50,16 @@ namespace Microsoft.NET.Build.Tests
         }
 
         //  Test behavior when implicit version differs for framework-dependent and self-contained apps
-        [Theory(IgnoreMessage = "https://github.com/dotnet/sdk/issues/45417")]
-        [InlineData("netcoreapp1.0", false, true, "1.0.5")]
-        [InlineData("netcoreapp1.0", true, true, "1.0.16")]
-        [InlineData("netcoreapp1.0", false, false, "1.0.5")]
-        [InlineData("netcoreapp1.1", false, true, "1.1.2")]
-        [InlineData("netcoreapp1.1", true, true, "1.1.13")]
-        [InlineData("netcoreapp1.1", false, false, "1.1.2")]
-        [InlineData("netcoreapp2.0", false, true, "2.0.0")]
-        [InlineData("netcoreapp2.0", true, true, TestContext.LatestRuntimePatchForNetCoreApp2_0)]
-        [InlineData("netcoreapp2.0", false, false, "2.0.0")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45417")]
+        [DataRow("netcoreapp1.0", false, true, "1.0.5")]
+        [DataRow("netcoreapp1.0", true, true, "1.0.16")]
+        [DataRow("netcoreapp1.0", false, false, "1.0.5")]
+        [DataRow("netcoreapp1.1", false, true, "1.1.2")]
+        [DataRow("netcoreapp1.1", true, true, "1.1.13")]
+        [DataRow("netcoreapp1.1", false, false, "1.1.2")]
+        [DataRow("netcoreapp2.0", false, true, "2.0.0")]
+        [DataRow("netcoreapp2.0", true, true, TestContext.LatestRuntimePatchForNetCoreApp2_0)]
+        [DataRow("netcoreapp2.0", false, false, "2.0.0")]
         public void It_targets_the_right_framework_depending_on_output_type(string targetFramework, bool selfContained, bool isExe, string expectedFrameworkVersion)
         {
             if (!EnvironmentInfo.SupportsTargetFramework(targetFramework))
@@ -591,9 +591,9 @@ public static class Program
             outputDirectory.Should().HaveFile(Path.Combine("fr", "Humanizer.resources.dll"));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [TestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
         public void It_uses_lowercase_form_of_the_target_framework_for_the_output_path(bool useStandardOutputPaths)
         {
             var testProject = new TestProject()
@@ -721,7 +721,7 @@ class Program
                 .Pass();
         }
 
-        [TestMethod(IgnoreMessage = "https://github.com/dotnet/sdk/issues/3044")]
+        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/3044")]
         public void ReferenceLegacyContracts()
         {
             var testProject = new TestProject()

@@ -17,11 +17,11 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var output = new StringWriter();
             var options = CommandLineOptions.Parse(args, _testReporter, output: output, errorCode: out var errorCode);
 
-            Assert.Equal(expectedMessages, _testReporter.Messages);
+            Assert.AreEqual(expectedMessages, _testReporter.Messages);
             outputValidator(output.ToString());
 
             Assert.NotNull(options);
-            Assert.Equal(0, errorCode);
+            Assert.AreEqual(0, errorCode);
             return options;
         }
 
@@ -31,202 +31,202 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var options = CommandLineOptions.Parse(args, _testReporter, output: output, errorCode: out var errorCode);
 
             AssertEx.Equal(expectedErrors, _testReporter.Messages);
-            Assert.Empty(output.ToString());
+            Assert.IsEmpty(output.ToString());
 
             Assert.Null(options);
             Assert.AreNotEqual(0, errorCode);
         }
 
-        [Theory]
-        [InlineData(new object[] { new[] { "-h" } })]
-        [InlineData(new object[] { new[] { "-?" } })]
-        [InlineData(new object[] { new[] { "--help" } })]
-        [InlineData(new object[] { new[] { "--help", "--bogus" } })]
+        [TestMethod]
+        [DataRow(new object[] { new[] { "-h" } })]
+        [DataRow(new object[] { new[] { "-?" } })]
+        [DataRow(new object[] { new[] { "--help" } })]
+        [DataRow(new object[] { new[] { "--help", "--bogus" } })]
         public void HelpArgs(string[] args)
         {
             var output = new StringWriter();
             var options = CommandLineOptions.Parse(args, _testReporter, output: output, errorCode: out var errorCode);
             Assert.Null(options);
-            Assert.Equal(0, errorCode);
+            Assert.AreEqual(0, errorCode);
 
-            Assert.Empty(_testReporter.Messages);
+            Assert.IsEmpty(_testReporter.Messages);
             Assert.Contains("Usage:", output.ToString());
         }
 
-        [Theory]
-        [InlineData("-p:P=V", "P", "V")]
-        [InlineData("-p:P==", "P", "=")]
-        [InlineData("-p:P=A=B", "P", "A=B")]
-        [InlineData("-p: P\t = V ", "P", " V ")]
-        [InlineData("-p:P=", "P", "")]
+        [TestMethod]
+        [DataRow("-p:P=V", "P", "V")]
+        [DataRow("-p:P==", "P", "=")]
+        [DataRow("-p:P=A=B", "P", "A=B")]
+        [DataRow("-p: P\t = V ", "P", " V ")]
+        [DataRow("-p:P=", "P", "")]
         public void BuildProperties_Valid(string argValue, string name, string value)
         {
             var properties = CommandLineOptions.ParseBuildProperties([argValue]);
             AssertEx.SequenceEqual([(name, value)], properties);
         }
 
-        [Theory]
-        [InlineData("P")]
-        [InlineData("=P3")]
-        [InlineData("=")]
-        [InlineData("==")]
+        [TestMethod]
+        [DataRow("P")]
+        [DataRow("=P3")]
+        [DataRow("=")]
+        [DataRow("==")]
         public void BuildProperties_Invalid(string argValue)
         {
             var properties = CommandLineOptions.ParseBuildProperties([argValue]);
             AssertEx.SequenceEqual([], properties);
         }
 
-        [Fact]
+        [TestMethod]
         public void ImplicitCommand()
         {
             var options = VerifyOptions([]);
-            Assert.Equal("run", options.Command);
-            Assert.Empty(options.CommandArguments);
+            Assert.AreEqual("run", options.Command);
+            Assert.IsEmpty(options.CommandArguments);
         }
 
-        [Theory]
-        [InlineData("add")]
-        [InlineData("build")]
-        [InlineData("build-server")]
-        [InlineData("clean")]
-        [InlineData("format")]
-        [InlineData("help")]
-        [InlineData("list")]
-        [InlineData("msbuild")]
-        [InlineData("new")]
-        [InlineData("nuget")]
-        [InlineData("pack")]
-        [InlineData("publish")]
-        [InlineData("remove")]
-        [InlineData("restore")]
-        [InlineData("run")]
-        [InlineData("sdk")]
-        [InlineData("solution")]
-        [InlineData("store")]
-        [InlineData("test")]
-        [InlineData("tool")]
-        [InlineData("vstest")]
-        [InlineData("workload")]
+        [TestMethod]
+        [DataRow("add")]
+        [DataRow("build")]
+        [DataRow("build-server")]
+        [DataRow("clean")]
+        [DataRow("format")]
+        [DataRow("help")]
+        [DataRow("list")]
+        [DataRow("msbuild")]
+        [DataRow("new")]
+        [DataRow("nuget")]
+        [DataRow("pack")]
+        [DataRow("publish")]
+        [DataRow("remove")]
+        [DataRow("restore")]
+        [DataRow("run")]
+        [DataRow("sdk")]
+        [DataRow("solution")]
+        [DataRow("store")]
+        [DataRow("test")]
+        [DataRow("tool")]
+        [DataRow("vstest")]
+        [DataRow("workload")]
         public void ExplicitCommand(string command)
         {
             var options = VerifyOptions([command]);
-            Assert.Equal(command, options.ExplicitCommand);
-            Assert.Equal(command, options.Command);
-            Assert.Empty(options.CommandArguments);
+            Assert.AreEqual(command, options.ExplicitCommand);
+            Assert.AreEqual(command, options.Command);
+            Assert.IsEmpty(options.CommandArguments);
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void WatchOptions_NotPassedThrough_BeforeCommand(
             [CombinatorialValues("--quiet", "--verbose", "--no-hot-reload", "--non-interactive")] string option,
             bool before)
         {
             var options = VerifyOptions(before ? [option, "test"] : ["test", option]);
-            Assert.Equal("test", options.Command);
-            Assert.Empty(options.CommandArguments);
+            Assert.AreEqual("test", options.Command);
+            Assert.IsEmpty(options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_LaunchProfile_Watch()
         {
             var options = VerifyOptions(["-lp", "P", "run"]);
-            Assert.Equal("P", options.LaunchProfileName);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["-lp", "P"], options.CommandArguments);
+            Assert.AreEqual("P", options.LaunchProfileName);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["-lp", "P"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_LaunchProfile_Run()
         {
             var options = VerifyOptions(["run", "-lp", "P"]);
-            Assert.Equal("P", options.LaunchProfileName);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["-lp", "P"], options.CommandArguments);
+            Assert.AreEqual("P", options.LaunchProfileName);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["-lp", "P"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_LaunchProfile_Both()
         {
             VerifyErrors(["-lp", "P1", "run", "-lp", "P2"],
                 "error ❌ Option '-lp' expects a single argument but 2 were provided.");
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_NoProfile_Watch()
         {
             var options = VerifyOptions(["--no-launch-profile", "run"]);
 
-            Assert.True(options.NoLaunchProfile);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["--no-launch-profile"], options.CommandArguments);
+            Assert.IsTrue(options.NoLaunchProfile);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["--no-launch-profile"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_NoProfile_Run()
         {
             var options = VerifyOptions(["run", "--no-launch-profile"]);
 
-            Assert.True(options.NoLaunchProfile);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["--no-launch-profile"], options.CommandArguments);
+            Assert.IsTrue(options.NoLaunchProfile);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["--no-launch-profile"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RunOptions_NoProfile_Both()
         {
             var options = VerifyOptions(["--no-launch-profile", "run", "--no-launch-profile"]);
 
-            Assert.True(options.NoLaunchProfile);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["--no-launch-profile"], options.CommandArguments);
+            Assert.IsTrue(options.NoLaunchProfile);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["--no-launch-profile"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RemainingOptions()
         {
             var options = VerifyOptions(["-watchArg", "--verbose", "run", "-runArg"]);
 
-            Assert.True(options.GlobalOptions.Verbose);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["-watchArg", "-runArg"], options.CommandArguments);
+            Assert.IsTrue(options.GlobalOptions.Verbose);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["-watchArg", "-runArg"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void UnknownOption()
         {
             var options = VerifyOptions(["--verbose", "--unknown", "x", "y", "run", "--project", "p"]);
 
-            Assert.Equal("p", options.ProjectPath);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["--project", "p", "--unknown", "x", "y"], options.CommandArguments);
+            Assert.AreEqual("p", options.ProjectPath);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["--project", "p", "--unknown", "x", "y"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RemainingOptionsDashDash()
         {
             var options = VerifyOptions(["-watchArg", "--", "--verbose", "run", "-runArg"]);
 
-            Assert.False(options.GlobalOptions.Verbose);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["-watchArg", "--", "--verbose", "run", "-runArg"], options.CommandArguments);
+            Assert.IsFalse(options.GlobalOptions.Verbose);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["-watchArg", "--", "--verbose", "run", "-runArg"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void RemainingOptionsDashDashRun()
         {
             var options = VerifyOptions(["--", "run"]);
 
-            Assert.False(options.GlobalOptions.Verbose);
-            Assert.Equal("run", options.Command);
-            Assert.Equal(["--", "run"], options.CommandArguments);
+            Assert.IsFalse(options.GlobalOptions.Verbose);
+            Assert.AreEqual("run", options.Command);
+            Assert.AreEqual(["--", "run"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void NoOptionsAfterDashDash()
         {
             var options = VerifyOptions(["--"]);
-            Assert.Equal("run", options.Command);
-            Assert.Empty(options.CommandArguments);
+            Assert.AreEqual("run", options.Command);
+            Assert.IsEmpty(options.CommandArguments);
         }
 
         /// <summary>
@@ -236,52 +236,52 @@ namespace Microsoft.DotNet.Watch.UnitTests
         /// Therfore, it has to also be ignored by `dotnet run`,
         /// otherwise the TFMs would be inconsistent between `dotnet watch` and `dotnet run`.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public void ParsedNonWatchOptionsAfterDashDash_Framework()
         {
             var options = VerifyOptions(["--", "-f", "TFM"]);
 
             Assert.Null(options.TargetFramework);
-            Assert.Equal(["--", "-f", "TFM"], options.CommandArguments);
+            Assert.AreEqual(["--", "-f", "TFM"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParsedNonWatchOptionsAfterDashDash_Project()
         {
             var options = VerifyOptions(["--", "--project", "proj"]);
 
             Assert.Null(options.ProjectPath);
-            Assert.Equal(["--", "--project", "proj"], options.CommandArguments);
+            Assert.AreEqual(["--", "--project", "proj"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParsedNonWatchOptionsAfterDashDash_NoLaunchProfile()
         {
             var options = VerifyOptions(["--", "--no-launch-profile"]);
 
-            Assert.False(options.NoLaunchProfile);
-            Assert.Equal(["--", "--no-launch-profile"], options.CommandArguments);
+            Assert.IsFalse(options.NoLaunchProfile);
+            Assert.AreEqual(["--", "--no-launch-profile"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParsedNonWatchOptionsAfterDashDash_LaunchProfile()
         {
             var options = VerifyOptions(["--", "--launch-profile", "p"]);
 
-            Assert.False(options.NoLaunchProfile);
-            Assert.Equal(["--", "--launch-profile", "p"], options.CommandArguments);
+            Assert.IsFalse(options.NoLaunchProfile);
+            Assert.AreEqual(["--", "--launch-profile", "p"], options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParsedNonWatchOptionsAfterDashDash_Property()
         {
             var options = VerifyOptions(["--", "--property", "x=1"]);
 
-            Assert.False(options.NoLaunchProfile);
-            Assert.Equal(["--", "--property", "x=1"], options.CommandArguments);
+            Assert.IsFalse(options.NoLaunchProfile);
+            Assert.AreEqual(["--", "--property", "x=1"], options.CommandArguments);
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void OptionsSpecifiedBeforeOrAfterRun(bool afterRun)
         {
@@ -290,11 +290,11 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             var options = VerifyOptions(args);
 
-            Assert.Equal("P", options.ProjectPath);
-            Assert.Equal("F", options.TargetFramework);
-            Assert.Equal(["-property:TargetFramework=F", "--property:P1=V1", "--property:P2=V2"], options.BuildArguments);
+            Assert.AreEqual("P", options.ProjectPath);
+            Assert.AreEqual("F", options.TargetFramework);
+            Assert.AreEqual(["-property:TargetFramework=F", "--property:P1=V1", "--property:P2=V2"], options.BuildArguments);
 
-            Assert.Equal(["--project", "P", "--framework", "F", "--property:P1=V1", "--property:P2=V2"], options.CommandArguments);
+            Assert.AreEqual(["--project", "P", "--framework", "F", "--property:P1=V1", "--property:P2=V2"], options.CommandArguments);
         }
 
         public enum ArgPosition
@@ -304,7 +304,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Both
         }
 
-        [Theory]
+        [TestMethod]
         [CombinatorialData]
         public void OptionDuplicates_Allowed_Bool(
             ArgPosition position,
@@ -328,7 +328,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             var options = VerifyOptions(args);
 
-            Assert.True(arg switch
+            Assert.IsTrue(arg switch
             {
                 "--verbose" => options.GlobalOptions.Verbose,
                 "--quiet" => options.GlobalOptions.Quiet,
@@ -339,7 +339,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             });
         }
 
-        [Fact]
+        [TestMethod]
         public void MultiplePropertyValues()
         {
             var options = VerifyOptions(["--property", "P1=V1", "run", "--property", "P2=V2"]);
@@ -349,91 +349,91 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.SequenceEqual(["--property:P1=V1", "--property:P2=V2"], options.CommandArguments);
         }
 
-        [Theory]
-        [InlineData("--project")]
-        [InlineData("--framework")]
+        [TestMethod]
+        [DataRow("--project")]
+        [DataRow("--framework")]
         public void OptionDuplicates_NotAllowed(string option)
         {
             VerifyErrors([option, "abc", "run", option, "xyz"],
                 $"error ❌ Option '{option}' expects a single argument but 2 were provided.");
         }
 
-        [Theory]
-        [InlineData(new[] { "--unrecognized-arg" }, new[] { "--unrecognized-arg" })]
-        [InlineData(new[] { "run" }, new string[] { })]
-        [InlineData(new[] { "run", "--", "runarg" }, new[] { "--", "runarg" })]
-        [InlineData(new[] { "--verbose", "run", "runarg1", "-runarg2" }, new[] { "runarg1", "-runarg2" })]
+        [TestMethod]
+        [DataRow(new[] { "--unrecognized-arg" }, new[] { "--unrecognized-arg" })]
+        [DataRow(new[] { "run" }, new string[] { })]
+        [DataRow(new[] { "run", "--", "runarg" }, new[] { "--", "runarg" })]
+        [DataRow(new[] { "--verbose", "run", "runarg1", "-runarg2" }, new[] { "runarg1", "-runarg2" })]
         // run is after -- and therefore not parsed as a command:
-        [InlineData(new[] { "--verbose", "--", "run", "--", "runarg" }, new[] { "--", "run", "--", "runarg" })]
+        [DataRow(new[] { "--verbose", "--", "run", "--", "runarg" }, new[] { "--", "run", "--", "runarg" })]
         // run is before -- and therefore parsed as a command:
-        [InlineData(new[] { "--verbose", "run", "--", "--", "runarg" }, new[] { "--", "--", "runarg" })]
+        [DataRow(new[] { "--verbose", "run", "--", "--", "runarg" }, new[] { "--", "--", "runarg" })]
         public void ParsesRemainingArgs(string[] args, string[] expected)
         {
             var options = VerifyOptions(args);
-            Assert.Equal(expected, options.CommandArguments);
+            Assert.AreEqual(expected, options.CommandArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void CannotHaveQuietAndVerbose()
         {
             VerifyErrors(["--quiet", "--verbose"],
                 $"error ❌ {Resources.Error_QuietAndVerboseSpecified}");
         }
 
-        [Fact]
+        [TestMethod]
         public void ShortFormForProjectArgumentPrintsWarning()
         {
             var options = VerifyOptions(["-p", "MyProject.csproj"],
                 expectedMessages: [$"warning ⌚ {Resources.Warning_ProjectAbbreviationDeprecated}"]);
 
-            Assert.Equal("MyProject.csproj", options.ProjectPath);
+            Assert.AreEqual("MyProject.csproj", options.ProjectPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void LongFormForProjectArgumentWorks()
         {
             var options = VerifyOptions(["--project", "MyProject.csproj"]);
-            Assert.Equal("MyProject.csproj", options.ProjectPath);
+            Assert.AreEqual("MyProject.csproj", options.ProjectPath);
         }
 
-        [Fact]
+        [TestMethod]
         public void LongFormForLaunchProfileArgumentWorks()
         {
             var options = VerifyOptions(["--launch-profile", "CustomLaunchProfile"]);
             Assert.NotNull(options);
-            Assert.Equal("CustomLaunchProfile", options.LaunchProfileName);
+            Assert.AreEqual("CustomLaunchProfile", options.LaunchProfileName);
         }
 
-        [Fact]
+        [TestMethod]
         public void ShortFormForLaunchProfileArgumentWorks()
         {
             var options = VerifyOptions(["-lp", "CustomLaunchProfile"]);
-            Assert.Equal("CustomLaunchProfile", options.LaunchProfileName);
+            Assert.AreEqual("CustomLaunchProfile", options.LaunchProfileName);
         }
 
         /// <summary>
         /// Validates that options that the "run" command forwards to "build" command are forwarded by dotnet-watch.
         /// </summary>
-        [Theory]
-        [InlineData(new[] { "--configuration", "release" }, new[] { "-property:Configuration=release" })]
-        [InlineData(new[] { "--framework", "net9.0" }, new[] { "-property:TargetFramework=net9.0" })]
-        [InlineData(new[] { "--runtime", "arm64" }, new[] { "-property:RuntimeIdentifier=arm64","-property:_CommandLineDefinedRuntimeIdentifier=true" })]
-        [InlineData(new[] { "--property", "b=1" }, new[] { "--property:b=1" })]
-        [InlineData(new[] { "--interactive" }, new[] { "-property:NuGetInteractive=true" })]
-        [InlineData(new[] { "--no-restore" }, new[] { "-restore:false" })]
-        [InlineData(new[] { "--sc" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true"})]
-        [InlineData(new[] { "--self-contained" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true" })]
-        [InlineData(new[] { "--no-self-contained" }, new[] { "-property:SelfContained=False","-property:_CommandLineDefinedSelfContained=true"})]
-        [InlineData(new[] { "--verbosity", "q" }, new[] { "-verbosity:q" })]
-        [InlineData(new[] { "--arch", "arm", "--os", "win" }, new[] { "-property:RuntimeIdentifier=win-arm" })]
-        [InlineData(new[] { "--disable-build-servers" }, new[] { "--property:UseRazorBuildServer=false", "--property:UseSharedCompilation=false", "/nodeReuse:false" })]
+        [TestMethod]
+        [DataRow(new[] { "--configuration", "release" }, new[] { "-property:Configuration=release" })]
+        [DataRow(new[] { "--framework", "net9.0" }, new[] { "-property:TargetFramework=net9.0" })]
+        [DataRow(new[] { "--runtime", "arm64" }, new[] { "-property:RuntimeIdentifier=arm64","-property:_CommandLineDefinedRuntimeIdentifier=true" })]
+        [DataRow(new[] { "--property", "b=1" }, new[] { "--property:b=1" })]
+        [DataRow(new[] { "--interactive" }, new[] { "-property:NuGetInteractive=true" })]
+        [DataRow(new[] { "--no-restore" }, new[] { "-restore:false" })]
+        [DataRow(new[] { "--sc" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true"})]
+        [DataRow(new[] { "--self-contained" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true" })]
+        [DataRow(new[] { "--no-self-contained" }, new[] { "-property:SelfContained=False","-property:_CommandLineDefinedSelfContained=true"})]
+        [DataRow(new[] { "--verbosity", "q" }, new[] { "-verbosity:q" })]
+        [DataRow(new[] { "--arch", "arm", "--os", "win" }, new[] { "-property:RuntimeIdentifier=win-arm" })]
+        [DataRow(new[] { "--disable-build-servers" }, new[] { "--property:UseRazorBuildServer=false", "--property:UseSharedCompilation=false", "/nodeReuse:false" })]
         public void ForwardedBuildOptions(string[] args, string[] buildArgs)
         {
             var options = VerifyOptions(["run", .. args]);
             AssertEx.SequenceEqual(buildArgs, options.BuildArguments);
         }
 
-        [Fact]
+        [TestMethod]
         public void ForwardedBuildOptions_ArtifactsPath()
         {
             var path = TestContext.Current.TestAssetsDirectory;

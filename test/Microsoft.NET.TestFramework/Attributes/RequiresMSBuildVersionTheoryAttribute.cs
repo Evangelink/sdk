@@ -3,33 +3,47 @@
 
 namespace Microsoft.NET.TestFramework
 {
-    public class RequiresMSBuildVersionTheoryAttribute : TheoryAttribute
+    public class RequiresMSBuildVersionTheoryAttribute : ConditionBaseAttribute
     {
+        private readonly string _version;
+        private string? _ignoreMessage;
+
+        public RequiresMSBuildVersionTheoryAttribute(string version)
+            : base(ConditionMode.Include)
+        {
+            _version = version;
+        }
+
         /// <summary>
         /// Can be used to document the reason a test needs a specific version of MSBuild
         /// </summary>
+        public override string? IgnoreMessage => _ignoreMessage;
+
         public string? Reason { get; set; }
 
-        public RequiresMSBuildVersionTheoryAttribute(string version)
-        {
-            CheckForRequiredMSBuildVersion(this, version);
-        }
+        public override string GroupName { get; } = "MSBuildVersion";
 
-        public static void CheckForRequiredMSBuildVersion(FactAttribute attribute, string version)
+        public override bool ShouldRun
         {
-            if (!Version.TryParse(TestContext.Current.ToolsetUnderTest.MSBuildVersion, out Version? msbuildVersion))
+            get
             {
-                attribute.Skip = $"Failed to determine the version of MSBuild ({TestContext.Current.ToolsetUnderTest.MSBuildVersion}).";
-                return;
-            }
-            if (!Version.TryParse(version, out Version? requiredVersion))
-            {
-                attribute.Skip = $"Failed to determine the version required by this test ({version}).";
-                return;
-            }
-            if (requiredVersion > msbuildVersion)
-            {
-                attribute.Skip = $"This test requires MSBuild version {version} to run (using {TestContext.Current.ToolsetUnderTest.MSBuildVersion}).";
+                if (!Version.TryParse(TestContext.Current.ToolsetUnderTest.MSBuildVersion, out Version? msbuildVersion))
+                {
+                    _ignoreMessage = $"Failed to determine the version of MSBuild ({TestContext.Current.ToolsetUnderTest.MSBuildVersion}).";
+                    return false;
+                }
+                if (!Version.TryParse(_version, out Version? requiredVersion))
+                {
+                    _ignoreMessage = $"Failed to determine the version required by this test ({_version}).";
+                    return false;
+                }
+                if (requiredVersion > msbuildVersion)
+                {
+                    _ignoreMessage = $"This test requires MSBuild version {_version} to run (using {TestContext.Current.ToolsetUnderTest.MSBuildVersion}).";
+                    return false;
+                }
+
+                return true;
             }
         }
     }

@@ -141,7 +141,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             {
                 if (!_disposed)
                 {
-                    logger.WriteLine(text);
+                    testContext.WriteLine(text);
                 }
             }
         }

@@ -69,7 +69,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                 .CopyTestAsset("TestAppEchoDotnetRoot", callingMethod, allowCopyIfPresent: true)
                 .WithSource()
                 .WithTargetFrameworkOrFrameworks(targetFramework ?? null, false)
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             new BuildCommand(testAsset)
                 .Execute($"{(!string.IsNullOrEmpty(targetFramework) ? "/p:TargetFramework=" + targetFramework : string.Empty)}")

@@ -29,7 +29,7 @@ namespace Microsoft.NET.TestFramework
 
         internal TestAsset(string testDestination, string? sdkVersion, MSTestContext testContext) : base(testDestination, sdkVersion)
         {
-            TestContext = testContext;
+            MSTestContext = testContext;
             Name = new DirectoryInfo(testDestination).Name;
         }
 
@@ -40,7 +40,7 @@ namespace Microsoft.NET.TestFramework
                 throw new ArgumentException("testAssetRoot");
             }
 
-            TestContext = testContext;
+            MSTestContext = testContext;
             Name = new DirectoryInfo(testAssetRoot).Name;
             _testAssetRoot = testAssetRoot;
         }

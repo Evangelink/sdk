@@ -87,7 +87,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -111,7 +111,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -141,7 +141,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -166,7 +166,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -193,7 +193,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -221,7 +221,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {
@@ -267,7 +267,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var toolPathCalculator = new ToolPathCalculator(TestContext.Current.TestGlobalPackagesFolder);
 
@@ -304,7 +304,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             var commandResolverArguments = new CommandResolverArguments()
             {

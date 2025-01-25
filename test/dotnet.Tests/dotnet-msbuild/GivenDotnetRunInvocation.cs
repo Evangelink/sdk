@@ -12,7 +12,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 
         public GivenDotnetRunInvocation(MSTestContext testContext)
         {
-            Log = log;
+            MSTestContext = testContext;
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
 
             string[] constantRestoreArgs = ["-nologo", "-verbosity:quiet"];
             string[] fullExpectedArgs = constantRestoreArgs.Concat(expectedArgs).ToArray();
-            var tam = new TestAssetsManager(Log);
+            var tam = new TestAssetsManager(MSTestContext);
             var oldWorkingDirectory = Directory.GetCurrentDirectory();
             var newWorkingDir = tam.CopyTestAsset("HelloWorld", identifier: $"{nameof(MsbuildInvocationIsCorrect)}_{args.GetHashCode()}_{expectedArgs.GetHashCode()}").WithSource().Path;
             try

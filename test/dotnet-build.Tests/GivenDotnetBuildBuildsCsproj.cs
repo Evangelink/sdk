@@ -154,7 +154,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testAppName = "MSBuildTestApp";
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             string expectedBuildSummary = @"Build succeeded.
     0 Warning(s)
@@ -172,7 +172,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var cmd = new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
@@ -192,7 +192,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
                 .WithSource()
                 .WithTargetFrameworkOrFrameworks(ToolsetInfo.CurrentTargetFramework, false)
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
@@ -232,7 +232,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: commandName)
                 .WithSource()
                 .WithTargetFrameworkOrFrameworks(ToolsetInfo.CurrentTargetFramework, false)
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             new DotnetCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)
@@ -249,7 +249,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
                 .WithSource()
                 .WithTargetFramework("netcoreapp3.1")
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             new DotnetBuildCommand(MSTestContext)
                .WithWorkingDirectory(testInstance.Path)

@@ -576,7 +576,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld", identifier: commandName)
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
             var sdkFeatureBand = new SdkFeatureBand(TestContext.Current.ToolsetUnderTest.SdkVersion);
             // Write fake updates file
             Directory.CreateDirectory(Path.Combine(testInstance.Path, ".dotnet"));
@@ -614,7 +614,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("HelloWorld")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
             var sdkFeatureBand = new SdkFeatureBand(TestContext.Current.ToolsetUnderTest.SdkVersion);
             // Write fake updates file
             Directory.CreateDirectory(Path.Combine(testInstance.Path, ".dotnet"));

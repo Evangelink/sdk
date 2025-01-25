@@ -100,7 +100,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var rootDir = testInstance.Path;
 
@@ -309,7 +309,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var rootDir = testInstance.Path;
 
@@ -333,7 +333,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var rootPath = testInstance.Path;
 
@@ -424,7 +424,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         {
             var testInstance = _testAssetsManager.CopyTestAsset("TestAppSimple")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var rootDir = testInstance.Path;
 

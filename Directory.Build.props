@@ -93,6 +93,18 @@
     <SharedHostVersion>$(MicrosoftNETCoreAppRuntimePackageVersion)</SharedHostVersion>
   </PropertyGroup>
 
+  <!-- Some test projects are defined in src folder so the settings below cannot be moved to test folder -->
+  <PropertyGroup>
+    <!-- Arcade config -->
+    <TestRunnerName>MSTest</TestRunnerName>
+    <UseMSTestMetaPackage>true</UseMSTestMetaPackage>
+    <UseMSTestRunner>true</UseMSTestRunner>
+    <!-- MSTest config -->
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
+  </PropertyGroup>
+
   <Import Project="build/GenerateResxSource.targets" />
 
 </Project>

@@ -15,7 +15,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             var testAppName = "docker-compose";
             var testInstance = _testAssetsManager.CopyTestAsset(testAppName)
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             string expectedBuildSummary = @"Build succeeded.
     0 Warning(s)

@@ -18,7 +18,7 @@ namespace Microsoft.NET.Rebuild.Tests
             var testAsset = _testAssetsManager
                 .CopyTestAsset("HelloWorld", "RebuildHelloWorld")
                 .WithSource()
-                .Restore(Log);
+                .Restore(MSTestContext);
 
             var lockFilePath = Path.Combine(testAsset.TestRoot, "obj", "project.assets.json");
             LockFile lockFile = LockFileUtilities.GetLockFile(lockFilePath, NullLogger.Instance);

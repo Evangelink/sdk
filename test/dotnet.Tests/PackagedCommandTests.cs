@@ -213,7 +213,7 @@ namespace Microsoft.DotNet.Tests
 
             NuGetConfigWriter.Write(testInstance.Path, TestContext.Current.TestPackages);
 
-            testInstance.Restore(Log);
+            testInstance.Restore(MSTestContext);
 
             new DotnetCommand(MSTestContext, "dependency-context-test")
                 .WithWorkingDirectory(testInstance.Path)

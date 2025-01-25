@@ -5,7 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    public class ProgramTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
+    public class ProgramTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
     {
         [TestMethod]
         public async Task ConsoleCancelKey()

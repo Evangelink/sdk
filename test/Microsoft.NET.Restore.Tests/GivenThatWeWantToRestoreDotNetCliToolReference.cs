@@ -9,6 +9,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRestoreDotNetCliToolReference : SdkTest
     {
         private const string ProjectToolVersion = "1.0.0";
@@ -55,7 +56,7 @@ namespace Microsoft.NET.Restore.Tests
             NuGetConfigWriter.Write(toolReferenceProjectInstance.TestRoot, nupkgPath);
 
             RestoreCommand restoreCommand =
-                toolReferenceProjectInstance.GetRestoreCommand(testContext: Log, relativePath: toolReferenceProject.Name);
+                toolReferenceProjectInstance.GetRestoreCommand(MSTestContext, relativePath: toolReferenceProject.Name);
 
             var restoreResult = restoreCommand
                 .Execute("/v:n");

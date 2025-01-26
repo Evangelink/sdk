@@ -3,6 +3,7 @@
 
 namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 {
+    [TestClass]
     public class WebSocketScriptInjectionTest
     {
         [TestMethod]

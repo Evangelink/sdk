@@ -6,6 +6,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public partial class DotnetNewInstantiateTests
     {
         [TestMethod]

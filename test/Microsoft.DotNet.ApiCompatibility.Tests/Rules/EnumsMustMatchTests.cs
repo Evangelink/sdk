@@ -7,6 +7,7 @@ using Microsoft.DotNet.ApiSymbolExtensions.Tests;
 
 namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 {
+    [TestClass]
     public class EnumsMustMatchTests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new EnumsMustMatch(settings, context));
@@ -83,7 +84,7 @@ namespace CompatTests
 
             IEnumerable<CompatDifference> differences = differ.GetDifferences(new[] { left }, new[] { right });
 
-            Assert.NotEmpty(differences);
+            Assert.IsNotEmpty(differences);
         }
 
         [TestMethod]

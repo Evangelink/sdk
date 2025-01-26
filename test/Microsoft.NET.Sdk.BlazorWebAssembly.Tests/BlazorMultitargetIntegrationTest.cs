@@ -5,11 +5,12 @@ using Microsoft.NET.Sdk.Razor.Tests;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class BlazorMultitargetIntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(BlazorMultitargetIntegrationTest))
     {
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void MultiTargetApp_LoadsTheCorrectSdkBasedOnTfm()
         {
             // Arrange
@@ -29,7 +30,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             browserDependencies.File("captured-references.txt").Should().NotContain("Microsoft.AspNetCore.Components.Server.dll");
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void ReferencedMultiTargetApp_LoadsTheCorrectSdkBasedOnTfm()
         {
             // Arrange

@@ -5,6 +5,8 @@ using FluentAssertions.Execution;
 
 namespace Microsoft.DotNet.Cli.Run.Tests;
 
+[TestClass]
+
 /// <summary>
 /// These tests cover the behavior of <c>dotnet run</c> when invoking the new <c>ComputeRunArguments</c> target.
 /// </summary>

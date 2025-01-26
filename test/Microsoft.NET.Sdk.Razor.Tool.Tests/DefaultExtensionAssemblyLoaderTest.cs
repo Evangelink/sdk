@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class DefaultExtensionAssemblyLoaderTest : SdkTest
     {
         public DefaultExtensionAssemblyLoaderTest(MSTestContext testContext) : base(testContext) { }
@@ -42,7 +43,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var assembly2 = loader.LoadFromPath(alphaFilePath2);
 
             // Assert
-            Assert.Same(assembly1, assembly2);
+            Assert.AreSame(assembly1, assembly2);
         }
 
         [TestMethod]
@@ -60,7 +61,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var assembly2 = loader.LoadFromPath(alphaFilePath2);
 
             // Assert
-            Assert.Same(assembly1, assembly2);
+            Assert.AreSame(assembly1, assembly2);
 
         }
 
@@ -78,7 +79,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var assembly2 = loader.Load(assembly1.FullName);
 
             // Assert
-            Assert.Same(assembly1, assembly2);
+            Assert.AreSame(assembly1, assembly2);
         }
 
         [TestMethod]

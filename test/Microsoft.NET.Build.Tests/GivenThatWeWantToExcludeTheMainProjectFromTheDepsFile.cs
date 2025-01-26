@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToExcludeTheMainProjectFromTheDepsFile : SdkTest
     {
         public GivenThatWeWantToExcludeTheMainProjectFromTheDepsFile(MSTestContext testContext) : base(testContext)

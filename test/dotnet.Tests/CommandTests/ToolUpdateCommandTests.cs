@@ -8,6 +8,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolUpdateCommandTests
     {
         private readonly BufferedReporter _reporter;

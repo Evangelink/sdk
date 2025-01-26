@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
+[TestClass]
 public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testContext)
     : AspNetSdkBaselineTest(testContext, GenerateBaselines)
 {
@@ -397,7 +398,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         AssertManifest(publishManifest, LoadPublishManifest());
     }
 
-    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Build_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -424,7 +425,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorwasm", readFromDevManifest: true);
     }
 
-    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void BuildHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -450,7 +451,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorhosted", readFromDevManifest: true);
     }
 
-    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Publish_EndpointManifestContainsEndpoints()
     {
         // Arrange
@@ -475,7 +476,7 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(publishOutputDirectory, "blazorwasm");
     }
 
-    [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void PublishHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange

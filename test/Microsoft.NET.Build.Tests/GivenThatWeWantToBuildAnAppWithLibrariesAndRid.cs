@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAnAppWithLibrariesAndRid : SdkTest
     {
         public GivenThatWeWantToBuildAnAppWithLibrariesAndRid(MSTestContext testContext) : base(testContext)

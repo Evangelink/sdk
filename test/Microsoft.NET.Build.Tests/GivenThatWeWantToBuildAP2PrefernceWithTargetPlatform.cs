@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAP2PReferenceWithTargetPlatform : SdkTest
     {
         public GivenThatWeWantToBuildAP2PReferenceWithTargetPlatform(MSTestContext testContext) : base(testContext)

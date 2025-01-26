@@ -13,6 +13,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatAPublishedDepsJsonShouldContainVersionInformation : SdkTest
     {
         public GivenThatAPublishedDepsJsonShouldContainVersionInformation(MSTestContext testContext) : base(testContext)

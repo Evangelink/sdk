@@ -15,6 +15,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolRunCommandTests: SdkTest
     {
         private const string ManifestFilename = "dotnet-tools.json";

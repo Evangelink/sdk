@@ -14,6 +14,7 @@ using LocalizableStrings = Microsoft.DotNet.ToolManifest.LocalizableStrings;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolManifestFinderTests
     {
         private readonly IFileSystem _fileSystem;

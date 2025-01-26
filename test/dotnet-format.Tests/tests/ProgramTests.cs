@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.Tools.Commands;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests
 {
+    [TestClass]
     public class ProgramTests
     {
         [TestMethod]

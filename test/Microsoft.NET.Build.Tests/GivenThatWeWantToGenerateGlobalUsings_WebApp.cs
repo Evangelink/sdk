@@ -5,12 +5,13 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToGenerateGlobalUsings_WebApp : SdkTest
     {
 
         public GivenThatWeWantToGenerateGlobalUsings_WebApp(MSTestContext testContext) : base(testContext) { }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_generates_web_implicit_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

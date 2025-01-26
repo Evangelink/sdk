@@ -6,6 +6,7 @@ using Microsoft.DotNet.Tools.Run;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetRunInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         public MSTestContext MSTestContext { get; }

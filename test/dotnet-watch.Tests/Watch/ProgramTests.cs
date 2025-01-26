@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class ProgramTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
     {
         [TestMethod]

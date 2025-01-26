@@ -5,6 +5,7 @@ using System.Diagnostics.Tracing;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenThatTheUserEnablesThePerfLog : SdkTest
     {
         public GivenThatTheUserEnablesThePerfLog(MSTestContext testContext) : base(testContext)
@@ -38,7 +39,7 @@ namespace Microsoft.DotNet.Tests
 
             DirectoryInfo logDir = new(dir.Path);
             FileInfo[] logFiles = logDir.GetFiles();
-            Assert.NotEmpty(logFiles);
+            Assert.IsNotEmpty(logFiles);
             Assert.All(logFiles, f => Assert.StartsWith("perf-", f.Name));
             Assert.All(logFiles, f => Assert.AreNotEqual(0, f.Length));
         }

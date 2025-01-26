@@ -8,9 +8,10 @@ using Microsoft.NET.Sdk.WebAssembly;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class WasmBuildIncrementalismTest(MSTestContext testContext) : AspNetSdkTest(testContext)
     {
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_IsIncremental()
         {
             // Arrange
@@ -48,7 +49,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_GzipCompression_IsIncremental()
         {
             // Arrange
@@ -95,7 +96,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_SatelliteAssembliesFileIsPreserved()
         {
             // Arrange
@@ -158,7 +159,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_SatelliteAssembliesFileIsCreated_IfNewFileIsAdded()
         {
             // Arrange
@@ -208,7 +209,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             kvp.Value.Should().ContainKey("blazorwasm.resources.wasm");
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_SatelliteAssembliesFileIsDeleted_IfAllSatelliteFilesAreRemoved()
         {
             // Arrange

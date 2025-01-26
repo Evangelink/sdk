@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class BuildWithComponents31IntegrationTest : AspNetSdkTest
     {
         public BuildWithComponents31IntegrationTest(MSTestContext testContext) : base(testContext) { }

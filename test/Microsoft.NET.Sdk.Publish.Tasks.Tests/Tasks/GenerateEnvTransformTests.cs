@@ -7,6 +7,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Xdt;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 {
+    [TestClass]
     public class GenerateEnvTransformTests
     {
         private XDocument _environmentTransformWithLocationTemplate => XDocument.Parse(
@@ -56,7 +57,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
             XDocument transformDoc = env.GenerateEnvTransformDocument(null, null);
 
             // Assert
-            Assert.Null(transformDoc);
+            Assert.IsNull(transformDoc);
         }
 
         [TestMethod]

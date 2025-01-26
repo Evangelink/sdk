@@ -17,6 +17,7 @@ using Microsoft.Deployment.DotNet.Releases;
 
 namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadInstall : SdkTest
     {
         private readonly BufferedReporter _reporter;
@@ -29,7 +30,7 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
         // These two tests hit an IOException when run in helix on non-windows
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenWorkloadInstallItErrorsOnFakeWorkloadName()
         {
             var command = new DotnetCommand(MSTestContext);

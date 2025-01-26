@@ -7,6 +7,7 @@ using System.Globalization;
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class DotNetWatcherTests : DotNetWatchTestBase
     {
         private const string AppName = "WatchKitchenSink";

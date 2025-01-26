@@ -5,10 +5,10 @@
 
 using FluentAssertions;
 using NuGet.Frameworks;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenWriteAppConfigWithSupportedRuntimeTask
     {
         [TestMethod]

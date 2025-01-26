@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantDiagnosticsWhenAssetsFileCannotBeRead : SdkTest
     {
         public GivenThatWeWantDiagnosticsWhenAssetsFileCannotBeRead(MSTestContext testContext) : base(testContext)

@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenACompilationOptionsConverter
     {
         private static MethodInfo s_convertFromMethod = typeof(GenerateDepsFile)
@@ -20,7 +21,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             .GetMethod("ConvertFrom");
 
         [TestMethod]
-        [MemberData(nameof(CompilerOptionsData))]
+        [DynamicData(nameof(CompilerOptionsData))]
         public void ItConvertsFromITaskItemsCorrectly(ITaskItem taskItem, CompilationOptions expectedOptions)
         {
             CompilationOptions resultOptions = (CompilationOptions)s_convertFromMethod.Invoke(null, new object[] { taskItem });

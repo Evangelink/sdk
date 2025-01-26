@@ -7,6 +7,7 @@ using Microsoft.DotNet.ApiSymbolExtensions.Tests;
 
 namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 {
+    [TestClass]
     public class CannotAddMemberToInterfaceTests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new CannotAddMemberToInterface(settings, context));

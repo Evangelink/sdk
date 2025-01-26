@@ -8,6 +8,7 @@ using Microsoft.NET.Build.Containers.Tasks;
 
 namespace Microsoft.NET.Build.Containers.IntegrationTests.FullFramework;
 
+[TestClass]
 public class CreateNewImageToolTaskTests
 {
     private MSTestContext _testContext;

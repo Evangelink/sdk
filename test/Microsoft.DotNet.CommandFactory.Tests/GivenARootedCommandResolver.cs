@@ -7,6 +7,7 @@ using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenARootedCommandResolver
     {
         [TestMethod]

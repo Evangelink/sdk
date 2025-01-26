@@ -9,6 +9,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolSelfContainedProject : SdkTest
     {
 

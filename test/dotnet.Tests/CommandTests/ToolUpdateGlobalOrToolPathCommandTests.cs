@@ -19,6 +19,7 @@ using Microsoft.DotNet.Tools.Tool.Uninstall;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolUpdateGlobalOrToolPathCommandTests
     {
         private readonly BufferedReporter _reporter;

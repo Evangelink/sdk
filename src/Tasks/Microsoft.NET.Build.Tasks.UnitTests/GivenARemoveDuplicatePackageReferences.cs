@@ -5,10 +5,10 @@ using FluentAssertions;
 using Microsoft.Build.Framework;
 using NuGet.Packaging.Core;
 using NuGet.Versioning;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenARemoveDuplicatePackageReferenceTask
     {
         private static ITaskItem[] GetPackageRefItems(List<PackageIdentity> packages)

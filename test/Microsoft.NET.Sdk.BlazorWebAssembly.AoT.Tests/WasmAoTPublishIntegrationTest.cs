@@ -9,6 +9,7 @@ using static Microsoft.NET.Sdk.BlazorWebAssembly.Tests.ServiceWorkerAssert;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.AoT.Tests
 {
+    [TestClass]
     public class WasmAoTPublishIntegrationTest : WasmPublishIntegrationTestBase
     {
         public WasmAoTPublishIntegrationTest(MSTestContext testContext) : base(testContext) { }

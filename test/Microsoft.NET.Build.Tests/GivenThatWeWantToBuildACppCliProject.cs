@@ -7,6 +7,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildACppCliProject : SdkTest
     {
         public GivenThatWeWantToBuildACppCliProject(MSTestContext testContext) : base(testContext)
@@ -74,8 +75,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
 
             var cppnProjProperties = GetPropertyValues(testAsset.TestRoot, "NETCoreCppCliTest", targetFramework: targetFramework);
-            Assert.IsTrue(cppnProjProperties["_EnablePackageReferencesInVCProjects"] == "true");
-            Assert.IsTrue(cppnProjProperties["IncludeWindowsSDKRefFrameworkReferences"] == "");
+            Assert.AreEqual("true", cppnProjProperties["_EnablePackageReferencesInVCProjects"]);
+            Assert.AreEqual("", cppnProjProperties["IncludeWindowsSDKRefFrameworkReferences"]);
 
             var packagesFolder = Path.Combine(testAsset.TestRoot, "NETCoreCppCliTest", "packages");
             if (Directory.Exists(packagesFolder))

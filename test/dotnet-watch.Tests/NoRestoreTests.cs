@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class NoRestoreTests
     {
         private static DotNetWatchContext CreateContext(string[] args = null, EnvironmentOptions environmentOptions = null)

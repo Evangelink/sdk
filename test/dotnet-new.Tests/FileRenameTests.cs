@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class FileRenameTests : BaseIntegrationTest
     {
         public FileRenameTests(MSTestContext testContext) : base(testContext)

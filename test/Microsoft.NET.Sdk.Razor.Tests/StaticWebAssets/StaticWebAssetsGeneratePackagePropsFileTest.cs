@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.AspNetCore.Razor.Tasks
 {
+    [TestClass]
     public class StaticWebAssetsGeneratePackagePropsFileTest
     {
         [TestMethod]

@@ -7,6 +7,7 @@ using Microsoft.DotNet.Tools.Test.Utilities;
 
 namespace Microsoft.DotNet.Cli.Test.Tests
 {
+    [TestClass]
     public class GivenDotnetTestBuildsAndRunsTestfromCsprojWithCorrectTestRunParameters : SdkTest
     {
         public GivenDotnetTestBuildsAndRunsTestfromCsprojWithCorrectTestRunParameters(MSTestContext testContext) : base(testContext)

@@ -6,6 +6,7 @@ using Microsoft.DotNet.Cli.NuGetPackageDownloader;
 
 namespace Microsoft.DotNet.Tests.Commands
 {
+    [TestClass]
     public class CompleteCommandTests : SdkTest
     {
         public CompleteCommandTests(MSTestContext testContext) : base(testContext)
@@ -82,7 +83,7 @@ namespace Microsoft.DotNet.Tests.Commands
         }
 
         // this test in helix errors accessing the template hive  but this test doesn't work with the ephemeral hive
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenNewCommandItDisplaysCompletions()
         {
             var expected = new[] {

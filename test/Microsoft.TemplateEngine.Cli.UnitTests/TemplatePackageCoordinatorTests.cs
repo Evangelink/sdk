@@ -15,6 +15,7 @@ using static Microsoft.TemplateEngine.Cli.NuGet.NugetApiManager;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class TemplatePackageCoordinatorTests
     {
         [TestMethod]

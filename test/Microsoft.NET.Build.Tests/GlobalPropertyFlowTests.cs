@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GlobalPropertyFlowTests : SdkTest
     {
         TestProject _testProject;
@@ -63,7 +64,7 @@ namespace Microsoft.NET.Build.Tests
             return arguments;
         }
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]
@@ -78,7 +79,7 @@ namespace Microsoft.NET.Build.Tests
             ValidateProperties(testAsset, _referencedProject, expectSelfContained: false, expectRuntimeIdentifier: false);
         }
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]
@@ -96,7 +97,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]
@@ -117,7 +118,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]
@@ -137,7 +138,7 @@ namespace Microsoft.NET.Build.Tests
                 expectedRuntimeIdentifier: passRuntimeIdentifier ? EnvironmentInfo.GetCompatibleRid() : _referencedProject.RuntimeIdentifier);
         }
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]
@@ -170,7 +171,7 @@ namespace Microsoft.NET.Build.Tests
                 thisTargetFramework: ToolsetInfo.CurrentTargetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.4.0.41702", IgnoreMessage = "https://github.com/dotnet/msbuild/issues/8154")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702", IgnoreMessage = "https://github.com/dotnet/msbuild/issues/8154")]
         [DataRow(true, true)]
         [DataRow(true, false)]
         [DataRow(false, true)]

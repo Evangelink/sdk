@@ -16,6 +16,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 {
+    [TestClass]
     public class GivenWorkloadManifestUpdater : SdkTest
     {
         private readonly BufferedReporter _reporter;

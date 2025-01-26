@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToTargetNotRecommendedFrameworks : SdkTest
     {
         public GivenThatWeWantToTargetNotRecommendedFrameworks(MSTestContext testContext) : base(testContext)

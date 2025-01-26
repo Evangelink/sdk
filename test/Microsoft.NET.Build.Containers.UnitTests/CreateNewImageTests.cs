@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class CreateNewImageTests
 {
     [TestMethod]

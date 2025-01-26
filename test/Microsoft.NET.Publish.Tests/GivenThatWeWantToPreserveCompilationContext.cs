@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPreserveCompilationContext : SdkTest
     {
         public GivenThatWeWantToPreserveCompilationContext(MSTestContext testContext) : base(testContext)
@@ -178,7 +179,7 @@ namespace Microsoft.NET.Publish.Tests
                         targetFrameworkElement.SetValue(targetFramework);
                     }
                 })
-                .Restore(Log, "TestApp");
+                .Restore(MSTestContext, "TestApp");
 
             var manifestFile = Path.Combine(testAsset.TestRoot, "manifest.xml");
 

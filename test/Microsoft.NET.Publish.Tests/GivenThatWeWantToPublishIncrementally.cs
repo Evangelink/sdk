@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishIncrementally : SdkTest
     {
         public GivenThatWeWantToPublishIncrementally(MSTestContext testContext) : base(testContext)
@@ -167,7 +168,7 @@ namespace Microsoft.NET.Publish.Tests
             CheckPublishOutput(publishDir, expectedSingleExeFiles.Append("UserData.txt"), expectedNonSingleExeFiles);
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0")]
+        [TestMethod][MSBuildVersionCondition("16.8.0")]
         public void It_cleans_for_mvc_projects()
         {
             // Create new mvc app from template

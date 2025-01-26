@@ -9,6 +9,7 @@ using CommandResult = Microsoft.DotNet.Cli.Utils.CommandResult;
 
 namespace Microsoft.DotNet.Cli.Test.Tests
 {
+    [TestClass]
     public class GivenDotnetTestBuildsAndRunsArtifactPostProcessing : SdkTest
     {
         private static object s_dataCollectorInitLock = new();

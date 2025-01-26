@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToFloatWarningLevels : SdkTest
     {
         private const string targetFrameworkNet6 = "net6.0";
@@ -17,7 +18,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow(targetFrameworkNet6, "6")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
         [DataRow(targetFrameworkNetFramework472, "4")]
-        [RequiresMSBuildVersionTheory("16.8")]
+        [TestMethod][MSBuildVersionCondition("16.8")]
         public void It_defaults_WarningLevel_To_The_Current_TFM_When_Net(string tfm, string warningLevel)
         {
             int parsedWarningLevel = (int)double.Parse(warningLevel);
@@ -62,7 +63,7 @@ namespace Microsoft.NET.Build.Tests
 
         [DataRow(1, "1")]
         [DataRow(null, ToolsetInfo.CurrentTargetFrameworkVersion)]
-        [RequiresMSBuildVersionTheory("16.8")]
+        [TestMethod][MSBuildVersionCondition("16.8")]
         public void It_always_accepts_user_defined_WarningLevel(int? warningLevel, string expectedWarningLevel)
         {
             var testProject = new TestProject
@@ -107,7 +108,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow(targetFrameworkNet6, "6.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, ToolsetInfo.CurrentTargetFrameworkVersion)]
         [DataRow(targetFrameworkNetFramework472, null)]
-        [RequiresMSBuildVersionTheory("16.8")]
+        [TestMethod][MSBuildVersionCondition("16.8")]
         public void It_defaults_AnalysisLevel_To_The_Current_TFM_When_NotLatestTFM(string tfm, string analysisLevel)
         {
             var testProject = new TestProject
@@ -137,7 +138,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analysisLevelConsoleApp" + tfm, targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 tfm, "EffectiveAnalysisLevel")
             {
@@ -162,7 +163,7 @@ namespace Microsoft.NET.Build.Tests
         // Fixing this test requires bumping _LatestAnalysisLevel and _PreviewAnalysisLevel
         // Bumping will cause It_maps_analysis_properties_to_globalconfig to fail which requires changes in dotnet/roslyn-analyzers repo.
         // See instructions in the comment in It_maps_analysis_properties_to_globalconfig
-        [RequiresMSBuildVersionTheory("16.8", IgnoreMessage = "https://github.com/dotnet/sdk/issues/45299")]
+        [TestMethod][MSBuildVersionCondition("16.8", IgnoreMessage = "https://github.com/dotnet/sdk/issues/45299")]
         public void It_defaults_preview_AnalysisLevel_to_the_next_tfm(string currentTFM, string nextTFMVersionNumber)
         {
             var testProject = new TestProject
@@ -209,7 +210,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow("preview")]
         [DataRow("latest")]
         [DataRow("none")]
-        [RequiresMSBuildVersionTheory("16.8")]
+        [TestMethod][MSBuildVersionCondition("16.8")]
         public void It_resolves_all_nonnumeric_AnalysisLevel_strings(string analysisLevel)
         {
             var testProject = new TestProject
@@ -240,7 +241,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analysisLevelPreviewConsoleApp" + ToolsetInfo.CurrentTargetFramework + analysisLevel, targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 ToolsetInfo.CurrentTargetFramework, "EffectiveAnalysisLevel")
             {
@@ -277,7 +278,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow("9.0", "", "true", "")]
         [DataRow("9", "default", "false", "Security")]
         [DataRow("9.0", "", "true", "Usage")]
-        [RequiresMSBuildVersionTheory("16.8")]
+        [TestMethod][MSBuildVersionCondition("16.8")]
         public void It_maps_analysis_properties_to_globalconfig(string analysisLevel, string analysisMode, string codeAnalysisTreatWarningsAsErrors, string category)
         {
             // Documentation: https://learn.microsoft.com/dotnet/core/project-sdk/msbuild-props#code-analysis-properties
@@ -353,7 +354,7 @@ namespace Microsoft.NET.Build.Tests
             var expectedMappedAnalyzerConfig = $"analysislevel{category.ToLowerInvariant()}_{effectiveAnalysisLevel}_{effectiveAnalysisMode}{codeAnalysisTreatWarningsAsErrorsSuffix}.globalconfig";
 
             buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 ToolsetInfo.CurrentTargetFramework,
                 "EditorConfigFiles",
@@ -380,7 +381,7 @@ namespace Microsoft.NET.Build.Tests
         [DataRow("recommended", "true", new string[] { "CA1310", "CA1068", "CA2200" })]
         [DataRow("all", "false", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
         [DataRow("all", "true", new string[] { "CA1031", "CA1310", "CA1068", "CA2200" })]
-        [RequiresMSBuildVersionTheory("17.12.0")]
+        [TestMethod][MSBuildVersionCondition("17.12.0")]
         public void It_bulk_configures_rules_with_different_analysis_modes(string analysisMode, string codeAnalysisTreatWarningsAsErrors, string[] expectedViolations)
         {
             var testProject = new TestProject

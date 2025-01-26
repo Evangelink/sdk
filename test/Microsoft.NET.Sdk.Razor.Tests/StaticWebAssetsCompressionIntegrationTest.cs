@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class StaticWebAssetsCompressionIntegrationTest : AspNetSdkBaselineTest
     {
         public StaticWebAssetsCompressionIntegrationTest(MSTestContext testContext) : base(testContext, GenerateBaselines) { }

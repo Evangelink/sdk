@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli;
 
 namespace Microsoft.NET.Pack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAHelloWorldProject : SdkTest
     {
         public GivenThatWeWantToPackAHelloWorldProject(MSTestContext testContext) : base(testContext)

@@ -5,13 +5,14 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class AspNetCoreOnFullFramework : SdkTest
     {
         public AspNetCoreOnFullFramework(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("1.1.2")]
         [DataRow("2.0.4")]
         public void It_discovers_assembly_parts(string aspnetVersion)

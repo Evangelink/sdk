@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class HostDataLoaderTests : IClassFixture<EnvironmentSettingsHelper>
     {
         private readonly EnvironmentSettingsHelper _environmentSettingsHelper;

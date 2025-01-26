@@ -5,6 +5,7 @@ using Microsoft.DotNet.NugetSearch;
 
 namespace dotnet.Tests.ToolSearchTests
 {
+    [TestClass]
     public class NugetSearchApiRequestTests
     {
         private readonly Uri _domainAndPathOverride = new("https://azuresearch-usnc.nuget.org/query");

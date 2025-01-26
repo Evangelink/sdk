@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantBuildsToBeIncremental : SdkTest
     {
         public GivenThatWeWantBuildsToBeIncremental(MSTestContext testContext) : base(testContext)

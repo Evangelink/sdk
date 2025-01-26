@@ -7,9 +7,10 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenWindowsApp(MSTestContext testContext) : SdkTest(testContext)
     {
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("10.0.17763.0")]
         [DataRow("10.0.18362.0")]
         [DataRow("10.0.19041.0")]

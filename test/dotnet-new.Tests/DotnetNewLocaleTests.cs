@@ -8,6 +8,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class DotnetNewLocaleTests : BaseIntegrationTest
     {
         public DotnetNewLocaleTests(MSTestContext testContext) : base(testContext)

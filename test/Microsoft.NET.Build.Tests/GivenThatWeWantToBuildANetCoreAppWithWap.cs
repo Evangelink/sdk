@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildANetCoreAppWithWap : SdkTest
     {
         public GivenThatWeWantToBuildANetCoreAppWithWap(MSTestContext testContext) : base(testContext)

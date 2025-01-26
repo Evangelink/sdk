@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Workload.Restore.Tests;
 
+[TestClass]
 public class GivenDotnetWorkloadRestore : SdkTest
 {
     public GivenDotnetWorkloadRestore(MSTestContext testContext) : base(testContext)

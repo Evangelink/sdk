@@ -7,7 +7,7 @@ using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests
 {
-
+    [TestClass]
     public class GivenADotnetToolsCommandResolver : SdkTest
     {
         private readonly DotnetToolsCommandResolver _dotnetToolsCommandResolver;

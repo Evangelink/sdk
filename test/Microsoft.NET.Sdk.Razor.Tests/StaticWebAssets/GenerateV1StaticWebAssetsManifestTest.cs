@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Test
 {
+    [TestClass]
     public class GenerateV1StaticWebAssetsManifestTest
     {
         [TestMethod]

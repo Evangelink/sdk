@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAUnitTestProject : SdkTest
     {
         public GivenThatWeWantToBuildAUnitTestProject(MSTestContext testContext) : base(testContext)

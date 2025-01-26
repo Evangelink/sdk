@@ -10,6 +10,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace ManifestReaderTests
 {
+    [TestClass]
     public class SdkDirectoryWorkloadManifestProviderTests : SdkTest
     {
         private string? _testDirectory;

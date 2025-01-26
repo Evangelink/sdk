@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class SourcesTests : BaseIntegrationTest
     {
         public SourcesTests(MSTestContext testContext) : base(testContext)

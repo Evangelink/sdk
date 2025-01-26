@@ -9,6 +9,7 @@ using Microsoft.DotNet.Tools;
 
 namespace Microsoft.DotNet.Cli.Publish.Tests
 {
+    [TestClass]
     public class GivenDotnetPublishPublishesProjects : SdkTest
     {
 
@@ -190,7 +191,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
             if (resultShouldBeSelfContained)
             {
-                Assert.IsTrue(bool.Parse(properties["SelfContained"]) == true);
+                Assert.AreEqual(true, bool.Parse(properties["SelfContained"]));
             }
         }
 

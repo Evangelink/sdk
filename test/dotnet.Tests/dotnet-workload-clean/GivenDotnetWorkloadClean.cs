@@ -15,6 +15,7 @@ using System.Text.Json;
 
 namespace Microsoft.DotNet.Cli.Workload.Clean.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadClean : SdkTest
     {
         private readonly BufferedReporter _reporter;

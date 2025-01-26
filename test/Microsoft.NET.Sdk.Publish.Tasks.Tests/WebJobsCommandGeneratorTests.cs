@@ -6,6 +6,7 @@ using Microsoft.NET.Sdk.Publish.Tasks;
 
 namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
 {
+    [TestClass]
     public class WebJobsCommandGeneratorTests
     {
         [TestMethod]

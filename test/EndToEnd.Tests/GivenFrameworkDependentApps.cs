@@ -9,6 +9,7 @@ using NuGet.Versioning;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenFrameworkDependentApps(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

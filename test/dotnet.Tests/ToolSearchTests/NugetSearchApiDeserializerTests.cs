@@ -6,6 +6,7 @@ using Microsoft.DotNet.ToolPackage;
 
 namespace dotnet.Tests.ToolSearchTests
 {
+    [TestClass]
     public class NugetSearchApiDeserializerTests
     {
         [TestMethod]

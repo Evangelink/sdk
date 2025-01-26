@@ -13,6 +13,7 @@ using LocalizableStrings = Microsoft.DotNet.CommandFactory.LocalizableStrings;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenAProjectToolsCommandResolver : SdkTest
     {
         private static readonly NuGetFramework s_toolPackageFramework =

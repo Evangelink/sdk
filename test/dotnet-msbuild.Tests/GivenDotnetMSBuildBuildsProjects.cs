@@ -8,6 +8,7 @@
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
+    [TestClass]
     public class GivenDotnetMSBuildBuildsProjects : SdkTest
     {
 

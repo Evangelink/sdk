@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool
 {
+    [TestClass]
     public class ServerCommandTest
     {
         [TestMethod]

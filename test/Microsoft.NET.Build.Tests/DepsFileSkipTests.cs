@@ -8,6 +8,7 @@ using NuGet.Frameworks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class DepsFileSkipTests : SdkTest
     {
         public DepsFileSkipTests(MSTestContext testContext) : base(testContext)
@@ -27,7 +28,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Newtonsoft.Json", ToolsetInfo.GetNewtonsoftJsonPackageVersion()));
 
-            string filenameToIgnoreMessage = "Newtonsoft.Json.dll";
+            string filenameToSkip = "Newtonsoft.Json.dll";
 
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
@@ -45,7 +46,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.RuntimeIdentifier = EnvironmentInfo.GetCompatibleRid(testProject.TargetFrameworks);
 
-            string filenameToIgnoreMessage = "Microsoft.CSharp.dll";
+            string filenameToSkip = "Microsoft.CSharp.dll";
 
             TestSkippingFile(testProject, filenameToSkip, "runtime");
         }
@@ -64,7 +65,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Libuv", "1.10.0"));
 
-            string filenameToIgnoreMessage = "libuv" + FileConstants.DynamicLibSuffix;
+            string filenameToSkip = "libuv" + FileConstants.DynamicLibSuffix;
 
             TestSkippingFile(testProject, filenameToSkip, "native");
         }
@@ -81,7 +82,7 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Libuv", "1.10.0"));
 
-            string filenameToIgnoreMessage = "libuv" + FileConstants.DynamicLibSuffix;
+            string filenameToSkip = "libuv" + FileConstants.DynamicLibSuffix;
 
             TestSkippingFile(testProject, filenameToSkip, "runtimeTargets");
         }
@@ -116,8 +117,8 @@ namespace Microsoft.NET.Build.Tests
 
             testProject.PackageReferences.Add(new TestPackageReference("Humanizer", "2.8.26"));
 
-            string filenameToIgnoreMessage = "de/Humanizer.resources.dll";
-            string filenameNotToIgnoreMessage = "es/Humanizer.resources.dll";
+            string filenameToSkip = "de/Humanizer.resources.dll";
+            string filenameNotToSkip = "es/Humanizer.resources.dll";
             string assetType = "resources";
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, testProject.Name)

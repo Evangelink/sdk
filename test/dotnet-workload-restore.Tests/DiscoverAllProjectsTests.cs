@@ -5,9 +5,10 @@ using Microsoft.DotNet.Workloads.Workload.Restore;
 
 namespace Microsoft.DotNet.Cli.Workload.Restore.Tests
 {
+    [TestClass]
     public class DiscoverAllProjectsTests : SdkTest
     {
-        public DiscoverAllProjectsTests(MSTestTestContext testContext) : base(testContext)
+        public DiscoverAllProjectsTests(MSTestContext testContext) : base(testContext)
         {
         }
 

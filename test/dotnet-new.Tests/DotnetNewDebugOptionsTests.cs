@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class DotnetNewDebugOptionsTests : BaseIntegrationTest
     {
         public DotnetNewDebugOptionsTests(MSTestContext testContext) : base(testContext)

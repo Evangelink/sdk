@@ -44,6 +44,12 @@
     <None Include="..\Common\Resources\Strings.resx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestContext" Alias="MSTestContext" />
+    <Using Include="Microsoft.NET.TestFramework.TestContext" Alias="TestContext" />
+  </ItemGroup>
+
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
 </Project>

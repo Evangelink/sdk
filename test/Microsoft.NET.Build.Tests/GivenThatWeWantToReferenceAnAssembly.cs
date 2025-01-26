@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToReferenceAnAssembly : SdkTest
     {
         public GivenThatWeWantToReferenceAnAssembly(MSTestContext testContext) : base(testContext)

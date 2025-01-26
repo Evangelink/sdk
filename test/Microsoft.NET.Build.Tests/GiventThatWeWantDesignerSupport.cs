@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantDesignerSupport : SdkTest
     {
         public GivenThatWeWantDesignerSupport(MSTestContext testContext) : base(testContext)
@@ -58,7 +59,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(project, identifier: targetFramework);
 
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.Path, project.Name),
                 targetFramework,
                 "DesignerRuntimeImplementationProjectOutputGroupOutput",

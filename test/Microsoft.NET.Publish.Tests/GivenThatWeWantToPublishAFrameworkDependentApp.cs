@@ -8,6 +8,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAFrameworkDependentApp : SdkTest
     {
         private const string TestProjectName = "HelloWorld";

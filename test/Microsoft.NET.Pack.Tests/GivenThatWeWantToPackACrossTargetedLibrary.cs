@@ -3,13 +3,14 @@
 
 namespace Microsoft.NET.Pack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackACrossTargetedLibrary : SdkTest
     {
         public GivenThatWeWantToPackACrossTargetedLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTestMethod("17.1.0.60101")]
+        [TestMethod][MSBuildVersionCondition("17.1.0.60101")]
         public void It_packs_nondesktop_library_successfully_on_all_platforms()
         {
             var testAsset = _testAssetsManager

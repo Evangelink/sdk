@@ -8,12 +8,10 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     public partial class DotnetNewSearchTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _sharedHome;
-        private readonly ITestOutputHelper _log;
 
-        public DotnetNewSearchTests(SharedHomeDirectory sharedHome, ITestOutputHelper log) : base(log)
+        public DotnetNewSearchTests(SharedHomeDirectory sharedHome, MSTestContext testContext) : base(testContext)
         {
             _sharedHome = sharedHome;
-            _log = log;
         }
 
         [TestMethod]
@@ -22,7 +20,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console")]
         public void BasicTest(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -50,7 +48,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search c")]
         public void CannotExecuteSearchWithShortCriteria(string testCase)
         {
-            new DotnetNewCommand(_log, testCase.Split(" "))
+            new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -65,7 +63,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search -lang Z#", "-lang='Z#'")]
         public void CanDisplayNoResults(string testCase, string criteria)
         {
-            new DotnetNewCommand(_log, testCase.Split(" "))
+            new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
@@ -78,7 +76,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search azure --columns author")]
         public void ExamplePrefersMicrosoftPackage(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -107,7 +105,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console --columns-all")]
         public void CanShowAllColumns(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -134,7 +132,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console --columns tags --tag Common")]
         public void CanFilterTags(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -165,7 +163,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search --columns tags --tag Common")]
         public void CanFilterTags_WithoutName(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -194,7 +192,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search func --columns author --author micro")]
         public void CanFilterAuthor(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -225,7 +223,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search --columns author --author micro")]
         public void CanFilterAuthor_WithoutName(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -257,7 +255,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console --columns language --language Q#")]
         public void CanFilterLanguage(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -290,7 +288,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search --columns language -lang Q#", "-lang")]
         public void CanFilterLanguage_WithoutName(string testCase, string optionName)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -320,7 +318,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console --columns type --type item")]
         public void CanFilterType(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory).WithDebug()
                 .Execute();
 
@@ -351,7 +349,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search --columns type --type item")]
         public void CanFilterType_WithoutName(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory).WithDebug()
                 .Execute();
 
@@ -382,7 +380,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console --package core")]
         public void CanFilterPackage(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -413,7 +411,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search --package core")]
         public void CanFilterPackage_WithoutName(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -445,7 +443,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("search console")]
         public void CanSortByDownloadCountAndThenByName(string testCase)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, testCase.Split(" "))
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, testCase.Split(" "))
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .Execute();
@@ -486,7 +484,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByChoiceParameter()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "con", "--search", "--framework")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "con", "--search", "--framework")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -507,7 +505,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Trusted"), "'Trusted' column contains empty values");
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Downloads"), "'Downloads' column contains empty values");
 
-            commandResult = new DotnetNewCommand(_log, "con", "--search", "-f")
+            commandResult = new DotnetNewCommand(MSTestContext, "con", "--search", "-f")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -527,7 +525,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(AllRowsAreNotEmpty(tableOutput, "Package Name / Owners"), "'Package Name / Owners' column contains empty values");
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Downloads"), "'Downloads' column contains empty values");
 
-            commandResult = new DotnetNewCommand(_log, "--search", "-f")
+            commandResult = new DotnetNewCommand(MSTestContext, "--search", "-f")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -552,7 +550,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByNonChoiceParameter()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "con", "--search", "--langVersion")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "con", "--search", "--langVersion")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -573,7 +571,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(AllRowsAreNotEmpty(tableOutput, "Package Name / Owners"), "'Package Name / Owners' column contains empty values");
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Downloads"), "'Downloads' column contains empty values");
 
-            commandResult = new DotnetNewCommand(_log, "--search", "--langVersion")
+            commandResult = new DotnetNewCommand(MSTestContext, "--search", "--langVersion")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -600,7 +598,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void IgnoresValueForNonChoiceParameter()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "con", "--search", "--langVersion", "smth")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "con", "--search", "--langVersion", "smth")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -621,7 +619,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(AllRowsAreNotEmpty(tableOutput, "Package Name / Owners"), "'Package Name / Owners' column contains empty values");
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Downloads"), "'Downloads' column contains empty values");
 
-            commandResult = new DotnetNewCommand(_log, "--search", "--langVersion", "smth")
+            commandResult = new DotnetNewCommand(MSTestContext, "--search", "--langVersion", "smth")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -648,7 +646,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByChoiceParameterWithValue()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "con", "--search", "-f", "netcoreapp3.1")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "con", "--search", "-f", "netcoreapp3.1")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -669,7 +667,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             Assert.IsTrue(AllRowsAreNotEmpty(tableOutput, "Package Name / Owners"), "'Package Name / Owners' column contains empty values");
             Assert.IsTrue(AtLeastOneRowIsNotEmpty(tableOutput, "Downloads"), "'Downloads' column contains empty values");
 
-            commandResult = new DotnetNewCommand(_log, "--search", "-f", "net5.0")
+            commandResult = new DotnetNewCommand(MSTestContext, "--search", "-f", "net5.0")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .WithDebug()
                 .Execute();
@@ -695,19 +693,19 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CannotSearchTemplatesWithUnknownParameter()
         {
-            new DotnetNewCommand(_log, "--search", "--unknown")
+            new DotnetNewCommand(MSTestContext, "--search", "--unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
                 .And.HaveStdErrContaining("No templates found matching: --unknown.");
 
-            new DotnetNewCommand(_log, "con", "--search", "--unknown")
+            new DotnetNewCommand(MSTestContext, "con", "--search", "--unknown")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute()
                 .Should().Fail()
                 .And.HaveStdErrContaining("No templates found matching: 'con', --unknown.");
 
-            new DotnetNewCommand(_log, "con", "--search", "--unknown", "--language", "C#")
+            new DotnetNewCommand(MSTestContext, "con", "--search", "--unknown", "--language", "C#")
               .WithCustomHive(_sharedHome.HomeDirectory)
               .Execute()
               .Should().Fail()
@@ -720,11 +718,11 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("zoop --search --columns-all", "--search zoop --columns-all")]
         public void CanFallbackToSearchOption(string command1, string command2)
         {
-            CommandResult commandResult1 = new DotnetNewCommand(_log, command1.Split())
+            CommandResult commandResult1 = new DotnetNewCommand(MSTestContext, command1.Split())
              .WithCustomHive(_sharedHome.HomeDirectory)
              .Execute();
 
-            CommandResult commandResult2 = new DotnetNewCommand(_log, command2.Split())
+            CommandResult commandResult2 = new DotnetNewCommand(MSTestContext, command2.Split())
                .WithCustomHive(_sharedHome.HomeDirectory)
                .Execute();
 
@@ -743,7 +741,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("foo search bar", "foo", "bar")]
         public void CannotSearchOnParseError(string command, string invalidArguments, string validArguments)
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, command.Split())
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, command.Split())
              .WithCustomHive(_sharedHome.HomeDirectory)
              .Execute();
 
@@ -769,7 +767,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 For more information, run: 
    dotnet new search -h";
 
-            CommandResult commandResult = new DotnetNewCommand(_log, "--search", "console")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "--search", "console")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 
@@ -783,7 +781,7 @@ For more information, run:
         [TestMethod]
         public void DoNotShowDeprecationMessage_WhenNewCommandIsUsed()
         {
-            CommandResult commandResult = new DotnetNewCommand(_log, "search", "console")
+            CommandResult commandResult = new DotnetNewCommand(MSTestContext, "search", "console")
                 .WithCustomHive(_sharedHome.HomeDirectory)
                 .Execute();
 

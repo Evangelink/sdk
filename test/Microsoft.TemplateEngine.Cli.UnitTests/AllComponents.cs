@@ -5,6 +5,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class AllComponents
     {
         [TestMethod]

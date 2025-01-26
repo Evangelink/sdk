@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class JsModulesIntegrationTest(MSTestContext testContext) : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(JsModulesIntegrationTest))
     {
         [TestMethod]
@@ -192,6 +193,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
     }
 
+    [TestClass]
     public class JsModulesPackagesIntegrationTest(MSTestContext testContext) : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(JsModulesPackagesIntegrationTest))
     {
         [TestMethod]

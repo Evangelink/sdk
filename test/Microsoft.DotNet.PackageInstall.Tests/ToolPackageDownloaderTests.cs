@@ -37,6 +37,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         public void Dispose() => Environment.SetEnvironmentVariable(_PATH_VAR_NAME, _originalPath);
     }
 
+    [TestClass]
     public class ToolPackageDownloaderTests : SdkTest, IClassFixture<DotnetEnvironmentTestFixture>
     {
         [TestMethod]
@@ -790,7 +791,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             uninstaller.Uninstall(package.PackageDirectory);
         }
 
-        [UnixOnlyTheory]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         // repro https://github.com/dotnet/cli/issues/10101

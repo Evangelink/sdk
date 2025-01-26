@@ -5,6 +5,7 @@ using Microsoft.DotNet.HotReload;
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
+[TestClass]
 public class StaticAssetPayloadTests
 {
     [TestMethod]

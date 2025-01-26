@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.MSBuild.IntegrationTests
 {
+    [TestClass]
     public class GivenDotnetInvokesMSBuild : SdkTest
     {
         public GivenDotnetInvokesMSBuild(MSTestContext testContext) : base(testContext)

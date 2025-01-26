@@ -5,6 +5,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Xdt;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 {
+    [TestClass]
     public class TransformXmlTests
     {
         private XDocument _webConfigTemplate => XDocument.Parse(
@@ -75,11 +76,11 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 
                 // Assert
                 Assert.IsTrue(success);
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("handlers").Count() == 1);
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("aspNetCore").Count() == 1);
+                Assert.AreEqual(1, XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("handlers").Count());
+                Assert.AreEqual(1, XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("aspNetCore").Count());
 
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("handlers").Count() == 0);
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("aspNetCore").Count() == 0);
+                Assert.AreEqual(0, XDocument.Parse(File.ReadAllText(outputFile)).Descendants("handlers").Count());
+                Assert.AreEqual(0, XDocument.Parse(File.ReadAllText(outputFile)).Descendants("aspNetCore").Count());
             }
             finally
             {
@@ -120,8 +121,8 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 
                 // Assert
                 Assert.IsTrue(success);
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("environmentVariable").Count() == 0);
-                Assert.IsTrue(XDocument.Parse(File.ReadAllText(outputFile)).Descendants("environmentVariable").Count() == 1);
+                Assert.AreEqual(0, XDocument.Parse(File.ReadAllText(sourceFile)).Descendants("environmentVariable").Count());
+                Assert.AreEqual(1, XDocument.Parse(File.ReadAllText(outputFile)).Descendants("environmentVariable").Count());
             }
             finally
             {

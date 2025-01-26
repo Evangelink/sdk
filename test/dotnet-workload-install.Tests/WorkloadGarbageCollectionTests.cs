@@ -17,6 +17,7 @@ using Microsoft.TemplateEngine.Edge.Constraints;
 
 namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 {
+    [TestClass]
     public class WorkloadGarbageCollectionTests : SdkTest
     {
         private readonly BufferedReporter _reporter;

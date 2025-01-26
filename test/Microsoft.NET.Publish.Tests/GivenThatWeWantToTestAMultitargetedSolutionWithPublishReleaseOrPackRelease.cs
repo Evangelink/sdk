@@ -8,7 +8,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Publish.Tests
 {
-
+    [TestClass]
     public class GivenThatWeWantToTestAMultitargetedSolutionWithPublishReleaseOrPackRelease : SdkTest
     {
         private const string PublishRelease = nameof(PublishRelease);

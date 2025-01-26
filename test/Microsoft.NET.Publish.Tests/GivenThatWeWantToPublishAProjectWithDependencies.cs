@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAProjectWithDependencies : SdkTest
     {
         public GivenThatWeWantToPublishAProjectWithDependencies(MSTestContext testContext) : base(testContext)
@@ -57,7 +58,7 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining(expectedOutput);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_publishes_the_app_config_if_necessary()
         {
             var testAsset = _testAssetsManager
@@ -92,7 +93,7 @@ namespace Microsoft.NET.Publish.Tests
                 .WithSource();
 
             var appProjectDirectory = Path.Combine(testAsset.TestRoot, "App");
-            PublishCommand publishCommand = new(Log, appProjectDirectory);
+            PublishCommand publishCommand = new(MSTestContext, appProjectDirectory);
             publishCommand
                 .Execute()
                 .Should()

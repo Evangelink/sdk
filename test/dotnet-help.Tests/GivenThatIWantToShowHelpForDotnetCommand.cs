@@ -5,6 +5,7 @@ using Microsoft.DotNet.Tools.Help;
 
 namespace Microsoft.DotNet.Help.Tests
 {
+    [TestClass]
     public class GivenThatIWantToShowHelpForDotnetCommand : SdkTest
     {
         private const string HelpText =
@@ -118,7 +119,8 @@ Run 'dotnet [command] --help' for more information on a command.";
             cmd.StdOut.Should().ContainVisuallySameFragmentIfNotLocalized(HelpText);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void WhenRunOnWindowsDotnetHelpCommandShouldContainProperProcessInformation()
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");
@@ -126,7 +128,8 @@ Run 'dotnet [command] --help' for more information on a command.";
             Assert.AreEqual("/c start https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
         }
 
-        [LinuxOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux)]
         public void WhenRunOnLinuxDotnetHelpCommandShouldContainProperProcessInformation()
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");
@@ -134,7 +137,9 @@ Run 'dotnet [command] --help' for more information on a command.";
             Assert.AreEqual("https://aka.ms/dotnet-build", proc.StartInfo.Arguments);
 
         }
-        [MacOsOnlyFact]
+
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         public void WhenRunOnMacOsDotnetHelpCommandShouldContainProperProcessInformation()
         {
             var proc = HelpCommand.ConfigureProcess("https://aka.ms/dotnet-build");

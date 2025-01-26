@@ -13,6 +13,7 @@ using Moq;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class RegistryTests : IDisposable
 {
     private readonly TestLoggerFactory _loggerFactory;
@@ -211,7 +212,7 @@ public class RegistryTests : IDisposable
         Registry registry = new("public.ecr.aws", logger, api.Object);
         await registry.PushLayerAsync(mockLayer.Object, repoName, CancellationToken.None);
 
-        Assert.NotEmpty(loggedMessages);
+        Assert.IsNotEmpty(loggedMessages);
         Assert.IsTrue(loggedMessages.All(m => m.Item1 == LogLevel.Trace));
         var messages = loggedMessages.Select(m => m.Item2).ToList();
         Assert.Contains(messages, m => m == "Started upload session for sha256:fafafafafafafafafafafafafafafafa");

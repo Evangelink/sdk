@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class ConcurrentLruCacheTest
     {
         [TestMethod]

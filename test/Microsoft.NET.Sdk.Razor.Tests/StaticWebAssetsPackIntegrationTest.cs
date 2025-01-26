@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class StaticWebAssetsPackIntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(StaticWebAssetsPackIntegrationTest))
     {

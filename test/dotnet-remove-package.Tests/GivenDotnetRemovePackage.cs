@@ -6,6 +6,7 @@ using Microsoft.DotNet.Tools.Common;
 
 namespace Microsoft.DotNet.Cli.Remove.Package.Tests
 {
+    [TestClass]
     public class GivenDotnetRemovePackage : SdkTest
     {
         private Func<string, string> HelpText = (defaultVal) => $@"Description:

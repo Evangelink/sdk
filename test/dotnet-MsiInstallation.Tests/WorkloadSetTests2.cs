@@ -11,6 +11,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.MsiInstallerTests
 {
+    [TestClass]
     public class WorkloadSetTests2 : WorkloadSetTestsBase
     {
         public WorkloadSetTests2(MSTestContext testContext) : base(testContext)

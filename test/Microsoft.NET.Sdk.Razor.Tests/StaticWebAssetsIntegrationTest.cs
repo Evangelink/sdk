@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class StaticWebAssetsIntegrationTest : AspNetSdkBaselineTest
     {
         public StaticWebAssetsIntegrationTest(MSTestContext testContext) : base(testContext, GenerateBaselines) { }
@@ -562,6 +563,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
     }
 
+    [TestClass]
     public class StaticWebAssetsAppWithPackagesIntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(StaticWebAssetsAppWithPackagesIntegrationTest))
     {

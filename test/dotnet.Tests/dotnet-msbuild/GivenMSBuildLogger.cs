@@ -8,6 +8,7 @@ using Microsoft.DotNet.Tools.MSBuild;
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
+    [TestClass]
     public class GivenMSBuildLogger
     {
         [TestMethod]

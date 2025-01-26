@@ -5,13 +5,14 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class KnownRuntimePackTests : SdkTest
     {
         public KnownRuntimePackTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0")]
+        [TestMethod][MSBuildVersionCondition("16.8.0")]
         public void BuildSucceedsWithRuntimePackWithDifferentLabel()
         {
             var testProject = new TestProject()

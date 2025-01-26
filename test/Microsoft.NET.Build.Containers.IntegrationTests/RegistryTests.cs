@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
+[TestClass]
 public class RegistryTests : IDisposable
 {
     private readonly TestLoggerFactory _loggerFactory;

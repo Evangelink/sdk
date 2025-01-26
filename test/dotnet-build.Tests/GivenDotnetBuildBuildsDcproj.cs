@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Build.Tests
 {
+    [TestClass]
     public class GivenDotnetBuildBuildsDcproj : SdkTest
     {
         public GivenDotnetBuildBuildsDcproj(MSTestContext testContext) : base(testContext)

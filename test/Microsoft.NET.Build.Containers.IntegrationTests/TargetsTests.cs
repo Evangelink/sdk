@@ -8,6 +8,7 @@ using static Microsoft.NET.Build.Containers.KnownStrings.Properties;
 namespace Microsoft.NET.Build.Containers.Targets.IntegrationTests;
 
 [Collection(nameof(MSBuildCollection))]
+[TestClass]
 public class TargetsTests
 {
     [TestMethod]

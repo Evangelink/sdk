@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenDotnetRootEnv : SdkTest
     {
         private static Version Version6_0 = new(6, 0);
@@ -15,7 +16,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
         {
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ItShouldSetDotnetRootToDirectoryOfMuxer(string targetFramework)
         {

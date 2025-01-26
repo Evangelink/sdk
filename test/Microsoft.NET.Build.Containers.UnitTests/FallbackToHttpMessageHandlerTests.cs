@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Microsoft.NET.Build.Containers.UnitTests
 {
+    [TestClass]
     public class FallbackToHttpMessageHandlerTests
     {
         [TestMethod]

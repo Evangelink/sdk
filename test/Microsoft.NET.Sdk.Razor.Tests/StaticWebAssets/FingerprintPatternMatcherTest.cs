@@ -8,6 +8,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
+[TestClass]
 public class FingerprintPatternMatcherTest
 {
     private readonly TaskLoggingHelper _log = new TestTaskLoggingHelper();

@@ -12,6 +12,7 @@ using ListStrings = Microsoft.DotNet.Workloads.Workload.List.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Workload.List.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadList : SdkTest
     {
         private readonly ParseResult _machineReadableParseResult;
@@ -40,7 +41,7 @@ namespace Microsoft.DotNet.Cli.Workload.List.Tests
             _reporter.Lines.Count.Should().Be(6);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenAvailableWorkloadsItCanComputeVisualStudioIds()
         {
             var workloadResolver = WorkloadResolver.CreateForTests(new MockManifestProvider(("SampleManifest", _manifestPath, "5.0.0", "6.0.100")), Directory.GetCurrentDirectory());

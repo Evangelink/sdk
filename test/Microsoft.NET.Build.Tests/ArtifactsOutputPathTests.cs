@@ -10,6 +10,7 @@ namespace Microsoft.NET.Build.Tests
     using System.Runtime.InteropServices;
     using ArtifactsTestExtensions;
 
+    [TestClass]
     public class ArtifactsOutputPathTests : SdkTest
     {
         public ArtifactsOutputPathTests(MSTestContext testContext) : base(testContext)

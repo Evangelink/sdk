@@ -10,6 +10,7 @@ using static Microsoft.AspNetCore.StaticWebAssets.Tasks.GenerateStaticWebAssetsD
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class GenerateStaticWebAssetsDevelopmentManifestTest
     {
         [TestMethod]

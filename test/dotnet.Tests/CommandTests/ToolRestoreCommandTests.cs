@@ -26,6 +26,7 @@ using System.Text.Json;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolRestoreCommandTests: SdkTest
     {
         private readonly IFileSystem _fileSystem;

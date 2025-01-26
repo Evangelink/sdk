@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class PublishDepsFilePathTests : SdkTest
     {
         public PublishDepsFilePathTests(MSTestContext testContext) : base(testContext)

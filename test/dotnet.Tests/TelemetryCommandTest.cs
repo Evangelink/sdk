@@ -10,6 +10,7 @@ using Microsoft.DotNet.Cli.Utils;
 namespace Microsoft.DotNet.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class TelemetryCommandTests : SdkTest
     {
         private readonly FakeRecordEventNameTelemetry _fakeTelemetry;
@@ -358,7 +359,7 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("CLEAN"));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void InternalreportinstallsuccessCommandCollectExeNameWithEventname()
         {
             FakeRecordEventNameTelemetry fakeTelemetry = new();

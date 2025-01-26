@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Cli.Package.Add.Tests
 {
+    [TestClass]
     public class GivenDotnetPackageAdd : SdkTest
     {
         public GivenDotnetPackageAdd(MSTestContext testContext) : base(testContext)

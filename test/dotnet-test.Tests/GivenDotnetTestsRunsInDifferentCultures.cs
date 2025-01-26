@@ -5,6 +5,7 @@ using Microsoft.DotNet.Tools.Test.Utilities;
 
 namespace Microsoft.DotNet.Cli.Test.Tests;
 
+[TestClass]
 public class CultureAwareTestProject : SdkTest
 {
     private const string TestAppName = "TestAppSimple";

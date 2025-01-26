@@ -13,6 +13,7 @@ using Microsoft.DotNet.MSBuildSdkResolver;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class GivenAnMSBuildSdkResolver : SdkTest
     {
         private const string DotnetHost = "DOTNET_HOST_PATH";

@@ -3,12 +3,12 @@
 
 namespace Microsoft.NET.TestFramework
 {
-    public class RequiresMSBuildVersionTheoryAttribute : ConditionBaseAttribute
+    public class MSBuildVersionConditionAttribute : ConditionBaseAttribute
     {
         private readonly string _version;
         private string? _ignoreMessage;
 
-        public RequiresMSBuildVersionTheoryAttribute(string version)
+        public MSBuildVersionConditionAttribute(string version)
             : base(ConditionMode.Include)
         {
             _version = version;

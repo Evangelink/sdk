@@ -7,13 +7,14 @@ using Microsoft.DotNet.Tools.MSBuild;
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
+    [TestClass]
     public class GivenMsbuildForwardingApp : SdkTest
     {
         public GivenMsbuildForwardingApp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void DotnetExeIsExecuted()
         {
             var msbuildPath = "<msbuildpath>";
@@ -21,7 +22,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .GetProcessStartInfo().FileName.Should().EndWith("dotnet.exe");
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void DotnetIsExecuted()
         {
             var msbuildPath = "<msbuildpath>";

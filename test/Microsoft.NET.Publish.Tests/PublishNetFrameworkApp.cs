@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class PublishNetFrameworkApp : SdkTest
     {
         public PublishNetFrameworkApp(MSTestContext testContext) : base(testContext)

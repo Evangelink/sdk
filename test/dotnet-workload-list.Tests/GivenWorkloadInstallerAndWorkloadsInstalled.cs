@@ -17,6 +17,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.Cli.Workload.Update.Tests
 {
+    [TestClass]
     public class GivenInstalledWorkloadAndManifestUpdater : SdkTest
     {
         private const string CurrentSdkVersion = "6.0.101";

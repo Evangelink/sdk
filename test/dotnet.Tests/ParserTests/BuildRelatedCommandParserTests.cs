@@ -9,6 +9,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.ParserTests
 {
+    [TestClass]
     public class BuildRelatedCommandParserTests
     {
 
@@ -30,14 +31,14 @@ namespace Microsoft.DotNet.Tests.ParserTests
             "--artifacts-path"
         ];
 
-        public static TheoryData<string, string> BuildRelatedCommandsAndOptions()
+        public static IEnumerable<(string, string)> BuildRelatedCommandsAndOptions()
         {
-            var data = new TheoryData<string, string>();
+            var data = new List<(string, string)>();
             foreach (var cmd in BuildRelatedCommands)
             {
                 foreach (var opt in OptionsToVerify)
                 {
-                    data.Add(cmd, opt);
+                    data.Add((cmd, opt));
                 }
             }
             return data;

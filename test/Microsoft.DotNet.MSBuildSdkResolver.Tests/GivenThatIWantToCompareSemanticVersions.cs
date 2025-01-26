@@ -7,6 +7,7 @@ using Microsoft.DotNet.MSBuildSdkResolver;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToCompareFXVersions
     {
         [TestMethod]

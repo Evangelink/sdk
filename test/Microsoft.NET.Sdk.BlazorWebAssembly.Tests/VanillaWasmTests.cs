@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class VanillaWasmTests(MSTestContext testContext) : BlazorWasmBaselineTests(testContext, GenerateBaselines)
     {
         [TestMethod][CoreMSBuildCondition]

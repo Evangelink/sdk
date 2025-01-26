@@ -84,7 +84,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         /// Installs <paramref name="packageName"/> to dotnet new.
         /// </summary>
         /// <param name="packageName">The package to install.</param>
-        /// <param name="log">Test logger.</param>
+        /// <param name="testContext">Test logger.</param>
         /// <param name="homeDirectory">The settings path for dotnet new.</param>
         /// <param name="workingDirectory">The working directory to use.</param>
         internal static void InstallNuGetTemplate(string packageName, MSTestContext testContext, string homeDirectory, string? workingDirectory = null)
@@ -107,7 +107,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         /// Installs test template to dotnet new.
         /// </summary>
         /// <param name="templateNameOrPath">The name or path of the test tempalte to install.</param>
-        /// <param name="log">Test logger.</param>
+        /// <param name="testContext">Test logger.</param>
         /// <param name="homeDirectory">The settings path for dotnet new.</param>
         /// <param name="workingDirectory">The working directory to use.</param>
         internal string InstallTestTemplate(string templateNameOrPath, MSTestContext testContext, string homeDirectory, string? workingDirectory = null)
@@ -146,7 +146,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             string outputLocation = Path.Combine(testPath, "TestNuGetPackage");
 
-            new DotnetPackCommand(testContext, $"{testPath}\\{testProject}", "-o", testContextLocation)
+            new DotnetPackCommand(testContext, $"{testPath}\\{testProject}", "-o", outputLocation)
                 .Execute()
                 .Should()
             .Pass();

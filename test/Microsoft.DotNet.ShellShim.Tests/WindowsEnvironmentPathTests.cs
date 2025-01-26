@@ -8,6 +8,7 @@ using Microsoft.DotNet.Tools;
 
 namespace Microsoft.DotNet.ShellShim.Tests
 {
+    [TestClass]
     public class WindowsEnvironmentPathTests
     {
         public WindowsEnvironmentPathTests()

@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class ApplyAllCssScopesTest
     {
         [TestMethod]

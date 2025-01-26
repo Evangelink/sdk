@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenTimestampingCtlFile : CtlFileTests
     {
         private static IReadOnlySet<string> s_fingerprints = null;

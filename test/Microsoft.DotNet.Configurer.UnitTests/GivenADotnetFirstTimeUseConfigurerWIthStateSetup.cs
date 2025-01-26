@@ -11,6 +11,7 @@ using static Microsoft.DotNet.Configurer.UnitTests.GivenADotnetFirstTimeUseConfi
 namespace Microsoft.DotNet.Configurer.UnitTests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenADotnetFirstTimeUseConfigurerWithStateSetup
     {
         private MockBasicSentinel _firstTimeUseNoticeSentinelMock;

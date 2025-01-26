@@ -21,7 +21,7 @@ namespace Microsoft.NET.ToolPack.Tests
         public TestAssetsManager TestAssetsManager { get; private set; }
         public void Init(MSTestContext testContext, TestAssetsManager testAssetsManager)
         {
-            Log = log;
+            MSTestContext = testContext;
             TestAssetsManager = testAssetsManager;
         }
         public Dictionary<(bool multiTarget, string targetFramework), string> assetMap

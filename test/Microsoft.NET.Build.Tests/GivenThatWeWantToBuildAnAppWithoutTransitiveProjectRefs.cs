@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAnAppWithoutTransitiveProjectRefs : SdkTest
     {
         public GivenThatWeWantToBuildAnAppWithoutTransitiveProjectRefs(MSTestContext testContext) : base(testContext)
@@ -31,7 +32,7 @@ namespace Microsoft.NET.Build.Tests
             var (testAsset, outputDirectories) = BuildAppWithTransitiveDependenciesAndTransitiveCompileReference(new[] { "/graph" });
 
             var cleanCommand = new DotnetCommand(
-                Log,
+                MSTestContext,
                 "msbuild",
                 Path.Combine(testAsset.TestRoot, "1", "1.csproj"),
                 "/t:clean",
@@ -55,7 +56,7 @@ namespace Microsoft.NET.Build.Tests
         {
             var testAsset = _testAssetsManager.CreateTestProject(DiamondShapeGraphWithRuntimeDependencies(), callingMethod);
 
-            testAsset.Restore(Log, "1");
+            testAsset.Restore(MSTestContext, "1");
 
             string[] targetFrameworks = { ToolsetInfo.CurrentTargetFramework, "net472" };
 
@@ -109,7 +110,7 @@ namespace Microsoft.NET.Build.Tests
                 }
 
                 DotnetCommand runCommand = new(
-                    Log,
+                    MSTestContext,
                     "run",
                     "--framework",
                     targetFramework,
@@ -144,7 +145,7 @@ namespace Microsoft.NET.Build.Tests
         {
             var testAsset = _testAssetsManager.CreateTestProject(GraphWithoutRuntimeDependencies());
 
-            testAsset.Restore(Log, "1");
+            testAsset.Restore(MSTestContext, "1");
 
             var (buildResult, outputDirectories) = Build(testAsset, new[] { ToolsetInfo.CurrentTargetFramework }, new[] { "/p:DisableTransitiveProjectReferences=true" });
 

@@ -15,6 +15,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolListLocalCommandTests
     {
         private readonly ParseResult _parseResult;

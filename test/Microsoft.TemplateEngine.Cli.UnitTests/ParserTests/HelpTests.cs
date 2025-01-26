@@ -12,6 +12,7 @@ using Microsoft.TemplateEngine.Mocks;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public partial class HelpTests
     {
         [TestMethod]

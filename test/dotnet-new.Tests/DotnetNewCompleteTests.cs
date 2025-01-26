@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class DotnetNewCompleteTests : BaseIntegrationTest
     {
         public DotnetNewCompleteTests(MSTestContext testContext) : base(testContext)

@@ -6,13 +6,14 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Clean.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToCleanAHelloWorldProject : SdkTest
     {
         public GivenThatWeWantToCleanAHelloWorldProject(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTestMethod("17.12.0")]
+        [TestMethod][MSBuildVersionCondition("17.12.0")]
         public void It_cleans_without_logging_assets_message()
         {
             var testAsset = _testAssetsManager

@@ -8,6 +8,7 @@ using LocalizableStrings = Microsoft.DotNet.Cli.Utils.LocalizableStrings;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenThatDotNetRunsCommands : SdkTest
     {
         public GivenThatDotNetRunsCommands(MSTestContext testContext) : base(testContext)

@@ -6,6 +6,7 @@ using WorkloadSuggestionCandidate = Microsoft.NET.Sdk.WorkloadManifestReader.Wor
 
 namespace ManifestReaderTests
 {
+    [TestClass]
     public class WorkloadSuggestionFinderTests : SdkTest
     {
         private const string fakeRootPath = "fakeRootPath";

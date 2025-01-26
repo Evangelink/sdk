@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
+[TestClass]
 public class RewriteCssTest
 {
     [TestMethod]

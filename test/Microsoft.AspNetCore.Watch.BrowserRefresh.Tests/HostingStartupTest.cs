@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 {
+    [TestClass]
     public class HostingStartupTest
     {
         [TestMethod]
@@ -88,7 +89,7 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 
             // Assert
             Assert.AreEqual(StatusCodes.Status200OK, context.Response.StatusCode);
-            Assert.NotEmpty(responseBody.ToArray());
+            Assert.IsNotEmpty(responseBody.ToArray());
         }
 
         [TestMethod]
@@ -106,7 +107,7 @@ namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 
             // Assert
             Assert.AreEqual(StatusCodes.Status200OK, context.Response.StatusCode);
-            Assert.NotEmpty(responseBody.ToArray());
+            Assert.IsNotEmpty(responseBody.ToArray());
         }
 
         [TestMethod]

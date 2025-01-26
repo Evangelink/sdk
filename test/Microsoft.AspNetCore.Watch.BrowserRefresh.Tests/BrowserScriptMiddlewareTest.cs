@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 {
+    [TestClass]
     public class BrowserScriptMiddlewareTest
     {
         private readonly RequestDelegate _next = (context) => Task.CompletedTask;

@@ -9,6 +9,7 @@ using static Microsoft.NET.Build.Containers.KnownStrings.Properties;
 namespace Microsoft.NET.Build.Containers.Tasks.IntegrationTests;
 
 [Collection(nameof(MSBuildCollection))]
+[TestClass]
 public class ParseContainerPropertiesTests
 {
     [TestMethod]

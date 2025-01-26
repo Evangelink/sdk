@@ -10,6 +10,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantAutomaticTargetingPackReferences : SdkTest
     {
         public GivenThatWeWantAutomaticTargetingPackReferences(MSTestContext testContext) : base(testContext)

@@ -24,6 +24,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolInstallGlobalOrToolPathCommandTests: SdkTest
     {
         private readonly PackageId _packageId;
@@ -968,7 +969,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             exceptionThrown.Message.Should().Contain("-invalid is invalid");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void WhenRunWithArchOptionItDownloadsAppHostTemplate()
         {
             var nugetPackageDownloader = new MockNuGetPackageDownloader();

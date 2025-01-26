@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Microsoft.NET.Build.Containers.UnitTests
 {
+    [TestClass]
     public class AuthHandshakeMessageHandlerTests
     {
         private const string TestRegistryName = "registry.test";
@@ -235,7 +236,7 @@ namespace Microsoft.NET.Build.Containers.UnitTests
                     }
                     else
                     {
-                        Assert.Null(header);
+                        Assert.IsNull(header);
                     }
 
                     // Verify the content.

@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToTestPackAToolProject : SdkTest
     {
         public GivenThatWeWantToTestPackAToolProject(MSTestContext testContext) : base(testContext)

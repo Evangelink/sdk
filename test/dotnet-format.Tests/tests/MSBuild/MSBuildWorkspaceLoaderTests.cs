@@ -22,11 +22,11 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
 
         private static string ProjectsPath => TestProjectsPathHelper.GetProjectsDirectory();
 
-        protected ITestOutputHelper TestOutputHelper { get; set; }
+        protected MSTestContext MSTestContext { get; }
 
         public MSBuildWorkspaceLoaderTests(MSTestContext testContext)
         {
-            TestOutputHelper = testContext;
+            MSTestContext = testContext;
         }
 
         [MSBuildTheory(typeof(WindowsOnly))]
@@ -98,13 +98,13 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             {
                 if (ignoredDiagnostics is not null)
                 {
-                    TestOutputHelper.WriteLine($"Ignoring compiler diagnostics: \"{string.Join("\", \"", ignoredDiagnostics)}\"");
+                    MSTestContext.WriteLine($"Ignoring compiler diagnostics: \"{string.Join("\", \"", ignoredDiagnostics)}\"");
                 }
 
                 // Clean up previous run
                 CleanupProject(templateName, languageName);
 
-                var projectFilePath = await GenerateProjectFromTemplateAsync(templateName, languageName, TestOutputHelper);
+                var projectFilePath = await GenerateProjectFromTemplateAsync(templateName, languageName, MSTestContext);
 
                 await AssertProjectLoadsCleanlyAsync(projectFilePath, logger, ignoredDiagnostics);
 
@@ -113,7 +113,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
             }
             catch
             {
-                TestOutputHelper.WriteLine(logger.GetLog());
+                MSTestContext.WriteLine(logger.GetLog());
                 throw;
             }
         }

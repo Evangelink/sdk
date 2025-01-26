@@ -5,7 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
-    internal sealed class WatchableApp(ITestOutputHelper logger) : IDisposable
+    internal sealed class WatchableApp(MSTestContext testContextger) : IDisposable
     {
         // Test apps should output this message as soon as they start running:
         private const string StartedMessage = "Started";

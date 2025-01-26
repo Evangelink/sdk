@@ -5,10 +5,12 @@
 
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.TemplateEngine.Utils;
+
 using LocalizableStrings = Microsoft.DotNet.Tools.Run.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenDotnetRunBuildsCsproj : SdkTest
     {
         public GivenDotnetRunBuildsCsproj(MSTestContext testContext) : base(testContext)
@@ -756,7 +758,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
                    .HaveStdOutContaining($"dotnet{Constants.ExeSuffix}");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows | OperatingSystems.Linux | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows | OperatingSystems.Linux | OperatingSystems.FreeBSD)]
         public void ItRunsWithApphost()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppOutputsExecutablePath").WithSource();

@@ -10,6 +10,7 @@ using NuGet.Packaging.Signing;
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRestoreProjectsUsingNuGetConfigProperties : SdkTest
     {
         public GivenThatWeWantToRestoreProjectsUsingNuGetConfigProperties(MSTestContext testContext) : base(testContext)
@@ -139,7 +140,7 @@ namespace Microsoft.NET.Restore.Tests
                 var projectInNuGetFallbackFolderTestAsset =
                     _testAssetsManager.CreateTestProject(projectInNuGetFallbackFolder);
                 var packageRestoreCommand = projectInNuGetFallbackFolderTestAsset.GetRestoreCommand(
-                    Log,
+                    MSTestContext,
                     relativePath: projectInNuGetFallbackFolder.Name).Execute().Should().Pass();
                 var dependencyProjectDirectory = Path.Combine(
                     projectInNuGetFallbackFolderTestAsset.TestRoot,

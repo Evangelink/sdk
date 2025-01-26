@@ -6,6 +6,7 @@ using Microsoft.DotNet.Cli;
 
 namespace Microsoft.DotNet.Tests.ParserTests
 {
+    [TestClass]
     public class VSTestArgumentConverterTests
     {
         [TestMethod]

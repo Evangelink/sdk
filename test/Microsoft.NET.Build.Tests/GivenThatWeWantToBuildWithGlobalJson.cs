@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildWithGlobalJson : SdkTest
     {
         public GivenThatWeWantToBuildWithGlobalJson(MSTestContext testContext) : base(testContext)

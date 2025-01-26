@@ -3,12 +3,13 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToProduceReferenceAssembly : SdkTest
     {
         public GivenThatWeWantToProduceReferenceAssembly(MSTestContext testContext) : base(testContext)
         { }
 
-        [RequiresMSBuildVersionTheory("16.8.0")]
+        [TestMethod][MSBuildVersionCondition("16.8.0")]
         [DataRow("netcoreapp3.1", false)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void It_produces_ref_assembly_for_appropriate_frameworks(string targetFramework, bool expectedExists)

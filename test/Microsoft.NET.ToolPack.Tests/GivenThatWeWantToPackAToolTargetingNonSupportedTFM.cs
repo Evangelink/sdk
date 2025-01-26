@@ -8,6 +8,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolTargetingNonSupportedTFM : SdkTest
     {
 
@@ -50,7 +51,7 @@ namespace Microsoft.NET.ToolPack.Tests
             result.StdOut.Should().Contain(expectedErrorMessage);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_should_fail_with_error_message_on_fullframework()
         {
             It_should_fail_with_error_message("TargetFramework", "net46", "DotnetToolOnlySupportNetcoreapp");

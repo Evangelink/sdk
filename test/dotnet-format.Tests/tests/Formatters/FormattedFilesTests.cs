@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 {
+    [TestClass]
     public class FormattedFilesTests : CSharpFormatterTests
     {
         private protected override ICodeFormatter Formatter => new FinalNewlineFormatter();

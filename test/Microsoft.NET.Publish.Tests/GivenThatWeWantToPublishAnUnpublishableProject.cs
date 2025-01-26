@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAnUnpublishableProject : SdkTest
     {
         public GivenThatWeWantToPublishAnUnpublishableProject(MSTestContext testContext) : base(testContext)

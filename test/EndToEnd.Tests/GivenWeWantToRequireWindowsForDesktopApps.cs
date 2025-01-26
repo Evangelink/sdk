@@ -7,6 +7,7 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenWeWantToRequireWindowsForDesktopApps(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD, IgnoreMessage = "https://github.com/dotnet/sdk/issues/42230")]

@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class CommandLineOptionsTests
     {
         private readonly MockReporter _testReporter = new();
@@ -20,7 +21,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             Assert.AreEqual(expectedMessages, _testReporter.Messages);
             outputValidator(output.ToString());
 
-            Assert.NotNull(options);
+            Assert.IsNotNull(options);
             Assert.AreEqual(0, errorCode);
             return options;
         }
@@ -33,7 +34,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             AssertEx.Equal(expectedErrors, _testReporter.Messages);
             Assert.IsEmpty(output.ToString());
 
-            Assert.Null(options);
+            Assert.IsNull(options);
             Assert.AreNotEqual(0, errorCode);
         }
 
@@ -46,7 +47,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         {
             var output = new StringWriter();
             var options = CommandLineOptions.Parse(args, _testReporter, output: output, errorCode: out var errorCode);
-            Assert.Null(options);
+            Assert.IsNull(options);
             Assert.AreEqual(0, errorCode);
 
             Assert.IsEmpty(_testReporter.Messages);
@@ -241,7 +242,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         {
             var options = VerifyOptions(["--", "-f", "TFM"]);
 
-            Assert.Null(options.TargetFramework);
+            Assert.IsNull(options.TargetFramework);
             Assert.AreEqual(["--", "-f", "TFM"], options.CommandArguments);
         }
 
@@ -250,7 +251,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         {
             var options = VerifyOptions(["--", "--project", "proj"]);
 
-            Assert.Null(options.ProjectPath);
+            Assert.IsNull(options.ProjectPath);
             Assert.AreEqual(["--", "--project", "proj"], options.CommandArguments);
         }
 
@@ -400,7 +401,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         public void LongFormForLaunchProfileArgumentWorks()
         {
             var options = VerifyOptions(["--launch-profile", "CustomLaunchProfile"]);
-            Assert.NotNull(options);
+            Assert.IsNotNull(options);
             Assert.AreEqual("CustomLaunchProfile", options.LaunchProfileName);
         }
 
@@ -417,13 +418,13 @@ namespace Microsoft.DotNet.Watch.UnitTests
         [TestMethod]
         [DataRow(new[] { "--configuration", "release" }, new[] { "-property:Configuration=release" })]
         [DataRow(new[] { "--framework", "net9.0" }, new[] { "-property:TargetFramework=net9.0" })]
-        [DataRow(new[] { "--runtime", "arm64" }, new[] { "-property:RuntimeIdentifier=arm64","-property:_CommandLineDefinedRuntimeIdentifier=true" })]
+        [DataRow(new[] { "--runtime", "arm64" }, new[] { "-property:RuntimeIdentifier=arm64", "-property:_CommandLineDefinedRuntimeIdentifier=true" })]
         [DataRow(new[] { "--property", "b=1" }, new[] { "--property:b=1" })]
         [DataRow(new[] { "--interactive" }, new[] { "-property:NuGetInteractive=true" })]
         [DataRow(new[] { "--no-restore" }, new[] { "-restore:false" })]
-        [DataRow(new[] { "--sc" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true"})]
+        [DataRow(new[] { "--sc" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true" })]
         [DataRow(new[] { "--self-contained" }, new[] { "-property:SelfContained=True", "-property:_CommandLineDefinedSelfContained=true" })]
-        [DataRow(new[] { "--no-self-contained" }, new[] { "-property:SelfContained=False","-property:_CommandLineDefinedSelfContained=true"})]
+        [DataRow(new[] { "--no-self-contained" }, new[] { "-property:SelfContained=False", "-property:_CommandLineDefinedSelfContained=true" })]
         [DataRow(new[] { "--verbosity", "q" }, new[] { "-verbosity:q" })]
         [DataRow(new[] { "--arch", "arm", "--os", "win" }, new[] { "-property:RuntimeIdentifier=win-arm" })]
         [DataRow(new[] { "--disable-build-servers" }, new[] { "--property:UseRazorBuildServer=false", "--property:UseSharedCompilation=false", "/nodeReuse:false" })]

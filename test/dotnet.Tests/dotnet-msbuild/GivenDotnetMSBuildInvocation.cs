@@ -6,6 +6,7 @@ using MSBuildCommand = Microsoft.DotNet.Tools.MSBuild.MSBuildCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetMSBuildInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         private const string ExpectedPrefix = "-maxcpucount -verbosity:m -tlp:default=auto";

@@ -6,6 +6,7 @@ using TestCommand = Microsoft.DotNet.Tools.Test.TestCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetTestInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         private const string ExpectedPrefix = "-maxcpucount -verbosity:m -tlp:default=auto -nologo -restore -target:VSTest -nologo";

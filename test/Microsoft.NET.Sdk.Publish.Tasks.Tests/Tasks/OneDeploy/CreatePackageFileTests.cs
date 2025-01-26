@@ -7,6 +7,8 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.OneDeploy.Tests;
 
+[TestClass]
+
 /// <summary>
 /// Unit Tests for <see cref="CreatePackageFile"/>.
 /// </summary>
@@ -96,6 +98,6 @@ public class CreatePackageFileTests
         // Assert:
         // - Default ctor (as used by MSBuild) can correctly instantiate an instance.
         // - A 'ZipFilePackager' is set as the default 'IFilePackager' (though we can't verify that, here)
-        Assert.IsTrue(createPackageFile is not null);
+        Assert.IsNotNull(createPackageFile);
     }
 }

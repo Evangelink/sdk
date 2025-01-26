@@ -8,6 +8,7 @@ using Microsoft.NET.Build.Containers.Resources;
 
 namespace Microsoft.NET.Build.Containers.UnitTests.Resources
 {
+    [TestClass]
     public class ResourceTests
     {
         [TestMethod]

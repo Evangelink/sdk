@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Tools.Formatters;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 {
+    [TestClass]
     public class EndOfLineFormatterTests : CSharpFormatterTests
     {
         private protected override ICodeFormatter Formatter => new EndOfLineFormatter();

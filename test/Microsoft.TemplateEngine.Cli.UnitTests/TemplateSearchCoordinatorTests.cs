@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class TemplateSearchCoordinatorTests : BaseTest
     {
 #pragma warning disable SA1308 // Variable names should not be prefixed

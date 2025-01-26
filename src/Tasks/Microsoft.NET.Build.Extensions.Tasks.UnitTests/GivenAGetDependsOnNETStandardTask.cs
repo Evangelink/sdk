@@ -5,10 +5,10 @@
 
 using System.Reflection;
 using FluentAssertions;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAGetDependsOnNETStandardTask
     {
         [TestMethod]

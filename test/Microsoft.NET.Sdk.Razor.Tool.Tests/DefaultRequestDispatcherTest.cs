@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class DefaultRequestDispatcherTest
     {
         private static ServerRequest EmptyServerRequest => new(1, Array.Empty<RequestArgument>());
@@ -70,7 +71,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert
             Assert.AreEqual(ConnectionResult.Reason.ClientDisconnect, connectionResult.CloseReason);
-            Assert.Null(connectionResult.KeepAlive);
+            Assert.IsNull(connectionResult.KeepAlive);
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert
             Assert.AreEqual(ConnectionResult.Reason.ClientDisconnect, connectionResult.CloseReason);
-            Assert.Null(connectionResult.KeepAlive);
+            Assert.IsNull(connectionResult.KeepAlive);
             Assert.IsTrue(buildTaskCancellationToken.IsCancellationRequested);
         }
 
@@ -192,7 +193,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert
             Assert.AreEqual(ConnectionResult.Reason.CompilationNotStarted, connectionResult.CloseReason);
-            Assert.Null(connectionResult.KeepAlive);
+            Assert.IsNull(connectionResult.KeepAlive);
         }
 
         [TestMethod]
@@ -210,7 +211,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 
             // Assert
             Assert.AreEqual(ConnectionResult.Reason.CompilationNotStarted, connectionResult.CloseReason);
-            Assert.Null(connectionResult.KeepAlive);
+            Assert.IsNull(connectionResult.KeepAlive);
         }
 
         [TestMethod]
@@ -238,7 +239,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             // Assert
             Assert.IsTrue(called);
             Assert.AreEqual(ConnectionResult.Reason.ClientException, connectionResult.CloseReason);
-            Assert.Null(connectionResult.KeepAlive);
+            Assert.IsNull(connectionResult.KeepAlive);
         }
 
         [TestMethod]

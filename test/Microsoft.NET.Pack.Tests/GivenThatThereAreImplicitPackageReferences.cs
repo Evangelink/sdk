@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Pack.Tests
 {
+    [TestClass]
     public class GivenThatThereAreImplicitPackageReferences : SdkTest
     {
         public GivenThatThereAreImplicitPackageReferences(MSTestContext testContext) : base(testContext)
@@ -102,7 +103,7 @@ namespace Microsoft.NET.Pack.Tests
                 .Should().StartWith("1.1.");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void Packing_an_app_exclude_dependencies_framework_assemblies_dependency()
         {
             TestProject testProject = new()

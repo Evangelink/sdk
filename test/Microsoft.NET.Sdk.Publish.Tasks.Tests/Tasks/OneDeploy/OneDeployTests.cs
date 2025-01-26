@@ -11,6 +11,8 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.OneDeploy.Tests;
 
+[TestClass]
+
 /// <summary>
 /// Unit Tests for <see cref="OneDeploy"/>
 /// </summary>

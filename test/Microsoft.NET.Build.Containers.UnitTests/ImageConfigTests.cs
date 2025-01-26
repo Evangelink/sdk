@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class ImageConfigTests
 {
     private const string SampleImageConfig = """

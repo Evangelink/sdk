@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class FileWatcherTests(MSTestContext testContext)
     {
         private readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);

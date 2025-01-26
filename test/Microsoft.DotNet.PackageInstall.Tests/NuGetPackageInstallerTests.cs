@@ -18,6 +18,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class NuGetPackageInstallerTests : SdkTest
     {
         private const string TestPackageVersion = "1.0.4";
@@ -225,7 +226,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                 "Package should download higher package version");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public async Task GivenANonSignedSdkItShouldPrintMessageOnce()
         {
             BufferedReporter bufferedReporter = new();
@@ -249,7 +250,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public async Task GivenANonSignedSdkItShouldNotPrintMessageInQuiet()
         {
             BufferedReporter bufferedReporter = new BufferedReporter();
@@ -271,7 +272,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         // https://aka.ms/netsdkinternal-certificate-rotate
         public void ItShouldHaveUpdateToDateCertificateSha()
         {
@@ -316,7 +317,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GivenFirstPartyPackageItShouldReturnTrue()
         {
             var iosSamplePackage = DownloadSamplePackage(new PackageId("Microsoft.iOS.Ref"));

@@ -11,6 +11,7 @@ using NuGet.Packaging.Core;
 
 namespace Microsoft.NET.Sdk.Razor.Test
 {
+    [TestClass]
     public class GenerateStaticWebAssetsPropsFileTest
     {
         [TestMethod]

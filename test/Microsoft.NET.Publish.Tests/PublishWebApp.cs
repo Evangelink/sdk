@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class PublishWebApp : SdkTest
     {
         public PublishWebApp(MSTestContext testContext) : base(testContext)

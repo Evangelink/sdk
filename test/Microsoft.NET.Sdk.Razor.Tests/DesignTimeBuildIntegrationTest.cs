@@ -5,6 +5,7 @@
 
 namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
 {
+    [TestClass]
     public class DesignTimeBuildIntegrationTest : AspNetSdkTest
     {
         public DesignTimeBuildIntegrationTest(MSTestContext testContext) : base(testContext) { }

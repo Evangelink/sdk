@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeHaveAPpContentFile : SdkTest
     {
         public GivenThatWeHaveAPpContentFile(MSTestContext testContext) : base(testContext)

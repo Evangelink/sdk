@@ -8,6 +8,7 @@ using Microsoft.DotNet.Configurer;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class TelemetryCommonPropertiesTests : SdkTest
     {
         public TelemetryCommonPropertiesTests(MSTestContext testContext) : base(testContext)
@@ -108,35 +109,35 @@ namespace Microsoft.DotNet.Tests
             unitUnderTest.GetTelemetryCommonProperties()["OS Architecture"].Should().Be(RuntimeInformation.OSArchitecture.ToString());
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void TelemetryCommonPropertiesShouldContainWindowsInstallType()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
             unitUnderTest.GetTelemetryCommonProperties()["Installation Type"].Should().NotBeEmpty();
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void TelemetryCommonPropertiesShouldContainEmptyWindowsInstallType()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
             unitUnderTest.GetTelemetryCommonProperties()["Installation Type"].Should().BeEmpty();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void TelemetryCommonPropertiesShouldContainWindowsProductType()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
             unitUnderTest.GetTelemetryCommonProperties()["Product Type"].Should().NotBeEmpty();
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void TelemetryCommonPropertiesShouldContainEmptyWindowsProductType()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
             unitUnderTest.GetTelemetryCommonProperties()["Product Type"].Should().BeEmpty();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void TelemetryCommonPropertiesShouldContainEmptyLibcReleaseAndVersion()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
@@ -144,7 +145,7 @@ namespace Microsoft.DotNet.Tests
             unitUnderTest.GetTelemetryCommonProperties()["Libc Version"].Should().BeEmpty();
         }
 
-        [MacOsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.MacOSX)]
         public void TelemetryCommonPropertiesShouldContainEmptyLibcReleaseAndVersion2()
         {
             var unitUnderTest = new TelemetryCommonProperties(getMACAddress: () => null, userLevelCacheWriter: new NothingCache());
@@ -152,7 +153,7 @@ namespace Microsoft.DotNet.Tests
             unitUnderTest.GetTelemetryCommonProperties()["Libc Version"].Should().BeEmpty();
         }
 
-        [LinuxOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Linux)]
         public void TelemetryCommonPropertiesShouldContainLibcReleaseAndVersion()
         {
             if (!RuntimeInformation.RuntimeIdentifier.Contains("alpine", StringComparison.OrdinalIgnoreCase))

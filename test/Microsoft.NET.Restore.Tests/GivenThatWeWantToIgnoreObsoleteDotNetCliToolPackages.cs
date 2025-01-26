@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToIgnoreObsoleteDotNetCliToolPackages : SdkTest
     {
         public GivenThatWeWantToIgnoreObsoleteDotNetCliToolPackages(MSTestContext testContext) : base(testContext)

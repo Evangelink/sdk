@@ -11,6 +11,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
+    [TestClass]
     public class TypeMapperTests
     {
         [TestMethod]
@@ -25,7 +26,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 
             TypeMapper typeMapper = new(ruleRunner, mapperSettings, rightSetSize, containingNamespace, containingType);
 
-            Assert.Null(typeMapper.Left);
+            Assert.IsNull(typeMapper.Left);
             Assert.AreEqual(mapperSettings, typeMapper.Settings);
             Assert.AreEqual(rightSetSize, typeMapper.Right.Length);
             Assert.AreEqual(containingNamespace, typeMapper.ContainingNamespace);

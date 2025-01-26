@@ -7,6 +7,7 @@ using System.CommandLine;
 
 namespace Microsoft.DotNet.Cli.Build.Tests
 {
+    [TestClass]
     public class GivenDotnetBuildBuildsCsproj : SdkTest
     {
         public GivenDotnetBuildBuildsCsproj(MSTestContext testContext) : base(testContext)
@@ -224,7 +225,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("run")]
         public void It_does_not_warn_on_rid_with_self_contained_options(string commandName)
@@ -288,7 +289,7 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             Assert.AreNotEqual("", properties["RuntimeIdentifier"]);
         }
 
-        [RequiresMSBuildVersionFact("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         public void It_builds_referenced_exe_with_self_contained_specified_via_command_line_argument()
         {
             var referencedProject = new TestProject("ReferencedProject")

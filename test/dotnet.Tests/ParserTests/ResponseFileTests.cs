@@ -5,6 +5,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.ParserTests
 {
+    [TestClass]
     public class ResponseFileTests : SdkTest
     {
         public ResponseFileTests(MSTestContext testContext) : base(testContext)

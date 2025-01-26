@@ -9,6 +9,7 @@ using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolProjectWithPackagedShim : SdkTest, IClassFixture<NupkgOfPackWithShimsFixture>
     {
         private string _testRoot;
@@ -284,7 +285,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void It_produces_valid_shims(bool multiTarget, string targetFramework)
@@ -299,7 +300,7 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(_testRoot, nugetPackage);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void It_produces_valid_shims_when_the_first_build_is_wrong(bool multiTarget, string targetFramework)
@@ -332,7 +333,7 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(testRoot, nugetPackage);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void When_version_and_packageVersion_is_different_It_produces_valid_shims(bool multiTarget, string targetFramework)
@@ -354,7 +355,7 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(_testRoot, nugetPackage);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void When_version_and_packageVersion_is_different_It_produces_valid_shims2(bool multiTarget, string targetFramework)

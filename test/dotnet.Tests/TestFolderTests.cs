@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Tests;
 
+[TestClass]
 public class TestFolderTests(MSTestContext testContext) : SdkTest(testContext)
 {
     private const string FailureMessage = """

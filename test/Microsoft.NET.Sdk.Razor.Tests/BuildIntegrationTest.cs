@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class BuildIntegrationTest : AspNetSdkTest
     {
         public BuildIntegrationTest(MSTestContext testContext) : base(testContext) { }

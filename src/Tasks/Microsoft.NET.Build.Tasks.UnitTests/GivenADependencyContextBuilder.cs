@@ -18,13 +18,14 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenADependencyContextBuilder
     {
         /// <summary>
         /// Tests that DependencyContextBuilder generates DependencyContexts correctly.
         /// </summary>
         [TestMethod]
-        [MemberData(nameof(ProjectData))]
+        [DynamicData(nameof(ProjectData))]
         public void ItBuildsDependencyContextsFromProjectLockFiles(
             string mainProjectName,
             string mainProjectVersion,

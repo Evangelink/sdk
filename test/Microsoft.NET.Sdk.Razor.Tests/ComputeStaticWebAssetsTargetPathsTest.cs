@@ -13,6 +13,8 @@ using Microsoft.Build.Framework;
 using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
+
+[TestClass]
 public class ComputeStaticWebAssetsTargetPathsTest
 {
     [TestMethod]

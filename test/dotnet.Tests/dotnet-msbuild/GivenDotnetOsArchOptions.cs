@@ -8,6 +8,7 @@ using BuildCommand = Microsoft.DotNet.Tools.Build.BuildCommand;
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
+    [TestClass]
     public class GivenDotnetOsArchOptions : SdkTest
     {
         public GivenDotnetOsArchOptions(MSTestContext testContext) : base(testContext)
@@ -103,7 +104,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("publish")]
         [DataRow("test")]
@@ -120,7 +121,7 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .Pass();
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("publish")]
         [DataRow("test")]

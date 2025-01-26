@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAClickOnceProject : SdkTest
     {
         public GivenThatWeWantToPublishAClickOnceProject(MSTestContext testContext) : base(testContext)

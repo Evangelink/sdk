@@ -7,6 +7,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildACppCliNonLibraryProject : SdkTest
     {
         public GivenThatWeWantToBuildACppCliNonLibraryProject(MSTestContext testContext) : base(testContext)

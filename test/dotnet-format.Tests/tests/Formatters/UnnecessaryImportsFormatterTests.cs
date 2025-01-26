@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.Tools.Formatters;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests.Formatters
 {
+    [TestClass]
     public class UnnecessaryImportsFormatterTests : CSharpFormatterTests
     {
         internal const string IDE0005 = nameof(IDE0005);

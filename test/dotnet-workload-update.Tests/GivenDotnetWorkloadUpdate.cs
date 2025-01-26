@@ -20,6 +20,7 @@ using Microsoft.DotNet.Workloads.Workload.History;
 
 namespace Microsoft.DotNet.Cli.Workload.Update.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadUpdate : SdkTest
     {
         private readonly BufferedReporter _reporter;

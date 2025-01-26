@@ -15,6 +15,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.Commands
 {
+    [TestClass]
     public class BuildServerShutdownCommandTests : SdkTest
     {
         public BuildServerShutdownCommandTests(MSTestContext testContext) : base(testContext)

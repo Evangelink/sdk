@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantACustomTFM : SdkTest
     {
         public GivenThatWeWantACustomTFM(MSTestContext testContext) : base(testContext)

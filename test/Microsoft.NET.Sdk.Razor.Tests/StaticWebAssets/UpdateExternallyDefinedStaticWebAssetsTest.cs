@@ -9,6 +9,7 @@ using Moq;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
+[TestClass]
 public class UpdateExternallyDefinedStaticWebAssetsTest
 {
     [TestMethod]

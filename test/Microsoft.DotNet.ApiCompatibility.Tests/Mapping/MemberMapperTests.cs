@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
+    [TestClass]
     public class MemberMapperTests
     {
         [TestMethod]
@@ -19,7 +20,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 
             MemberMapper memberMapper = new(ruleRunner, mapperSettings, rightSetSize, containingType);
 
-            Assert.Null(memberMapper.Left);
+            Assert.IsNull(memberMapper.Left);
             Assert.AreEqual(mapperSettings, memberMapper.Settings);
             Assert.AreEqual(rightSetSize, memberMapper.Right.Length);
             Assert.AreEqual(containingType, memberMapper.ContainingType);

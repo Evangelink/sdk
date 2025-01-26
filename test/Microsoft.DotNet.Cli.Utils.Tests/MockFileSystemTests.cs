@@ -6,6 +6,7 @@ using Microsoft.Extensions.EnvironmentAbstractions;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class MockFileSystemTests
     {
         [TestMethod]
@@ -21,7 +22,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             fileSystem.Directory.Exists(nestedFilePath).Should().BeFalse();
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DifferentDirectorySeparatorShouldBeSameFile(bool testMockBehaviorIsInSync)
@@ -130,7 +131,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             a.Should().Throw<IOException>();
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DirectoryDoesNotExistShouldThrow(bool testMockBehaviorIsInSync)
@@ -393,7 +394,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
         // https://github.com/dotnet/corefx/issues/32110
         // It behaves differently on Windows Vs Non Windows
         // Use Windows behavior since it is more strict
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DeleteFileShouldNotThrowWhenDirectoryDoesNotExists(bool testMockBehaviorIsInSync)

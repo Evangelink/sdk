@@ -11,6 +11,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
+    [TestClass]
     public class AssemblyMapperTests
     {
         [TestMethod]
@@ -23,7 +24,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 
             AssemblyMapper assemblyMapper = new(ruleRunner, mapperSettings, rightSetSize, assemblySetMapper);
 
-            Assert.Null(assemblyMapper.Left);
+            Assert.IsNull(assemblyMapper.Left);
             Assert.AreEqual(mapperSettings, assemblyMapper.Settings);
             Assert.AreEqual(rightSetSize, assemblyMapper.Right.Length);
             Assert.AreEqual(assemblySetMapper, assemblyMapper.ContainingAssemblySet);

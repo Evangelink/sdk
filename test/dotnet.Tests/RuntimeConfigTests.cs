@@ -8,6 +8,7 @@ using Microsoft.DotNet.Tools.Common;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class RuntimeConfigTests : SdkTest
     {
         public RuntimeConfigTests(MSTestContext testContext) : base(testContext)

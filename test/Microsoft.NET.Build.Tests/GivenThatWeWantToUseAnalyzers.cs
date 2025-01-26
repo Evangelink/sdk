@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToUseAnalyzers : SdkTest
     {
         public GivenThatWeWantToUseAnalyzers(MSTestContext testContext) : base(testContext)
@@ -117,7 +118,7 @@ namespace Microsoft.NET.Build.Tests
         private void VerifyInterceptorsFeatureProperties(TestAsset asset, bool? expectEnabled, params string[] expectedNamespaces)
         {
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 asset.Path,
                 ToolsetInfo.CurrentTargetFramework,
                 "InterceptorsPreviewNamespaces",
@@ -156,7 +157,7 @@ namespace Microsoft.NET.Build.Tests
                 });
 
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.Path, "TestApp"),
                 ToolsetInfo.CurrentTargetFramework,
                 "Analyzer",

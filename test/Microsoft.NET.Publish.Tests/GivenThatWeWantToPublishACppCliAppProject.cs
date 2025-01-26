@@ -5,6 +5,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishACppCliAppProject : SdkTest
     {
         public GivenThatWeWantToPublishACppCliAppProject(MSTestContext testContext) : base(testContext)

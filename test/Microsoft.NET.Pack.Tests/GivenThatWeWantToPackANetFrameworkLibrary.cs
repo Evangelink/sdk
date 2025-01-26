@@ -5,13 +5,14 @@
 
 namespace Microsoft.NET.Pack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackANetFrameworkLibrary : SdkTest
     {
         public GivenThatWeWantToPackANetFrameworkLibrary(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ImplicitReferencesAreNotIncludedAsFrameworkReferences()
         {
             TestProject testProject = new()
@@ -33,7 +34,7 @@ namespace Microsoft.NET.Pack.Tests
             frameworkAssemblies.Should().BeNull();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ExplicitReferencesAreIncludedAsFrameworkReferences()
         {
             TestProject testProject = new()

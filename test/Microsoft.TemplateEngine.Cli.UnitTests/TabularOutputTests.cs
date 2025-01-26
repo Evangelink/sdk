@@ -9,6 +9,7 @@ using Microsoft.TemplateEngine.Mocks;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class TabularOutputTests
     {
         [TestMethod]

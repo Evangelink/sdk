@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class FilesCopiedToPublishDirTests : SdkTest
     {
         public FilesCopiedToPublishDirTests(MSTestContext testContext) : base(testContext)
@@ -52,7 +53,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Pass();
 
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.Path, testProject.Name),
                 testProject.TargetFrameworks,
                 "FilesCopiedToPublishDir",

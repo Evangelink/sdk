@@ -5,6 +5,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAProjectTool : SdkTest
     {
         public GivenThatWeWantToPackAProjectTool(MSTestContext testContext) : base(testContext)

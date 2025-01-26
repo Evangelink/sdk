@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Watch.BrowserRefresh
 {
+    [TestClass]
     public class BlazorWasmHotReloadMiddlewareTest
     {
         private readonly ILogger<BlazorWasmHotReloadMiddleware> _logger;

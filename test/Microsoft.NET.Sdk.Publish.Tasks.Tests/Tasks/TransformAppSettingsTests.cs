@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 {
+    [TestClass]
     public class TransformAppSettingsTests
     {
 

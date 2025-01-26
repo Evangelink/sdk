@@ -7,6 +7,7 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class ProjectBuildTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]
@@ -81,7 +82,7 @@ namespace EndToEnd.Tests
                 .Execute().Should().Pass().And.HaveStdOutContaining("Hello, World!");
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("current", true)]
         [DataRow("current", false)]
         public void ItCanPublishArm64Winforms(string targetFramework, bool selfContained)
@@ -119,7 +120,7 @@ namespace EndToEnd.Tests
             selfContainedPublishDir.Should().HaveFilesMatching($"{new DirectoryInfo(directory.Path).Name}.dll", SearchOption.TopDirectoryOnly);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("current", true)]
         [DataRow("current", false)]
         public void ItCanPublishArm64Wpf(string targetFramework, bool selfContained)
@@ -285,15 +286,15 @@ namespace EndToEnd.Tests
             var directoryInfo = new DirectoryInfo(directory.Path);
             Assert.IsTrue(directoryInfo.Exists);
             Assert.IsTrue(directoryInfo.EnumerateFileSystemInfos().Any());
-            Assert.IsTrue(directoryInfo.File($"{expectedItemName}.{languageExtensionMap[language]}") != null);
+            Assert.IsNotNull(directoryInfo.File($"{expectedItemName}.{languageExtensionMap[language]}"));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("winforms")]
         public void ItCanBuildDesktopTemplates(string templateName) => TestTemplateCreateAndBuild(templateName);
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         public void ItCanBuildDesktopTemplatesSelfContained(string templateName) => TestTemplateCreateAndBuild(templateName, selfContained: true);
 
@@ -353,7 +354,7 @@ namespace EndToEnd.Tests
         /// The test checks if the template creates the template for correct framework by default.
         /// For .NET 6 the templates should create the projects targeting net6.0.
         /// </summary>
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("wpf", "C#")]
         [DataRow("wpf", "VB")]

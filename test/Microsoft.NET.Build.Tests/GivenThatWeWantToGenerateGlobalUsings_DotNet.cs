@@ -5,11 +5,12 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToGenerateGlobalUsings_DotNet : SdkTest
     {
         public GivenThatWeWantToGenerateGlobalUsings_DotNet(MSTestContext testContext) : base(testContext) { }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_can_generate_global_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -59,7 +60,7 @@ global using System.Threading.Tasks;
             outputDirectory.Should().NotHaveFile(globalUsingsFileName);
         }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_can_remove_specific_usings_in_project_file()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;
@@ -180,7 +181,7 @@ global using static TestStaticNamespace;
 ");
         }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_can_persist_generatedfile_between_cleans()
         {
             // Regression test for https://devdiv.visualstudio.com/DevDiv/_workitems/edit/1405579
@@ -220,7 +221,7 @@ global using System.Threading.Tasks;
 ");
         }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_not_generate_global_usings_for_system_net_http_when_multitarget()
         {
             var tfm = "net472;netstandard2.0;net6.0";

@@ -8,6 +8,7 @@ using Msbuild.Tests.Utilities;
 
 namespace Microsoft.DotNet.Cli.List.Reference.Tests
 {
+    [TestClass]
     public class GivenDotnetListReference : SdkTest
     {
         private Func<string, string> ListProjectReferenceCommandHelpText = (defaultVal) => $@"Description:

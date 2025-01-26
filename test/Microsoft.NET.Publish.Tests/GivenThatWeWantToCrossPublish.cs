@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToCrossPublish : SdkTest
     {
         public GivenThatWeWantToCrossPublish(MSTestContext testContext) : base(testContext)

@@ -10,6 +10,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.ApiSymbolExtensions.Tests
 {
+    [TestClass]
     public class AssemblySymbolLoaderTests : SdkTest
     {
         public AssemblySymbolLoaderTests(MSTestContext testContext) : base(testContext) { }

@@ -5,11 +5,12 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToGenerateGlobalUsings_BlazorWasm : SdkTest
     {
         public GivenThatWeWantToGenerateGlobalUsings_BlazorWasm(MSTestContext testContext) : base(testContext) { }
 
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void It_generates_blazorwasm_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

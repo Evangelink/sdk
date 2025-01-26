@@ -13,6 +13,7 @@ using LocalizableStrings = Microsoft.DotNet.BuildServer.LocalizableStrings;
 
 namespace Microsoft.DotNet.Tests.BuildServerTests
 {
+    [TestClass]
     public class BuildServerProviderTests : SdkTest
     {
         public BuildServerProviderTests(MSTestContext testContext) : base(testContext)

@@ -3,9 +3,10 @@
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenUnixPlatform(MSTestContext testContext) : SdkTest(testContext)
     {
-        [UnixOnlyTheory]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("winforms")]
         public void ItDoesNotIncludeWindowsOnlyProjectTemplates(string template)

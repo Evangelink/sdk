@@ -4,10 +4,12 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenFrameworkReferences : SdkTest
     {
         public GivenFrameworkReferences(MSTestContext testContext) : base(testContext)
@@ -27,7 +29,9 @@ namespace FrameworkReferenceTest
     }
 }";
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         [DataRow("netcoreapp3.1", false)]
         public void Multiple_frameworks_are_written_to_runtimeconfig_when_there_are_multiple_FrameworkReferences(string targetFramework, bool shouldIncludeBaseFramework)
@@ -91,7 +95,7 @@ namespace FrameworkReferenceTest
             testProject.SourceFiles.Add("Program.cs", FrameworkReferenceEmptyProgramSource);
 
             TestAsset testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: tfm)
-                .Restore(Log, testProject.Name);
+                .Restore(MSTestContext, testProject.Name);
 
             var buildCommand = new BuildCommand(testAsset);
 
@@ -128,7 +132,7 @@ namespace FrameworkReferenceTest
             testProject.AdditionalProperties.Add("GenerateRuntimeConfigurationFiles", "true");
 
             TestAsset testAsset = _testAssetsManager.CreateTestProject(testProject)
-                .Restore(Log, testProject.Name);
+                .Restore(MSTestContext, testProject.Name);
 
             var buildCommand = new BuildCommand(testAsset);
 
@@ -142,7 +146,9 @@ namespace FrameworkReferenceTest
             Assert.IsTrue(File.Exists(runtimeConfigFile), $"Expected to generate runtime config file '{runtimeConfigFile}'");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void DuplicateFrameworksAreNotWrittenToRuntimeConfigWhenThereAreDifferentProfiles()
         {
             var testProject = new TestProject()
@@ -415,7 +421,8 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void BuildFailsIfRuntimePackIsNotAvailableForRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -810,7 +817,8 @@ namespace FrameworkReferenceTest
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ResolvedFrameworkReferences_are_generated()
         {
             var testProject = new TestProject()
@@ -881,7 +889,8 @@ namespace FrameworkReferenceTest
 
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void WindowsFormsFrameworkReference(bool selfContained)
@@ -893,7 +902,8 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void WPFFrameworkReference(bool selfContained)
@@ -905,7 +915,8 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void WindowsFormAndWPFFrameworkReference(bool selfContained)
@@ -917,7 +928,8 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void WindowsDesktopFrameworkReference(bool selfContained)
@@ -930,7 +942,8 @@ namespace FrameworkReferenceTest
                 selfContained);
         }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void TransitiveFrameworkReferencesAreNotIncludedInRestore()
         {
             var testProject = new TestProject()

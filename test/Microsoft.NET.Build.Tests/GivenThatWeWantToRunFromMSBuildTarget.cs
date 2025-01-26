@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRunFromMSBuildTarget : SdkTest
     {
         public GivenThatWeWantToRunFromMSBuildTarget(MSTestContext testContext) : base(testContext)

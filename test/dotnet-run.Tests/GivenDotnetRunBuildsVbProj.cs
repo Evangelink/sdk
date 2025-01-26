@@ -6,6 +6,7 @@ using LocalizableStrings = Microsoft.DotNet.Tools.Run.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenDotnetRunRunsVbproj : SdkTest
     {
         public GivenDotnetRunRunsVbproj(MSTestContext testContext) : base(testContext)

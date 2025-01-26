@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
 {
+    [TestClass]
     public class WorkloadPackGroupTests : SdkTest
     {
         public WorkloadPackGroupTests(MSTestContext testContext) : base(testContext)

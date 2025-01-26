@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests
 {
+    [TestClass]
     public class CompatDifferenceTests
     {
         public static IEnumerable<object[]> CompatDifferencesData =>

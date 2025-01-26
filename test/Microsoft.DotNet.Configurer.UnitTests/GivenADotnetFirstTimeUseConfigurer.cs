@@ -6,6 +6,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Configurer.UnitTests
 {
+    [TestClass]
     public class GivenADotnetFirstTimeUseConfigurer
     {
         private Mock<IFirstTimeUseNoticeSentinel> _firstTimeUseNoticeSentinelMock;

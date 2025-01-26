@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Format.Tests
 {
+    [TestClass]
     public class GivenDotnetFormatExecutesAndGeneratesHelpText : SdkTest
     {
         public GivenDotnetFormatExecutesAndGeneratesHelpText(MSTestContext testContext) : base(testContext)

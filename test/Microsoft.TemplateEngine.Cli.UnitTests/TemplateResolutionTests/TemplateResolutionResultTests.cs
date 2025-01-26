@@ -7,6 +7,7 @@ using Microsoft.TemplateEngine.Cli.TemplateResolution;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 {
+    [TestClass]
     public class TemplateResolutionResultTests
     {
         [TestMethod]

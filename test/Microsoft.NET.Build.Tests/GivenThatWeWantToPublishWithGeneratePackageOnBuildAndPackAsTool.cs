@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildWithGeneratePackageOnBuildAndPackAsTool : SdkTest
     {
         public GivenThatWeWantToBuildWithGeneratePackageOnBuildAndPackAsTool(MSTestContext testContext) : base(testContext)

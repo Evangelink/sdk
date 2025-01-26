@@ -9,6 +9,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
 {
+    [TestClass]
     public class SenderTests : SdkTest
     {
         private int _deleteCount;

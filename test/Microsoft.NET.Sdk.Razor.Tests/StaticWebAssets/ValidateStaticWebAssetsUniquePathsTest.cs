@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.AspNetCore.Razor.Tasks
 {
+    [TestClass]
     public class ValidateStaticWebAssetsUniquePathsTest
     {
         [TestMethod]

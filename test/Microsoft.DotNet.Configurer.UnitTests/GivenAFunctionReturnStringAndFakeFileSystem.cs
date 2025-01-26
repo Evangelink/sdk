@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Configurer.UnitTests
 {
+    [TestClass]
     public class GivenAFunctionReturnStringAndFakeFileSystem
     {
         private const string DOTNET_USER_PROFILE_FOLDER_PATH = "some path";

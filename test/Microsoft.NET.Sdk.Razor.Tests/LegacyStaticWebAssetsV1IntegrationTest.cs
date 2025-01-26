@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class LegacyStaticWebAssetsV1IntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(LegacyStaticWebAssetsV1IntegrationTest))
     {

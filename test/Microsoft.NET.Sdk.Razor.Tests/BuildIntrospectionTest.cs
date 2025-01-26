@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class BuildIntrospectionTest : AspNetSdkTest
     {
         public BuildIntrospectionTest(MSTestContext testContext) : base(testContext) { }

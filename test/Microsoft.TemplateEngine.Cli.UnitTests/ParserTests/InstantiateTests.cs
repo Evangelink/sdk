@@ -13,6 +13,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public partial class InstantiateTests : BaseTest
     {
         [TestMethod]
@@ -552,7 +553,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
             ParseResult templateParseResult = parser.Parse(args.RemainingArguments ?? Array.Empty<string>());
 
             TemplateCommandArgs templateArgs = new(templateCommand, myCommand, templateParseResult);
-            Assert.Null(templateArgs.AllowScripts);
+            Assert.IsNull(templateArgs.AllowScripts);
         }
 
         [TestMethod]

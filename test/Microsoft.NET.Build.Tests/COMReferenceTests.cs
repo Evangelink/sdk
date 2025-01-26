@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class COMReferenceTests : SdkTest
     {
         public COMReferenceTests(MSTestContext testContext) : base(testContext)

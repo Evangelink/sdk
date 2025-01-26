@@ -9,6 +9,7 @@ using Microsoft.Extensions.EnvironmentAbstractions;
 
 namespace Microsoft.DotNet.Configurer.UnitTests
 {
+    [TestClass]
     public class GivenAFirstTimeUseNoticeSentinel
     {
         private const string DOTNET_USER_PROFILE_FOLDER_PATH = "some path";

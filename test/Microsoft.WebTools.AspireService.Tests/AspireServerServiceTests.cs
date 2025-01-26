@@ -12,6 +12,7 @@ using System.Text.Json;
 
 namespace Aspire.Tools.Service.UnitTests;
 
+[TestClass]
 public class AspireServerServiceTests(MSTestContext testContext)
 {
     private const string Project1Path = @"c:\test\Projects\project1.csproj";

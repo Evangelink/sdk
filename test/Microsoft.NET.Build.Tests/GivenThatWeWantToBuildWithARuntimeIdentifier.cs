@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildWithARuntimeIdentifier : SdkTest
     {
         public GivenThatWeWantToBuildWithARuntimeIdentifier(MSTestContext testContext) : base(testContext)

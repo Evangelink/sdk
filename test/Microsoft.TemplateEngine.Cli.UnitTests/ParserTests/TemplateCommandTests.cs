@@ -13,6 +13,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public class TemplateCommandTests
     {
         [TestMethod]
@@ -87,7 +88,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             var templateConstraintManager = new TemplateConstraintManager(settings);
 
-            Assert.NotEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
+            Assert.IsNotEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
         }
 
         [TestMethod]
@@ -99,7 +100,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             var templateConstraintManager = new TemplateConstraintManager(settings);
 
-            Assert.NotEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
+            Assert.IsNotEmpty(await TemplateCommand.ValidateConstraintsAsync(templateConstraintManager, template, default));
         }
 
     }

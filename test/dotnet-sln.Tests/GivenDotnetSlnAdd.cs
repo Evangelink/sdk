@@ -14,6 +14,7 @@ using Microsoft.VisualStudio.SolutionPersistence.Serializer.SlnV12;
 
 namespace Microsoft.DotNet.Cli.Sln.Add.Tests
 {
+    [TestClass]
     public class GivenDotnetSlnAdd : SdkTest
     {
         private Func<string, string> HelpText = (defaultVal) => $@"Description:

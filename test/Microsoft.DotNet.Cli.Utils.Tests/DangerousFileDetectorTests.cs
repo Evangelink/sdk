@@ -9,6 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class DangerousFileDetectorTests : SdkTest
     {
         private const int REGDB_E_CLASSNOTREG = unchecked((int)0x80040154);
@@ -20,7 +21,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 #if NETCOREAPP
         [SupportedOSPlatform("windows")]
 #endif
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItShouldDetectFileWithMarkOfTheWeb()
         {
             var testFile = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, Path.GetRandomFileName());
@@ -50,7 +51,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             new DangerousFileDetector().IsDangerous(testFile).Should().BeFalse();
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void WhenRunOnNonWindowsReturnFalse()
         {
             var testFile = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, Path.GetRandomFileName());

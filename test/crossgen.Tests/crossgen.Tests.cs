@@ -7,6 +7,7 @@ using System.Reflection.PortableExecutable;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     /// <summary>
     /// Static analysis of assemblies to make sure that they are crossgened.
     /// </summary>

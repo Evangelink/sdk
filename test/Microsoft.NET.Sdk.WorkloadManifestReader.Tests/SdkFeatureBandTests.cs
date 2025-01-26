@@ -5,7 +5,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace ManifestReaderTests
 {
-
+    [TestClass]
     public class SdkFeatureBandTests : SdkTest
     {
         public SdkFeatureBandTests(MSTestContext testContext) : base(testContext)

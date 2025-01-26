@@ -6,6 +6,7 @@ using CleanCommand = Microsoft.DotNet.Tools.Clean.CleanCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetCleanInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         const string ExpectedPrefix = "-maxcpucount -verbosity:m -tlp:default=auto -nologo -verbosity:normal -target:Clean";

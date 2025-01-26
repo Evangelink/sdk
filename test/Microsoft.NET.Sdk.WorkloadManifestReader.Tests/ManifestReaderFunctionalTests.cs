@@ -5,6 +5,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace ManifestReaderTests
 {
+    [TestClass]
     public class ManifestReaderFunctionalTests : SdkTest
     {
         private readonly string ManifestPath;

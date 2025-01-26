@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class ApplicationPartDiscoveryIntegrationTest : AspNetSdkTest
     {
         public ApplicationPartDiscoveryIntegrationTest(MSTestContext testContext) : base(testContext) { }

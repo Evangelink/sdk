@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public partial class DotnetNewArgumentsTests
     {
         private MSTestContext MSTestContext { get; }

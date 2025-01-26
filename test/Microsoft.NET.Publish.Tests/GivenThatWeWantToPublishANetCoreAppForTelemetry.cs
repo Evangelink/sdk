@@ -8,6 +8,7 @@ using Microsoft.NET.Build.Tests;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishANetCoreAppForTelemetry : SdkTest
     {
         public GivenThatWeWantToPublishANetCoreAppForTelemetry(MSTestContext testContext) : base(testContext)

@@ -10,6 +10,7 @@ using Msbuild.Tests.Utilities;
 
 namespace Microsoft.DotNet.Cli.Remove.Reference.Tests
 {
+    [TestClass]
     public class GivenDotnetRemoveReference : SdkTest
     {
         private Func<string, string> HelpText = (defaultVal) => $@"Description:

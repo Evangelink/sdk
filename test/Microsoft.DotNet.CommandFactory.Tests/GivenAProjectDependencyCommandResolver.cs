@@ -8,6 +8,7 @@ using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenAProjectDependencyCommandResolver : SdkTest
     {
         private string _configuration;

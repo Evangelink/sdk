@@ -6,6 +6,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class LockFileMatcherTests
     {
         [TestMethod]

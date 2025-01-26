@@ -4,10 +4,10 @@
 using FluentAssertions;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenThatWeWantToGenerateSupportedTargetFrameworkAlias
     {
         private static List<(string targetFrameworkMoniker, string displayName)> MockSupportedTargetFramework = new()
@@ -110,4 +110,3 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         }
     }
 }
-

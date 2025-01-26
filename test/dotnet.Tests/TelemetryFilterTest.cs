@@ -9,6 +9,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     /// <summary>
     /// Only adding the performance data tests for now as the TelemetryCommandTests cover most other scenarios already
     /// </summary>

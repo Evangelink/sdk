@@ -3,13 +3,14 @@
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class RestoreWithOlderNuGet : SdkTest
     {
         public RestoreWithOlderNuGet(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItCanBuildProjectRestoredWithNuGet5_7()
         {
             var testProject = new TestProject()

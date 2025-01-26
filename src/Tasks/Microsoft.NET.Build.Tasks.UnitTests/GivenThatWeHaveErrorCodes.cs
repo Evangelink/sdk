@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenThatWeHaveErrorCodes
     {
         private const int _firstCode = 1001;

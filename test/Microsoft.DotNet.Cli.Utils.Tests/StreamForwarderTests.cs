@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace StreamForwarderTests
 {
+    [TestClass]
     public class StreamForwarderTests : SdkTest
     {
         public StreamForwarderTests(MSTestContext testContext) : base(testContext)

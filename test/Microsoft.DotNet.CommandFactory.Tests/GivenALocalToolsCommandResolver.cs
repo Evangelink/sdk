@@ -13,6 +13,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenALocalToolsCommandResolver : SdkTest
     {
         private const string ManifestFilename = "dotnet-tools.json";

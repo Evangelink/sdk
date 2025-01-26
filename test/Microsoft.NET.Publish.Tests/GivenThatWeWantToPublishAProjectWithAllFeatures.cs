@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAProjectWithAllFeatures : SdkTest
     {
         public GivenThatWeWantToPublishAProjectWithAllFeatures(MSTestContext testContext) : base(testContext)

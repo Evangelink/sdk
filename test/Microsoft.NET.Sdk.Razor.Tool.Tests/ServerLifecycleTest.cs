@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class ServerLifecycleTest
     {
         private static ServerRequest EmptyServerRequest => new(1, Array.Empty<RequestArgument>());
@@ -206,7 +207,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
         }
 
         // https://github.com/aspnet/Razor/issues/1991
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public async Task ServerRunning_CancelCompilation_CancelsSuccessfully()
         {
             // Arrange
@@ -259,7 +260,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
                 {
                     var task = ServerResponse.ReadAsync(client.Stream);
                     // We expect this to throw because the stream is already closed.
-                    await Assert.ThrowsAnyAsync<IOException>(() => task);
+                    await Assert.ThrowsAsync<IOException>(() => task);
                     client.Dispose();
                 }
             }

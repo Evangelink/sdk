@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
 {
+    [TestClass]
     public class EnvironmentHelperTests
     {
         private const string TelemetryOptout = "DOTNET_CLI_TELEMETRY_OPTOUT";

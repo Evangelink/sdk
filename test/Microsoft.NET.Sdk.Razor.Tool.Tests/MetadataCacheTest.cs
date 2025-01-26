@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class MetadataCacheTest : SdkTest
     {
         public MetadataCacheTest(MSTestContext testContext) : base(testContext) { }
@@ -42,7 +43,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var cacheResult = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert 2
-            Assert.Same(result, cacheResult);
+            Assert.AreSame(result, cacheResult);
             Assert.AreEqual(1, metadataCache.Cache.Count);
         }
 
@@ -60,7 +61,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result2 = metadataCache.GetMetadata(assemblyFilePath2);
 
             // Assert
-            Assert.NotSame(result1, result2);
+            Assert.AreNotSame(result1, result2);
             Assert.AreEqual(2, metadataCache.Cache.Count);
         }
 
@@ -78,7 +79,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             // Assert 1
             Assert.IsNotNull(result);
             var entry = Assert.ContainsSingle(metadataCache.Cache.TestingEnumerable);
-            Assert.Same(result, entry.Value.Metadata);
+            Assert.AreSame(result, entry.Value.Metadata);
 
             // Act 2
             // Update the timestamp of the file
@@ -86,9 +87,9 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var cacheResult = metadataCache.GetMetadata(assemblyFilePath);
 
             // Assert 2
-            Assert.NotSame(result, cacheResult);
+            Assert.AreNotSame(result, cacheResult);
             entry = Assert.ContainsSingle(metadataCache.Cache.TestingEnumerable);
-            Assert.Same(cacheResult, entry.Value.Metadata);
+            Assert.AreSame(cacheResult, entry.Value.Metadata);
         }
     }
 }

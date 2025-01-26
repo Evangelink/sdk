@@ -8,6 +8,7 @@ using System.Reflection.Metadata;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class SourceLinkTests : SdkTest
     {
         private static readonly Guid s_embeddedSourceKindGuid = new("0E8A571B-6926-466E-B4AD-8AB04611F5FE");
@@ -114,7 +115,7 @@ namespace Microsoft.NET.Build.Tests
         /// <summary>
         /// When creating a new repository locally we want the build to work and not report warnings even before the remote is set.
         /// </summary>
-        [RequiresMSBuildVersionTestMethod("17.12.0")]
+        [TestMethod][MSBuildVersionCondition("17.12.0")]
         public void WithNoRemoteNoCommit()
         {
             var testAsset = _testAssetsManager
@@ -133,7 +134,7 @@ namespace Microsoft.NET.Build.Tests
         /// <summary>
         /// When creating a new repository locally we want the build to work and not report warnings even before the remote is set.
         /// </summary>
-        [RequiresMSBuildVersionTestMethod("17.12.0")]
+        [TestMethod][MSBuildVersionCondition("17.12.0")]
         public void WithNoRemote()
         {
             var testAsset = _testAssetsManager

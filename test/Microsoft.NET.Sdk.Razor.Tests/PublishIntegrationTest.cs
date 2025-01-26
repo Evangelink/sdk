@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class PublishIntegrationTest(MSTestContext testContext) : AspNetSdkTest(testContext)
     {
         [TestMethod]

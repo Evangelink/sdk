@@ -3,6 +3,7 @@
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenDotNetLinuxInstallers(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

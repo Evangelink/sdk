@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace dotnet.Tests
 {
+    [TestClass]
     public class OutputPathOptionTests : SdkTest
     {
         public OutputPathOptionTests(MSTestContext testContext) : base(testContext)

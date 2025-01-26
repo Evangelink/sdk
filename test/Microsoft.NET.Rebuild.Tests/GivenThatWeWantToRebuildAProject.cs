@@ -6,6 +6,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Rebuild.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRebuildAHelloWorldProject : SdkTest
     {
         public GivenThatWeWantToRebuildAHelloWorldProject(MSTestContext testContext) : base(testContext)

@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Utils
 {
+    [TestClass]
     public class BlockingMemoryStreamTests
     {
         /// <summary>

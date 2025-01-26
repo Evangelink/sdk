@@ -8,6 +8,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.ParserTests
 {
+    [TestClass]
     public class ToolRestoreParserTests
     {
         private readonly MSTestContext testContext;

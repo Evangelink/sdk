@@ -11,6 +11,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToGenerateADepsFileForATool : SdkTest
     {
         public GivenThatWeWantToGenerateADepsFileForATool(MSTestContext testContext) : base(testContext)

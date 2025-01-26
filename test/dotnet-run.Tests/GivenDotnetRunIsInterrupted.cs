@@ -4,11 +4,14 @@
 #nullable disable
 
 using System.Diagnostics;
+
 using Microsoft.DotNet.Cli.Utils;
+
 using Xunit.Sdk;
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenDotnetRunIsInterrupted : SdkTest
     {
         private const int WaitTimeout = 30000;
@@ -20,7 +23,7 @@ namespace Microsoft.DotNet.Cli.Run.Tests
 
         // This test is Unix only for the same reason that CoreFX does not test Console.CancelKeyPress on Windows
         // See https://github.com/dotnet/corefx/blob/a10890f4ffe0fadf090c922578ba0e606ebdd16c/src/System.Console/tests/CancelKeyPress.Unix.cs#L63-L67
-        [UnixOnlyFact(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42841")]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42841")]
         public void ItIgnoresSIGINT()
         {
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")
@@ -81,7 +84,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             killed.Should().BeTrue();
         }
 
-        [UnixOnlyFact(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42841")]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)(IgnoreMessage = "https://github.com/dotnet/sdk/issues/42841")]
         public void ItPassesSIGTERMToChild()
         {
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")
@@ -142,7 +146,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
             }
         }
 
-        [WindowsOnlyFact(IgnoreMessage = "https://github.com/dotnet/sdk/issues/38268")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/38268")]
         public void ItTerminatesTheChildWhenKilled()
         {
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")

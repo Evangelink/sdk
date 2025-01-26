@@ -9,6 +9,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class ImageBuilderTests
 {
     private readonly TestLoggerFactory _loggerFactory;

@@ -10,6 +10,7 @@ using Microsoft.NET.Sdk.Publish.Tasks.Tests;
 
 namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
 {
+    [TestClass]
     public class WebConfigTransformTests
     {
         [TestMethod]
@@ -173,7 +174,7 @@ namespace Microsoft.Net.Sdk.Publish.Tasks.Tests
             var input = WebConfigTransformTemplates.WebConfigTemplate;
 
             var testContext = WebConfigTransform.Transform(input, "test.dll", configureForAzure: false, useAppHost: true, extension: ".exe", aspNetCoreModuleName: null, aspNetCoreHostingModel: attributeValue, environmentName: null, projectFullPath: null);
-            Assert.Null((string)testContext.Descendants(elementName).Single().Attribute(attributeName));
+            Assert.IsNull((string)testContext.Descendants(elementName).Single().Attribute(attributeName));
         }
 
         [TestMethod]

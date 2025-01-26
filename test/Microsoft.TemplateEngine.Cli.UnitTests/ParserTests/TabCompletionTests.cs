@@ -14,6 +14,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public partial class TabCompletionTests
     {
         [TestMethod]

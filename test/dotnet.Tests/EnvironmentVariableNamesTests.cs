@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli;
 
 namespace dotnet.Tests;
 
+[TestClass]
 public class EnvironmentVariableNamesTests
 {
     [TestMethod]

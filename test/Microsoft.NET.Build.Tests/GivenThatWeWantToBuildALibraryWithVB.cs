@@ -8,6 +8,7 @@ using System.Runtime.Versioning;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildALibraryWithVB : SdkTest
     {
         public GivenThatWeWantToBuildALibraryWithVB(MSTestContext testContext) : base(testContext)

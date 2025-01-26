@@ -8,6 +8,7 @@ using CommandLocalizableStrings = Microsoft.DotNet.Tools.Sln.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Sln.Migrate.Tests
 {
+    [TestClass]
     public class GivenDotnetSlnMigrate : SdkTest
     {
         public GivenDotnetSlnMigrate(MSTestContext testContext) : base(testContext) { }

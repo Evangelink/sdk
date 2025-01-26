@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Cli.Utils
 {
+    [TestClass]
     public class BuiltInCommandTests
     {
         /// <summary>

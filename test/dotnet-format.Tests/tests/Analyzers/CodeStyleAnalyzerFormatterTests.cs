@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.Tools.Tests.Formatters;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
 {
+    [TestClass]
     public class CodeStyleAnalyzerFormatterTests : CSharpFormatterTests
     {
         private protected override ICodeFormatter Formatter => AnalyzerFormatter.CodeStyleFormatter;

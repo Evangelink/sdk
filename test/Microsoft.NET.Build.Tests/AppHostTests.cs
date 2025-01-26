@@ -12,6 +12,7 @@ using NuGet.Frameworks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class AppHostTests : SdkTest
     {
         private static string[] GetExpectedFilesFromBuild(TestAsset testAsset, string targetFramework)
@@ -41,7 +42,7 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [RequiresMSBuildVersionTheory("17.1.0.60101")]
+        [TestMethod][MSBuildVersionCondition("17.1.0.60101")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_a_runnable_apphost_by_default(string targetFramework)
         {
@@ -222,7 +223,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("x86")]
         [DataRow("x64")]
         [DataRow("AnyCPU")]
@@ -341,7 +342,7 @@ namespace Microsoft.NET.Build.Tests
             Assert.IsTrue(found, "Expected placeholder sequence for .NET install search options was not found");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void AppHost_contains_resources_from_the_managed_dll()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -373,7 +374,7 @@ namespace Microsoft.NET.Build.Tests
             apphostVersion.Should().Be(version);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void FSharp_app_can_customize_the_apphost()
         {
             var targetFramework = "netcoreapp3.1";

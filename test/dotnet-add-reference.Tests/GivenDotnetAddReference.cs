@@ -10,6 +10,7 @@ using Msbuild.Tests.Utilities;
 
 namespace Microsoft.DotNet.Cli.Add.Reference.Tests
 {
+    [TestClass]
     public class GivenDotnetAddReference : SdkTest
     {
         private Func<string, string, string> HelpText = (defaultVal, frameworkVal) => $@"Description:

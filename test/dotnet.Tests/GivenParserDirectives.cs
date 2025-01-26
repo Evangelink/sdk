@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenParserDirectives : SdkTest
     {
         public GivenParserDirectives(MSTestContext testContext) : base(testContext)

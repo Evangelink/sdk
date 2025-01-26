@@ -13,6 +13,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
 {
+    [TestClass]
     public class ListTemplateResolverTests : BaseTest
     {
         [TestMethod(nameof(TestGetTemplateResolutionResult_UniqueNameMatchesCorrectly))]
@@ -53,7 +54,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
                 default);
 
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
             Assert.AreEqual(2, matchResult.TemplateGroupsWithMatchingTemplateInfo.Count());
             Assert.IsNotNull(matchResult.TemplateGroupsWithMatchingTemplateInfo.SelectMany(group => group.Templates).Single(t => t.Identity == "Console.App"));
             Assert.IsNotNull(matchResult.TemplateGroupsWithMatchingTemplateInfo.SelectMany(group => group.Templates).Single(t => t.Identity == "Console.App2"));
@@ -103,7 +104,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsTrue(matchResult.HasTemplateGroupWithTemplateInfoMatches);
             Assert.AreEqual(2, matchResult.TemplateGroupsWithMatchingTemplateInfo.Count());
             Assert.AreEqual(5, matchResult.TemplateGroupsWithMatchingTemplateInfo.SelectMany(group => group.Templates).Count());
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_DefaultLanguageDisambiguates))]
@@ -174,7 +175,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsTrue(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_PartialMatch_HasContextMismatch))]
@@ -201,7 +202,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_PartialMatch_HasBaselineMismatch))]
@@ -228,7 +229,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsFalse(matchResult.HasLanguageMismatch);
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsTrue(matchResult.HasBaselineMismatch);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_PartialMatch_HasMultipleMismatches))]
@@ -255,7 +256,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsTrue(matchResult.HasLanguageMismatch);
             Assert.IsTrue(matchResult.HasTypeMismatch);
             Assert.IsTrue(matchResult.HasBaselineMismatch);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_NoMatch))]
@@ -283,7 +284,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.TemplateResolutionTests
             Assert.IsFalse(matchResult.HasTypeMismatch);
             Assert.IsFalse(matchResult.HasBaselineMismatch);
             Assert.IsFalse(matchResult.HasClassificationMismatch);
-            Assert.Null(matchResult.UnambiguousTemplateGroup);
+            Assert.IsNull(matchResult.UnambiguousTemplateGroup);
         }
 
         [TestMethod(nameof(TestGetTemplateResolutionResult_MatchByTags))]

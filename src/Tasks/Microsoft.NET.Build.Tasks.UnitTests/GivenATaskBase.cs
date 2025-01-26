@@ -3,10 +3,10 @@
 
 using FluentAssertions;
 using Microsoft.Build.Framework;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenATaskBase
     {
         private sealed class TestTask : TaskBase

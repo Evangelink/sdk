@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class HotReloadAgentTest
     {
         [TestMethod]
@@ -101,7 +102,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.ContainsSingle(testContext);
+            var logEntry = Assert.ContainsSingle(log);
             Assert.AreEqual($"Type '{handlerType}' has method 'Void ClearCache()' that does not match the required signature.", logEntry.message);
             Assert.AreEqual(AgentMessageSeverity.Warning, logEntry.severity);
             Assert.IsEmpty(actions.ClearCache);
@@ -118,7 +119,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
             var actions = invoker.GetMetadataUpdateHandlerActions([handlerType]);
 
             var log = reporter.GetAndClearLogEntries(ResponseLoggingLevel.WarningsAndErrors);
-            var logEntry = Assert.ContainsSingle(testContext);
+            var logEntry = Assert.ContainsSingle(log);
             Assert.AreEqual(
                 $"Expected to find a static method 'ClearCache' or 'UpdateApplication' on type '{handlerType.AssemblyQualifiedName}' but neither exists.", logEntry.message);
 

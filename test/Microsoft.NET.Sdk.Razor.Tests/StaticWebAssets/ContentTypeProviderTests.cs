@@ -8,6 +8,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
+[TestClass]
 public class ContentTypeProviderTests
 {
     private readonly TaskLoggingHelper _log = new TestTaskLoggingHelper();
@@ -81,7 +82,7 @@ public class ContentTypeProviderTests
         var contentType = provider.ResolveContentTypeMapping(CreateContext("something.unknown"), _log);
 
         // Assert
-        Assert.Null(contentType.MimeType);
+        Assert.IsNull(contentType.MimeType);
     }
 
     [TestMethod]

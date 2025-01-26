@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class MvcBuildIntegrationTest21 : MvcBuildIntegrationTestLegacy
     {
         public MvcBuildIntegrationTest21(MSTestContext testContext) : base(testContext) { }

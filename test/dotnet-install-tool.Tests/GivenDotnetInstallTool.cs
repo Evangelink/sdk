@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Install.Tests
 {
+    [TestClass]
     public class GivenDotnetInstallTool : SdkTest
     {
         public GivenDotnetInstallTool(MSTestContext testContext) : base(testContext)

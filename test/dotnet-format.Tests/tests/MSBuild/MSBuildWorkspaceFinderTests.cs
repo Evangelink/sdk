@@ -6,10 +6,11 @@ using Microsoft.NET.TestFramework;
 
 namespace Microsoft.CodeAnalysis.Tools.Tests.MSBuild
 {
+    [TestClass]
     public class MSBuildWorkspaceFinderTests : SdkTest
     {
 
-        public MSBuildWorkspaceFinderTests(MSTestTestContext testContext) : base(testContext)
+        public MSBuildWorkspaceFinderTests(MSTestContext testContext) : base(testContext)
         {
         }
 

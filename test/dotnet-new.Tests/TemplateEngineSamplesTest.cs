@@ -8,15 +8,16 @@ using Microsoft.TemplateEngine.Authoring.TemplateVerifier;
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
     [Collection("Verify Tests")]
+    [TestClass]
     public class TemplateEngineSamplesTest : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _sharedHome;
         private readonly ILogger _log;
 
-        public TemplateEngineSamplesTest(SharedHomeDirectory sharedHome, ITestOutputHelper log)
-            : base(log)
+        public TemplateEngineSamplesTest(SharedHomeDirectory sharedHome, MSTestContext testContext)
+            : base(testContext)
         {
-            _log = new TestLoggerFactory(log).CreateLogger(nameof(CommonTemplatesTests));
+            _log = new TestLoggerFactory(testContext).CreateLogger(nameof(CommonTemplatesTests));
             _sharedHome = sharedHome;
             _sharedHome.InstallPackage("Microsoft.TemplateEngine.Samples");
         }

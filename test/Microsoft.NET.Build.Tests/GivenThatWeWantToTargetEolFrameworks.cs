@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToTargetEolFrameworks : SdkTest
     {
         public GivenThatWeWantToTargetEolFrameworks(MSTestContext testContext) : base(testContext)

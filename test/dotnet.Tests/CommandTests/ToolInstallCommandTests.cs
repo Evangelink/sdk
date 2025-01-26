@@ -12,6 +12,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
+    [TestClass]
     public class ToolInstallCommandTests : SdkTest
     {
         private const string PackageId = "global.tool.console.demo";

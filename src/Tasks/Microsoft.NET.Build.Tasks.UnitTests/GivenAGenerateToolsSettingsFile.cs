@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAGenerateToolsSettingsFile
     {
         private XDocument _generatedDocument = null;

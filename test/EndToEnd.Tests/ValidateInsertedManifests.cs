@@ -7,6 +7,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class ValidateInsertedManifests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

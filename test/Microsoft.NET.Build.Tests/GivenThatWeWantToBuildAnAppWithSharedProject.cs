@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAnAppWithSharedProject : SdkTest
     {
         public GivenThatWeWantToBuildAnAppWithSharedProject(MSTestContext testContext) : base(testContext)

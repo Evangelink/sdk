@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class ServerProtocolTest
     {
         [TestMethod]

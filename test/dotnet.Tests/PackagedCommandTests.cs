@@ -9,6 +9,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class PackagedCommandTests : SdkTest
     {
         public PackagedCommandTests(MSTestContext testContext) : base(testContext)
@@ -37,7 +38,7 @@ namespace Microsoft.DotNet.Tests
                      .And.Pass();
         }
 
-        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
+        [TestMethod][FrameworkVersionCondition("netcoreapp1.1")]
         [DataRow(true)]
         [DataRow(false)]
         public void IfPreviousVersionOfSharedFrameworkIsInstalled_ToolsTargetingItRun(bool toolPrefersCLIRuntime)
@@ -72,7 +73,7 @@ namespace Microsoft.DotNet.Tests
 
         }
 
-        [RequiresSpecificFrameworkTestMethod("netcoreapp1.1")]
+        [TestMethod][FrameworkVersionCondition("netcoreapp1.1")]
         public void IfAToolHasNotBeenRestoredForNetCoreApp2_0ItFallsBackToNetCoreApp1_x()
         {
             string toolName = "dotnet-portable-v1";
@@ -130,7 +131,7 @@ namespace Microsoft.DotNet.Tests
         }
 
         // Old .net tool test that doesn't work off Windows
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void CanInvokeToolWhosePackageNameIsDifferentFromDllName()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("AppWithDepOnToolWithOutputName")

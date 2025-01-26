@@ -8,6 +8,7 @@ using Microsoft.DotNet.Tools.List.PackageReferences;
 
 namespace Microsoft.DotNet.Cli.List.Package.Tests
 {
+    [TestClass]
     public class GivenDotnetListPackage : SdkTest
     {
         public GivenDotnetListPackage(MSTestContext testContext) : base(testContext)
@@ -332,7 +333,7 @@ class Program
             }
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void ItRunsInCurrentDirectoryWithPoundInPath()
         {
             // Regression test for https://github.com/dotnet/sdk/issues/19654

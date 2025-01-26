@@ -6,6 +6,7 @@ using PublishCommand = Microsoft.DotNet.Tools.Publish.PublishCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetPublishInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         private static readonly string WorkingDirectory =

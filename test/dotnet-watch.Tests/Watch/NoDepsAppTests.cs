@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class NoDepsAppTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
     {
         private const string AppName = "WatchNoDepsApp";

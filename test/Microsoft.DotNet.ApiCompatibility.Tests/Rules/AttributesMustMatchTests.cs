@@ -8,6 +8,7 @@ using Microsoft.DotNet.ApiSymbolExtensions.Tests;
 
 namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 {
+    [TestClass]
     public class AttributesMustMatchTests
     {
         /*

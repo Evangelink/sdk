@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 
 namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
+[TestClass]
 public sealed class LayerEndToEndTests : IDisposable
 {
     private MSTestContext MSTestContext { get; }

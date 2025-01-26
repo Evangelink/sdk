@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 {
+    [TestClass]
     public class CompatibleTFMValidatorTests
     {
         private (SuppressibleTestLog, CompatibleTfmValidator) CreateLoggerAndValidator()
@@ -49,7 +50,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.CompatibleRuntimeRidLessAsset + " " + string.Format(Resources.NoCompatibleRuntimeAsset, ".NETStandard,Version=v2.0"), log.errors);
         }
 
@@ -68,7 +69,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.CompatibleRuntimeRidLessAsset + " " + string.Format(Resources.NoCompatibleRuntimeAsset, ".NETCoreApp,Version=v2.0"), log.errors);
             Assert.Contains(DiagnosticIds.CompatibleRuntimeRidSpecificAsset + " " + string.Format(Resources.NoCompatibleRidSpecificRuntimeAsset, ".NETCoreApp,Version=v2.0", "win"), log.errors);
         }
@@ -85,7 +86,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.ApplicableCompileTimeAsset + " " + string.Format(Resources.NoCompatibleCompileTimeAsset, ".NETStandard,Version=v2.0"), log.errors);
         }
 
@@ -119,7 +120,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.ApplicableCompileTimeAsset + " " + string.Format(Resources.NoCompatibleCompileTimeAsset, ".NETStandard,Version=v2.0"), log.errors);
         }
 
@@ -136,7 +137,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.CompatibleRuntimeRidLessAsset + " " + string.Format(Resources.NoCompatibleRuntimeAsset, ToolsetInfo.CurrentTargetFramework), log.errors);
         }
 
@@ -171,7 +172,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 
             validator.Validate(new PackageValidatorOption(package, enqueueApiCompatWorkItems: false));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.ApplicableCompileTimeAsset + " " + string.Format(Resources.NoCompatibleCompileTimeAsset, ".NETStandard,Version=v2.0"), log.errors);
         }
 

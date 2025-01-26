@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantDiagnosticsWhenPackageCannotBeFound : SdkTest
     {
         public GivenThatWeWantDiagnosticsWhenPackageCannotBeFound(MSTestContext testContext) : base(testContext)
@@ -29,7 +30,7 @@ namespace Microsoft.NET.Build.Tests
 
             var asset = _testAssetsManager
                 .CreateTestProject(project, project.Name)
-                .Restore(Log, project.Name);
+                .Restore(MSTestContext, project.Name);
 
             RemovePackageFromCache(package);
 
@@ -43,7 +44,7 @@ namespace Microsoft.NET.Build.Tests
                  .And.NotHaveStdOutContaining("MSB4018"); // unhandled task exception
 
             // check that incremental build succeeds after a second restore to put back the package
-            asset.Restore(Log, project.Name);
+            asset.Restore(MSTestContext, project.Name);
             build.Execute()
                  .Should()
                  .Pass();

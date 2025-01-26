@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildALibraryWithOSMinimumVersion : SdkTest
     {
         public GivenThatWeWantToBuildALibraryWithOSMinimumVersion(MSTestContext testContext) : base(testContext)
@@ -96,7 +97,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("Windows7.0"));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows", "Windows7.0")]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041", "Windows10.0.19041.0")]
         public void WhenUsingTargetPlatformInTargetFrameworkItCanGenerateSupportedOSPlatformAttribute(string targetFramework, string expectedAttribute)
@@ -155,7 +156,7 @@ namespace Microsoft.NET.Build.Tests
                 .Fail().And.HaveStdOutContaining("NETSDK1135");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void WhenTargetPlatformMinVersionIsSetForWindowsItIsUsedForTheSupportedOSPlatformAttribute()
         {
             TestProject testProject = SetUpProject($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041");
@@ -174,7 +175,7 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(SupportedOSPlatformAttribute("Windows10.0.18362.0"));
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("17.0.0.32901")]
         public void WhenTargetingWindowsSupportedOSVersionPropertySetsTargetPlatformMinVersion()
         {
             TestProject testProject = SetUpProject($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041");
@@ -202,7 +203,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("10.0.18362.0");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void WhenTargetingWindowsSupportedOSPlatformVersionPropertyIsPreferredOverTargetPlatformMinVersion()
         {
             TestProject testProject = SetUpProject($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041");

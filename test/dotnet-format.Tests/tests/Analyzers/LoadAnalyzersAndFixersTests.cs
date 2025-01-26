@@ -11,6 +11,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
 {
     using static AnalyzerAssemblyGenerator;
 
+    [TestClass]
     public class LoadAnalyzersAndFixersTests
     {
         private static AnalyzersAndFixers GetAnalyzersAndFixers(IEnumerable<Assembly> assemblies, string language)

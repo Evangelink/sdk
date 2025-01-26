@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class MetadataUpdaterSupportTest : SdkTest
     {
         public MetadataUpdaterSupportTest(MSTestContext testContext) : base(testContext)

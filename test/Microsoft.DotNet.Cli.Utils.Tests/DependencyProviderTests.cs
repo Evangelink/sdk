@@ -7,10 +7,11 @@ using Microsoft.Win32;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
 #pragma warning disable CA1416
     public class DependencyProviderTests
     {
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_CURRENT_USER")]
         [DataRow(true, "NET.CORE.SDK,v6.0", @"SOFTWARE\Classes\Installer\Dependencies\NET.CORE.SDK,v6.0\Dependents", "HKEY_LOCAL_MACHINE")]
         public void ProviderProperties(bool allUsers, string providerKeyName, string expectedDependentsKeyPath, string expectedBaseKeyName)
@@ -22,7 +23,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             Assert.AreEqual(providerKeyName, dep.ProviderKeyName);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItCanAddDependents()
         {
             // We cannot create per-machine entries unless the tests run elevated. The results are the
@@ -45,7 +46,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItCanFindVisualStudioDependents()
         {
             DependencyProvider dep = new(".NET_SDK_TEST_PROVIDER_KEY", allUsers: false);
@@ -66,7 +67,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItWillNotRemoveTheProviderIfOtherDependentsExist()
         {
             DependencyProvider dep = new(".NET_SDK_TEST_PROVIDER_KEY", allUsers: false);
@@ -89,7 +90,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItReturnsNullIfProductCodeDoesNotExist()
         {
             string providerKeyName = "Microsoft.NET.Test.Pack";
@@ -98,7 +99,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 
             try
             {
-                Assert.Null(dep.ProductCode);
+                Assert.IsNull(dep.ProductCode);
             }
             finally
             {
@@ -106,7 +107,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItCanRetrieveTheProductCodeFromTheProviderKey()
         {
             string providerKeyName = "Microsoft.NET.Test.Pack";

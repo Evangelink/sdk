@@ -5,13 +5,14 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildADesktopExeWithFSharp : SdkTest
     {
         public GivenThatWeWantToBuildADesktopExeWithFSharp(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_simple_desktop_app()
         {
             var targetFramework = "net45";
@@ -42,7 +43,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_simple_net50_app()
         {
             var testAsset = _testAssetsManager

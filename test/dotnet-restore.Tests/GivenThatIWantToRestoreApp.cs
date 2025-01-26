@@ -5,6 +5,7 @@ using Microsoft.DotNet.Tools.Test.Utilities;
 
 namespace Microsoft.DotNet.Restore.Test
 {
+    [TestClass]
     public class GivenThatIWantToRestoreApp : SdkTest
     {
         public GivenThatIWantToRestoreApp(MSTestContext testContext) : base(testContext)

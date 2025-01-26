@@ -3,16 +3,17 @@
 
 namespace Microsoft.DotNet.Cli
 {
+    [TestClass]
     public class GivenForwardingApp
     {
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void DotnetExeIsExecuted()
         {
             new ForwardingApp("<apppath>", new string[0])
                 .GetProcessStartInfo().FileName.Should().EndWith("dotnet.exe");
         }
 
-        [UnixOnlyFact]
+        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void DotnetIsExecuted()
         {
             new ForwardingApp("<apppath>", new string[0])

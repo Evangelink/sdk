@@ -12,13 +12,14 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     /// <summary>
     /// Tests that AssetsFileResolver resolves files correctly.
     /// </summary>
     public class GivenAnAssetsFileResolver
     {
         [TestMethod]
-        [MemberData(nameof(ProjectData))]
+        [DynamicData(nameof(ProjectData))]
         public void ItResolvesAssembliesFromProjectLockFiles(string projectName, string runtime, object[] expectedResolvedFiles)
         {
             LockFile lockFile = TestLockFiles.GetLockFile(projectName);
@@ -38,7 +39,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         }
 
         [TestMethod]
-        [MemberData(nameof(ProjectData1))]
+        [DynamicData(nameof(ProjectData1))]
         public void ItResolvesAssembliesFromProjectLockFilesWithStoreLayout(string projectName, string runtime, object[] expectedResolvedFiles)
         {
             LockFile lockFile = TestLockFiles.GetLockFile(projectName);

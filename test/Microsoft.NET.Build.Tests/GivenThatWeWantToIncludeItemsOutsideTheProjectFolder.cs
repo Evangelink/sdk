@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToIncludeItemsOutsideTheProjectFolder : SdkTest
     {
         public GivenThatWeWantToIncludeItemsOutsideTheProjectFolder(MSTestContext testContext) : base(testContext)

@@ -5,7 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
-
+    [TestClass]
     public class GivenThatWeWantToUseContentFiles : SdkTest
     {
         public GivenThatWeWantToUseContentFiles(MSTestContext testContext) : base(testContext)

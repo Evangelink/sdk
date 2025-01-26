@@ -9,6 +9,8 @@ namespace Microsoft.NET.TestFramework
         {
         }
 
+        public string? Reason { get; set; }
+
         public override string? IgnoreMessage { get; } = "This test requires Full MSBuild to run";
 
         public override string GroupName { get; } = "MSBuild";

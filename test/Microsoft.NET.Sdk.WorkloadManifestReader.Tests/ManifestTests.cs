@@ -6,6 +6,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace ManifestReaderTests
 {
+    [TestClass]
     public class ManifestTests : SdkTest
     {
         private const string fakeRootPath = "fakeRootPath";

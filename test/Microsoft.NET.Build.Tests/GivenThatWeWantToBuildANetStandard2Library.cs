@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildANetStandard2Library : SdkTest
     {
         public GivenThatWeWantToBuildANetStandard2Library(MSTestContext testContext) : base(testContext)

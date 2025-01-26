@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class MvcBuildIntegrationTest21NetFx : AspNetSdkTest
     {
         private const string TestProjectName = "SimpleMvc21NetFx";

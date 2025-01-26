@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
+[TestClass]
 public class StaticWebAssetPathPatternTest
 {
     [TestMethod]

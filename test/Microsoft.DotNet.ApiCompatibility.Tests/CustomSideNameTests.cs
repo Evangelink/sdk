@@ -7,6 +7,7 @@ using Microsoft.DotNet.ApiSymbolExtensions.Tests;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests
 {
+    [TestClass]
     public class CustomSideNameTests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new MembersMustExist(settings, context));

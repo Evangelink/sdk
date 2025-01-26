@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPreserveCompilationContextForBuild : SdkTest
     {
         public GivenThatWeWantToPreserveCompilationContextForBuild(MSTestContext testContext) : base(testContext)

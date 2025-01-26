@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToSetPropertiesInDirectoryBuildProps : SdkTest
     {
         public GivenThatWeWantToSetPropertiesInDirectoryBuildProps(MSTestContext testContext) : base(testContext)

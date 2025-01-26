@@ -5,6 +5,7 @@
 
 namespace Aspire.Tools.Service.UnitTests;
 
+[TestClass]
 public class RunSessionRequestTests
 {
     [TestMethod]

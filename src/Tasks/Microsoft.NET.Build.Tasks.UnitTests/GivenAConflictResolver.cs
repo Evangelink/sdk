@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAConflictResolver
     {
         [TestMethod]

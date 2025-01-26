@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class GlobbingAppTests : DotNetWatchTestBase
     {
         private const string AppName = "WatchGlobbingApp";
@@ -100,7 +101,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
 
             var fileChanged = App.AssertFileChanged();
             var finished = await Task.WhenAny(Task.Delay(TimeSpan.FromSeconds(5)), fileChanged);
-            Assert.NotSame(fileChanged, finished);
+            Assert.AreNotSame(fileChanged, finished);
         }
 
         [TestMethod]

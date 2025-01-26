@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class ProcessFrameworkReferencesTests
     {
         private MockTaskItem _validWindowsSDKKnownFrameworkReference

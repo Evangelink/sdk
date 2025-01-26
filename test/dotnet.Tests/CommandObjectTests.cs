@@ -8,6 +8,7 @@ using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class CommandObjectTests : SdkTest
     {
         public CommandObjectTests(MSTestContext testContext) : base(testContext)

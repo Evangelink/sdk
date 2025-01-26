@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAPackageOverrideResolver
     {
         [TestMethod]
@@ -46,8 +47,8 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         {
             var resolver = new PackageOverrideResolver<MockConflictItem>(null);
 
-            Assert.Null(resolver.PackageOverrides);
-            Assert.Null(resolver.Resolve(new MockConflictItem(), new MockConflictItem()));
+            Assert.IsNull(resolver.PackageOverrides);
+            Assert.IsNull(resolver.Resolve(new MockConflictItem(), new MockConflictItem()));
         }
 
         [TestMethod]
@@ -63,7 +64,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
 
             var resolver = new PackageOverrideResolver<MockConflictItem>(packageOverrides);
 
-            Assert.NotNull(resolver.PackageOverrides);
+            Assert.IsNotNull(resolver.PackageOverrides);
 
             var packageItem = new MockConflictItem("System.Eric")
             {
@@ -80,8 +81,8 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 ItemType = ConflictItemType.Platform
             };
 
-            Assert.Null(resolver.Resolve(packageItem, platformItem));
-            Assert.Null(resolver.Resolve(platformItem, packageItem));
+            Assert.IsNull(resolver.Resolve(packageItem, platformItem));
+            Assert.IsNull(resolver.Resolve(platformItem, packageItem));
 
             var packageItem2 = new MockConflictItem("System.Eric")
             {
@@ -91,8 +92,8 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 ItemType = ConflictItemType.Reference
             };
 
-            Assert.Null(resolver.Resolve(packageItem2, platformItem));
-            Assert.Null(resolver.Resolve(platformItem, packageItem2));
+            Assert.IsNull(resolver.Resolve(packageItem2, platformItem));
+            Assert.IsNull(resolver.Resolve(platformItem, packageItem2));
         }
     }
 }

@@ -7,18 +7,18 @@ using FluentAssertions;
 using Microsoft.Build.Framework;
 using NuGet.Common;
 using NuGet.ProjectModel;
-using Xunit;
 using static Microsoft.NET.Build.Tasks.UnitTests.LockFileSnippets;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAResolvePackageDependenciesTask
     {
         private static readonly string _packageRoot = "\\root\\packages".Replace('\\', Path.DirectorySeparatorChar);
         private static readonly string _projectPath = "\\root\\anypath\\solutiondirectory\\myprojectdir\\myproject.csproj".Replace('\\', Path.DirectorySeparatorChar);
 
         [TestMethod]
-        [MemberData(nameof(ItemCounts))]
+        [DynamicData(nameof(ItemCounts))]
         public void ItRaisesLockFileToMSBuildItems(string projectName, int[] counts)
         {
             var task = GetExecutedTaskFromPrefix(projectName, out _);

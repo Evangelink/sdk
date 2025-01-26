@@ -8,6 +8,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.Tests
 {
+    [TestClass]
     public class DotnetSlnPostActionTests : IClassFixture<EnvironmentSettingsHelper>
     {
         private readonly IEngineEnvironmentSettings _engineEnvironmentSettings;
@@ -245,7 +246,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
                 targetBasePath);
 
             Assert.IsTrue(callback.InRoot);
-            Assert.Null(callback.TargetFolder);
+            Assert.IsNull(callback.TargetFolder);
         }
 
         [TestMethod]
@@ -276,7 +277,7 @@ namespace Microsoft.DotNet.Cli.New.Tests
                 new MockCreationResult(),
                 targetBasePath);
 
-            Assert.Null(callback.InRoot);
+            Assert.IsNull(callback.InRoot);
             Assert.AreEqual("src", callback.TargetFolder);
         }
 

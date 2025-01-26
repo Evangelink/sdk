@@ -7,6 +7,7 @@ using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolProjectWithComplexNugetDependency : SdkTest
     {
         public GivenThatWeWantToPackAToolProjectWithComplexNugetDependency(MSTestContext testContext) : base(testContext)

@@ -5,13 +5,14 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishWithoutConflicts : SdkTest
     {
         public GivenThatWeWantToPublishWithoutConflicts(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_solves_conflicts_between_package_and_implicit_references()
         {
             // Test case from https://github.com/dotnet/sdk/issues/3904.

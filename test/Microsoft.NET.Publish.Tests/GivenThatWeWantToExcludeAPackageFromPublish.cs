@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToExcludeAPackageFromPublish : SdkTest
     {
         public GivenThatWeWantToExcludeAPackageFromPublish(MSTestContext testContext) : base(testContext)

@@ -6,11 +6,11 @@
 using System.Reflection;
 using FluentAssertions;
 using Microsoft.Build.Framework;
-using Xunit;
 using static Microsoft.NET.Build.Tasks.ResolvePackageAssets;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAResolvePackageAssetsTask
     {
         [TestMethod]
@@ -217,4 +217,3 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         }
     }
 }
-

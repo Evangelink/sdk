@@ -6,7 +6,8 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
-public class RuntimeProcessLauncherTests(MSTestContext testContext) : DotNetWatchTestBase(logger)
+[TestClass]
+public class RuntimeProcessLauncherTests(MSTestContext testContext) : DotNetWatchTestBase(testContext)
 {
     public enum TriggerEvent
     {

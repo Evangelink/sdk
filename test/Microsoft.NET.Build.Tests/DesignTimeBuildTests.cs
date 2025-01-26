@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class DesignTimeBuildTests : SdkTest
     {
         public DesignTimeBuildTests(MSTestContext testContext) : base(testContext)

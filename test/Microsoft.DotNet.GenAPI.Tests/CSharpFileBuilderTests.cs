@@ -14,6 +14,7 @@ using Moq;
 
 namespace Microsoft.DotNet.GenAPI.Tests
 {
+    [TestClass]
     public class CSharpFileBuilderTests
     {
         class AllowAllFilter : ISymbolFilter

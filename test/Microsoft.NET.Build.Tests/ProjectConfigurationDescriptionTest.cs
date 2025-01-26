@@ -3,13 +3,14 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class ProjectConfigurationDescription : SdkTest
     {
         public ProjectConfigurationDescription(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTestMethod("17.2.1.25201")]
+        [TestMethod][MSBuildVersionCondition("17.2.1.25201")]
         public void ProjectConfigurationDescription_DefaultTest()
         {
             const string errorTargetFramework = "net48";

@@ -10,6 +10,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class PostActionDispatcherTests : IClassFixture<EnvironmentSettingsHelper>
     {
         private readonly EnvironmentSettingsHelper _environmentSettingsHelper;

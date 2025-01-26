@@ -6,6 +6,7 @@ using PackCommand = Microsoft.DotNet.Tools.Pack.PackCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetPackInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         const string ExpectedPrefix = "-maxcpucount -verbosity:m -tlp:default=auto -nologo -restore -target:pack";

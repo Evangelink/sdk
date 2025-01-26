@@ -6,6 +6,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace Microsoft.DotNet.Tests.CommandLineParserTests
 {
+    [TestClass]
     public class RestoreCommandLineParserTests
     {
         private readonly MSTestContext testContext;

@@ -6,6 +6,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.Tasks
 {
+    [TestClass]
     public class GenerateEFSQLScriptsTests
     {
         private static readonly ITaskItem DefaultContext = new TaskItem("DefaultContext", new Dictionary<string, string>() { { "Value", @"Server=(localdb)\mssqllocaldb; Database=defaultDB;Trusted_Connection=True;MultipleActiveResultSets=true" } });

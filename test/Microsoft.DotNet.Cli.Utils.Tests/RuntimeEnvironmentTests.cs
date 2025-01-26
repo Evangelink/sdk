@@ -3,13 +3,14 @@
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class RuntimeEnvironmentTests : SdkTest
     {
         public RuntimeEnvironmentTests(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void VerifyWindows()
         {
             Assert.AreEqual(Platform.Windows, RuntimeEnvironment.OperatingSystemPlatform);
@@ -25,7 +26,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             Assert.AreEqual(-1, osVersion.Revision);
         }
 
-        [MacOsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.MacOSX)]
         public void VerifyMacOs()
         {
             Assert.AreEqual(Platform.Darwin, RuntimeEnvironment.OperatingSystemPlatform);
@@ -41,7 +42,7 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             Assert.AreEqual(-1, osVersion.Revision);
         }
 
-        [LinuxOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Linux)]
         public void VerifyLinux()
         {
             Assert.AreEqual(Platform.Linux, RuntimeEnvironment.OperatingSystemPlatform);

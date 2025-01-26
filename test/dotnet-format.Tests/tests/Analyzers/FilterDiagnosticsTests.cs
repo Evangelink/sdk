@@ -14,6 +14,7 @@ namespace Microsoft.CodeAnalysis.Tools.Tests.Analyzers
 {
     using static AnalyzerAssemblyGenerator;
 
+    [TestClass]
     public class FilterDiagnosticsTests : CSharpFormatterTests
     {
         [TestMethod]

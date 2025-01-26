@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackACppCliProject : SdkTest
     {
         public GivenThatWeWantToPackACppCliProject(MSTestContext testContext) : base(testContext)

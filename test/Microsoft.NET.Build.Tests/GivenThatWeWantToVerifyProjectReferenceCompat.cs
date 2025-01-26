@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToVerifyProjectReferenceCompat : SdkTest
     {
         public GivenThatWeWantToVerifyProjectReferenceCompat(MSTestContext testContext) : base(testContext)

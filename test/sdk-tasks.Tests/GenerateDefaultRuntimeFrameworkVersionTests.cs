@@ -2,6 +2,7 @@
 
 namespace Microsoft.CoreSdkTasks.Tests
 {
+    [TestClass]
     public class GenerateDefaultRuntimeFrameworkVersionTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

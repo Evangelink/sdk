@@ -3,13 +3,14 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class Net50Targeting : SdkTest
     {
         public Net50Targeting(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0")]
+        [TestMethod][MSBuildVersionCondition("16.8.0")]
         public void Net50TargetFrameworkParsesAsNetCoreAppTargetFrameworkIdentifier()
         {
             var testProject = new TestProject()

@@ -13,6 +13,7 @@ using NuGet.Packaging.Core;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
+[TestClass]
 public class ResolveCompressedAssetsTest
 {
     public string ItemSpec { get; }

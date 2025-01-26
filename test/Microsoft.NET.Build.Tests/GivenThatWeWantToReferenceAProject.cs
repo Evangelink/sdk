@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToReferenceAProject : SdkTest
     {
         const string tfm = ToolsetInfo.CurrentTargetFramework;
@@ -36,7 +37,7 @@ namespace Microsoft.NET.Build.Tests
             FailsBuild
         }
 
-        [RequiresMSBuildVersionTheory("16.8.0.42407")]
+        [TestMethod][MSBuildVersionCondition("16.8.0.42407")]
         [DataRow("net5.0-windows", "net5.0", true)]
         [DataRow("net5.0", "net5.0-windows", false)]
         [DataRow("net5.0-windows", "net5.0-windows", true)]
@@ -152,7 +153,7 @@ namespace Microsoft.NET.Build.Tests
             return ret;
         }
 
-        [RequiresMSBuildVersionTheory("16.7.1")]
+        [TestMethod][MSBuildVersionCondition("16.7.1")]
         [DataRow(true, true)]
         [DataRow(false, true)]
         [DataRow(false, false)]
@@ -233,7 +234,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [RequiresMSBuildVersionTestMethod("16.8.0")]
+        [TestMethod][MSBuildVersionCondition("16.8.0")]
         public void It_copies_content_transitively()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

@@ -9,6 +9,7 @@ using Microsoft.DotNet.ApiSymbolExtensions.Tests;
 
 namespace Microsoft.DotNet.ApiCompatibility.Rules.Tests
 {
+    [TestClass]
     public class CannotAddAbstractMemberTests
     {
         private static readonly TestRuleFactory s_ruleFactory = new((settings, context) => new CannotAddAbstractMember(settings, context));

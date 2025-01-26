@@ -6,6 +6,7 @@ using Microsoft.NET.Build.Containers;
 
 namespace containerize.UnitTests;
 
+[TestClass]
 public class ParserTests
 {
     [TestMethod]

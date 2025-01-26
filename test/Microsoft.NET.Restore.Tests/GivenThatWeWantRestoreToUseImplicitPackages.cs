@@ -9,6 +9,7 @@ using NuGet.ProjectModel;
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRestoreToUseImplicitPackages : SdkTest
     {
         public GivenThatWeWantToRestoreToUseImplicitPackages(MSTestContext testContext) : base(testContext)

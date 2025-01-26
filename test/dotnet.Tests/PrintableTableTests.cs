@@ -7,6 +7,7 @@ using Microsoft.DotNet.Cli;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class PrintableTableTests : SdkTest
     {
         public PrintableTableTests(MSTestContext testContext) : base(testContext)

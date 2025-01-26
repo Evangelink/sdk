@@ -6,9 +6,10 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class MSBuildEvaluationTests : BaseIntegrationTest
     {
-        public MSBuildEvaluationTests(MSTestTestContext testContext) : base(testContext)
+        public MSBuildEvaluationTests(MSTestContext testContext) : base(testContext)
         {
         }
 

@@ -12,6 +12,7 @@ using TestLoggerFactory = Microsoft.NET.TestFramework.TestLoggerFactory;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class CommonTemplatesTests : BaseIntegrationTest, IClassFixture<SharedHomeDirectory>
     {
         private readonly SharedHomeDirectory _fixture;

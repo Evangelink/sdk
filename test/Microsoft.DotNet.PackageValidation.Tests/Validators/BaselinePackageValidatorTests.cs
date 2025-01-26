@@ -9,6 +9,7 @@ using Moq;
 
 namespace Microsoft.DotNet.PackageValidation.Validators.Tests
 {
+    [TestClass]
     public class BaselinePackageValidatorTests
     {
         private (SuppressibleTestLog, BaselinePackageValidator) CreateLoggerAndValidator()
@@ -37,7 +38,7 @@ namespace Microsoft.DotNet.PackageValidation.Validators.Tests
                 enqueueApiCompatWorkItems: false,
                 baselinePackage: baselinePackage));
 
-            Assert.NotEmpty(log.errors);
+            Assert.IsNotEmpty(log.errors);
             Assert.Contains(DiagnosticIds.TargetFrameworkDropped + " " + string.Format(Resources.MissingTargetFramework, ".NETStandard,Version=v2.0"), log.errors);
         }
 

@@ -10,6 +10,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class ImplicitAspNetVersions : SdkTest
     {
         public ImplicitAspNetVersions(MSTestContext testContext) : base(testContext)

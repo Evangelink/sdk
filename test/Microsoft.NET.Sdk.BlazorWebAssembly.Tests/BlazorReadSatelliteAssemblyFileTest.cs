@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class BlazorReadSatelliteAssemblyFileTest
     {
         [TestMethod]

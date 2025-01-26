@@ -16,6 +16,7 @@ using LocalizableStrings = Microsoft.DotNet.Workloads.Workload.Repair.Localizabl
 
 namespace Microsoft.DotNet.Cli.Workload.Repair.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadRepair : SdkTest
     {
         private readonly ParseResult _parseResult;

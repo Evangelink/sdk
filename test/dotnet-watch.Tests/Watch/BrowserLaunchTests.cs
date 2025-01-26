@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class BrowserLaunchTests : DotNetWatchTestBase
     {
         private const string AppName = "WatchBrowserLaunchApp";

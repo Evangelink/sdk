@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class TypoCorrectionTests
     {
         [DataRow("wbe", "web|webapp|wpf|install|uninstall", "web|wpf", "Levanshtein algorithm")]

@@ -3,9 +3,10 @@
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenNetFrameworkSupportsNetStandard2(MSTestContext testContext) : SdkTest(testContext)
     {
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void Anet462ProjectCanReferenceANETStandardProject()
         {
             var _testInstance = _testAssetsManager

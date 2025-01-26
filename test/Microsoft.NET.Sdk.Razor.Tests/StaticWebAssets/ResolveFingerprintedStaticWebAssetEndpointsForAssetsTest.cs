@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tests.StaticWebAssets;
 
+[TestClass]
 public class ResolveFingerprintedStaticWebAssetEndpointsForAssetsTest
 {
     [TestMethod]

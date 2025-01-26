@@ -8,6 +8,7 @@ using Microsoft.DotNet.Tools.Tool.Search;
 
 namespace dotnet.Tests.ToolSearchTests
 {
+    [TestClass]
     public class SearchResultPrinterTests
     {
         private readonly BufferedReporter _reporter;

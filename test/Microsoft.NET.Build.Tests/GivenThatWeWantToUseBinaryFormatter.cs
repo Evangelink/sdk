@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToUseBinaryFormatter : SdkTest
     {
         public GivenThatWeWantToUseBinaryFormatter(MSTestContext testContext) : base(testContext)

@@ -6,6 +6,7 @@ using Microsoft.TemplateEngine.Abstractions.Components;
 
 namespace Microsoft.DotNet.Cli.New.Tests
 {
+    [TestClass]
     public class SdkInfoProviderTests
     {
         [TestMethod]

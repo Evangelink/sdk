@@ -7,6 +7,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class WorkloadTests : SdkTest
     {
         public WorkloadTests(MSTestContext testContext) : base(testContext)

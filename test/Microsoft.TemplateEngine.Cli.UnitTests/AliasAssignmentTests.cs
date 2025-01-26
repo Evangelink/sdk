@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class AliasAssignmentTests
     {
         private static HashSet<string> InitiallyTakenAliases

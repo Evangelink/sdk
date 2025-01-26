@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
 #pragma warning disable xUnit1004 // Test methods should not be skipped
 
     public class GivenThatWeWantToTargetNet471 : SdkTest
@@ -31,7 +32,7 @@ namespace Microsoft.NET.Build.Tests
             "System.Xml.XPath.XDocument.dll"
         };
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_net471_app()
         {
             var testProject = new TestProject()
@@ -62,7 +63,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_net471_app_referencing_netstandard20()
         {
             var testProject = new TestProject()
@@ -103,7 +104,7 @@ namespace Microsoft.NET.Build.Tests
             }.Concat(net471Shims));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_does_not_include_facades_from_nuget_packages()
         {
             var testProject = new TestProject()
@@ -143,7 +144,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_includes_shims_when_net471_app_references_netstandard16()
         {
             var testProject = new TestProject()
@@ -185,7 +186,7 @@ namespace Microsoft.NET.Build.Tests
             }.Concat(net471Shims));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_does_not_include_shims_when_app_references_471_library_and_461_library()
         {
             var testProject = new TestProject()
@@ -235,7 +236,7 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_contains_shims_if_override_property_is_set()
         {
             var testProject = new TestProject()
@@ -269,7 +270,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void Aliases_are_preserved_for_replaced_references()
         {
             var testProject = new TestProject()
@@ -331,7 +332,7 @@ public static class Program
         }
 
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ZipFileCanBeSharedWithNetStandard16_sdk()
         {
             TestZipFileSharing(true);

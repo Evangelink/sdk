@@ -5,6 +5,7 @@ using Microsoft.DotNet.GenAPI.SyntaxRewriter;
 
 namespace Microsoft.DotNet.GenAPI.Tests.SyntaxRewriter
 {
+    [TestClass]
     public class SingleLineStatementCSharpSyntaxRewriterTests : CSharpSyntaxRewriterTestBase
     {
         [TestMethod]

@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 
 namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
 {
+    [TestClass]
     public class SuppressionEngineTests
     {
         [TestMethod]
@@ -65,7 +66,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             var (suppressionFileUpdated, writtenSuppressions) = suppressionEngine.WriteSuppressionsToFile(filePath, preserveUnnecessarySuppressions: true);
 
             Assert.IsTrue(suppressionFileUpdated);
-            Assert.NotEmpty(writtenSuppressions);
+            Assert.IsNotEmpty(writtenSuppressions);
 
             // Trimming away the comment as the serializer doesn't preserve them.
             string expectedSuppressionFile = TestSuppressionEngine.DefaultSuppressionFile.Replace(TestSuppressionEngine.SuppressionFileComment, string.Empty);
@@ -80,7 +81,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
 
             IReadOnlyCollection<Suppression> unnecessarySuppressions = suppressionEngine.GetUnnecessarySuppressions();
 
-            Assert.NotEmpty(unnecessarySuppressions);
+            Assert.IsNotEmpty(unnecessarySuppressions);
         }
 
         [TestMethod]
@@ -90,7 +91,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             suppressionEngine.LoadSuppressions("NonExistentFile.xml");
 
             Assert.IsEmpty(suppressionEngine.Suppressions);
-            Assert.NotEmpty(suppressionEngine.BaselineSuppressions);
+            Assert.IsNotEmpty(suppressionEngine.BaselineSuppressions);
         }
 
         [TestMethod]
@@ -203,7 +204,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
             var (suppressionFileUpdated, updatedSuppressions) = suppressionEngine.WriteSuppressionsToFile(filePath, preserveUnnecessarySuppressions: true);
 
             Assert.IsTrue(suppressionFileUpdated);
-            Assert.NotEmpty(updatedSuppressions);
+            Assert.IsNotEmpty(updatedSuppressions);
 
             XmlSerializer xmlSerializer = new(typeof(Suppression[]), new XmlRootAttribute("Suppressions"));
             Suppression[] deserializedSuppressions = xmlSerializer.Deserialize(stream) as Suppression[];

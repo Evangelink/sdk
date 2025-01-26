@@ -9,6 +9,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Tools.Run.Tests
 {
+    [TestClass]
     public class GivenANuGetCommand : SdkTest
     {
         public GivenANuGetCommand(MSTestContext testContext) : base(testContext)

@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class ReporterTests
     {
         private static readonly string EOL = Environment.NewLine;

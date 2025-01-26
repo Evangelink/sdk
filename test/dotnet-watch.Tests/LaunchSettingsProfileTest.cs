@@ -5,6 +5,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
+[TestClass]
 public class LaunchSettingsProfileTest
 {
     private readonly IReporter _reporter;

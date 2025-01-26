@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GetPublishItemsOutputGroupOutputsTests
     {
         private readonly MockTaskItem _apphost
@@ -28,7 +29,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 });
 
         // The logic is cross platform but the test path examples are all in Windows
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_can_expand_OutputPath()
         {
             var task = new GetPublishItemsOutputGroupOutputs

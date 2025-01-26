@@ -9,6 +9,7 @@ using DiagnosticMessage = Xunit.Sdk.DiagnosticMessage;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public partial class DotnetNewInstallTests : BaseIntegrationTest, IClassFixture<DiagnosticFixture>
     {
         private readonly IMessageSink _messageSink;

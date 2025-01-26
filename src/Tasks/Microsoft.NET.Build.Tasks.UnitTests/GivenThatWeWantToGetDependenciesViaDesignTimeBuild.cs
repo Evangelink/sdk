@@ -2,25 +2,28 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Reflection;
+
 using FluentAssertions;
+
 using Microsoft.Build.Framework;
 using Microsoft.NET.TestFramework;
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenThatWeWantToGetDependenciesViaDesignTimeBuild : SdkTest
     {
-        public GivenThatWeWantToGetDependenciesViaDesignTimeBuild(ITestOutputHelper log) : base(log)
+        public GivenThatWeWantToGetDependenciesViaDesignTimeBuild(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItShouldIgnoreAllDependenciesWithTypeNotEqualToPackageOrUnresolved()
         {
             var testRoot = _testAssetsManager.CreateTestDirectory().Path;
-            Log.WriteLine("Test root: " + testRoot);
+            MSTestContext.WriteLine("Test root: " + testRoot);
 
             string projectAssetsJsonPath = Path.Combine(testRoot, "project.assets.json");
             string projectCacheAssetsJsonPath = Path.Combine(testRoot, "projectassets.cache");
@@ -49,11 +52,12 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             Assert.AreEqual("top.package2/1.0.0", item2.ItemSpec);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItShouldIdentifyDefaultImplicitPackages()
         {
             var testRoot = _testAssetsManager.CreateTestDirectory().Path;
-            Log.WriteLine("Test root: " + testRoot);
+            MSTestContext.WriteLine("Test root: " + testRoot);
 
             string projectAssetsJsonPath = Path.Combine(testRoot, "project.assets.json");
             string projectCacheAssetsJsonPath = Path.Combine(testRoot, "projectassets.cache");
@@ -84,11 +88,12 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             Assert.AreEqual("True", item3.GetMetadata(MetadataKeys.IsImplicitlyDefined));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItShouldOnlyReturnPackagesInTheSpecifiedTarget()
         {
             var testRoot = _testAssetsManager.CreateTestDirectory().Path;
-            Log.WriteLine("Test root: " + testRoot);
+            MSTestContext.WriteLine("Test root: " + testRoot);
 
             string projectAssetsJsonPath = Path.Combine(testRoot, "project.assets.json");
             string projectCacheAssetsJsonPath = Path.Combine(testRoot, "projectassets.cache");
@@ -351,11 +356,12 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
             Assert.AreEqual("top.package1/1.0.0", item1.ItemSpec);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItShouldOnlyReturnTopLevelPackages()
         {
             var testRoot = _testAssetsManager.CreateTestDirectory().Path;
-            Log.WriteLine("Test root: " + testRoot);
+            MSTestContext.WriteLine("Test root: " + testRoot);
 
             string projectAssetsJsonPath = Path.Combine(testRoot, "project.assets.json");
             string projectCacheAssetsJsonPath = Path.Combine(testRoot, "projectassets.cache");

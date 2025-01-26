@@ -5,6 +5,7 @@ using Microsoft.DotNet.ApiCompat;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests
 {
+    [TestClass]
     public class RegexStringTransformerTests
     {
         [TestMethod]

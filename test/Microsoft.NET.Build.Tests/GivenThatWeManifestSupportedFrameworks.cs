@@ -3,13 +3,14 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeManifestSupportedFrameworks : SdkTest
     {
         public GivenThatWeManifestSupportedFrameworks(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTheory("17.12.0")]
+        [TestMethod][MSBuildVersionCondition("17.12.0")]
         [DataRow(".NETCoreApp")]
         [DataRow(".NETStandard")]
         public void TheMaximumVersionsAreSupported(string targetFrameworkIdentifier)

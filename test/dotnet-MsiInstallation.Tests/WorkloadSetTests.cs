@@ -9,6 +9,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.MsiInstallerTests
 {
+    [TestClass]
     public class WorkloadSetTests : WorkloadSetTestsBase
     {
         public WorkloadSetTests(MSTestContext testContext) : base(testContext)

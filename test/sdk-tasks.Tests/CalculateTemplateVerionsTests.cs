@@ -2,6 +2,7 @@
 
 namespace Microsoft.CoreSdkTasks.Tests
 {
+    [TestClass]
     public class CalculateTemplateVersionsTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

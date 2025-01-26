@@ -3,9 +3,10 @@
 
 namespace Microsoft.Win32.Msi.Tests
 {
+    [TestClass]
     public class EventArgsTests
     {
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItParsesProgressMessageFields()
         {
             ProgressEventArgs e = new("1: 2 2: 4 3: 6 4: 9", InstallMessage.PROGRESS, 0);
@@ -15,7 +16,7 @@ namespace Microsoft.Win32.Msi.Tests
             Assert.AreEqual(ProgressType.ProgressReport, e.ProgressType);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItParsesActionStartMessageFields()
         {
             ActionStartEventArgs e = new("Action 20:08:24: ProcessComponents. Updating component registration",

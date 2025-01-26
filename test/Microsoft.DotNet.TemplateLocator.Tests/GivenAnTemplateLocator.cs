@@ -5,6 +5,7 @@ using Microsoft.DotNet.DotNetSdkResolver;
 
 namespace Microsoft.DotNet.TemplateLocator.Tests
 {
+    [TestClass]
     public class GivenAnTemplateLocator : SdkTest
     {
         private readonly TemplateLocator _resolver;

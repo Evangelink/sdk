@@ -9,6 +9,7 @@ using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolProjectWithGeneratePackageOnBuild : SdkTest
     {
 

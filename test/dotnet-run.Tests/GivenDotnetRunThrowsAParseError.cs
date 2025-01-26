@@ -5,6 +5,7 @@ using LocalizableStrings = Microsoft.DotNet.Tools.Run.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenDotnetRunThrowsAParseError : SdkTest
     {
         public GivenDotnetRunThrowsAParseError(MSTestContext testContext) : base(testContext)

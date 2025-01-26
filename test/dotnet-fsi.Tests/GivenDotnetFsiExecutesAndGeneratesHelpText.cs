@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Fsi.Tests
 {
+    [TestClass]
     public class GivenDotnetFsiExecutesAndGeneratesHelpText : SdkTest
     {
         public GivenDotnetFsiExecutesAndGeneratesHelpText(MSTestContext testContext) : base(testContext)

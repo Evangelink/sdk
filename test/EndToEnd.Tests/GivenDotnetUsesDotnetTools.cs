@@ -3,6 +3,7 @@
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class GivenDotnetUsesDotnetTools(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

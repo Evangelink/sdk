@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class WebProjectsTests : BaseIntegrationTest, IClassFixture<WebProjectsFixture>
     {
         private readonly WebProjectsFixture _fixture;

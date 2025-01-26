@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Clean.Tests
 {
+    [TestClass]
     public class GivenDotnetCleanCleansBuildArtifacts : SdkTest
     {
         public GivenDotnetCleanCleansBuildArtifacts(MSTestContext testContext) : base(testContext)

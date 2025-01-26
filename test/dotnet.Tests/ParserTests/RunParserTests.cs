@@ -5,6 +5,7 @@ using Microsoft.DotNet.Tools.Run;
 
 namespace Microsoft.DotNet.Tests.ParserTests
 {
+    [TestClass]
     public class RunParserTests
     {
         public RunParserTests(MSTestContext testContext)

@@ -5,6 +5,7 @@ using Microsoft.NET.Build.Containers.Resources;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class ImageIndexGeneratorTests
 {
     [TestMethod]

@@ -7,6 +7,7 @@ using Microsoft.DotNet.Tools.Test.Utilities;
 
 namespace Microsoft.DotNet.Cli.VSTest.Tests
 {
+    [TestClass]
     public class VSTestTests : SdkTest
     {
         public VSTestTests(MSTestContext testContext) : base(testContext)

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks.Test;
 
+[TestClass]
 public class PathTokenizerTest
 {
     [TestMethod]

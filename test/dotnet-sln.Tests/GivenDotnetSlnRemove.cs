@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 
 namespace Microsoft.DotNet.Cli.Sln.Remove.Tests
 {
+    [TestClass]
     public class GivenDotnetSlnRemove : SdkTest
     {
         private Func<string, string> HelpText = (defaultVal) => $@"Description:

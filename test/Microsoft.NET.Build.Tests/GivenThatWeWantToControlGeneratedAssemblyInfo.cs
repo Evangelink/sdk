@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToControlGeneratedAssemblyInfo : SdkTest
     {
         public GivenThatWeWantToControlGeneratedAssemblyInfo(MSTestContext testContext) : base(testContext)
@@ -235,7 +236,7 @@ namespace Microsoft.NET.Build.Tests
             command.GetValues().Should().BeEquivalentTo(new[] { "1.2.3+abc.xyz" });
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         [DataRow("net45")]
         public void It_respects_version_prefix(string targetFramework)
@@ -263,7 +264,7 @@ namespace Microsoft.NET.Build.Tests
             info["AssemblyInformationalVersionAttribute"].Should().Be("1.2.3");
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         [DataRow("net45")]
         public void It_respects_version_changes_on_incremental_build(string targetFramework)
@@ -361,7 +362,7 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["InternalsVisibleToAttribute"].Should().Be("Tests");
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(true, true, "net5.0")]
         [DataRow(true, true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(true, false, ToolsetInfo.CurrentTargetFramework)]
@@ -431,7 +432,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void It_doesnt_includes_requires_preview_features()
         {
             var testAsset = _testAssetsManager
@@ -687,7 +688,7 @@ namespace Microsoft.NET.Build.Tests
             }
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: referenceAspNetCore.ToString() + referenceExtensionsUserSecrets.ToString())
-                .Restore(Log, testProject.Name);
+                .Restore(MSTestContext, testProject.Name);
 
             var buildCommand = new BuildCommand(testAsset);
 

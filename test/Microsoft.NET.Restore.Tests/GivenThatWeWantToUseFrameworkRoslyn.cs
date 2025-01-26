@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToUseFrameworkRoslyn : SdkTest
     {
         public GivenThatWeWantToUseFrameworkRoslyn(MSTestContext testContext) : base(testContext)

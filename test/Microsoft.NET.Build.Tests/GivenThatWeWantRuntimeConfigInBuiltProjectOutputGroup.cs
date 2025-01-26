@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantRuntimeConfigInBuiltProjectOutputGroup : SdkTest
     {
         public GivenThatWeWantRuntimeConfigInBuiltProjectOutputGroup(MSTestContext testContext) : base(testContext)

@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public partial class DotnetNewDetailsTest : BaseIntegrationTest
     {
         private const string _nuGetPackageId = "Uno.ProjectTemplates.Dotnet";

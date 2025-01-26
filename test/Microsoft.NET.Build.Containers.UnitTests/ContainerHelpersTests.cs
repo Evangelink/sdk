@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class ContainerHelpersTests
 {
     private const string DefaultRegistry = "docker.io";
@@ -129,7 +130,7 @@ public class ContainerHelpersTests
         }
         else
         {
-            Assert.Null(port);
+            Assert.IsNull(port);
             Assert.IsNotNull(errors);
             Assert.AreEqual(expectedError, errors);
         }

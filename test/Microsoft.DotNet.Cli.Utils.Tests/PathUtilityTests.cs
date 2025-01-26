@@ -5,12 +5,13 @@ using Microsoft.DotNet.Tools.Common;
 
 namespace Microsoft.DotNet.Cli.Utils
 {
+    [TestClass]
     public class PathUtilityTests
     {
         /// <summary>
         /// Tests that PathUtility.GetRelativePath treats drive references as case insensitive on Windows.
         /// </summary>
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GetRelativePathWithCaseInsensitiveDrives()
         {
             Assert.AreEqual(@"bar\", PathUtility.GetRelativePath(@"C:\foo\", @"C:\foo\bar\"));
@@ -19,7 +20,7 @@ namespace Microsoft.DotNet.Cli.Utils
             Assert.AreEqual(@"d:\foo\", PathUtility.GetRelativePath(@"C:\foo\", @"d:\foo\"));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GetRelativePathForFilePath()
         {
             Assert.AreEqual(
@@ -29,7 +30,7 @@ namespace Microsoft.DotNet.Cli.Utils
                     $@"C:\Users\myuser\.dotnet\tools\mytool\1.0.1\mytool\1.0.1\tools\{ToolsetInfo.CurrentTargetFramework}\any\mytool.dll"));
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void GetRelativePathRequireTrailingSlashForDirectoryPath()
         {
             Assert.AreNotEqual(
@@ -48,7 +49,7 @@ namespace Microsoft.DotNet.Cli.Utils
         /// <summary>
         /// Tests that PathUtility.RemoveExtraPathSeparators works correctly with drive references on Windows.
         /// </summary>
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void RemoveExtraPathSeparatorsWithDrives()
         {
             Assert.AreEqual(@"c:\foo\bar\baz\", PathUtility.RemoveExtraPathSeparators(@"c:\\\foo\\\\bar\baz\\"));

@@ -8,6 +8,7 @@ using CommandLocalizableStrings = Microsoft.DotNet.Tools.Sln.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Sln.List.Tests
 {
+    [TestClass]
     public class GivenDotnetSlnList : SdkTest
     {
         private Func<string, string> HelpText = (defaultVal) => $@"Description:

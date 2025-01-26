@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAWindowsRuntimeComponent : SdkTest
     {
         public GivenThatWeWantToBuildAWindowsRuntimeComponent(MSTestContext testContext) : base(testContext)
@@ -89,7 +90,7 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ManagedWinRTComponentCanBeReferenced()
         {
             var managedWinRTComponent = new TestProject()

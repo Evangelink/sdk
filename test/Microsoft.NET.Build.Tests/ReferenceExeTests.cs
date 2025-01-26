@@ -8,6 +8,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class ReferenceExeTests : SdkTest
     {
         public ReferenceExeTests(MSTestContext testContext) : base(testContext)
@@ -322,7 +323,7 @@ public class ReferencedExeProgram
                 .Replace("Boolean", referenceExeInCode.ToString()));
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("xunit")]
         [DataRow("mstest")]
         public void TestProjectCanReferenceExe(string testTemplateName)
@@ -359,7 +360,7 @@ public class ReferencedExeProgram
 
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("xunit")]
         [DataRow("mstest")]
         public void ExeProjectCanReferenceTestProject(string testTemplateName)

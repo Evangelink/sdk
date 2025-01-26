@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Run.Tests
 {
+    [TestClass]
     public class GivenThatWeCanPassNonProjectFilesToDotnetRun : SdkTest
     {
         public GivenThatWeCanPassNonProjectFilesToDotnetRun(MSTestContext testContext) : base(testContext)

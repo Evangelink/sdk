@@ -9,6 +9,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.Cli.Workload.Search.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadSearch : SdkTest
     {
         private readonly BufferedReporter _reporter;

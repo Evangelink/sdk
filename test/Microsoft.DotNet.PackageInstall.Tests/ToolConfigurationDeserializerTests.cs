@@ -6,6 +6,7 @@ using Microsoft.DotNet.Tools;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class ToolConfigurationDeserializerTests
     {
         [TestMethod]

@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.NuGetPackageDownloader.WorkloadUnixFilePermissions;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class UnixFilePermissionsTests
     {
         [TestMethod]

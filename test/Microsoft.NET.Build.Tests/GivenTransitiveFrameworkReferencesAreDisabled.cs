@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenTransitiveFrameworkReferencesAreDisabled : SdkTest
     {
         public GivenTransitiveFrameworkReferencesAreDisabled(MSTestContext testContext) : base(testContext)

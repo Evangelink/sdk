@@ -6,6 +6,7 @@ using System.IO.Compression;
 
 namespace Microsoft.NET.Build.Containers.IntegrationTests;
 
+[TestClass]
 public class PackageTests
 {
     [TestMethod]

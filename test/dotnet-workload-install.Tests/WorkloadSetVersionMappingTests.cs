@@ -18,6 +18,7 @@ using Microsoft.DotNet.Workloads.Workload;
 
 namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 {
+    [TestClass]
     public class WorkloadSetVersionMappingTests : SdkTest
     {
 

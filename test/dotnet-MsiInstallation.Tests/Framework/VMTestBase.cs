@@ -14,7 +14,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
         public VMTestBase(MSTestContext testContext) : base(testContext)
         {
-            VM = new VirtualMachine(Log);
+            VM = new VirtualMachine(MSTestContext);
             _sdkInstallerVersion = new Lazy<string>(() =>
             {
                 if (!string.IsNullOrEmpty(VM.VMTestSettings.SdkInstallerVersion))

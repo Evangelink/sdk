@@ -6,12 +6,14 @@
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.Versioning;
+
 using Microsoft.DotNet.Installer.Windows;
 using Microsoft.DotNet.Installer.Windows.Security;
 
 namespace Microsoft.DotNet.Tests
 {
     [SupportedOSPlatform("windows5.1.2600")]
+    [TestClass]
     public class WindowsInstallerTests
     {
         private static string s_testDataPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "TestData");
@@ -29,11 +31,12 @@ namespace Microsoft.DotNet.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void MultipleProcessesCanWriteToTheLog()
         {
             var logFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            TimestampedFileLogger logger = new(testContextFile);
+            TimestampedFileLogger logger = new(logFile);
 
             logger.AddNamedPipe("np1");
             logger.AddNamedPipe("np2");
@@ -46,7 +49,7 @@ namespace Microsoft.DotNet.Tests
             Task.WaitAll(t1, t2, t3);
             logger.Dispose();
 
-            string logContent = File.ReadAllText(testContextFile);
+            string logContent = File.ReadAllText(logFile);
 
             Assert.Contains("Hello from np1", logContent);
             Assert.Contains("Hello from np2", logContent);
@@ -54,7 +57,8 @@ namespace Microsoft.DotNet.Tests
             Assert.Contains("=== Logging ended ===", logContent);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void InstallMessageDispatcherProcessesMessages()
         {
             string pipeName = Guid.NewGuid().ToString();
@@ -79,7 +83,8 @@ namespace Microsoft.DotNet.Tests
             Assert.AreEqual("Shutting down!", r2.Message);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("1033,1041,1049", UpgradeAttributes.MigrateFeatures, 1041, false)]
         [DataRow(null, UpgradeAttributes.LanguagesExclusive, 3082, false)]
         [DataRow("1033,1041,1049", UpgradeAttributes.LanguagesExclusive, 1033, true)]
@@ -95,7 +100,8 @@ namespace Microsoft.DotNet.Tests
             Assert.AreEqual(expectedResult, rp.ExcludesLanguage(lcid));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("72.13.638", UpgradeAttributes.MigrateFeatures, "72.13.639", true)]
         [DataRow("72.13.638", UpgradeAttributes.VersionMaxInclusive, "72.13.638", false)]
         public void RelatedProductExcludesMaxVersion(string maxVersion, UpgradeAttributes attributes, string installedVersionValue,
@@ -113,7 +119,8 @@ namespace Microsoft.DotNet.Tests
             Assert.AreEqual(expectedResult, rp.ExcludesMaxVersion(installedVersion));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("72.13.638", UpgradeAttributes.MigrateFeatures, "72.13.638", true)]
         [DataRow("72.13.638", UpgradeAttributes.VersionMinInclusive, "72.13.638", false)]
         public void RelatedProductExcludesMinVersion(string minVersion, UpgradeAttributes attributes, string installedVersionValue,
@@ -131,7 +138,8 @@ namespace Microsoft.DotNet.Tests
             Assert.AreEqual(expectedResult, rp.ExcludesMinVersion(installedVersion));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         // This verifies E_TRUST_BAD_DIGEST (file was modified after being signed)
         [DataRow(@"tampered.msi", -2146869232)]
         [DataRow(@"dual_signed.dll", 0)]
@@ -146,7 +154,8 @@ namespace Microsoft.DotNet.Tests
             Assert.AreEqual(expectedStatus, status);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(@"dotnet_realsigned.exe", 0)]
         // Valid SHA1 signature, but no longer considered a trusted root certificate, should return CERT_E_UNTRUSTEDROOT.
         [DataRow(@"system.web.mvc.dll", -2146762487)]

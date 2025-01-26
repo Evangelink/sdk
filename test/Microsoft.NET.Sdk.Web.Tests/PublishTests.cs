@@ -7,6 +7,7 @@ using System.Text.Json.Nodes;
 
 namespace Microsoft.NET.Sdk.Web.Tests
 {
+    [TestClass]
     public class PublishTests : SdkTest
     {
         public PublishTests(MSTestContext testContext) : base(testContext)

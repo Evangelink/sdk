@@ -7,6 +7,7 @@ using EndToEnd.Tests.Utilities;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public partial class GivenSelfContainedAppsRollForward(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

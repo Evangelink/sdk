@@ -6,6 +6,7 @@ using Microsoft.NET.Sdk.Razor.Tests;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class BlazorLegacyIntegrationTest60(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(BlazorLegacyIntegrationTest60))
     {
@@ -44,7 +45,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             new FileInfo(Path.Combine(serverBuildOutputDirectory, $"{testAsset}.Shared.dll")).Should().Exist();
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.13", Reason = "Needs System.Text.Json 8.0.5")] // https://github.com/dotnet/sdk/issues/44886
+        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("17.13", Reason = "Needs System.Text.Json 8.0.5")] // https://github.com/dotnet/sdk/issues/44886
         [SkipOnPlatform(OperatingSystems.Linux | OperatingSystems.OSX, "https://github.com/dotnet/sdk/issues/42145")]
         public void Publish60Hosted_Works()
         {

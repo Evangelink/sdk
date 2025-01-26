@@ -7,6 +7,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToResolveRuntimePackAssets : SdkTest
     {
         public GivenThatWeWantToResolveRuntimePackAssets(MSTestContext testContext) : base(testContext)
@@ -73,7 +74,7 @@ namespace Microsoft.NET.Build.Tests
 </FileList>");
 
             var command = new MSBuildCommand(
-                Log,
+                MSTestContext,
                 "TestResolveRuntimePackAssets",
                 projectDirectory);
 

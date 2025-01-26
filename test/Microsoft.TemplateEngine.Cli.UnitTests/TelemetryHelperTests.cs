@@ -9,6 +9,7 @@ using Microsoft.TemplateEngine.Utils;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class TelemetryHelperTests
     {
         [TestMethod(nameof(NonChoiceParameterHasNullCanonicalValueTest))]
@@ -25,7 +26,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod(nameof(UnknownParameterNameHasNullCanonicalValueTest))]
@@ -43,7 +44,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "OtherName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod(nameof(InvalidChoiceValueForParameterHasNullCanonicalValueTest))]
@@ -68,7 +69,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod(nameof(ValidChoiceForParameterIsItsOwnCanonicalValueTest))]
@@ -117,7 +118,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod(nameof(AmbiguousStartsWithValueHasNullCanonicalValueTest))]
@@ -143,7 +144,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod(nameof(ChoiceValueCaseDifferenceIsAMatchTest))]
@@ -193,7 +194,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
             };
 
             string? telemetryEntry = TelemetryHelper.PrepareHashedChoiceValue(templateInfo, parameterValues, "TestName");
-            Assert.Null(telemetryEntry);
+            Assert.IsNull(telemetryEntry);
         }
 
         [TestMethod]

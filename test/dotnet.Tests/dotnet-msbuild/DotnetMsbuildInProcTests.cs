@@ -10,6 +10,7 @@ using Microsoft.DotNet.Tools.MSBuild;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class DotnetMsbuildInProcTests : SdkTest
     {
         public DotnetMsbuildInProcTests(MSTestContext testContext) : base(testContext)

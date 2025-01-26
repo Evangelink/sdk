@@ -11,6 +11,7 @@ using IChannelTelemetry = Microsoft.ApplicationInsights.Channel.ITelemetry;
 
 namespace Microsoft.DotNet.Cli.Telemetry.PersistenceChannel.Tests
 {
+    [TestClass]
     /// <summary>
     ///     Tests for Storage.
     /// </summary>

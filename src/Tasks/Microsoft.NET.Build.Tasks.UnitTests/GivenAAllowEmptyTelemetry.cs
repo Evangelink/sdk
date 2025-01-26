@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAAllowEmptyTelemetry
     {
         private static ITaskItem CreateHashItem(string key, string? value = null, bool? hash = null)

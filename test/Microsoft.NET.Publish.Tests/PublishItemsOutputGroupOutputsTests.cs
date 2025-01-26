@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class PublishItemsOutputGroupOutputsTests : SdkTest
     {
         public PublishItemsOutputGroupOutputsTests(MSTestContext testContext) : base(testContext)

@@ -10,6 +10,7 @@ using Microsoft.NET.Build.Tasks.UnitTests;
 
 namespace Microsoft.DotNet.Watch.UnitTests;
 
+[TestClass]
 public class FileSetSerializerTests(MSTestContext testContext)
 {
     private readonly TestAssetsManager _testAssetManager = new (testContext);

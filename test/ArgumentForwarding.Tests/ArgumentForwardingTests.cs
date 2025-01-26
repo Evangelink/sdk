@@ -8,6 +8,7 @@ using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests.ArgumentForwarding
 {
+    [TestClass]
     public class ArgumentForwardingTests : SdkTest
     {
         private static readonly string s_reflectorDllName = "ArgumentsReflector.dll";
@@ -75,7 +76,7 @@ namespace Microsoft.DotNet.Tests.ArgumentForwarding
         /// This is a critical scenario for the driver.
         /// </summary>
         /// <param name="testUserArgument"></param>
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(@"""abc"" d e")]
         [DataRow(@"""abc""      d e")]
         [DataRow("\"abc\"\t\td\te")]
@@ -130,7 +131,7 @@ namespace Microsoft.DotNet.Tests.ArgumentForwarding
             }
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(@"a\""b c d")]
         [DataRow(@"a\\\""b c d")]
         [DataRow(@"""\a\"" \\""\\\ b c")]

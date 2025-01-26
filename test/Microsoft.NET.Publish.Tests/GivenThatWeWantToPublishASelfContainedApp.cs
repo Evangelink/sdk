@@ -7,6 +7,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishASelfContainedApp : SdkTest
     {
         private const string TestProjectName = "HelloWorld";
@@ -69,7 +70,7 @@ namespace Microsoft.NET.Publish.Tests
         private const int PEHeaderPointerOffset = 0x3C;
         private const int SubsystemOffset = 0x5C;
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_can_make_a_Windows_GUI_exe()
         {
             var runtimeIdentifier = EnvironmentInfo.GetCompatibleRid("netcoreapp2.0");
@@ -103,7 +104,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Be(2);
         }
 
-        [RequiresMSBuildVersionTestMethod("17.4.0.41702")]
+        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
         public void It_publishes_an_app_with_a_netcoreapp_lib_reference()
         {
             var testAsset = _testAssetsManager
@@ -125,7 +126,7 @@ namespace Microsoft.NET.Publish.Tests
                 .Pass();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_publishes_runtime_pack_resources()
         {
             const string tfm = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -169,7 +170,7 @@ namespace Microsoft.NET.Publish.Tests
             });
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_publishes_runtime_pack_resources_for_specific_languages()
         {
             const string tfm = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -219,7 +220,7 @@ namespace Microsoft.NET.Publish.Tests
                 });
         }
 
-        [RequiresMSBuildVersionTestMethod("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         public void NoStaticLibs()
         {
             var testAsset = _testAssetsManager

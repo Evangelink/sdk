@@ -6,6 +6,7 @@ using RestoreCommand = Microsoft.DotNet.Tools.Restore.RestoreCommand;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetRestoreInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         private const string ExpectedPrefix =

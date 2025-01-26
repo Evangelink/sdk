@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public class FirstRunTest : BaseIntegrationTest
     {
         public FirstRunTest(MSTestContext testContext) : base(testContext)

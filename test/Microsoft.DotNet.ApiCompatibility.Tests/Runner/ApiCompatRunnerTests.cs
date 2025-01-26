@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
 {
+    [TestClass]
     public class ApiCompatRunnerTests
     {
         private static ApiCompatRunner MockApiCompatRunner(MetadataInformation left = default,

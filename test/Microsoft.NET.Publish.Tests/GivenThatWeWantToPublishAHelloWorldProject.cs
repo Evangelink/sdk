@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAHelloWorldProject : SdkTest
     {
         private const string PublishRelease = nameof(PublishRelease);
@@ -384,7 +385,7 @@ public static class Program
                     .Should()
                     .Pass()
                     .And
-                    .HaveStdOutContaining(testContextMessage);
+                    .HaveStdOutContaining(outputMessage);
 
         }
 
@@ -761,7 +762,7 @@ public static class Program
                 .HaveStdOutContaining("NETSDK1085");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_contains_no_duplicates_in_resolved_publish_assets_on_windows()
             => It_contains_no_duplicates_in_resolved_publish_assets("windows");
 

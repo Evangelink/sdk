@@ -8,6 +8,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class RuntimeIdentifiersTests : SdkTest
     {
         public RuntimeIdentifiersTests(MSTestContext testContext) : base(testContext)
@@ -223,10 +224,10 @@ namespace Microsoft.NET.Publish.Tests
             var properties = testProject.GetPropertyValues(testAsset.TestRoot, configuration: "Release", targetFramework: tfm);
             var finalRid = properties["RuntimeIdentifier"];
 
-            Assert.IsTrue(finalRid == expectedRid);
+            Assert.AreEqual(expectedRid, finalRid);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void PublishRuntimeIdentifierOverridesUseCurrentRuntime()
         {
             string tfm = ToolsetInfo.CurrentTargetFramework;
@@ -254,8 +255,8 @@ namespace Microsoft.NET.Publish.Tests
             var finalRid = properties["RuntimeIdentifier"];
             var ucrRid = properties["NETCoreSdkPortableRuntimeIdentifier"];
 
-            Assert.IsTrue(finalRid == publishRid);
-            Assert.IsTrue(ucrRid != finalRid);
+            Assert.AreEqual(publishRid, finalRid);
+            Assert.AreNotEqual(finalRid, ucrRid);
         }
 
         [TestMethod]

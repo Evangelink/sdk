@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAWebApp : SdkTest
     {
         public GivenThatWeWantToPublishAWebApp(MSTestContext testContext) : base(testContext)
@@ -95,7 +96,7 @@ namespace Microsoft.NET.Publish.Tests
                 $"apphost{Constants.ExeSuffix}",
             });
 
-            new RunExeCommand(Log, Path.Combine(output.FullName, $"{testProject.Name}{Constants.ExeSuffix}"))
+            new RunExeCommand(MSTestContext, Path.Combine(output.FullName, $"{testProject.Name}{Constants.ExeSuffix}"))
                 .Execute()
                 .Should()
                 .Pass()

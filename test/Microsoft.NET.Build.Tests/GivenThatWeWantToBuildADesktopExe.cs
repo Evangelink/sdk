@@ -8,13 +8,14 @@ using Microsoft.Build.Framework;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildADesktopExe : SdkTest
     {
         public GivenThatWeWantToBuildADesktopExe(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_simple_desktop_app()
         {
             var targetFramework = "net45";
@@ -56,7 +57,7 @@ namespace Microsoft.NET.Build.Tests
             referenceAssemblies.Should().Equal(["mscorlib.dll", "netstandard.dll", "System.Runtime.dll",]);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void RuntimeIdentifiersInferredCorrectly(bool useRidGraph)
@@ -128,7 +129,7 @@ namespace Microsoft.NET.Build.Tests
         }
 
         //  Windows only because default RuntimeIdentifier only applies when current OS is Windows
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("Microsoft.DiasymReader.Native/1.7.0", false, "AnyCPU")]
         [DataRow("Microsoft.DiasymReader.Native/1.7.0", true, "x86")]
         [DataRow("Libuv/1.10.0", false, "x86")]
@@ -167,7 +168,7 @@ namespace Microsoft.NET.Build.Tests
             getValueCommand.GetValues().Single().Should().Be(expectedPlatform);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         // If we don't set platformTarget and don't use native dependency, we get working AnyCPU app.
         [DataRow("defaults", null, false, "Native code was not used (MSIL)")]
         // If we don't set platformTarget and do use native dependency, we get working x86 app.
@@ -253,7 +254,7 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.GetFiles("DesktopMinusRid.exe").Length.Should().Be(1);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         // implicit rid with option to append rid to output path off -> do not append
         [DataRow("implicitOff", "", false, false)]
         // implicit rid with option to append rid to output path on -> do not append (never append implicit rid irrespective of option)
@@ -333,7 +334,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("win7-x86", "x86")]
         [DataRow("win8-x86-aot", "x86")]
         [DataRow("win7-x64", "x64")]
@@ -366,7 +367,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo(expectedPlatformTarget);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_respects_explicit_platform_target()
         {
             var testAsset = _testAssetsManager
@@ -387,7 +388,7 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("x64");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_includes_default_framework_references()
         {
             var testProject = new TestProject()
@@ -427,7 +428,7 @@ namespace DefaultReferences
 
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_reports_a_single_failure_if_reference_assemblies_are_not_found()
         {
             var testProject = new TestProject()
@@ -457,7 +458,7 @@ namespace DefaultReferences
             result.StdOut.Should().Contain("1 Error(s)");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_does_not_report_conflicts_if_the_same_framework_assembly_is_referenced_multiple_times()
         {
             var testProject = new TestProject()
@@ -488,7 +489,7 @@ namespace DefaultReferences
                 .NotHaveStdOutMatching("Encountered conflict", System.Text.RegularExpressions.RegexOptions.CultureInvariant | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_does_not_report_conflicts_when_referencing_a_nuget_package()
         {
             var testProject = new TestProject()
@@ -551,7 +552,7 @@ namespace DefaultReferences
                 .NotHaveStdOutMatching("MSB3243", System.Text.RegularExpressions.RegexOptions.CultureInvariant | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_does_not_report_conflicts_with_runtime_specific_items()
         {
             var testProject = new TestProject()
@@ -600,7 +601,7 @@ namespace DefaultReferences
             Test_inbox_assembly_wins_conflict_resolution(false, httpPackageVersion);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("4.3.3")]
         [DataRow("4.1.0")]
         public void It_builds_successfully_if_inbox_assembly_wins_conflict_resolution_sdk(string httpPackageVersion)
@@ -685,7 +686,7 @@ class Program
             Test_inbox_assembly_wins_conflict_resolution(false, httpPackageVersion, useAlias: true);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("4.3.3")]
         [DataRow("4.1.0")]
         public void Aliases_are_preserved_if_inbox_assembly_wins_conflict_resolution_sdk(string httpPackageVersion)
@@ -693,7 +694,7 @@ class Program
             Test_inbox_assembly_wins_conflict_resolution(true, httpPackageVersion, useAlias: true);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void Aliases_are_preserved_if_framework_reference_is_overridden_by_package()
         {
             var testProject = new TestProject()
@@ -740,7 +741,7 @@ class Program
                 .Pass();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_binding_redirects_if_needed()
         {
             var testAsset = _testAssetsManager
@@ -765,7 +766,7 @@ class Program
             root.Elements("runtime").Single().Elements().Should().Contain(e => e.Name.LocalName == "assemblyBinding");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_supportedRuntime_when_no_appconfig_in_source_require_binding_redirect()
         {
             var testAsset = _testAssetsManager
@@ -776,7 +777,7 @@ class Program
             root.Elements("startup").Single().Elements().Should().Contain(e => e.Name.LocalName == "supportedRuntime");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_appconfig_incrementally()
         {
             var testAsset = _testAssetsManager
@@ -806,7 +807,7 @@ class Program
             secondBuildBuildWriteTime.Should().Be(firstBuildWriteTime);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_supportedRuntime_when_no_appconfig_in_source_does_not_require_binding_redirect()
         {
             var testAsset = _testAssetsManager
@@ -826,7 +827,7 @@ class Program
                 .Contain(e => e.Name.LocalName == "supportedRuntime");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_supportedRuntime_when_there_is_appconfig_with_supportedRuntime_in_source_require_binding_redirect()
         {
             var testAsset = _testAssetsManager
@@ -849,7 +850,7 @@ class Program
                 .Should().HaveAttribute("version", "v999", "It should keep existing supportedRuntime");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_generates_supportedRuntime_when_there_is_appconfig_without_supportedRuntime_in_source_require_binding_redirect()
         {
             var testAsset = _testAssetsManager
@@ -884,7 +885,7 @@ class Program
             return XElement.Load(outputDirectory.GetFiles("DesktopNeedsBindingRedirects.exe.config").Single().FullName);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void It_places_package_satellites_correctly(bool crossTarget)
@@ -927,7 +928,7 @@ class Program
             outputDirectory.Should().HaveFile(@"fr\FluentValidation.resources.dll");
         }
 
-        [WindowsOnlyFact(IgnoreMessage = "https://github.com/NuGet/Home/issues/6823")]
+        [TestMethod][Ignore("https://github.com/NuGet/Home/issues/6823")]
         public void It_allows_TargetFrameworkVersion_to_be_capitalized()
         {
             var testProject = new TestProject()
@@ -948,7 +949,7 @@ class Program
                 .Pass();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_places_package_xml_in_ref_folder_in_output_directory()
         {
             var testProject = new TestProject()
@@ -979,7 +980,7 @@ class Program
             outputDirectory.Should().HaveFile("System.Diagnostics.Debug.xml");
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("true", "true")]
         [DataRow("true", "false")]
         [DataRow("false", "true")]
@@ -1013,7 +1014,7 @@ class Program
             HelperCheckPdbAndDocumentation(outputDirectory, "Microsoft.Build", enableCopyDebugSymbolFilesFromPackages, enableDocumentationFilesFromPackages);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("true", "true")]
         [DataRow("true", "false")]
         [DataRow("false", "true")]
@@ -1056,7 +1057,7 @@ class Program
             HelperCheckPdbAndDocumentation(outputDirectory, "Microsoft.Build", enableCopyDebugSymbolFilesFromPackages, enableDocumentationFilesFromPackages);
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("true", "true")]
         [DataRow("true", "false")]
         [DataRow("false", "true")]
@@ -1097,7 +1098,7 @@ class Program
             HelperCheckPdbAndDocumentation(publishDirectory, "Microsoft.Build", enableCopyDebugSymbolFilesFromPackages, enableDocumentationFilesFromPackages);
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_places_package_xml_files_in_output_directory_but_not_in_publish()
         {
             var testProject = new TestProject()

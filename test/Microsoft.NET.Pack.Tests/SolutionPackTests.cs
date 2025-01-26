@@ -3,9 +3,10 @@
 
 namespace Microsoft.NET.Pack.Tests
 {
+    [TestClass]
     public class SolutionPackTests : SdkTest
     {
-        public SolutionPackTests(MSTestTestContext testContext) : base(testContext)
+        public SolutionPackTests(MSTestContext testContext) : base(testContext)
         {
         }
 

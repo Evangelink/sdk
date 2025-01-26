@@ -5,6 +5,7 @@
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public class VersionTests(MSTestContext testContext) : SdkTest(testContext)
     {
         [TestMethod]

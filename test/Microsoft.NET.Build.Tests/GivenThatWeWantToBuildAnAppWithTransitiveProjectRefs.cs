@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAnAppWithTransitiveProjectRefs : SdkTest
     {
         public GivenThatWeWantToBuildAnAppWithTransitiveProjectRefs(MSTestContext testContext) : base(testContext)
@@ -55,7 +56,7 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("This string came from AuxLibrary!");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void The_clean_target_removes_all_files_from_the_output_folder()
         {
             var testAsset = _testAssetsManager

@@ -11,6 +11,7 @@ using PublishCommand = Microsoft.DotNet.Tools.Publish.PublishCommand;
 
 namespace Microsoft.DotNet.Tests.CommandLineParserTests
 {
+    [TestClass]
     public class MSBuildArgumentCommandLineParserTests
     {
         private readonly MSTestContext testContext;

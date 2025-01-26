@@ -8,6 +8,7 @@ using NuGet.Frameworks;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class BundledTargetFrameworkTests : SdkTest
     {
         public BundledTargetFrameworkTests(MSTestContext testContext) : base(testContext)

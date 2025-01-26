@@ -13,6 +13,7 @@ using Moq;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.PostActionTests
 {
+    [TestClass]
     public class AddJsonPropertyPostActionTests : IClassFixture<EnvironmentSettingsHelper>
     {
         private readonly IEngineEnvironmentSettings _engineEnvironmentSettings;

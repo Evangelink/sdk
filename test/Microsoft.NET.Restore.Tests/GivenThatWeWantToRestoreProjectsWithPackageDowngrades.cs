@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Restore.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToRestoreProjectsWithPackageDowngrades : SdkTest
     {
         public GivenThatWeWantToRestoreProjectsWithPackageDowngrades(MSTestContext testContext) : base(testContext)

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.StaticWebAssets.Tasks.Test;
 
+[TestClass]
+
 // Set of things to test:
 // Literals 'a'
 // Multiple literals 'a/b'
@@ -159,8 +161,8 @@ public partial class StaticWebAssetGlobMatcherTest
         }
         else
         {
-            Assert.Null(match.Pattern);
-            Assert.Null(match.Stem);
+            Assert.IsNull(match.Pattern);
+            Assert.IsNull(match.Stem);
         }
     }
 
@@ -192,8 +194,8 @@ public partial class StaticWebAssetGlobMatcherTest
         }
         else
         {
-            Assert.Null(match.Pattern);
-            Assert.Null(match.Stem);
+            Assert.IsNull(match.Pattern);
+            Assert.IsNull(match.Stem);
         }
     }
 
@@ -232,8 +234,8 @@ public partial class StaticWebAssetGlobMatcherTest
         }
         else
         {
-            Assert.Null(match.Pattern);
-            Assert.Null(match.Stem);
+            Assert.IsNull(match.Pattern);
+            Assert.IsNull(match.Stem);
         }
     }
 
@@ -285,8 +287,8 @@ public partial class StaticWebAssetGlobMatcherTest
         }
         else
         {
-            Assert.Null(match.Pattern);
-            Assert.Null(match.Stem);
+            Assert.IsNull(match.Pattern);
+            Assert.IsNull(match.Stem);
         }
     }
 

@@ -5,6 +5,7 @@ using System.Text.Json;
 
 namespace Microsoft.NET.Build.Containers.UnitTests;
 
+[TestClass]
 public class DescriptorTests
 {
     [TestMethod]
@@ -21,8 +22,8 @@ public class DescriptorTests
         Assert.AreEqual("sha256:5b0bcabd1ed22e9fb1310cf6c2dec7cdef19f0ad69efa1f392e94a4333501270", d.Digest);
         Assert.AreEqual(7_682, d.Size);
 
-        Assert.Null(d.Annotations);
-        Assert.Null(d.Data);
-        Assert.Null(d.Urls);
+        Assert.IsNull(d.Annotations);
+        Assert.IsNull(d.Data);
+        Assert.IsNull(d.Urls);
     }
 }

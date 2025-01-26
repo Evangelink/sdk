@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.ZipDeploy.Tests
 {
+    [TestClass]
     public class ZipDeploymentStatusTests
     {
         private const string UserAgentName = "websdk";

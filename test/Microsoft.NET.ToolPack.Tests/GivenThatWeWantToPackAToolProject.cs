@@ -8,6 +8,7 @@ using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolProject : SdkTest
     {
         private string _testRoot;
@@ -175,7 +176,7 @@ namespace Microsoft.NET.ToolPack.Tests
             }
 
             var getValuesCommand = new GetValuesCommand(
-               Log,
+               MSTestContext,
                _testRoot,
                _targetFrameworkOrFrameworks,
                "RunCommand",

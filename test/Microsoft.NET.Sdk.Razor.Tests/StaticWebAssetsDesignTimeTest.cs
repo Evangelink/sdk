@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
+[TestClass]
 public class StaticWebAssetsDesignTimeTest(MSTestContext testContext) : AspNetSdkBaselineTest(testContext)
 {
 #if DEBUG

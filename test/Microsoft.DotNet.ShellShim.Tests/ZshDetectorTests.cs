@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ShellShim.Tests
 {
+    [TestClass]
     public class ZshDetectorTests
     {
         [TestMethod]

@@ -14,6 +14,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildANetCoreApp : SdkTest
     {
         public GivenThatWeWantToBuildANetCoreApp(MSTestContext testContext) : base(testContext)
@@ -205,7 +206,7 @@ namespace Microsoft.NET.Build.Tests
             testProject.AdditionalProperties["RuntimeIdentifiers"] = runtimeIdentifier;
 
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: allowMismatch.ToString())
-                .Restore(Log, testProject.Name);
+                .Restore(MSTestContext, testProject.Name);
 
             var buildCommand = new BuildCommand(testAsset);
 
@@ -384,7 +385,7 @@ public static class Program
             File.Exists(runtimeconfigFile).Should().Be(shouldGenerateRuntimeConfigDevJson);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp2.0")]
         [DataRow("netcoreapp3.0")]
         [DataRow("net5.0")]
@@ -672,7 +673,7 @@ public static class Program
                 .Pass();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_escapes_resolved_package_assets_paths()
         {
             var testProject = new TestProject()
@@ -778,7 +779,7 @@ class Program
                 .BeEmpty();
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void ItResolvesPackageAssetsMultiTargetingNetStandard()
         {
             var testProject = new TestProject()
@@ -802,7 +803,7 @@ class Program
                 .HaveStdOutContaining("NU1603");
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_with_unicode_characters_in_path()
         {
             var testProject = new TestProject()

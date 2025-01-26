@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Configurer;
 
@@ -77,6 +78,7 @@ namespace Microsoft.DotNet.Tests
         }
     }
 
+    [TestClass]
     public class GivenThatTheUserIsRunningDotNetForTheFirstTime : SdkTest, IClassFixture<DotNetFirstTimeFixture>
     {
         DotNetFirstTimeFixture _fixture;
@@ -105,7 +107,8 @@ namespace Microsoft.DotNet.Tests
                 .StartWith(firstTimeNonVerbUseMessage);
         }
 
-        [WindowsOnlyFact(Skip="https://github.com/dotnet/sdk/issues/43328")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows, Reason = "https://github.com/dotnet/sdk/issues/43328")]
         public void ItShowsTheAppropriateMessageToTheUser()
         {
 
@@ -141,7 +144,7 @@ namespace Microsoft.DotNet.Tests
         {
             var dotnetFirstTime = new DotNetFirstTime();
 
-            var command = dotnetFirstTime.Setup(Log, _testAssetsManager);
+            var command = dotnetFirstTime.Setup(MSTestContext, _testAssetsManager);
 
             // Disable telemetry to prevent the creation of the .dotnet folder
             // for machineid and docker cache files
@@ -153,12 +156,13 @@ namespace Microsoft.DotNet.Tests
             homeFolder.Should().NotExist();
         }
 
-        [WindowsOnlyFact(Skip="https://github.com/dotnet/sdk/issues/43328")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows, Reason = "https://github.com/dotnet/sdk/issues/43328")]
         public void ItShowsTheTelemetryNoticeWhenInvokingACommandAfterInternalReportInstallSuccessHasBeenInvoked()
         {
             var dotnetFirstTime = new DotNetFirstTime();
 
-            var command = dotnetFirstTime.Setup(Log, _testAssetsManager);
+            var command = dotnetFirstTime.Setup(MSTestContext, _testAssetsManager);
 
             command.Execute("internal-reportinstallsuccess", "test").Should().Pass();
 
@@ -180,7 +184,7 @@ namespace Microsoft.DotNet.Tests
         {
             var dotnetFirstTime = new DotNetFirstTime();
 
-            var command = dotnetFirstTime.Setup(Log, _testAssetsManager);
+            var command = dotnetFirstTime.Setup(MSTestContext, _testAssetsManager);
 
 
             command.Execute("internal-reportinstallsuccess", "test").Should().Pass();
@@ -188,12 +192,13 @@ namespace Microsoft.DotNet.Tests
             command.Execute("new", "--debug:ephemeral-hive");
         }
 
-        [LinuxOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux)]
         public void ItCreatesTheProfileFileOnLinuxWhenInvokedFromNativeInstaller()
         {
             var dotnetFirstTime = new DotNetFirstTime();
 
-            var command = dotnetFirstTime.Setup(Log, _testAssetsManager);
+            var command = dotnetFirstTime.Setup(MSTestContext, _testAssetsManager);
 
             var profiled = Path.Combine(dotnetFirstTime.TestDirectory, "profile.d");
 
@@ -204,12 +209,13 @@ namespace Microsoft.DotNet.Tests
                 $"export PATH=\"$PATH:{CliFolderPathCalculator.ToolsShimPathInUnix.PathWithDollar}\"");
         }
 
-        [MacOsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         public void ItCreatesThePathDFileOnMacOSWhenInvokedFromNativeInstaller()
         {
             var dotnetFirstTime = new DotNetFirstTime();
 
-            var command = dotnetFirstTime.Setup(Log, _testAssetsManager);
+            var command = dotnetFirstTime.Setup(MSTestContext, _testAssetsManager);
 
             var pathsd = Path.Combine(dotnetFirstTime.TestDirectory, "paths.d");
 

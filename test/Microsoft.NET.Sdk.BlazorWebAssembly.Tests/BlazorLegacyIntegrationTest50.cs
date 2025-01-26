@@ -5,6 +5,7 @@ using Microsoft.NET.Sdk.Razor.Tests;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
 {
+    [TestClass]
     public class BlazorLegacyIntegrationTest50(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(BlazorLegacyIntegrationTest50))
     {

@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantImplicitNamespaceImportsDisabled : SdkTest
     {
         public GivenThatWeWantImplicitNamespaceImportsDisabled(MSTestContext testContext) : base(testContext)

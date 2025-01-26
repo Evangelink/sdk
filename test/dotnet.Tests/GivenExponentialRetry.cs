@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenExponentialRetry : SdkTest
     {
         public GivenExponentialRetry(MSTestContext testContext) : base(testContext)

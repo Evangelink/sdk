@@ -10,6 +10,7 @@ using Microsoft.DotNet.MsiInstallerTests.Framework;
 
 namespace Microsoft.DotNet.MsiInstallerTests
 {
+    [TestClass]
     public class VSWorkloadTests : VMTestBase
     {
         public VSWorkloadTests(MSTestContext testContext) : base(testContext)

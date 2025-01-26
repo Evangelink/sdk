@@ -10,6 +10,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Cli.New.Tests
 {
+    [TestClass]
     public class WorkloadsInfoProviderTests
     {
         [TestMethod]

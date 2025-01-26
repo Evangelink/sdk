@@ -10,6 +10,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class LocalToolsResolverCacheTests : SdkTest
     {
         public LocalToolsResolverCacheTests(MSTestContext testContext) : base(testContext)

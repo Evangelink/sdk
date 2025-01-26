@@ -5,11 +5,14 @@
 
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
+
 using Newtonsoft.Json.Linq;
+
 using NuGet.Versioning;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildALibrary : SdkTest
     {
         public GivenThatWeWantToBuildALibrary(MSTestContext testContext) : base(testContext)
@@ -432,7 +435,8 @@ namespace Microsoft.NET.Build.Tests
                 .Concat(expectedDefines).ToArray());
         }
 
-        [WindowsOnlyFact]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_does_not_generate_or_greater_symbols_on_disabled_implicit_framework_defines()
         {
             var targetFramework = "net5.0-windows10.0.19041.0";
@@ -474,7 +478,9 @@ namespace Microsoft.NET.Build.Tests
             definedConstants.Should().BeEquivalentTo(new[] { "DEBUG", "TRACE" }.Concat(expectedDefines).ToArray());
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("17.12.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("17.12.0")]
         [DataRow("net8.0", new[] { "NETCOREAPP", "NET", "NET8_0", "NET8_0_OR_GREATER" })]
         [DataRow("net9.0", new[] { "NETCOREAPP", "NET", "NET8_0_OR_GREATER", "NET9_0_OR_GREATER", "NET9_0", "WINDOWS", "WINDOWS7_0", "WINDOWS7_0_OR_GREATER" }, "windows", "7.0")]
         public void It_can_use_implicitly_defined_compilation_constants(string targetFramework, string[] expectedOutput, string targetPlatformIdentifier = null, string targetPlatformVersion = null)
@@ -578,7 +584,9 @@ class Program
                 $"The TargetFramework value '{targetFramework}' is not valid. To multi-target, use the 'TargetFrameworks' property instead");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.7.0-preview-20310-07")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.7.0-preview-20310-07")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "", false)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "UseWPF", true)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "UseWindowsForms", true)]
@@ -761,7 +769,7 @@ class Program
                     project.Root.Element(ns + "PropertyGroup")
                         .Add(new XElement(ns + "EnsureNETCoreAppRuntime", false));
                 })
-                .Restore(Log, testProject.Name);
+                .Restore(MSTestContext, testProject.Name);
 
             var buildCommand = new BuildCommand(testAsset);
 
@@ -831,7 +839,7 @@ class Program
                 });
 
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.Path, project.Name),
                 project.TargetFrameworks,
                 "Reference",
@@ -849,7 +857,8 @@ class Program
             }
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net5.0", false, false, false, null)]   // Pre .NET 6.0 predefinedCulturesOnly is not supported.
         [DataRow("net5.0", true, false, false, null)]    // Pre .NET 6.0 predefinedCulturesOnly is not supported.
         [DataRow("net5.0", false, true, true, "True")]   // Pre .NET 6.0 predefinedCulturesOnly can end up in the runtime config file but with no effect at runtime.
@@ -1069,7 +1078,8 @@ namespace ProjectNameWithSpaces
             GetPropertyValue("RootNamespace").Should().Be("Project_Name_With_Spaces");
         }
 
-        [WindowsOnlyFact(IgnoreMessage = "We need new SDK packages with different assembly versions to build this (.38 and .39 have the same assembly version)")]
+        [TestMethod]
+        [Ignore("We need new SDK packages with different assembly versions to build this (.38 and .39 have the same assembly version)")]
         public void It_errors_on_windows_sdk_assembly_version_conflicts()
         {
             var testProjectA = new TestProject()

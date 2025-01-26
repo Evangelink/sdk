@@ -7,6 +7,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 
 namespace dotnet.Tests.ToolSearchTests
 {
+    [TestClass]
     public class NugetSearchApiParameterTests
     {
         [TestMethod]

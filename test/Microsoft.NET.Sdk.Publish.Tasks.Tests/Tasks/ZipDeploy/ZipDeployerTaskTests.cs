@@ -9,6 +9,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Publish.Tasks.ZipDeploy.Tests
 {
+    [TestClass]
     public class ZipDeployerTaskTests
     {
         private static string _testZippedPublishContentsPath;

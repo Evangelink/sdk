@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Help.Tests
 {
+    [TestClass]
     public class GivenThatIWantToShowHelpForDotnetHelpCommand : SdkTest
     {
         private const string HelpText =

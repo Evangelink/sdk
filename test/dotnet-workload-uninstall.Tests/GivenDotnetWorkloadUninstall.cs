@@ -14,6 +14,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.Cli.Workload.Uninstall.Tests
 {
+    [TestClass]
     public class GivenDotnetWorkloadUninstall : SdkTest
     {
         private readonly BufferedReporter _reporter;

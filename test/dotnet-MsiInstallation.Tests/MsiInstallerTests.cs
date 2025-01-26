@@ -7,6 +7,7 @@ using Microsoft.NET.Sdk.WorkloadManifestReader;
 
 namespace Microsoft.DotNet.MsiInstallerTests
 {
+    [TestClass]
     public class WorkloadTests : VMTestBase
     {
         const string RollbackRC1 = """
@@ -44,7 +45,7 @@ namespace Microsoft.DotNet.MsiInstallerTests
                 }
                 """;
 
-        public WorkloadTests(MSTestTestContext testContext) : base(testContext)
+        public WorkloadTests(MSTestContext testContext) : base(testContext)
         {
         }
 

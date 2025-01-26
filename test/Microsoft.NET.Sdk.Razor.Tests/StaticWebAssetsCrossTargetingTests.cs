@@ -10,11 +10,12 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class StaticWebAssetsCrossTargetingTests(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(StaticWebAssetsCrossTargetingTests))
     {
         // Build Standalone project
-        [RequiresMSBuildVersionTestMethod("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_CrosstargetingTests_CanIncludeBrowserAssets()
         {
             var expectedManifest = LoadBuildManifest();

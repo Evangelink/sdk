@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToCopyLocalDependencies : SdkTest
     {
         public GivenThatWeWantToCopyLocalDependencies(MSTestContext testContext) : base(testContext)

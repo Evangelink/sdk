@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildANetCoreAppAndPassingALogger : SdkTest
     {
         public GivenThatWeWantToBuildANetCoreAppAndPassingALogger(MSTestContext testContext) : base(testContext)

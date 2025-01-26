@@ -491,7 +491,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, expectedTemplateName, "-o", "output", "-n", "MyProject")
+            new DotnetNewCommand(MSTestContext, expectedTemplateName, "-o", "output", "-n", "MyProject")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -504,7 +504,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.NotHaveStdOutContaining("Manual instructions: Manually add")
                 .And.HaveStdOutContaining(Path.Combine(workingDirectory, "output", "MyProject.csproj"));
 
-            new DotnetBuildCommand(_log, Path.Combine("output", "MyProject.csproj"))
+            new DotnetBuildCommand(MSTestContext, Path.Combine("output", "MyProject.csproj"))
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
                 .Should()
@@ -681,7 +681,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             InstallTestTemplate(templateLocation, MSTestContext, home, workingDirectory);
 
-            new DotnetNewCommand(_log, expectedTemplateName, "-o", "output")
+            new DotnetNewCommand(MSTestContext, expectedTemplateName, "-o", "output")
                 .WithCustomHive(home)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
@@ -693,7 +693,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
                 .And.HaveStdOutContaining(Path.Combine(workingDirectory, "output", "Project1", "Project1.csproj"))
                 .And.HaveStdOutContaining(Path.Combine(workingDirectory, "output", "Project2", "Project2.csproj"));
 
-            new DotnetBuildCommand(_log, Path.Combine("output", "Project1", "Project1.csproj"))
+            new DotnetBuildCommand(MSTestContext, Path.Combine("output", "Project1", "Project1.csproj"))
                 .WithWorkingDirectory(workingDirectory)
                 .Execute()
                 .Should()
@@ -952,12 +952,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             string tempSettingsDir = CreateTemporaryFolder("Home");
             string templateLocation = _testAssetsManager.CopyTestAsset("AddProjectReference", testAssetSubdirectory: DotnetNewTestTemplatesBasePath).WithSource().Path;
-            CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .Execute("install", templateLocation);
             cmd.Should().Pass();
 
-            cmd = new DotnetNewCommand(base.MSTestContext)
+            cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute("TestAssets.AddReference");
@@ -973,12 +973,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             string tempSettingsDir = CreateTemporaryFolder("Home");
             string templateLocation = _testAssetsManager.CopyTestAsset("AddPackageReference", testAssetSubdirectory: DotnetNewTestTemplatesBasePath).WithSource().Path;
-            CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .Execute("install", templateLocation);
             cmd.Should().Pass();
 
-            cmd = new DotnetNewCommand(base.MSTestContext)
+            cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .Execute("TestAssets.AddReference", "-o", workingDirectory);
             cmd.Should().Pass()
@@ -992,12 +992,12 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             string tempSettingsDir = CreateTemporaryFolder("Home");
             string templateLocation = _testAssetsManager.CopyTestAsset("AddProjectToSolution", testAssetSubdirectory: DotnetNewTestTemplatesBasePath).WithSource().Path;
-            CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .Execute("install", templateLocation);
             cmd.Should().Pass();
 
-            cmd = new DotnetNewCommand(base.MSTestContext)
+            cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .Execute("TestAssets.AddProjectToSolution", "-o", workingDirectory);
             cmd.Should().Pass()
@@ -1010,7 +1010,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
             string workingDirectory = CreateTemporaryFolder();
             string tempSettingsDir = CreateTemporaryFolder("Home");
 
-            CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithCustomHive(tempSettingsDir)
                 .WithWorkingDirectory(workingDirectory)
                 .Execute("console");
@@ -1124,7 +1124,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
             JsonNode? jsonContents = JsonNode.Parse(jsonFileContents);
             Assert.IsNotNull(jsonContents);
-            Assert.IsTrue(jsonContents["moduleConfiguration"]?["edgeAgent"]?["properties.desired"]?["modules"]?["TheProjectName"] != null);
+            Assert.IsNotNull(jsonContents["moduleConfiguration"]?["edgeAgent"]?["properties.desired"]?["modules"]?["TheProjectName"]);
             Assert.AreEqual("${MODULEDIR<../TheProjectName>}", jsonContents["moduleConfiguration"]?["edgeAgent"]?["properties.desired"]?["modules"]?["TheProjectName"]?.ToString());
         }
 

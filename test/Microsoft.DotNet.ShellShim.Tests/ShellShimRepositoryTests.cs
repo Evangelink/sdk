@@ -16,6 +16,7 @@ using NuGet.Frameworks;
 
 namespace Microsoft.DotNet.ShellShim.Tests
 {
+    [TestClass]
     public class ShellShimRepositoryTests : SdkTest
     {
         public ShellShimRepositoryTests(MSTestContext testContext) : base(testContext)
@@ -394,7 +395,7 @@ namespace Microsoft.DotNet.ShellShim.Tests
                            string.Join(';', filePaths)));
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow("net5.0")]
         [DataRow("netcoreapp3.1")]
         public void WhenRidNotSupportedOnWindowsItIsImplicit(string tfm)

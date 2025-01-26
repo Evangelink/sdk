@@ -10,6 +10,7 @@ using Microsoft.TemplateEngine.Utils;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
 {
+    [TestClass]
     public class TemplateMatchInfoTests
     {
         [TestMethod(nameof(EmptyMatchDisposition_ReportsCorrectly))]

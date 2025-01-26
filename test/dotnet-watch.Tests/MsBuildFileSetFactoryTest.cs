@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Watch.UnitTests
 {
+    [TestClass]
     public class MsBuildFileSetFactoryTest(MSTestContext testContext)
     {
         private readonly TestReporter _reporter = new(testContext);
@@ -393,7 +394,7 @@ $@"<ItemGroup>
 
             var factory = new MSBuildFileSetFactory(project1Path, buildArguments: [], options, _reporter);
             var result = await factory.TryCreateAsync(requireProjectGraph: null, CancellationToken.None);
-            Assert.Null(result);
+            Assert.IsNull(result);
 
             // note: msbuild prints errors to stdout:
             AssertEx.Equal(

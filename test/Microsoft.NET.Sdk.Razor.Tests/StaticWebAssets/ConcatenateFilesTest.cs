@@ -7,6 +7,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.Razor.Test
 {
+    [TestClass]
     public class ConcatenateCssFilesTest
     {
         private static readonly string BundleContent =

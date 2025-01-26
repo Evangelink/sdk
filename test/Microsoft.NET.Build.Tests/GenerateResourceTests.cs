@@ -3,6 +3,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GenerateResourceTests : SdkTest
     {
 
@@ -10,7 +11,7 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void DependentUponTest(string targetFramework, bool isExe)
         {

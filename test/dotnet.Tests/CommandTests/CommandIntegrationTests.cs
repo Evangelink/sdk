@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Tests.Commands
 {
+    [TestClass]
     public class CommandIntegrationTests : SdkTest
     {
         public CommandIntegrationTests(MSTestContext testContext) : base(testContext) { }

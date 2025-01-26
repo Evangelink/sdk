@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenThatICareAboutVBApps : SdkTest
     {
         public GivenThatICareAboutVBApps(MSTestContext testContext) : base(testContext)

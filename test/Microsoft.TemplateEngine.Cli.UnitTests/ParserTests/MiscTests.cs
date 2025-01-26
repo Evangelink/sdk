@@ -10,6 +10,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public class MiscTests : BaseTest
     {
         /// <summary>

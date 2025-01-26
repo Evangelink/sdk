@@ -8,6 +8,7 @@ using NuGet.Versioning;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToStoreAProjectWithDependencies : SdkTest
     {
         private static readonly string _libPrefix = FileConstants.DynamicLibPrefix;

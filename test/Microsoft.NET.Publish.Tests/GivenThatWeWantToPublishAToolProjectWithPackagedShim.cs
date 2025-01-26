@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishAToolProjectWithPackagedShim : SdkTest
     {
         private const string _customToolCommandName = "customToolCommandName";

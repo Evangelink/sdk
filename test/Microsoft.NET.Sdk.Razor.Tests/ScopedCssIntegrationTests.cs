@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class ScopedCssIntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(ScopedCssIntegrationTest))
     {
@@ -441,6 +442,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
     }
 
+    [TestClass]
     public class ScopedCssCompatibilityIntegrationTest(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, Path.Combine(nameof(ScopedCssCompatibilityIntegrationTest), ".nuget"))
     {
@@ -540,6 +542,7 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
     }
 
+    [TestClass]
     public class ScopedCssPackageReferences(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, Path.Combine(nameof(ScopedCssPackageReferences), ".nuget"))
     {

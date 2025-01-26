@@ -5,6 +5,7 @@ using System.IO.Compression;
 
 namespace Microsoft.DotNet.Pack.Tests
 {
+    [TestClass]
     public class PackTests : SdkTest
     {
         public PackTests(MSTestContext testContext) : base(testContext)

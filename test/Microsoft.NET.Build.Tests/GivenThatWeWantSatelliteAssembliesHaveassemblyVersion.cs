@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantSatelliteAssembliesHaveAssemblyVersion : SdkTest
     {
         private string _mainAssemblyPath;

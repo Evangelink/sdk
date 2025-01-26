@@ -8,6 +8,7 @@ using NuGet.Versioning;
 
 namespace EndToEnd.Tests
 {
+    [TestClass]
     public partial class GivenUsingDefaultRuntimeFrameworkVersions(MSTestContext testContext) : SdkTest(testContext)
     {
         private static readonly IEnumerable<string> frameworks = new string[] {"Microsoft.NETCore.App", "Microsoft.WindowsDesktop.App",

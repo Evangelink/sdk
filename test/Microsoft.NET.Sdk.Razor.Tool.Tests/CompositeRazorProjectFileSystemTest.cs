@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class CompositeRazorProjectFileSystemTest
     {
         [TestMethod]
@@ -75,7 +76,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = compositeRazorProjectFileSystem.GetItem(filePath, fileKind: null);
 
             // Assert
-            Assert.Same(file2, result);
+            Assert.AreSame(file2, result);
         }
     }
 }

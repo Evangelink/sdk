@@ -8,6 +8,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToUseVB : SdkTest
     {
         public GivenThatWeWantToUseVB(MSTestContext testContext) : base(testContext)
@@ -71,7 +72,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: targetFramework + isExe, targetExtension: ".vbproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 targetFramework,
                 "VBRuntime")
@@ -171,7 +172,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_vb_wpf_app()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;

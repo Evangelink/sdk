@@ -7,6 +7,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
 {
+    [TestClass]
     public partial class DotnetNewUninstallTests : BaseIntegrationTest
     {
         public DotnetNewUninstallTests(MSTestContext testContext) : base(testContext)

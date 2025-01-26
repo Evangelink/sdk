@@ -7,6 +7,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tests
 {
+    [TestClass]
     public class BuildIncrementalismTest : AspNetSdkTest
     {
         public BuildIncrementalismTest(MSTestContext testContext) : base(testContext) { }

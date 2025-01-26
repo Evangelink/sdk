@@ -14,9 +14,10 @@ using static Microsoft.NET.Build.Tasks.ResolveTargetingPackAssets;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAResolveTargetingPackAssetsTask : SdkTest
     {
-        public GivenAResolveTargetingPackAssetsTask(ITestOutputHelper log)
+        public GivenAResolveTargetingPackAssetsTask(MSTestContext testContext)
             : base(log)
         {
         }

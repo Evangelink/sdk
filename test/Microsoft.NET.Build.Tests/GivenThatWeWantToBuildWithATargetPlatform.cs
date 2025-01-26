@@ -5,13 +5,14 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildWithATargetPlatform : SdkTest
     {
         public GivenThatWeWantToBuildWithATargetPlatform(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0.41402")]
+        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0.41402")]
         [DataRow("netcoreapp3.1", ".NETCoreApp", "v3.1", "Windows", "7.0")] // Default values pre-5.0
         [DataRow(ToolsetInfo.CurrentTargetFramework, ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "", "")]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-Windows7.0", ".NETCoreApp", $"v{ToolsetInfo.CurrentTargetFrameworkVersion}", "Windows", "7.0")]
@@ -54,7 +55,7 @@ namespace Microsoft.NET.Build.Tests
             assertValue("TargetPlatformDisplayName", $"{expectedTargetPlatformIdentifier} {expectedTargetPlatformVersion}");
         }
 
-        [WindowsOnlyRequiresMSBuildVersionTestMethod("16.8.0.41402")]
+        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0.41402")]
         public void It_defines_target_platform_from_target_framework_with_explicit_version()
         {
             var targetPlatformVersion = "10.0.19041.0";

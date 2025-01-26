@@ -9,6 +9,7 @@ using Microsoft.DotNet.Tools.Sdk.Check;
 
 namespace Microsoft.DotNet.Cli.SdkCheck.Tests
 {
+    [TestClass]
     public class GivenDotnetSdkCheck : SdkTest
     {
         private readonly BufferedReporter _reporter;

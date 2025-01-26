@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.ApiCompatibility.Logging.Tests
 {
+    [TestClass]
     public class SuppressionTests
     {
         public static IEnumerable<object[]> GetEqualData()

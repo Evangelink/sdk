@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
 {
+    [TestClass]
     public class GivenAFrameworkDependencyFile
     {
         private readonly IReadOnlyList<RuntimeFallbacks> _testRuntimeGraph;

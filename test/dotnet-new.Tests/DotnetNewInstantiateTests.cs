@@ -354,7 +354,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void WhenSwitchIsSkippedThenItPrintsError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("Web1.1");
 
@@ -370,7 +370,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         public void ItCanCreateTemplate()
         {
             string tempDir = CreateTemporaryFolder();
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("console", "-o", tempDir);
             cmd.Should().Pass();
@@ -379,7 +379,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowHelp()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("--help");
             cmd.Should().Pass()
@@ -390,7 +390,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowHelpForTemplate()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("classlib", "--help");
 
@@ -406,7 +406,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [DataRow("-lang", "C#", "--no-exist")]
         public void ExampleHasLanguageForSepecifiedLanguageWithInvalidOption(string languageOption, string language, string invalidOption)
         {
-            CommandResult cmd = new DotnetNewCommand(base.MSTestContext, "console", languageOption, language, invalidOption)
+            CommandResult cmd = new DotnetNewCommand(MSTestContext, "console", languageOption, language, invalidOption)
                 .WithVirtualHive()
                 .Execute();
             cmd.Should().Fail()
@@ -418,7 +418,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void ItCanShowParseError()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("update", "--bla");
             cmd.Should().ExitWith(127)
@@ -429,7 +429,7 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         [TestMethod]
         public void WhenTemplateNameIsNotUniquelyMatchedThenItIndicatesProblemToUser()
         {
-            Utils.CommandResult cmd = new DotnetNewCommand(base.MSTestContext)
+            Utils.CommandResult cmd = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .Execute("c");
 
@@ -446,14 +446,14 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         {
             string rootPath = CreateTemporaryFolder();
 
-            new DotnetNewCommand(base.MSTestContext)
+            new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");
 
             DateTime expectedState = Directory.GetLastWriteTime(rootPath);
 
-            CommandResult result = new DotnetNewCommand(base.MSTestContext)
+            CommandResult result = new DotnetNewCommand(MSTestContext)
                 .WithVirtualHive()
                 .WithWorkingDirectory(rootPath)
                 .Execute($"console", "--no-restore");

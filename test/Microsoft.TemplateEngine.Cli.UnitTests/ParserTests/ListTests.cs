@@ -7,6 +7,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public class ListTests : BaseTest
     {
         private static readonly Dictionary<string, FilterOptionDefinition> _stringToFilterDefMap = new()
@@ -126,7 +127,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             Assert.ContainsSingle(args.AppliedFilters);
             Assert.Contains("filter-value", args.GetFilterValue(expectedDef));
-            Assert.Null(args.ListNameCriteria);
+            Assert.IsNull(args.ListNameCriteria);
         }
 
         [TestMethod]
@@ -139,7 +140,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             ParseResult parseResult = myCommand.Parse(command);
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual("Unrecognized command or argument 'cr2'.", parseResult.Errors[0].Message);
         }
 
@@ -151,7 +152,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             ParseResult parseResult = myCommand.Parse("new smth list");
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual("Unrecognized command or argument(s): 'smth'.", parseResult.Errors[0].Message);
         }
 
@@ -168,7 +169,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             ParseResult parseResult = myCommand.Parse(command);
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual($"Unrecognized command or argument(s): '{expectedFilter}','filter-value'.", parseResult.Errors[0].Message);
         }
 
@@ -180,7 +181,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             ParseResult parseResult = myCommand.Parse("new smth --list smth-else");
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual("Unrecognized command or argument(s): 'smth'.", parseResult.Errors[0].Message);
         }
 
@@ -219,7 +220,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             Assert.IsFalse(args.DisplayAllColumns);
             Assert.IsNotNull(args.ColumnsToDisplay);
-            Assert.NotEmpty(args.ColumnsToDisplay);
+            Assert.IsNotEmpty(args.ColumnsToDisplay);
             Assert.AreEqual(expectedColumns.Length, args.ColumnsToDisplay.Count);
             foreach (string column in expectedColumns)
             {
@@ -237,7 +238,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             ParseResult parseResult = myCommand.Parse(command);
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.Contains("Argument 'c1' not recognized. Must be one of:", parseResult.Errors[0].Message);
         }
 
@@ -256,7 +257,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             string[] expectedInvalidTokenSets = expectedInvalidTokens.Split("|");
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual(expectedInvalidTokenSets.Length, parseResult.Errors.Count);
             foreach (string tokenSet in expectedInvalidTokenSets)
             {

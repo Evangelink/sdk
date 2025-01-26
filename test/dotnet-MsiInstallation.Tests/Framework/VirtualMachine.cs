@@ -36,7 +36,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
                 s_Instance = this;
             }
 
-            Log = log;
+            MSTestContext = testContext;
 
             var testSettingsFile = Path.Combine(Environment.CurrentDirectory, "VMTestSettings.json");
             if (File.Exists(testSettingsFile))
@@ -51,7 +51,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
 
             if (string.IsNullOrEmpty(VMTestSettings.VMName))
             {
-                var virtualMachineNames = VMControl.GetVirtualMachines(Log);
+                var virtualMachineNames = VMControl.GetVirtualMachines(MSTestContext);
 
                 if (virtualMachineNames.Count == 0)
                 {
@@ -272,7 +272,7 @@ namespace Microsoft.DotNet.MsiInstallerTests.Framework
         {
             if (action.Type == VMActionType.RunCommand)
             {
-                TestCommand.LogCommandResult(Log, result.ToCommandResult());
+                TestCommand.LogCommandResult(MSTestContext, result.ToCommandResult());
             }
             else if (action.Type == VMActionType.ActionGroup && result.GroupedResults != null)
             {

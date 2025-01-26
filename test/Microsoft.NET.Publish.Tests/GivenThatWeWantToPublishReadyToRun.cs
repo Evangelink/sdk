@@ -11,13 +11,14 @@ using NuGet.Frameworks;
 
 namespace Microsoft.NET.Publish.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPublishReadyToRun : SdkTest
     {
         public GivenThatWeWantToPublishReadyToRun(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp3.0")]
         [DataRow("net5.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
@@ -46,7 +47,7 @@ namespace Microsoft.NET.Publish.Tests
             publishDirectory.Should().HaveFile("System.Private.CoreLib.dll"); // self-contained
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_creates_readytorun_images_for_all_assemblies_except_excluded_ones(string targetFramework)
         {
@@ -90,14 +91,14 @@ namespace Microsoft.NET.Publish.Tests
             publishDirectory.Should().HaveFile("System.Private.CoreLib.dll"); // self-contained
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_creates_readytorun_symbols_when_switch_is_used(string targetFramework)
         {
             TestProjectPublishing_Internal("CrossgenTest3", targetFramework, emitNativeSymbols: true, composite: false, identifier: targetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_supports_framework_dependent_publishing(string targetFramework)
         {
@@ -182,21 +183,21 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining(Strings.PublishReadyToRunRequiresVersion30);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_readytorun_for_library_projects(string targetFramework)
         {
             TestProjectPublishing_Internal("LibraryProject1", targetFramework, isSelfContained: false, composite: false, makeExeProject: false, identifier: targetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_readytorun_for_selfcontained_library_projects(string targetFramework)
         {
             TestProjectPublishing_Internal("LibraryProject2", targetFramework, isSelfContained: true, composite: true, makeExeProject: false, identifier: targetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net6.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         void It_can_publish_readytorun_using_crossgen2(string targetFramework)
@@ -209,7 +210,7 @@ namespace Microsoft.NET.Publish.Tests
             TestProjectPublishing_Internal("Crossgen2TestApp", targetFramework, isSelfContained: true, emitNativeSymbols: true, useCrossgen2: true, composite: false, identifier: targetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net6.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         void It_can_publish_readytorun_using_crossgen2_composite_mode(string targetFramework)
@@ -222,7 +223,7 @@ namespace Microsoft.NET.Publish.Tests
             TestProjectPublishing_Internal("Crossgen2TestApp", targetFramework, isSelfContained: true, emitNativeSymbols: false, useCrossgen2: true, composite: true, identifier: targetFramework);
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net6.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_supports_libraries_when_using_crossgen2(string targetFramework)
@@ -249,7 +250,7 @@ namespace Microsoft.NET.Publish.Tests
             publishCommand.Execute().Should().Pass();
         }
 
-        [RequiresMSBuildVersionTheory("17.0.0.32901")]
+        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "_", "_")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "linux-x64", "windows,linux,osx", "X64,Arm64", "composite", "selfcontained")] // Composite in .NET 6.0 is only supported for self-contained builds
         // In .NET 6.0 building targeting Windows on linux or osx doesn't support emitting native symbols.

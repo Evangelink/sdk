@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.Cli.Publish.Tests
 {
+    [TestClass]
     public class GivenDotnetStoresAndPublishesProjects : SdkTest
     {
         private static string _tfm = "netcoreapp3.1";
@@ -98,7 +99,7 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         }
 
         //  Windows only for now due to https://github.com/dotnet/cli/issues/7501
-        [WindowsOnlyFact(IgnoreMessage = "https://github.com/dotnet/cli/issues/12482")]
+        [TestMethod][Ignore("https://github.com/dotnet/cli/issues/12482")]
         public void ItPublishesAnAppWithMultipleProfiles()
         {
             var testAppName = "MultiDependentProject";

@@ -5,6 +5,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToFilterSatelliteAssemblies : SdkTest
     {
         public GivenThatWeWantToFilterSatelliteAssemblies(MSTestContext testContext) : base(testContext)

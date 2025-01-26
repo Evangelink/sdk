@@ -3,6 +3,7 @@
 
 namespace Microsoft.DotNet.ApiCompatibility.Runner.Tests
 {
+    [TestClass]
     public class ApiCompatWorkItemTests
     {
         [TestMethod]

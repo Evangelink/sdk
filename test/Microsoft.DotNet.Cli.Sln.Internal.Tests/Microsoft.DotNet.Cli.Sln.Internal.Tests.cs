@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.DotNet.Cli.Sln.Internal.Tests
 {
+    [TestClass]
     public class GivenAnSlnFile : SdkTest
     {
         private const string SolutionModified = @"

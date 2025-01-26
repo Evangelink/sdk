@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Razor.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Test
 {
+    [TestClass]
     public class ReferenceResolverTest
     {
         internal static readonly string[] MvcAssemblies = new[]

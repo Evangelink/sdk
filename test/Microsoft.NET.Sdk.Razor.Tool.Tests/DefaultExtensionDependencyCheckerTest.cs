@@ -5,6 +5,7 @@ using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
 {
+    [TestClass]
     public class DefaultExtensionDependencyCheckerTest : SdkTest
     {
         public DefaultExtensionDependencyCheckerTest(MSTestContext testContext) : base(testContext) { }
@@ -25,7 +26,7 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
             var result = checker.Check(new[] { alphaFilePath, });
 
             // Assert
-            Assert.IsFalse(result, "Check should not have passed: " + testContext.ToString());
+            Assert.IsFalse(result, "Check should not have passed: " + output.ToString());
         }
 
         [TestMethod]

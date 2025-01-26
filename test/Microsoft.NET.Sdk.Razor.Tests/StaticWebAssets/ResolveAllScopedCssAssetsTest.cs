@@ -6,6 +6,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.NET.Sdk.Razor.Test
 {
+    [TestClass]
     public class ResolveAllScopedCssAssetsTest
     {
         [TestMethod]

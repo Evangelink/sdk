@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatAProjectHasntBeenRestored : SdkTest
     {
         public GivenThatAProjectHasntBeenRestored(MSTestContext testContext) : base(testContext)

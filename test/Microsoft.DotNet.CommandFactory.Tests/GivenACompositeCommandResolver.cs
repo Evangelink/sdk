@@ -8,6 +8,7 @@ using Moq;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenACompositeCommandResolver
     {
         [TestMethod]

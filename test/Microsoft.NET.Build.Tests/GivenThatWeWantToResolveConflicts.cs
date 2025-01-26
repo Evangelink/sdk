@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToResolveConflicts : SdkTest
     {
         public GivenThatWeWantToResolveConflicts(MSTestContext testContext) : base(testContext)
@@ -65,7 +66,7 @@ namespace Microsoft.NET.Build.Tests
             string projectFolder = Path.Combine(tempTestAsset.TestRoot, testProject.Name);
 
             var getReferenceCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 projectFolder,
                 targetFramework,
                 "Reference",
@@ -86,7 +87,7 @@ namespace Microsoft.NET.Build.Tests
             references = getReferenceCommand.GetValues();
 
             var getReferenceCopyLocalPathsCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 projectFolder,
                 targetFramework,
                 "ReferenceCopyLocalPaths",

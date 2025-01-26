@@ -8,6 +8,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.DotNet.Cli.New.Tests
 {
+    [TestClass]
     public class DotnetRestorePostActionTests : IClassFixture<EnvironmentSettingsHelper>
     {
         private readonly IEngineEnvironmentSettings _engineEnvironmentSettings;

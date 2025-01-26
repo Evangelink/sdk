@@ -11,6 +11,7 @@ using Moq;
 
 namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 {
+    [TestClass]
     public class NamespaceMapperTests
     {
         [TestMethod]
@@ -23,7 +24,7 @@ namespace Microsoft.DotNet.ApiCompatibility.Tests.Mapping
 
             NamespaceMapper namespaceMapper = new(ruleRunner, mapperSettings, rightSetSize, assemblyMapper);
 
-            Assert.Null(namespaceMapper.Left);
+            Assert.IsNull(namespaceMapper.Left);
             Assert.AreEqual(mapperSettings, namespaceMapper.Settings);
             Assert.AreEqual(rightSetSize, namespaceMapper.Right.Length);
             Assert.AreEqual(assemblyMapper, namespaceMapper.ContainingAssembly);

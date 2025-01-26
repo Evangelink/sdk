@@ -152,7 +152,7 @@ namespace Microsoft.DotNet.Watch.UnitTests
         {
             if (expected == null)
             {
-                Assert.Null(actual);
+                Assert.IsNull(actual);
             }
             else
             {

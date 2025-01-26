@@ -9,6 +9,7 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.DotNet.Tests
 {
+    [TestClass]
     public class GivenDotnetSdk : SdkTest
     {
         public GivenDotnetSdk(MSTestContext testContext) : base(testContext)

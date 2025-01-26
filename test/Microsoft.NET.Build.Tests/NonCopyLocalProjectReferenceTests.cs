@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyModel;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class NonCopyLocalProjectReferenceTests : SdkTest
     {
         public NonCopyLocalProjectReferenceTests(MSTestContext testContext) : base(testContext)

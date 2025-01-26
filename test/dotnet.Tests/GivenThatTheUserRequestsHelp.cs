@@ -3,6 +3,7 @@
 
 namespace dotnet.Tests
 {
+    [TestClass]
     public class GivenThatTheUserRequestsHelp : SdkTest
     {
         public GivenThatTheUserRequestsHelp(MSTestContext testContext) : base(testContext)

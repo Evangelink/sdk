@@ -6,6 +6,7 @@ using NuGet.Frameworks;
 
 namespace Microsoft.DotNet.PackageValidation.Tests.Filtering
 {
+    [TestClass]
     public class TargetFrameworkFilterTests
     {
         [TestMethod]

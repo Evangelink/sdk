@@ -15,13 +15,14 @@ using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
 {
+    [TestClass]
     public class ToolPackageInstallToManagedLocationInstaller : SdkTest
     {
         public ToolPackageInstallToManagedLocationInstaller(MSTestContext testContext) : base(testContext)
         {
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void GivenNugetConfigInstallSucceeds(bool testMockBehaviorIsInSync)
@@ -65,7 +66,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             }
         }
 
-        [WindowsOnlyTheory]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void GivenNugetConfigVersionRangeInstallSucceeds(bool testMockBehaviorIsInSync)

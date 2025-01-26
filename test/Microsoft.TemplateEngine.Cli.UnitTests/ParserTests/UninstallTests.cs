@@ -7,6 +7,7 @@ using Microsoft.TemplateEngine.TestHelper;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 {
+    [TestClass]
     public class UninstallTests : BaseTest
     {
         [TestMethod]
@@ -77,7 +78,7 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
             string[] expectedInvalidTokenSets = expectedInvalidTokens.Split("|");
 
-            Assert.NotEmpty(parseResult.Errors);
+            Assert.IsNotEmpty(parseResult.Errors);
             Assert.AreEqual(expectedInvalidTokenSets.Length, parseResult.Errors.Count);
             foreach (string tokenSet in expectedInvalidTokenSets)
             {

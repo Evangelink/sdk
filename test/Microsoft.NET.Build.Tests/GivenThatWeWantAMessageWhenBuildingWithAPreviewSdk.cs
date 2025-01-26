@@ -5,6 +5,7 @@ using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantAMessageWhenBuildingWithAPreviewSdk : SdkTest
     {
         public GivenThatWeWantAMessageWhenBuildingWithAPreviewSdk(MSTestContext testContext) : base(testContext)

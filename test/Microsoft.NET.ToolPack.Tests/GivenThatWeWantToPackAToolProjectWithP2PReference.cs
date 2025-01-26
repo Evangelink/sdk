@@ -6,6 +6,7 @@ using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToPackAToolProjectWithP2PReference : SdkTest
     {
         public GivenThatWeWantToPackAToolProjectWithP2PReference(MSTestContext testContext) : base(testContext)

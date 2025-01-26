@@ -5,6 +5,7 @@
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildASolutionWithNonDefaultConfigurationVB : SdkTest
     {
         public GivenThatWeWantToBuildASolutionWithNonDefaultConfigurationVB(MSTestContext testContext) : base(testContext)

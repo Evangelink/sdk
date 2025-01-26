@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace Microsoft.NET.Build.Tests
 {
+    [TestClass]
     public class GivenThatWeWantToBuildAnAppWithLibrary : SdkTest
     {
         public GivenThatWeWantToBuildAnAppWithLibrary(MSTestContext testContext) : base(testContext)
@@ -125,7 +126,7 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [TestMethod][OSCondition(OperatingSystems.Windows)]
         public void The_clean_target_removes_all_files_from_the_output_folder()
         {
             var testAsset = _testAssetsManager

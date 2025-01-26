@@ -6,10 +6,10 @@
 using FluentAssertions;
 using NuGet.Frameworks;
 using NuGet.ProjectModel;
-using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
 {
+    [TestClass]
     public class GivenAProjectContext
     {
         [TestMethod]

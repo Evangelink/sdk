@@ -6,6 +6,7 @@ using Microsoft.DotNet.Tools.Store;
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
 {
     [Collection(TestConstants.UsesStaticTelemetryState)]
+    [TestClass]
     public class GivenDotnetStoreInvocation : IClassFixture<NullCurrentSessionIdFixture>
     {
         const string ExpectedPrefix = "-maxcpucount -verbosity:m -tlp:default=auto -nologo -target:ComposeStore <project>";

@@ -14,6 +14,7 @@ using System.Net;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
 
+[TestClass]
 public class DefineStaticWebAssetEndpointsTest
 {
     [TestMethod]

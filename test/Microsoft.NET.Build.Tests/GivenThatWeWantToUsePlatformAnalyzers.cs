@@ -47,7 +47,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analyzerConsoleApp", targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 currentTargetFramework, "Analyzer")
             {
@@ -185,7 +185,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analyzerConsoleApp", targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 currentTargetFramework, "Analyzer")
             {
@@ -231,7 +231,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analyzerConsoleApp", targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 targetFrameworkNetCore31, "Analyzer")
             {

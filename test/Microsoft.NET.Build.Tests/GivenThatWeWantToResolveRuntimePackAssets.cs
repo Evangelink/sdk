@@ -32,7 +32,7 @@ namespace Microsoft.NET.Build.Tests
             var projectDirectory = Path.Combine(testAsset.TestRoot, testProject.Name);
 
             var command = new MSBuildCommand(
-                Log,
+                MSTestContext,
                 "TestResolveRuntimePackAssets",
                 projectDirectory);
 

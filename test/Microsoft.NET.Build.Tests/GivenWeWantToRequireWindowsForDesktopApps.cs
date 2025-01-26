@@ -261,7 +261,7 @@ namespace Microsoft.NET.Build.Tests
             Assert(publishCommand.GetOutputDirectory(tfm, runtimeIdentifier: runtimeIdentifier));
 
             var filesCopiedToPublishDirCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.Path, testProject.Name),
                 testProject.TargetFrameworks,
                 "FilesCopiedToPublishDir",
@@ -289,7 +289,7 @@ namespace Microsoft.NET.Build.Tests
                          because: "wapproj should copy cswinrt dlls");
 
             var publishItemsOutputGroupOutputsCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.Path, testProject.Name),
                 testProject.TargetFrameworks,
                 "PublishItemsOutputGroupOutputs",

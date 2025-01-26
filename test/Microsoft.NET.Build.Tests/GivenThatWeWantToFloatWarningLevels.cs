@@ -49,7 +49,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "warningLevelConsoleApp" + tfm, targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 tfm, "WarningLevel")
             {
@@ -93,7 +93,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "customWarningLevelConsoleApp", targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 ToolsetInfo.CurrentTargetFramework, "WarningLevel")
             {
@@ -194,7 +194,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analysisLevelPreviewConsoleApp" + currentTFM, targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 currentTFM, "EffectiveAnalysisLevel")
             {
@@ -337,7 +337,7 @@ namespace Microsoft.NET.Build.Tests
                 .CreateTestProject(testProject, identifier: "analysisLevelPreviewConsoleApp" + ToolsetInfo.CurrentTargetFramework + analysisLevel + category, targetExtension: ".csproj");
 
             var buildCommand = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(testAsset.TestRoot, testProject.Name),
                 ToolsetInfo.CurrentTargetFramework, effectiveAnalysisLevelPropertyName)
             {

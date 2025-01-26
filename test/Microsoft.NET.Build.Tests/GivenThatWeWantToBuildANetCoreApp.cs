@@ -764,7 +764,7 @@ class Program
             string testDirectory = Path.Combine(testAsset.TestRoot, testProject.Name);
 
             var getPackageReferences = new GetValuesCommand(
-               Log,
+               MSTestContext,
                testDirectory,
                testProject.TargetFrameworks,
                "PackageReference",

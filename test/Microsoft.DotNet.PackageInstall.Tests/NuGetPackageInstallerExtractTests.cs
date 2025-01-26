@@ -22,7 +22,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         {
             string packageId = "Newtonsoft.Json";
             string packageVersion = ToolsetInfo.GetNewtonsoftJsonPackageVersion();
-            NuGetTestLogger logger = new(Log);
+            NuGetTestLogger logger = new(MSTestContext);
             NuGetPackageDownloader installer =
                 new(new DirectoryPath(Directory.GetCurrentDirectory()), null,
                     new MockFirstPartyNuGetPackageSigningVerifier(), logger, restoreActionConfig: new RestoreActionConfig(NoCache: true));
@@ -41,7 +41,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void ItCanGetAllFilesNeedToSetExecutablePermission()
         {
-            NuGetTestLogger logger = new(Log);
+            NuGetTestLogger logger = new(MSTestContext);
             NuGetPackageDownloader installer =
                 new(
                     new DirectoryPath(Directory.GetCurrentDirectory()),
@@ -65,7 +65,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void GivenPackageNotInAllowListItCannotGetAllFilesNeedToSetExecutablePermission()
         {
-            NuGetTestLogger logger = new(Log);
+            NuGetTestLogger logger = new(MSTestContext);
             NuGetPackageDownloader installer =
                 new(new DirectoryPath(Directory.GetCurrentDirectory()), null,
                     new MockFirstPartyNuGetPackageSigningVerifier(), logger, restoreActionConfig: new RestoreActionConfig(NoCache: true));

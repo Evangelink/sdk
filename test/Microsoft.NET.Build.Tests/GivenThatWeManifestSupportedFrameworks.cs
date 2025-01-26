@@ -27,14 +27,14 @@ namespace Microsoft.NET.Build.Tests
             string testDirectory = Path.Combine(asset.TestRoot, project.Name);
 
             var getMaximumVersion = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 testDirectory,
                 project.TargetFrameworks,
                 targetFrameworkIdentifier.Substring(1) + "MaximumVersion",
                 GetValuesCommand.ValueType.Property);
 
             var getSupportedFrameworks = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 testDirectory,
                 project.TargetFrameworks,
                 "SupportedTargetFramework",
@@ -104,7 +104,7 @@ namespace Microsoft.NET.Build.Tests
         private List<string> GetItems(string testDirectory, string tfm, string itemName)
         {
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 testDirectory,
                 tfm,
                 itemName,

@@ -34,7 +34,7 @@ namespace Microsoft.NET.Build.Tests
                     "public class Package {}");
             };
 
-            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "Compile", setup);
+            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "Compile", setup);
 
             RemoveGeneratedCompileItems(compileItems);
 
@@ -73,7 +73,7 @@ namespace Microsoft.NET.Build.Tests
             };
 
 
-            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
+            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
 
             RemoveGeneratedCompileItems(compileItems);
 
@@ -156,7 +156,7 @@ namespace Microsoft.NET.Build.Tests
                 itemGroup.Add(new XElement(ns + "Compile", new XAttribute("Include", "..\\Shared\\**\\*.cs")));
             };
 
-            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
+            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
 
             RemoveGeneratedCompileItems(compileItems);
 
@@ -281,7 +281,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
 
 
-            var embeddedResourceItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "EmbeddedResource", setup, projectChanges: projectChanges, identifier: "EmbeddedResource");
+            var embeddedResourceItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "EmbeddedResource", setup, projectChanges: projectChanges, identifier: "EmbeddedResource");
 
             var expectedEmbeddedResourceItems = new[]
             {
@@ -317,7 +317,7 @@ namespace Microsoft.NET.Build.Tests
                 itemGroup.Add(new XElement(ns + "Compile", new XAttribute("Remove", "CSharpAsContent.cs")));
             };
 
-            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
+            var compileItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "Compile", setup, projectChanges: projectChanges);
 
             RemoveGeneratedCompileItems(compileItems);
 
@@ -332,7 +332,7 @@ namespace Microsoft.NET.Build.Tests
             compileItems.Should().BeEquivalentTo(expectedItems);
 
 
-            var contentItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(Log, _testAssetsManager, "Content", setup, projectChanges: projectChanges, identifier: "Content");
+            var contentItems = GivenThatWeWantToBuildALibrary.GetValuesFromTestLibrary(MSTestContext, _testAssetsManager, "Content", setup, projectChanges: projectChanges, identifier: "Content");
 
             var expectedContentItems = new[]
             {

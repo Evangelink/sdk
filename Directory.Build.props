@@ -105,14 +105,6 @@
     <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
   </PropertyGroup>
 
-  <!-- Global usings -->
-  <!-- See: https://learn.microsoft.com/dotnet/core/project-sdk/msbuild-props#using -->
-  <ItemGroup>
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting.TestContext" Alias="MSTestContext" />
-    <Using Include="Microsoft.NET.TestFramework.TestContext" Alias="TestContext" />
-  </ItemGroup>
-
   <Import Project="build/GenerateResxSource.targets" />
 
 </Project>

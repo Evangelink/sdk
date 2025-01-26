@@ -8,8 +8,6 @@ using System.Runtime.CompilerServices;
 using FluentAssertions;
 using Microsoft.Build.Framework;
 using Microsoft.NET.TestFramework;
-using Xunit;
-using Xunit.Abstractions;
 using static Microsoft.NET.Build.Tasks.ResolveTargetingPackAssets;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
@@ -18,7 +16,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
     public class GivenAResolveTargetingPackAssetsTask : SdkTest
     {
         public GivenAResolveTargetingPackAssetsTask(MSTestContext testContext)
-            : base(log)
+            : base(testContext)
         {
         }
 
@@ -259,7 +257,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         }
 
         [TestMethod]
-        public static void It_Hashes_All_Inputs_To_FrameworkList()
+        public void It_Hashes_All_Inputs_To_FrameworkList()
         {
             var constructor = typeof(FrameworkListDefinition).GetConstructors().Single();
 
@@ -300,7 +298,7 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
         }
 
         [TestMethod]
-        public static void StronglyTypedInputs_Includes_All_Inputs_In_CacheKey()
+        public void StronglyTypedInputs_Includes_All_Inputs_In_CacheKey()
         {
             StronglyTypedInputs defaultObject = new(
                 frameworkReferences: DefaultFrameworkReferences(),

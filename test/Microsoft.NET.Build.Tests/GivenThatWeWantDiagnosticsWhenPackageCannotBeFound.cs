@@ -84,7 +84,7 @@ namespace Microsoft.NET.Build.Tests
                .CreateTestProject(project, project.Name);
 
             var pack = new PackCommand(
-                Log,
+                MSTestContext,
                 Path.Combine(asset.TestRoot, project.Name));
 
             pack.Execute().Should().Pass();

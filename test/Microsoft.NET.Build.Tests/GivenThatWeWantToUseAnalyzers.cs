@@ -93,7 +93,7 @@ namespace Microsoft.NET.Build.Tests
         private void VerifyGeneratorIsUsed(TestAsset asset, bool? expectEnabled, string generatorName)
         {
             var command = new GetValuesCommand(
-                Log,
+                MSTestContext,
                 asset.Path,
                 ToolsetInfo.CurrentTargetFramework,
                 "Analyzer",

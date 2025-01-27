@@ -4,7 +4,9 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli.Utils;
+
 using NuGet.Packaging;
 
 namespace Microsoft.NET.ToolPack.Tests
@@ -74,7 +76,8 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/10335")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/10335")]
         [DataRow(false, false)]
         [DataRow(false, true)]
         [DataRow(true, false)]

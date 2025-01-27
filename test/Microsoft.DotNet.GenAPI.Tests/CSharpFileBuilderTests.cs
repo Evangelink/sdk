@@ -4,12 +4,14 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.DotNet.ApiSymbolExtensions;
 using Microsoft.DotNet.ApiSymbolExtensions.Filtering;
 using Microsoft.DotNet.ApiSymbolExtensions.Logging;
 using Microsoft.DotNet.ApiSymbolExtensions.Tests;
+
 using Moq;
 
 namespace Microsoft.DotNet.GenAPI.Tests
@@ -2131,7 +2133,8 @@ namespace Microsoft.DotNet.GenAPI.Tests
                 includeInternalSymbols: false);
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/roslyn/issues/74109")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithOperatorGeneration()
         {
             RunTest(original: """
@@ -2155,7 +2158,8 @@ namespace Microsoft.DotNet.GenAPI.Tests
                  includeInternalSymbols: false);
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/roslyn/issues/74109")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithCheckedOperatorGeneration()
         {
             RunTest(original: """

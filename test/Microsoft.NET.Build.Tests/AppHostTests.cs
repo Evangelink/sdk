@@ -7,7 +7,9 @@ using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Reflection.PortableExecutable;
 using System.Text.RegularExpressions;
+
 using Microsoft.DotNet.Cli.Utils;
+
 using NuGet.Frameworks;
 
 namespace Microsoft.NET.Build.Tests
@@ -42,7 +44,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.1.0.60101")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.1.0.60101")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_a_runnable_apphost_by_default(string targetFramework)
         {
@@ -81,7 +84,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.OSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         [DataRow("netcoreapp3.1")]
         [DataRow("net5.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
@@ -115,7 +119,8 @@ namespace Microsoft.NET.Build.Tests
             outputDirectory.Should().OnlyHaveFiles(GetExpectedFilesFromBuild(testAsset, targetFramework));
         }
 
-        [TestMethod][OSCondition(OperatingSystems.OSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         [DataRow("netcoreapp3.1", "win-x64")]
         [DataRow("net5.0", "win-x64")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "win-x64")]
@@ -223,7 +228,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("x86")]
         [DataRow("x64")]
         [DataRow("AnyCPU")]
@@ -342,7 +348,8 @@ namespace Microsoft.NET.Build.Tests
             Assert.IsTrue(found, "Expected placeholder sequence for .NET install search options was not found");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void AppHost_contains_resources_from_the_managed_dll()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -374,7 +381,8 @@ namespace Microsoft.NET.Build.Tests
             apphostVersion.Should().Be(version);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void FSharp_app_can_customize_the_apphost()
         {
             var targetFramework = "netcoreapp3.1";

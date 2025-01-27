@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Build.Tests
@@ -323,7 +324,8 @@ public class ReferencedExeProgram
                 .Replace("Boolean", referenceExeInCode.ToString()));
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("xunit")]
         [DataRow("mstest")]
         public void TestProjectCanReferenceExe(string testTemplateName)
@@ -360,7 +362,8 @@ public class ReferencedExeProgram
 
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("xunit")]
         [DataRow("mstest")]
         public void ExeProjectCanReferenceTestProject(string testTemplateName)

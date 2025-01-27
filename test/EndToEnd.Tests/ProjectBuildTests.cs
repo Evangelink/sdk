@@ -82,7 +82,8 @@ namespace EndToEnd.Tests
                 .Execute().Should().Pass().And.HaveStdOutContaining("Hello, World!");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("current", true)]
         [DataRow("current", false)]
         public void ItCanPublishArm64Winforms(string targetFramework, bool selfContained)
@@ -120,7 +121,8 @@ namespace EndToEnd.Tests
             selfContainedPublishDir.Should().HaveFilesMatching($"{new DirectoryInfo(directory.Path).Name}.dll", SearchOption.TopDirectoryOnly);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("current", true)]
         [DataRow("current", false)]
         public void ItCanPublishArm64Wpf(string targetFramework, bool selfContained)
@@ -289,12 +291,14 @@ namespace EndToEnd.Tests
             Assert.IsNotNull(directoryInfo.File($"{expectedItemName}.{languageExtensionMap[language]}"));
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("winforms")]
         public void ItCanBuildDesktopTemplates(string templateName) => TestTemplateCreateAndBuild(templateName);
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         public void ItCanBuildDesktopTemplatesSelfContained(string templateName) => TestTemplateCreateAndBuild(templateName, selfContained: true);
 
@@ -354,7 +358,8 @@ namespace EndToEnd.Tests
         /// The test checks if the template creates the template for correct framework by default.
         /// For .NET 6 the templates should create the projects targeting net6.0.
         /// </summary>
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("wpf", "C#")]
         [DataRow("wpf", "VB")]

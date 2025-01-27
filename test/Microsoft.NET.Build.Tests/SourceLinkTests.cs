@@ -115,7 +115,8 @@ namespace Microsoft.NET.Build.Tests
         /// <summary>
         /// When creating a new repository locally we want the build to work and not report warnings even before the remote is set.
         /// </summary>
-        [TestMethod][MSBuildVersionCondition("17.12.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12.0")]
         public void WithNoRemoteNoCommit()
         {
             var testAsset = _testAssetsManager
@@ -134,7 +135,8 @@ namespace Microsoft.NET.Build.Tests
         /// <summary>
         /// When creating a new repository locally we want the build to work and not report warnings even before the remote is set.
         /// </summary>
-        [TestMethod][MSBuildVersionCondition("17.12.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12.0")]
         public void WithNoRemote()
         {
             var testAsset = _testAssetsManager
@@ -291,7 +293,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void Cpp()
         {
             var testAsset = _testAssetsManager
@@ -324,7 +327,8 @@ namespace Microsoft.NET.Build.Tests
             Assert.Contains(expectedSourceLink, pdbText);
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void LegacyDesktopWpf()
         {
             var testAsset = _testAssetsManager

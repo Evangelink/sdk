@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Reflection;
+
 using Microsoft.DotNet.Cli.Utils;
 
 namespace Microsoft.NET.Publish.Tests
@@ -16,7 +17,8 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void BuildWithRuntimeIdentifier()
         {
             var testProject = new TestProject()
@@ -115,7 +117,8 @@ namespace Microsoft.NET.Publish.Tests
         }
 
         //  Run on core MSBuild only as using a local packages folder hits long path issues on full MSBuild
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         [DataRow(false)]
         //  "No build" scenario doesn't currently work: https://github.com/dotnet/sdk/issues/2956
         //[DataRow(true)]
@@ -227,7 +230,8 @@ namespace Microsoft.NET.Publish.Tests
             Assert.AreEqual(expectedRid, finalRid);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void PublishRuntimeIdentifierOverridesUseCurrentRuntime()
         {
             string tfm = ToolsetInfo.CurrentTargetFramework;

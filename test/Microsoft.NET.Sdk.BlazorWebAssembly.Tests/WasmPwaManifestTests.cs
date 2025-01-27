@@ -5,6 +5,7 @@
 
 using System.Text.Json;
 using System.Text.RegularExpressions;
+
 using static Microsoft.NET.Sdk.BlazorWebAssembly.Tests.ServiceWorkerAssert;
 
 
@@ -13,7 +14,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     [TestClass]
     public class WasmPwaManifestTests(MSTestContext testContext) : AspNetSdkTest(testContext)
     {
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_ServiceWorkerAssetsManifest_Works()
         {
             // Arrange
@@ -61,7 +63,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
                assetsManifestPath: "service-worker-assets.js");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_HostedAppWithServiceWorker_Works()
         {
             // Arrange
@@ -87,7 +90,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             entries.Should().Contain(e => expectedExtensions.Contains(Path.GetExtension(e)));
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void PublishWithPWA_ProducesAssets()
         {
             // Arrange
@@ -115,7 +119,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             // Assert.FileContainsLine(result, serviceWorkerFile, "// This is the production service worker");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void PublishHostedWithPWA_ProducesAssets()
         {
             // Arrange
@@ -143,7 +148,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             // Assert.FileContainsLine(result, serviceWorkerFile, "// This is the production service worker");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_UpdatesServiceWorkerVersionHash_WhenSourcesChange()
         {
             // Arrange
@@ -193,7 +199,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             updatedCapture.Should().NotBe(capture);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_DeterministicAcrossBuilds_WhenNoSourcesChange()
         {
             // Arrange

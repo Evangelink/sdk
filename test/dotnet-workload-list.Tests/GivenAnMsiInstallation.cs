@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Runtime.Versioning;
+
 using Microsoft.DotNet.Installer.Windows;
 using Microsoft.DotNet.Workloads.Workload.Install.InstallRecord;
 using Microsoft.NET.Sdk.WorkloadManifestReader;
@@ -23,7 +24,8 @@ namespace Microsoft.DotNet.Cli.Workload.List.Tests
             Registry.CurrentUser,
             @"SOFTWARE\Microsoft\dotnet-test\InstalledWorkloads\Standalone");
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenExistingRecordsItCanDetermineInstalledWorkloads()
         {
             CreateWorkloadRecord("6.0.100", "workload.A");
@@ -35,7 +37,8 @@ namespace Microsoft.DotNet.Cli.Workload.List.Tests
             Assert.Contains(new WorkloadId("workload.C"), records);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenExistingRecordsItCanDeleteRecords()
         {
             CreateWorkloadRecord("6.0.100", "workload.A");
@@ -51,7 +54,8 @@ namespace Microsoft.DotNet.Cli.Workload.List.Tests
             Assert.DoesNotContain(new WorkloadId("workload.B"), records);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenExistingRecordsItOnlyEnumeratesFeatureBandsWithWorkloads()
         {
             CreateWorkloadRecord("6.0.100", "workload.A");

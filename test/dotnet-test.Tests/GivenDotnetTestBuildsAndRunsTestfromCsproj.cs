@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Tools.Test.Utilities;
 
@@ -432,7 +433,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItCreatesCoverageFileWhenCodeCoverageEnabledByRunsettings()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp([]);
@@ -473,7 +475,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows | OperatingSystems.OSX | OperatingSystems.Linux)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows | OperatingSystems.MacOSX | OperatingSystems.Linux)]
         public void ItCreatesCoverageFileInResultsDirectory()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp([]);
@@ -509,7 +512,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows | OperatingSystems.OSX | OperatingSystems.Linux)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows | OperatingSystems.MacOSX | OperatingSystems.Linux)]
         public void ItCreatesCoberturaFileProvidedByCommandInResultsDirectory()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp([]);
@@ -545,7 +549,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItHandlesMultipleCollectCommandInResultsDirectory()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp([]);
@@ -586,7 +591,8 @@ namespace Microsoft.DotNet.Cli.Test.Tests
             result.ExitCode.Should().Be(1);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.FreeBSD)]
         public void ItShouldShowWarningMessageOnCollectCodeCoverage()
         {
             var testProjectDirectory = CopyAndRestoreVSTestDotNetCoreTestApp([]);

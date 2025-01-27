@@ -6,6 +6,7 @@
 using Microsoft.DotNet.Cli.NuGetPackageDownloader;
 using Microsoft.DotNet.ToolPackage;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
@@ -38,7 +39,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             extractedFiles.Should().BeEquivalentTo(result);
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void ItCanGetAllFilesNeedToSetExecutablePermission()
         {
             NuGetTestLogger logger = new(MSTestContext);
@@ -62,7 +64,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                 "file without extension under tools folder");
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void GivenPackageNotInAllowListItCannotGetAllFilesNeedToSetExecutablePermission()
         {
             NuGetTestLogger logger = new(MSTestContext);

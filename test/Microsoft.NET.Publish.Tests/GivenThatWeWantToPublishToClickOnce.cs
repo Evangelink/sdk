@@ -14,7 +14,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         [DataRow(false)]
         [DataRow(true)]
         public void PublishClickOnceWithPublishProfile(bool? publishSingleFile)

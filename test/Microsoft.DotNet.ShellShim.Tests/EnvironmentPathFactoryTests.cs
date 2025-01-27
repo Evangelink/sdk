@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.DotNet.Cli.Utils;
+
 using Moq;
 
 namespace Microsoft.DotNet.ShellShim.Tests
@@ -9,7 +10,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
     [TestClass]
     public class EnvironmentPathFactoryTests
     {
-        [TestMethod][OSCondition(OperatingSystems.MacOSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         public void GivenFollowingEnvironmentVariableValueItCanReturnOsxZshEnvironmentPathInstruction()
         {
             Mock<IEnvironmentProvider> provider = new(MockBehavior.Strict);
@@ -23,7 +25,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
             (result is OsxZshEnvironmentPathInstruction).Should().BeTrue();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.MacOSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         public void GivenFollowingEnvironmentVariableValueItShouldReturnOsxBashEnvironmentPath()
         {
             Mock<IEnvironmentProvider> provider = new(MockBehavior.Strict);
@@ -37,7 +40,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
             (result is OsxBashEnvironmentPath).Should().BeTrue();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenWindowsItShouldReturnOsxBashEnvironmentPath()
         {
             Mock<IEnvironmentProvider> provider = new(MockBehavior.Loose);
@@ -47,7 +51,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
             (result is WindowsEnvironmentPath).Should().BeTrue();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux)]
         public void GivenLinuxItShouldReturnOsxBashEnvironmentPath()
         {
             Mock<IEnvironmentProvider> provider = new(MockBehavior.Loose);

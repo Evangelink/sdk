@@ -10,7 +10,8 @@ namespace Microsoft.NET.Build.Tests
     {
         public GivenThatWeWantToGenerateGlobalUsings_Worker(MSTestContext testContext) : base(testContext) { }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void It_generates_worker_implicit_usings_and_builds_successfully()
         {
             var tfm = ToolsetInfo.CurrentTargetFramework;

@@ -285,7 +285,8 @@ Options:
 
         }
 
-        [TestMethod][Ignore("Having projects with the same name in different paths is allowed.")]
+        [TestMethod]
+        [Ignore("Having projects with the same name in different paths is allowed.")]
         [DataRow("sln")]
         [DataRow("solution")]
         public void WhenNestedDuplicateProjectIsAddedToASolutionFolder(string solutionCommand)
@@ -714,7 +715,8 @@ Options:
                 .Should().BeVisuallyEquivalentTo(contentBefore);
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/522")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/522")]
         [DataRow("sln")]
         [DataRow("solution")]
         public void WhenPassedAnUnknownProjectTypeItFails(string solutionCommand)

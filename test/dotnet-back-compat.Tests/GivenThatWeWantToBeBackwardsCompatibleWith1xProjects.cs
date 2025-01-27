@@ -12,7 +12,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
         {
         }
 
-        [TestMethod][FrameworkVersionCondition("netcoreapp1.1")]
+        [TestMethod]
+        [FrameworkVersionCondition("netcoreapp1.1")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ItRestoresBuildsAndRuns(string target)
         {
@@ -62,7 +63,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                 .Should().Pass();
         }
 
-        [TestMethod][FrameworkVersionCondition("netcoreapp1.0")] // https://github.com/dotnet/cli/issues/6087
+        [TestMethod]
+        [FrameworkVersionCondition("netcoreapp1.0")] // https://github.com/dotnet/cli/issues/6087
         public void ItRunsABackwardsVersionedTool()
         {
             var testInstance = _testAssetsManager

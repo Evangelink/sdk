@@ -61,7 +61,8 @@ namespace Microsoft.NET.Build.Tests
             runCommand.Execute().Should().Pass();
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void COMReferenceProperlyPublish()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

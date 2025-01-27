@@ -10,7 +10,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_publishes_comhost_to_the_publish_folder()
         {
             var testAsset = _testAssetsManager

@@ -37,7 +37,8 @@ namespace Microsoft.NET.Build.Tests
             FailsBuild
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0.42407")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0.42407")]
         [DataRow("net5.0-windows", "net5.0", true)]
         [DataRow("net5.0", "net5.0-windows", false)]
         [DataRow("net5.0-windows", "net5.0-windows", true)]
@@ -153,7 +154,8 @@ namespace Microsoft.NET.Build.Tests
             return ret;
         }
 
-        [TestMethod][MSBuildVersionCondition("16.7.1")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.7.1")]
         [DataRow(true, true)]
         [DataRow(false, true)]
         [DataRow(false, false)]
@@ -234,7 +236,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0")]
         public void It_copies_content_transitively()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;

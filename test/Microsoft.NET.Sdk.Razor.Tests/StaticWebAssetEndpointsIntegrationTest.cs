@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+
 using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.Razor.Tests;
@@ -82,9 +83,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var _,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: "", Success: false },
-            { Name: "compress", Value: "", Success: false }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: "", Success: false },
+        { Name: "compress", Value: "", Success: false }
         ]
     };
 
@@ -93,9 +94,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var _,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: "", Success: false },
-            { Name: "compress", Value: var compress, Success: true }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: "", Success: false },
+        { Name: "compress", Value: var compress, Success: true }
         ]
     } && (compress == ".gz" || compress == ".br");
 
@@ -104,9 +105,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var m,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: var fingerprint, Success: true },
-            { Name: "compress", Value: "", Success: false }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: var fingerprint, Success: true },
+        { Name: "compress", Value: "", Success: false }
         ]
     } && fingerprint == ep.EndpointProperties.Single(p => p.Name == "fingerprint").Value;
 
@@ -115,9 +116,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var m,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: var fingerprint, Success: true },
-            { Name: "compress", Value: var compress, Success: true }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: var fingerprint, Success: true },
+        { Name: "compress", Value: var compress, Success: true }
         ]
     } && !string.IsNullOrWhiteSpace(fingerprint)
       && (compress == ".gz" || compress == ".br");
@@ -127,9 +128,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var _,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: "", Success: false },
-            { Name: "compress", Value: "", Success: false }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: "", Success: false },
+        { Name: "compress", Value: "", Success: false }
         ]
     };
 
@@ -138,9 +139,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var _,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: "", Success: false },
-            { Name: "compress", Value: var compress, Success: true }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: "", Success: false },
+        { Name: "compress", Value: var compress, Success: true }
         ]
     } && (compress == ".gz" || compress == ".br");
 
@@ -149,9 +150,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var m,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: var fingerprint, Success: true },
-            { Name: "compress", Value: "", Success: false }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: var fingerprint, Success: true },
+        { Name: "compress", Value: "", Success: false }
         ]
     } && fingerprint == ep.EndpointProperties.Single(p => p.Name == "fingerprint").Value;
 
@@ -160,9 +161,9 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         Success: true,
         Groups: [
             var m,
-            { Name: "project", Value: "ComponentApp", Success: true, },
-            { Name: "fingerprint", Value: var fingerprint, Success: true },
-            { Name: "compress", Value: var compress, Success: true }
+        { Name: "project", Value: "ComponentApp", Success: true, },
+        { Name: "fingerprint", Value: var fingerprint, Success: true },
+        { Name: "compress", Value: var compress, Success: true }
         ]
     } && !string.IsNullOrWhiteSpace(fingerprint)
       && (compress == ".gz" || compress == ".br");
@@ -398,7 +399,8 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         AssertManifest(publishManifest, LoadPublishManifest());
     }
 
-    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod]
+    [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Build_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -425,7 +427,8 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorwasm", readFromDevManifest: true);
     }
 
-    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod]
+    [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void BuildHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange
@@ -451,7 +454,8 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(buildOutputDirectory, "blazorhosted", readFromDevManifest: true);
     }
 
-    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod]
+    [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void Publish_EndpointManifestContainsEndpoints()
     {
         // Arrange
@@ -476,7 +480,8 @@ public partial class StaticWebAssetEndpointsIntegrationTest(MSTestContext testCo
         VerifyEndpointsCollection(publishOutputDirectory, "blazorwasm");
     }
 
-    [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+    [TestMethod]
+    [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
     public void PublishHosted_EndpointManifest_ContainsEndpoints()
     {
         // Arrange

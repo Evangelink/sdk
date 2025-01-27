@@ -4,9 +4,12 @@
 #nullable disable
 
 using System.Reflection.PortableExecutable;
+
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.NET.Build.Tasks;
+
 using Newtonsoft.Json.Linq;
+
 using static Microsoft.NET.Publish.Tests.PublishTestUtils;
 
 namespace Microsoft.NET.Publish.Tests
@@ -22,7 +25,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12.0")]
         [DynamicData(nameof(Net7Plus), typeof(PublishTestUtils))]
         public void NativeAot_hw_runs_with_no_warnings_when_PublishAot_is_enabled(string targetFramework)
         {
@@ -94,7 +98,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("Hello World");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12.0")]
         [DynamicData(nameof(Net7Plus), typeof(PublishTestUtils))]
         public void NativeAot_hw_runs_with_no_warnings_when_PublishAot_is_false(string targetFramework)
         {
@@ -129,7 +134,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_app_runs_in_debug_with_no_config_when_PublishAot_is_enabled(string targetFramework)
         {
@@ -182,7 +188,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Execute().Should().Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_app_runs_in_release_with_no_config_when_PublishAot_is_enabled(string targetFramework)
         {
@@ -234,7 +241,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Execute().Should().Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_app_builds_with_config_when_PublishAot_is_enabled(string targetFramework)
         {
@@ -268,7 +276,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(depsPath).Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_runs_with_PackageReference_PublishAot_is_enabled(string targetFramework)
         {
@@ -324,7 +333,8 @@ namespace Microsoft.NET.Publish.Tests
             CheckIlcVersions(testAsset, targetFramework, rid, ExplicitPackageVersion);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_runs_with_PackageReference_PublishAot_is_empty(string targetFramework)
         {
@@ -361,7 +371,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("Hello World");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net7Plus), typeof(PublishTestUtils))]
         public void NativeAot_hw_runs_with_cross_target_PublishAot_is_enabled(string targetFramework)
         {
@@ -391,7 +402,8 @@ namespace Microsoft.NET.Publish.Tests
         }
 
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net7Plus), typeof(PublishTestUtils))]
         public void NativeAot_hw_runs_with_cross_PackageReference_PublishAot_is_enabled(string targetFramework)
         {
@@ -427,7 +439,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_runs_with_cross_PackageReference_PublishAot_is_empty(string targetFramework)
         {
@@ -456,7 +469,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void NativeAot_hw_fails_with_sdk6_PublishAot_is_enabled()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -476,7 +490,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_fails_with_sdk6_PackageReference_PublishAot_is_enabled(string targetFramework)
         {
@@ -500,7 +515,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_fails_with_unsupported_target_rid(string targetFramework)
         {
@@ -524,7 +540,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAot_hw_fails_with_unsupported_host_rid(string targetFramework)
         {
@@ -556,7 +573,8 @@ namespace Microsoft.NET.Publish.Tests
                     new XElement(ns + "ILCompilerRuntimeIdentifiers", runtimeIdentifiers))));
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Only_Aot_warnings_are_produced_if_EnableAotAnalyzer_is_set(string targetFramework)
         {
@@ -578,7 +596,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL3002");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void IsAotCompatible_implies_enable_analyzers(string targetFramework)
         {
@@ -612,7 +631,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL3002");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net5.0", true)]
         [DataRow("net6.0", true)]
         [DataRow("net7.0", false)]
@@ -636,16 +656,20 @@ namespace Microsoft.NET.Publish.Tests
 
             var publishCommand = new PublishCommand(testAsset);
             var result = publishCommand.Execute($"/p:RuntimeIdentifier={rid}", "/p:SelfContained=true");
-            if (shouldFail) {
+            if (shouldFail)
+            {
                 result.Should().Fail()
                     .And.HaveStdOutContaining(Strings.AotUnsupportedTargetFramework);
-            } else {
+            }
+            else
+            {
                 result.Should().Pass()
                     .And.NotHaveStdOutContaining("warning");
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.8.0")]
         [DataRow("netstandard2.0", true)]
         [DataRow("net6.0", true)]
         [DataRow("net7.0", false)]
@@ -673,18 +697,22 @@ namespace Microsoft.NET.Publish.Tests
             var buildCommand = new BuildCommand(testAsset);
             var resultAssertion = buildCommand.Execute()
                 .Should().Pass();
-            if (shouldWarn) {
+            if (shouldWarn)
+            {
                 resultAssertion
                     // Note: can't check for Strings.IsAotCompatibleUnsupported because each line of
                     // the message gets prefixed with a file path by MSBuild.
                     .And.HaveStdOutContaining($"warning NETSDK1210")
                     .And.HaveStdOutContaining($"<IsAotCompatible Condition=\"$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))\">true</IsAotCompatible>");
-            } else {
+            }
+            else
+            {
                 resultAssertion.And.NotHaveStdOutContaining($"warning");
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Requires_analyzers_produce_warnings_without_PublishAot_being_set(string targetFramework)
         {
@@ -710,7 +738,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("warning IL3002");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net7Plus), typeof(PublishTestUtils))]
         public void NativeAot_compiler_runs_when_PublishAot_is_enabled(string targetFramework)
         {
@@ -755,7 +784,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("Hello world");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Warnings_are_generated_in_build_with_analyzers_enabled(string targetFramework)
         {
@@ -782,7 +812,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("warning IL3002");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Warnings_are_not_generated_in_build_with_analyzers_disabled(string targetFramework)
         {
@@ -808,7 +839,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL3002");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Warnings_are_generated_even_with_analyzers_disabled(string targetFramework)
         {
@@ -850,7 +882,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("Hello world");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAotStaticLib_only_runs_when_switch_is_enabled(string targetFramework)
         {
@@ -904,7 +937,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("EventSource is not supported or recommended when compiling to a native library");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void NativeAotSharedLib_only_runs_when_switch_is_enabled(string targetFramework)
         {
@@ -934,7 +968,8 @@ namespace Microsoft.NET.Publish.Tests
             IsNativeImage(publishedDll).Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_publishes_with_implicit_rid_with_NativeAotApp(string targetFramework)
         {
@@ -950,7 +985,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_builds_with_dynamiccodesupport_false_when_publishaot_true(string targetFramework)
         {
@@ -975,7 +1011,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_accepts_option_to_show_all_warnings(string targetFramework)
         {
@@ -995,7 +1032,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("IL2104");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_show_single_warning_per_assembly(string targetFramework)
         {

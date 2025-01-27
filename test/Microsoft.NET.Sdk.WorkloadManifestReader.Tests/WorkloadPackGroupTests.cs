@@ -34,7 +34,8 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader.Tests
             }
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/28759")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/28759")]
         public void GetPackDefinitionLocations()
         {
             var definitionLocations = GetWorkloadPackDefinitionLocations(GetManifests());

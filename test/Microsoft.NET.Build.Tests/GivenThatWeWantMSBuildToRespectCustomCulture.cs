@@ -30,7 +30,8 @@ namespace Microsoft.NET.Build.Tests
 
         [DataRow("net7.0")]
         [DataRow("net6.0")]
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void SupportRespectAlreadyAssignedItemCulture_IsNotSupported_BuildShouldWarn(string targetFramework)
         {
             var testAsset = _testAssetsManager
@@ -47,7 +48,8 @@ namespace Microsoft.NET.Build.Tests
 
         [DataRow("net7.0")]
         [DataRow("net6.0")]
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         // Is this Failing? Is full FW MSBuild already on 17.13? Then remove this test and remove `[TestMethod][CoreMSBuildCondition]` attribute on the test above
         //
         // Until MSBuild 17.13 is merged into FullFW MSBuild in sdk tests - the test will fail, as

@@ -10,7 +10,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows | OperatingSystems.OSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows | OperatingSystems.MacOSX)]
         public void ItBuildsTheSolutionSuccessfully()
         {
             const string solutionFile = "AppWithProjRefCaseDiff.sln";

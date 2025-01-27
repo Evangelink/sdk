@@ -5,6 +5,7 @@
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.Extensions.DependencyModel;
@@ -762,7 +763,8 @@ public static class Program
                 .HaveStdOutContaining("NETSDK1085");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_contains_no_duplicates_in_resolved_publish_assets_on_windows()
             => It_contains_no_duplicates_in_resolved_publish_assets("windows");
 

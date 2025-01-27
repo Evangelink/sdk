@@ -10,7 +10,8 @@ namespace EndToEnd.Tests
     [TestClass]
     public class GivenWeWantToRequireWindowsForDesktopApps(MSTestContext testContext) : SdkTest(testContext)
     {
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD, IgnoreMessage = "https://github.com/dotnet/sdk/issues/42230")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD, IgnoreMessage = "https://github.com/dotnet/sdk/issues/42230")]
         public void It_does_not_download_desktop_targeting_packs_on_unix()
         {
             var testProjectCreator = new TestProjectCreator()
@@ -30,7 +31,8 @@ namespace EndToEnd.Tests
             Directory.Exists(packagesPath).Should().BeFalse(packagesPath + " should not exist");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         public void It_does_not_download_desktop_runtime_packs_on_unix()
         {
             const string Rid = "win-x64";

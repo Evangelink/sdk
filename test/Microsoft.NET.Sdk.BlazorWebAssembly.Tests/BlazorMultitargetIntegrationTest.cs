@@ -10,7 +10,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(BlazorMultitargetIntegrationTest))
     {
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void MultiTargetApp_LoadsTheCorrectSdkBasedOnTfm()
         {
             // Arrange
@@ -30,7 +31,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             browserDependencies.File("captured-references.txt").Should().NotContain("Microsoft.AspNetCore.Components.Server.dll");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void ReferencedMultiTargetApp_LoadsTheCorrectSdkBasedOnTfm()
         {
             // Arrange

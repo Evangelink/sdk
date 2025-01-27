@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_cannot_pack_the_cppcliproject()
         {
             var testAsset = _testAssetsManager

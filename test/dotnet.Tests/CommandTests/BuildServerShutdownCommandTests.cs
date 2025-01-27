@@ -4,11 +4,14 @@
 #nullable disable
 
 using System.CommandLine;
+
 using Microsoft.DotNet.BuildServer;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Tools.Test.Utilities;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using Moq;
+
 using CommandLocalizableStrings = Microsoft.DotNet.BuildServer.LocalizableStrings;
 using LocalizableStrings = Microsoft.DotNet.Tools.BuildServer.Shutdown.LocalizableStrings;
 using Parser = Microsoft.DotNet.Cli.Parser;
@@ -157,7 +160,8 @@ namespace Microsoft.DotNet.Tests.Commands
             VerifyShutdownCalls(mocks);
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/3684")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/3684")]
         public void GivenARunningRazorServerItShutsDownSuccessfully()
         {
             var pipeName = Path.GetRandomFileName();

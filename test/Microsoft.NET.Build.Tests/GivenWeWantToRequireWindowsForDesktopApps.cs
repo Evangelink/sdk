@@ -5,6 +5,7 @@
 
 using System.IO.MemoryMappedFiles;
 using System.Runtime.CompilerServices;
+
 using Microsoft.NET.Build.Tasks;
 
 namespace Microsoft.NET.Build.Tests
@@ -16,7 +17,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("UseWPF")]
         [DataRow("UseWindowsForms")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk(string uiFrameworkProperty)
@@ -33,7 +35,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         [DataRow("UseWPF")]
         [DataRow("UseWindowsForms")]
         public void It_errors_on_nonwindows_with_the_windows_desktop_sdk(string uiFrameworkProperty)
@@ -52,7 +55,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.WindowsDesktopFrameworkRequiresWindows);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("Microsoft.WindowsDesktop.App")]
         [DataRow("Microsoft.WindowsDesktop.App.WindowsForms")]
         [DataRow("Microsoft.WindowsDesktop.App.WPF")]
@@ -70,7 +74,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         [DataRow("Microsoft.WindowsDesktop.App")]
         [DataRow("Microsoft.WindowsDesktop.App.WindowsForms")]
         [DataRow("Microsoft.WindowsDesktop.App.WPF")]
@@ -90,7 +95,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.WindowsDesktopFrameworkRequiresWindows);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         public void AppTargetingWindows10CanBuildOnNonWindows()
         {
             var testProject = new TestProject()
@@ -108,7 +114,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         public void AppTargetingWindows10WillProduceWindowsGUISubsystemExe()
         {
             // check subsystem is successfully set as WindowsGUISubsystem
@@ -143,7 +150,8 @@ namespace Microsoft.NET.Build.Tests
             subsystem.Should().Be(WindowsGUISubsystem);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux | OperatingSystems.OSX | OperatingSystems.FreeBSD)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux | OperatingSystems.MacOSX | OperatingSystems.FreeBSD)]
         public void WindowsFormsAppCanBuildOnNonWindows()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("WindowsFormsTestApp")
@@ -156,7 +164,9 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.8.0")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk_5_0_with_ProjectSdk_set()
         {
             const string ProjectName = "WindowsDesktopSdkTest_50";
@@ -184,7 +194,9 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.8.0")]
         public void It_builds_on_windows_with_the_windows_desktop_sdk_5_0_without_ProjectSdk_set()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";
@@ -212,7 +224,9 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.8.0")]
         public void When_TargetPlatformVersion_is_set_higher_than_10_It_can_reference_cswinrt_api()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";
@@ -326,7 +340,9 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.8.0")]
         public void Given_duplicated_ResolvedFileToPublish_It_Can_Publish()
         {
             const string ProjectName = "WindowsDesktopSdkTest_without_ProjectSdk_set";

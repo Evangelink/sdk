@@ -10,7 +10,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0")]
         public void Net50TargetFrameworkParsesAsNetCoreAppTargetFrameworkIdentifier()
         {
             var testProject = new TestProject()

@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void It_fails_with_solution_level_RID()
         {
             var testAsset = _testAssetsManager

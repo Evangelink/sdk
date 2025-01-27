@@ -22,7 +22,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             fileSystem.Directory.Exists(nestedFilePath).Should().BeFalse();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DifferentDirectorySeparatorShouldBeSameFile(bool testMockBehaviorIsInSync)
@@ -131,7 +132,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             a.Should().Throw<IOException>();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DirectoryDoesNotExistShouldThrow(bool testMockBehaviorIsInSync)
@@ -394,7 +396,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
         // https://github.com/dotnet/corefx/issues/32110
         // It behaves differently on Windows Vs Non Windows
         // Use Windows behavior since it is more strict
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void DeleteFileShouldNotThrowWhenDirectoryDoesNotExists(bool testMockBehaviorIsInSync)

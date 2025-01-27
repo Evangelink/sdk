@@ -10,7 +10,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12.0")]
         [DataRow(".NETCoreApp")]
         [DataRow(".NETStandard")]
         public void TheMaximumVersionsAreSupported(string targetFrameworkIdentifier)

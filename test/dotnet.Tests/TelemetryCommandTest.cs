@@ -111,7 +111,8 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NEW"));
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/24190")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/24190")]
         public void DotnetNewCommandFirstArgumentShouldBeSentToTelemetryWithPerformanceData()
         {
             const string argumentToSend = "console";
@@ -236,7 +237,8 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("NUGET"));
         }
 
-        [TestMethod][Ignore("dotnet new sends the telemetry inside own commands")]
+        [TestMethod]
+        [Ignore("dotnet new sends the telemetry inside own commands")]
         public void DotnetNewCommandLanguageOpinionShouldBeSentToTelemetry()
         {
             const string optionKey = "language";
@@ -359,7 +361,8 @@ namespace Microsoft.DotNet.Tests
                               e.Properties["verb"] == Sha256Hasher.Hash("CLEAN"));
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void InternalreportinstallsuccessCommandCollectExeNameWithEventname()
         {
             FakeRecordEventNameTelemetry fakeTelemetry = new();

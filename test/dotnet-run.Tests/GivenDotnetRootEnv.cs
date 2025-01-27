@@ -16,7 +16,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ItShouldSetDotnetRootToDirectoryOfMuxer(string targetFramework)
         {

@@ -10,7 +10,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     {
         public WasmCompressionTests(MSTestContext testContext) : base(testContext) { }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_UpdatesFilesWhenSourcesChange()
         {
             // Arrange
@@ -63,7 +64,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             Assert.AreNotEqual(blazorBootJsonCompressedThumbPrint, newBlazorBootJsonCompressedThumbPrint);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_WithoutLinkerAndCompression_UpdatesFilesWhenSourcesChange()
         {
             // Arrange
@@ -107,7 +109,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             Assert.AreNotEqual(mainAppCompressedDllThumbPrint, newMainAppCompressedDllThumbPrint);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_WithLinkerAndCompression_IsIncremental()
         {
             // Arrange
@@ -139,7 +142,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_WithoutLinkerAndCompression_IsIncremental()
         {
             // Arrange
@@ -171,7 +175,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_CompressesAllFrameworkFiles()
         {
             // Arrange

@@ -236,7 +236,8 @@ namespace Microsoft.NET.Build.Tests
             command.GetValues().Should().BeEquivalentTo(new[] { "1.2.3+abc.xyz" });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         [DataRow("net45")]
         public void It_respects_version_prefix(string targetFramework)
@@ -264,7 +265,8 @@ namespace Microsoft.NET.Build.Tests
             info["AssemblyInformationalVersionAttribute"].Should().Be("1.2.3");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         [DataRow("net45")]
         public void It_respects_version_changes_on_incremental_build(string targetFramework)
@@ -362,7 +364,8 @@ namespace Microsoft.NET.Build.Tests
             AssemblyInfo.Get(assemblyPath)["InternalsVisibleToAttribute"].Should().Be("Tests");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(true, true, "net5.0")]
         [DataRow(true, true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(true, false, ToolsetInfo.CurrentTargetFramework)]
@@ -432,7 +435,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void It_doesnt_includes_requires_preview_features()
         {
             var testAsset = _testAssetsManager
@@ -813,7 +817,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45148")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/45148")]
         [DataRow("netcoreapp3.1", ".NET Core 3.1")]
         [DataRow("netcoreapp2.1", ".NET Core 2.1")]
         [DataRow("netstandard2.1", ".NET Standard 2.1")]

@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Diagnostics;
+
 using Moq;
 
 namespace Microsoft.NET.Sdk.Razor.Tool.Tests
@@ -207,7 +208,8 @@ namespace Microsoft.NET.Sdk.Razor.Tool.Tests
         }
 
         // https://github.com/aspnet/Razor/issues/1991
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public async Task ServerRunning_CancelCompilation_CancelsSuccessfully()
         {
             // Arrange

@@ -232,7 +232,8 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("true");
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45516")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/45516")]
         public void It_should_get_suggested_workload_by_GetRequiredWorkloads_target()
         {
             var mainProject = new TestProject()
@@ -262,7 +263,8 @@ namespace Microsoft.NET.Build.Tests
                 .BeEquivalentTo("android");
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45516")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/45516")]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android;{ToolsetInfo.CurrentTargetFramework}-ios", "android;ios")]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-ios", $"{ToolsetInfo.CurrentTargetFramework};{ToolsetInfo.CurrentTargetFramework}-android", "android;ios")]

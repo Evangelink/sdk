@@ -12,7 +12,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_solves_conflicts_between_package_and_implicit_references()
         {
             // Test case from https://github.com/dotnet/sdk/issues/3904.

@@ -12,7 +12,9 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void It_publishes_and_runs_self_contained_wpf_app()
         {
             var testDir = _testAssetsManager.CreateTestDirectory();

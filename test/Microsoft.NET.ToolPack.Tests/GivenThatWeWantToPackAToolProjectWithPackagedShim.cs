@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using NuGet.Frameworks;
 using NuGet.Packaging;
 
@@ -285,7 +286,8 @@ namespace Microsoft.NET.ToolPack.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void It_produces_valid_shims(bool multiTarget, string targetFramework)
@@ -300,7 +302,8 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(_testRoot, nugetPackage);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void It_produces_valid_shims_when_the_first_build_is_wrong(bool multiTarget, string targetFramework)
@@ -333,7 +336,8 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(testRoot, nugetPackage);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void When_version_and_packageVersion_is_different_It_produces_valid_shims(bool multiTarget, string targetFramework)
@@ -355,7 +359,8 @@ namespace Microsoft.NET.ToolPack.Tests
             AssertValidShim(_testRoot, nugetPackage);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ToolsetInfo.CurrentTargetFramework)]
         [DataRow(false, ToolsetInfo.CurrentTargetFramework)]
         public void When_version_and_packageVersion_is_different_It_produces_valid_shims2(bool multiTarget, string targetFramework)

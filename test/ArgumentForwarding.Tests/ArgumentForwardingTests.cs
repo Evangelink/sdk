@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Diagnostics;
+
 using Microsoft.DotNet.CommandFactory;
 
 namespace Microsoft.DotNet.Tests.ArgumentForwarding
@@ -76,7 +77,8 @@ namespace Microsoft.DotNet.Tests.ArgumentForwarding
         /// This is a critical scenario for the driver.
         /// </summary>
         /// <param name="testUserArgument"></param>
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(@"""abc"" d e")]
         [DataRow(@"""abc""      d e")]
         [DataRow("\"abc\"\t\td\te")]
@@ -131,7 +133,8 @@ namespace Microsoft.DotNet.Tests.ArgumentForwarding
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(@"a\""b c d")]
         [DataRow(@"a\\\""b c d")]
         [DataRow(@"""\a\"" \\""\\\ b c")]

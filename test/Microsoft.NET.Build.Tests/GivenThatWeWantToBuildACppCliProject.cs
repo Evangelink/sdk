@@ -14,7 +14,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_builds_and_runs()
         {
             var testAsset = _testAssetsManager
@@ -50,7 +51,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello, World!");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_builds_and_runs_with_package_reference()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework + "-windows";
@@ -85,7 +87,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void Given_no_restore_It_builds_cpp_project()
         {
             var testAsset = _testAssetsManager
@@ -99,7 +102,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void Given_Wpf_framework_reference_It_builds_cpp_project()
         {
             var testAsset = _testAssetsManager
@@ -112,7 +116,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_fails_with_error_message_on_EnableComHosting()
         {
             var testAsset = _testAssetsManager
@@ -140,7 +145,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.NoSupportCppEnableComHosting);
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_fails_with_error_message_on_fullframework()
         {
             var testAsset = _testAssetsManager
@@ -157,7 +163,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.NETFrameworkWithoutUsingNETSdkDefaults);
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_fails_with_error_message_on_tfm_lower_than_3_1()
         {
             var testAsset = _testAssetsManager
@@ -174,7 +181,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining(Strings.CppRequiresTFMVersion31);
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void When_run_with_selfcontained_It_fails_with_error_message()
         {
             var testAsset = _testAssetsManager

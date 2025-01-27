@@ -8,7 +8,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     [TestClass]
     public class VanillaWasmTests(MSTestContext testContext) : BlazorWasmBaselineTests(testContext, GenerateBaselines)
     {
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void Build_Works()
         {
             var testAsset = "VanillaWasm";

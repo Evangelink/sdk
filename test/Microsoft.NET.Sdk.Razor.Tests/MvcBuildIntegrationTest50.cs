@@ -87,7 +87,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
             new FileInfo(Path.Combine(outputPath, "ClassLibrary.Views.pdb")).Should().Exist();
         }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void CshtmlCss_InNET5App_DoesNotProduceErrors()
         {
             // Regression test for https://github.com/dotnet/aspnetcore/issues/39526

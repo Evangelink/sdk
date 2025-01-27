@@ -218,7 +218,8 @@ namespace Microsoft.NET.Publish.Tests
             nugetPackage.Version.Should().BeGreaterThan(NuGetVersion.Parse("4.0.0-rc2"));
         }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void It_creates_profiling_symbols()
         {
             TestAsset targetManifestsAsset = _testAssetsManager

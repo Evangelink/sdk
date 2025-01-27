@@ -225,7 +225,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
                .NotHaveStdOutContaining("NETSDK1179");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("run")]
         public void It_does_not_warn_on_rid_with_self_contained_options(string commandName)
@@ -289,7 +290,8 @@ namespace Microsoft.DotNet.Cli.Build.Tests
             Assert.AreNotEqual("", properties["RuntimeIdentifier"]);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.4.0.41702")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.4.0.41702")]
         public void It_builds_referenced_exe_with_self_contained_specified_via_command_line_argument()
         {
             var referencedProject = new TestProject("ReferencedProject")

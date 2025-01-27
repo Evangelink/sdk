@@ -6,12 +6,14 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Transactions;
+
 using Microsoft.DotNet.Cli.NuGetPackageDownloader;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.ToolPackage;
 using Microsoft.DotNet.Tools;
 using Microsoft.DotNet.Tools.Tests.ComponentMocks;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using NuGet.Frameworks;
 
 namespace Microsoft.DotNet.ShellShim.Tests
@@ -395,7 +397,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
                            string.Join(';', filePaths)));
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("net5.0")]
         [DataRow("netcoreapp3.1")]
         public void WhenRidNotSupportedOnWindowsItIsImplicit(string tfm)

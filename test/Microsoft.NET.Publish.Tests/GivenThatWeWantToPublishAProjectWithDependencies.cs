@@ -58,7 +58,8 @@ namespace Microsoft.NET.Publish.Tests
                 .HaveStdOutContaining(expectedOutput);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_publishes_the_app_config_if_necessary()
         {
             var testAsset = _testAssetsManager

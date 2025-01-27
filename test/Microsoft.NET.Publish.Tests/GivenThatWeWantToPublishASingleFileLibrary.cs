@@ -11,7 +11,8 @@ namespace Microsoft.NET.Publish.Tests
 
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         // Tests regression on https://github.com/dotnet/sdk/pull/28484
         public void ItPublishesSuccessfullyWithRIDAndPublishSingleFileLibrary()
         {

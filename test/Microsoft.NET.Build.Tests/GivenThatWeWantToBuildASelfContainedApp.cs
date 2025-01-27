@@ -148,7 +148,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("Hello World!");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void It_resolves_runtimepack_from_packs_folder()
         {
             var testProject = new TestProject()
@@ -231,7 +232,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void It_resolves_pack_versions_from_workload_manifest()
         {
             static string GetVersionBand(string sdkVersion)
@@ -343,7 +345,8 @@ namespace Microsoft.NET.Build.Tests
             testRuntimePack.metadata["NuGetPackageVersion"].Should().Be("1.0.42-abc");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.4.0.51802")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.4.0.51802")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void It_can_publish_runtime_specific_apps_with_library_dependencies_self_contained(string targetFramework)
         {

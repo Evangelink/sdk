@@ -10,7 +10,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void VerifyWindows()
         {
             Assert.AreEqual(Platform.Windows, RuntimeEnvironment.OperatingSystemPlatform);
@@ -26,7 +27,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             Assert.AreEqual(-1, osVersion.Revision);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.MacOSX)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.MacOSX)]
         public void VerifyMacOs()
         {
             Assert.AreEqual(Platform.Darwin, RuntimeEnvironment.OperatingSystemPlatform);
@@ -42,7 +44,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             Assert.AreEqual(-1, osVersion.Revision);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Linux)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Linux)]
         public void VerifyLinux()
         {
             Assert.AreEqual(Platform.Linux, RuntimeEnvironment.OperatingSystemPlatform);

@@ -90,7 +90,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ManagedWinRTComponentCanBeReferenced()
         {
             var managedWinRTComponent = new TestProject()
@@ -198,7 +199,8 @@ class Program
                 .HaveStdOut("(0, 0)");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void WinMDInteropProjectCanBeReferenced()
         {
 

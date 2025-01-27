@@ -10,7 +10,8 @@ namespace Microsoft.NET.Restore.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItCanBuildProjectRestoredWithNuGet5_7()
         {
             var testProject = new TestProject()

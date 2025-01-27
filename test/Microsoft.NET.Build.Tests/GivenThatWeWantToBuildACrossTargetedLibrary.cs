@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.1.0.60101")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.1.0.60101")]
         public void It_builds_nondesktop_library_successfully_on_all_platforms()
         {
             var testAsset = _testAssetsManager
@@ -40,7 +41,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_builds_desktop_library_successfully_on_windows()
         {
             var testAsset = _testAssetsManager
@@ -146,7 +148,8 @@ namespace Microsoft.NET.Build.Tests
             outputPathValue.Trim().Should().NotContain("\\\\");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.9.0.61803")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.9.0.61803")]
         public void OuterBuildImportsUserFile()
         {
             var testProject = new TestProject()

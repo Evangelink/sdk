@@ -546,7 +546,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42541")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/42541")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanFilterByNonChoiceParameter()
         {
@@ -689,7 +690,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/42541")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/42541")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CannotSearchTemplatesWithUnknownParameter()
         {

@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.NET.Build.Tests
 {
     using System.Runtime.InteropServices;
+
     using ArtifactsTestExtensions;
 
     [TestClass]
@@ -97,7 +98,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45057")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/45057")]
         public void ItUsesArtifactsOutputPathForPublish()
         {
             var (testProjects, testAsset) = GetTestProjects();
@@ -498,7 +500,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1200");
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/40160")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/40160")]
         public void ItCanBuildWithMicrosoftBuildArtifactsSdk()
         {
             var testAsset = _testAssetsManager.CopyTestAsset("ArtifactsSdkTest")

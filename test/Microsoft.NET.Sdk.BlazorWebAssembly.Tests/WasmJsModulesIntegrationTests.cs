@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Text.Json;
+
 using Microsoft.AspNetCore.StaticWebAssets.Tasks;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
@@ -11,7 +12,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     [TestClass]
     public class WasmJsModulesIntegrationTests(MSTestContext testContext) : BlazorWasmBaselineTests(testContext, GenerateBaselines)
     {
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_DoesNotGenerateManifestJson_IncludesJSModulesOnBlazorBootJsonManifest()
         {
             // Arrange
@@ -49,7 +51,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             new FileInfo(Path.Combine(outputPath, "wwwroot", "blazorwasm-minimal.modules.json")).Should().NotExist();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void JSModules_ManifestIncludesModuleTargetPaths()
         {
             // Arrange
@@ -95,7 +98,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             new FileInfo(Path.Combine(outputPath, "wwwroot", "blazorhosted.modules.json")).Should().NotExist();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_DoesNotGenerateManifestJson_IncludesJSModulesOnBlazorBootJsonManifest()
         {
             // Arrange
@@ -142,7 +146,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
                 intermediateOutputPath);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void JsModules_CanHaveDifferentBuildAndPublishModules()
         {
             // Arrange
@@ -214,7 +219,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             }
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105393")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/runtime/issues/105393")]
         public void JsModules_CanCustomizeBlazorInitialization()
         {
             // Arrange
@@ -279,7 +285,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
                 intermediateOutputPath);
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/runtime/issues/105393")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/runtime/issues/105393")]
         public void JsModules_Hosted_CanCustomizeBlazorInitialization()
         {
             // Arrange

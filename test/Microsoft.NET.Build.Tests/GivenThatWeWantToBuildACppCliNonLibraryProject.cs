@@ -14,7 +14,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void Given_an_exe_project_It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager
@@ -28,7 +29,8 @@ namespace Microsoft.NET.Build.Tests
                 .And.HaveStdOutContaining(Strings.NoSupportCppNonDynamicLibraryDotnetCore);
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void Given_an_StaticLibrary_project_It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager

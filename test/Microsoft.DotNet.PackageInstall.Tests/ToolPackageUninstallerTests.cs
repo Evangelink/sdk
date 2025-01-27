@@ -5,6 +5,7 @@
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
+
 using Microsoft.DotNet.Cli;
 using Microsoft.DotNet.Cli.ToolPackage;
 using Microsoft.DotNet.ToolPackage;
@@ -12,6 +13,7 @@ using Microsoft.DotNet.Tools.Tests.ComponentMocks;
 using Microsoft.DotNet.Tools.Tool.Install;
 using Microsoft.Extensions.DependencyModel.Tests;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
@@ -19,7 +21,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
     [TestClass]
     public class ToolPackageUninstallerTests : SdkTest
     {
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void GivenAnInstalledPackageUninstallRemovesThePackage(bool testMockBehaviorIsInSync)

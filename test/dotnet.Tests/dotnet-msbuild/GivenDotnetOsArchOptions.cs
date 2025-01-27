@@ -2,8 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Globalization;
+
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Tools;
+
 using BuildCommand = Microsoft.DotNet.Tools.Build.BuildCommand;
 
 namespace Microsoft.DotNet.Cli.MSBuild.Tests
@@ -104,7 +106,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
             });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("publish")]
         [DataRow("test")]
@@ -121,7 +124,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("build")]
         [DataRow("publish")]
         [DataRow("test")]

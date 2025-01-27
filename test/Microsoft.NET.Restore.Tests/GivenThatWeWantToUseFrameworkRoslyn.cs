@@ -12,7 +12,8 @@ namespace Microsoft.NET.Restore.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_downloads_Microsoft_Net_Compilers_Toolset_Framework_when_requested()
         {
             const string testProjectName = "NetCoreApp";
@@ -47,7 +48,8 @@ namespace Microsoft.NET.Restore.Tests
                 .HaveStdOutContaining(Path.Combine(toolsetPackageDir, toolsetPackageVersion, "csc.exe") + " /noconfig");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_downloads_Microsoft_Net_Compilers_Toolset_Framework_when_MSBuild_is_torn()
         {
             const string testProjectName = "NetCoreApp";
@@ -83,7 +85,8 @@ namespace Microsoft.NET.Restore.Tests
                 .HaveStdOutContaining(Path.Combine(toolsetPackageDir, toolsetPackageVersion, "csc.exe") + " /noconfig");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_throws_a_warning_when_adding_the_PackageReference_directly()
         {
             const string testProjectName = "NetCoreApp";
@@ -105,7 +108,8 @@ namespace Microsoft.NET.Restore.Tests
             result.Should().HaveStdOutContaining("NETSDK1205");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_throws_an_error_when_the_package_is_not_downloaded()
         {
             const string testProjectName = "NetCoreApp";
@@ -114,7 +118,7 @@ namespace Microsoft.NET.Restore.Tests
                 Name = testProjectName,
                 TargetFrameworks = "net6.0",
             };
-            
+
             project.AdditionalProperties.Add("BuildWithNetFrameworkHostedCompiler", "false");
 
             var testAsset = _testAssetsManager
@@ -132,7 +136,8 @@ namespace Microsoft.NET.Restore.Tests
                 .Should().Fail().And.HaveStdOutContaining("NETSDK1216");
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_throws_a_warning_when_NuGetPackageRoot_is_empty()
         {
             const string testProjectName = "NetCoreApp";
@@ -164,13 +169,14 @@ namespace Microsoft.NET.Restore.Tests
             new DirectoryInfo(toolsetPackageDir).Should().Exist();
         }
 
-        [TestMethod][FullMSBuildCondition] // https://github.com/dotnet/sdk/issues/44605
+        [TestMethod]
+        [FullMSBuildCondition] // https://github.com/dotnet/sdk/issues/44605
         public void It_does_not_throw_a_warning_when_NuGetPackageRoot_is_empty_in_wpftmp()
         {
             var testAsset = _testAssetsManager
                 .CopyTestAsset("DesktopWpf")
                 .WithSource();
-                
+
             NuGetConfigWriter.Write(testAsset.Path, TestContext.Current.TestPackages);
 
             var buildCommand = new BuildCommand(testAsset, relativePathToProject: "FxWpf")

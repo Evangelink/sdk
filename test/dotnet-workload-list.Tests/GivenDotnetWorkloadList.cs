@@ -4,10 +4,13 @@
 #nullable disable
 
 using System.CommandLine;
+
 using ManifestReaderTests;
+
 using Microsoft.DotNet.Workloads.Workload;
 using Microsoft.DotNet.Workloads.Workload.List;
 using Microsoft.NET.Sdk.WorkloadManifestReader;
+
 using ListStrings = Microsoft.DotNet.Workloads.Workload.List.LocalizableStrings;
 
 namespace Microsoft.DotNet.Cli.Workload.List.Tests
@@ -41,7 +44,8 @@ namespace Microsoft.DotNet.Cli.Workload.List.Tests
             _reporter.Lines.Count.Should().Be(6);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenAvailableWorkloadsItCanComputeVisualStudioIds()
         {
             var workloadResolver = WorkloadResolver.CreateForTests(new MockManifestProvider(("SampleManifest", _manifestPath, "5.0.0", "6.0.100")), Directory.GetCurrentDirectory());

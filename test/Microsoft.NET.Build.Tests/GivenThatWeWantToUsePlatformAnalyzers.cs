@@ -13,7 +13,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void It_referecnes_platform_analyzers()
         {
             var testProject = new TestProject
@@ -58,7 +59,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().Contain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_disabled_when_analysislevel_is_below_5()
         {
             var testProject = new TestProject
@@ -104,7 +106,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().NotContain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_enabled_when_analysislevel_set_to_5()
         {
             var testProject = new TestProject
@@ -150,7 +153,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().Contain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_disabled_when_EnableNETAnalyzers_is_set_to_false()
         {
             var testProject = new TestProject
@@ -196,7 +200,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().NotContain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_enabled_when_EnableNETAnalyzers_is_set_to_true()
         {
             var testProject = new TestProject
@@ -242,7 +247,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().Contain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void SDK_imports_the_analyzer_props_file()
         {
             var testProject = new TestProject
@@ -281,7 +287,8 @@ namespace Microsoft.NET.Build.Tests
             buildCommand.Execute().Should().Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_disabled_when_user_has_specified_AnalysisLevel_None()
         {
             var testProject = new TestProject
@@ -327,7 +334,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().NotContain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_enabled_when_user_has_specified_AnalysisLevel_Latest()
         {
             var testProject = new TestProject
@@ -373,7 +381,8 @@ namespace Microsoft.NET.Build.Tests
             buildResult.StdOut.Should().Contain("Program.cs(12,56): warning CA2014: Potential stack overflow. Move the stackalloc out of the loop.");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8")]
         public void Analysis_is_enabled_when_user_has_specified_AnalysisLevel_Preview()
         {
             var testProject = new TestProject

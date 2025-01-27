@@ -13,7 +13,9 @@ namespace Microsoft.NET.Build.Tests
         public GivenThatWeWantToBuildAWindowsDesktopProject(MSTestContext testContext) : base(testContext)
         { }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.7.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.7.0")]
         [DataRow("UseWindowsForms")]
         [DataRow("UseWPF")]
         public void It_errors_when_missing_windows_target_platform(string propertyName)
@@ -38,7 +40,9 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1136");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.7.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.7.0")]
         [DataRow("UseWindowsForms")]
         [DataRow("UseWPF")]
         public void It_errors_when_missing_transitive_windows_target_platform(string propertyName)
@@ -75,7 +79,9 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1136");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("16.8.0")]
         public void It_warns_when_specifying_windows_desktop_sdk()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework}-windows";
@@ -96,7 +102,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1137");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_does_not_warn_when_multitargeting()
         {
             var targetFramework = $"{ToolsetInfo.CurrentTargetFramework};net472;netcoreapp3.1";
@@ -118,7 +125,8 @@ namespace Microsoft.NET.Build.Tests
                 .NotHaveStdOutContaining("NETSDK1137");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_imports_when_targeting_dotnet_3()
         {
             var targetFramework = "netcoreapp3.1";
@@ -143,7 +151,8 @@ namespace Microsoft.NET.Build.Tests
             getValuesCommand.GetValues().Should().BeEquivalentTo(new[] { "true" });
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/29968")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/29968")]
         public void It_builds_successfully_when_targeting_net_framework()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -171,7 +180,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_fails_if_windows_target_platform_version_is_invalid()
         {
             var testProject = new TestProject()
@@ -189,7 +199,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1140");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void It_succeeds_if_windows_target_platform_version_does_not_have_trailing_zeros(bool setInTargetframework)
@@ -248,7 +259,9 @@ namespace Microsoft.NET.Build.Tests
                 .NotHaveStdOutContaining("NETSDK1140");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void UseWPFCanBeSetInDirectoryBuildTargets()
         {
             var testDir = _testAssetsManager.CreateTestDirectory();
@@ -288,7 +301,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void TargetPlatformVersionCanBeSetInDirectoryBuildTargets()
         {
             var testProject = new TestProject()
@@ -320,7 +334,8 @@ namespace Microsoft.NET.Build.Tests
             GetPropertyValue(testAsset, "TargetPlatformMoniker").Should().Be($"Windows,Version={targetPlatformVersion}");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void SupportedOSPlatformVersionCanBeSetInDirectoryBuildTargets()
         {
             var testProject = new TestProject()
@@ -353,7 +368,8 @@ namespace Microsoft.NET.Build.Tests
             GetPropertyValue(testAsset, "TargetPlatformMoniker").Should().Be("Windows,Version=10.0.19041.0");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", true)]
         [DataRow("netcoreapp3.1", false)]
@@ -385,7 +401,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         //  Basic Windows TargetFramework
         [DataRow($"{ToolsetInfo.CurrentTargetFramework}-windows10.0.19041.0", false, null, "10.0.19041.*")]
         //  Basic UseWindowsSdkPreview usage
@@ -424,7 +441,8 @@ namespace Microsoft.NET.Build.Tests
             referencedWindowsSdkVersion.Should().Be(expectedWindowsSdkPackageVersion);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("net5.0-windows10.0.22000.0", "10.0.22000.25")]
         [DataRow("net6.0-windows10.0.22000.0", "10.0.22000.26")]
         [DataRow("net6.0-windows10.0.19041.0", "10.0.19041.25")]
@@ -456,7 +474,8 @@ namespace Microsoft.NET.Build.Tests
 
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItWarnsWhenBuildingAProjectWithUseUwpProperty()
         {
             TestProject testProject = new()
@@ -478,7 +497,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1219");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItErrorsWhenTargetingBelowNet6WithUseUwpProperty()
         {
             TestProject testProject = new()
@@ -500,7 +520,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1220");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItErrorsWhenTransitivelyReferencingWindowsUIXamlReferencesWithoutUseUwpProperty()
         {
             TestProject testProjectA = new()
@@ -530,7 +551,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("NETSDK1218");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItFailsToBuildWhenReferencingWindowsUIXamlTypesWithoutUseUwpProperty()
         {
             TestProject testProject = new()
@@ -564,7 +586,8 @@ namespace Microsoft.NET.Build.Tests
                 .HaveStdOutContaining("CS0234");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItBuildsWhenReferencingWindowsUIXamlTypesWithUseUwpProperty()
         {
             TestProject testProject = new()
@@ -598,7 +621,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItHandlesProfilesWithSelfContained()
         {
             TestProject testProject = new()

@@ -26,7 +26,8 @@ namespace Microsoft.DotNet.Tests
             retryCount.Should().Be(1);
         }
 
-        [TestMethod][Ignore("Don't want to retry on exceptions")]
+        [TestMethod]
+        [Ignore("Don't want to retry on exceptions")]
         public async Task ItRetriesOnError()
         {
             var retryCount = 0;

@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_should_fail_with_error_message()
         {
             var testAsset = _testAssetsManager

@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_simple_desktop_app()
         {
             var targetFramework = "net45";
@@ -43,7 +44,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_builds_a_simple_net50_app()
         {
             var testAsset = _testAssetsManager

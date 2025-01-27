@@ -4,6 +4,7 @@
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.Configurer;
 using Microsoft.DotNet.Tools;
+
 using Moq;
 
 namespace Microsoft.DotNet.ShellShim.Tests
@@ -11,7 +12,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
     [TestClass]
     public class OsxZshEnvironmentPathInstructionTests
     {
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void GivenPathNotSetItPrintsManualInstructions()
         {
             BufferedReporter reporter = new();
@@ -42,7 +44,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
                     toolsPath.Path));
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow("/home/user/.dotnet/tools")]
         public void GivenPathSetItPrintsNothing(string toolsDirectoryOnPath)
         {
@@ -67,7 +70,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
             reporter.Lines.Should().BeEmpty();
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow("~/.dotnet/tools")]
         public void GivenPathSetItPrintsInstruction(string toolsDirectoryOnPath)
         {

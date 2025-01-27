@@ -14,7 +14,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 #endif
     public class ProcessExtensionsTests
     {
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItReturnsTheParentProcessId()
         {
             int expectedParentProcessId = Process.GetCurrentProcess().Id;

@@ -12,7 +12,8 @@ namespace Microsoft.NET.Pack.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ImplicitReferencesAreNotIncludedAsFrameworkReferences()
         {
             TestProject testProject = new()
@@ -34,7 +35,8 @@ namespace Microsoft.NET.Pack.Tests
             frameworkAssemblies.Should().BeNull();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ExplicitReferencesAreIncludedAsFrameworkReferences()
         {
             TestProject testProject = new()

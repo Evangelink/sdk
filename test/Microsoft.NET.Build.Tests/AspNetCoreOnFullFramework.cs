@@ -12,7 +12,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("1.1.2")]
         [DataRow("2.0.4")]
         public void It_discovers_assembly_parts(string aspnetVersion)

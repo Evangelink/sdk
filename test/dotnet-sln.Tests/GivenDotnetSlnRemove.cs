@@ -275,7 +275,8 @@ Options:
                 .BeVisuallyEquivalentTo(templateContents);
         }
 
-        [TestMethod][Ignore("vs-solutionpersistence does not allow duplicate references.")]
+        [TestMethod]
+        [Ignore("vs-solutionpersistence does not allow duplicate references.")]
         [DataRow("sln")]
         [DataRow("solution")]
         public async Task WhenDuplicateReferencesArePresentItRemovesThemAll(string solutionCommand)

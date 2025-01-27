@@ -6,7 +6,8 @@ namespace EndToEnd.Tests
     [TestClass]
     public class GivenUnixPlatform(MSTestContext testContext) : SdkTest(testContext)
     {
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow("wpf")]
         [DataRow("winforms")]
         public void ItDoesNotIncludeWindowsOnlyProjectTemplates(string template)

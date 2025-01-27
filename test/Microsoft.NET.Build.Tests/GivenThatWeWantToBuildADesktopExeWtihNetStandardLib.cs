@@ -77,7 +77,8 @@ namespace Microsoft.NET.Build.Tests
             return Path.GetFileNameWithoutExtension(projectPath).Equals(LibraryName, StringComparison.OrdinalIgnoreCase);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, ReferenceScenario.ProjectReference)]
         [DataRow(true, ReferenceScenario.RawFileName)]
         [DataRow(true, ReferenceScenario.HintPath)]
@@ -123,7 +124,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [TestMethod][FullMSBuildCondition]
+        [TestMethod]
+        [FullMSBuildCondition]
         public void It_includes_netstandard_in_design_time_builds()
         {
             //  Verify that a P2P reference to a .NET Standard 2.0 project is correctly detected
@@ -169,7 +171,8 @@ namespace Microsoft.NET.Build.Tests
                 .Should().Contain("netstandard.dll");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true, false)]
         [DataRow(false, false)]
         [DataRow(false, true)]
@@ -256,7 +259,8 @@ namespace Microsoft.NET.Build.Tests
             });
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void It_does_not_include_netstandard_when_inbox(bool isSdk)
@@ -323,7 +327,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void It_does_not_include_netstandard_when_library_targets_netstandard14(bool isSdk)
@@ -361,7 +366,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(true)]
         [DataRow(false)]
         public void It_includes_netstandard_when_library_targets_netstandard15(bool isSdk)

@@ -333,7 +333,8 @@ class Program
             }
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void ItRunsInCurrentDirectoryWithPoundInPath()
         {
             // Regression test for https://github.com/dotnet/sdk/issues/19654

@@ -9,7 +9,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     public class BlazorLegacyIntegrationTest50(MSTestContext testContext)
         : IsolatedNuGetPackageFolderAspNetSdkBaselineTest(testContext, nameof(BlazorLegacyIntegrationTest50))
     {
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void Build50Hosted_Works()
         {
             // Arrange
@@ -46,7 +47,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             content.Should().Contain(Path.Combine("Client", "wwwroot"));
         }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void Publish50Hosted_Works()
         {
             // Arrange

@@ -4,9 +4,12 @@
 #nullable disable
 
 using System.Runtime.CompilerServices;
+
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.NET.Build.Tasks;
+
 using Newtonsoft.Json.Linq;
+
 using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.ProjectModel;
@@ -51,7 +54,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         //  Test behavior when implicit version differs for framework-dependent and self-contained apps
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/45417")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/45417")]
         [DataRow("netcoreapp1.0", false, true, "1.0.5")]
         [DataRow("netcoreapp1.0", true, true, "1.0.16")]
         [DataRow("netcoreapp1.0", false, false, "1.0.5")]
@@ -385,7 +389,8 @@ public static class Program
             File.Exists(runtimeconfigFile).Should().Be(shouldGenerateRuntimeConfigDevJson);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp2.0")]
         [DataRow("netcoreapp3.0")]
         [DataRow("net5.0")]
@@ -673,7 +678,8 @@ public static class Program
                 .Pass();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_escapes_resolved_package_assets_paths()
         {
             var testProject = new TestProject()
@@ -722,7 +728,8 @@ class Program
                 .Pass();
         }
 
-        [TestMethod][Ignore("https://github.com/dotnet/sdk/issues/3044")]
+        [TestMethod]
+        [Ignore("https://github.com/dotnet/sdk/issues/3044")]
         public void ReferenceLegacyContracts()
         {
             var testProject = new TestProject()
@@ -779,7 +786,8 @@ class Program
                 .BeEmpty();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItResolvesPackageAssetsMultiTargetingNetStandard()
         {
             var testProject = new TestProject()
@@ -803,7 +811,8 @@ class Program
                 .HaveStdOutContaining("NU1603");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_builds_with_unicode_characters_in_path()
         {
             var testProject = new TestProject()

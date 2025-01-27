@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Text.Json;
+
 using Microsoft.NET.Sdk.WebAssembly;
 
 namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
@@ -13,7 +14,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
     {
         public WasmBuildLazyLoadTest(MSTestContext testContext) : base(testContext) { }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_LazyLoadExplicitAssembly_Debug_Works()
         {
             // Arrange
@@ -65,7 +67,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             assemblies.Keys.Should().Contain("blazorwasm.wasm");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_LazyLoadExplicitAssembly_Release_Works()
         {
             // Arrange
@@ -117,7 +120,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             assemblies.Keys.Should().Contain("blazorwasm.wasm");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_LazyLoadExplicitAssembly_Debug_Works()
         {
             // Arrange
@@ -169,7 +173,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             assemblies.Keys.Should().Contain("blazorwasm.wasm");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_LazyLoadExplicitAssembly_Release_Works()
         {
             // Arrange
@@ -221,7 +226,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             assemblies.Keys.Should().Contain("blazorwasm.wasm");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Build_LazyLoadExplicitAssembly_InvalidAssembly()
         {
             // Arrange
@@ -242,7 +248,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
             ExecuteCommand(buildCommand).Should().Fail().And.HaveStdOutContaining("BLAZORSDK1001");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         public void Publish_LazyLoadExplicitAssembly_InvalidAssembly()
         {
             // Arrange

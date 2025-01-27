@@ -14,7 +14,8 @@ namespace Microsoft.NET.Build.Tests
         public GivenThatWeHaveAPackageReferenceWithAliases(MSTestContext testContext) : base(testContext)
         { }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithPackageReferencesWithConflictingTypes()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -53,7 +54,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithMultiplePackageReferencesWithAliases()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -98,7 +100,8 @@ namespace Microsoft.NET.Build.Tests
                 .Pass();
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0", IgnoreMessage = "https://github.com/dotnet/sdk/issues/39172")]
         public void CanBuildProjectWithAPackageReferenceWithMultipleAliases()
         {
             var targetFramework = ToolsetInfo.CurrentTargetFramework;
@@ -129,7 +132,7 @@ namespace Microsoft.NET.Build.Tests
             NuGetConfigWriter.Write(testAsset.TestRoot, sources);
 
             var buildCommand = new BuildCommand(testAsset)
-                .WithWorkingDirectory(testAsset.Path);            
+                .WithWorkingDirectory(testAsset.Path);
             buildCommand.Execute("-bl")
                 .Should()
                 .Pass();

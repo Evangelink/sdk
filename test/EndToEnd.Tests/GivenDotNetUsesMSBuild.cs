@@ -10,7 +10,8 @@ namespace EndToEnd.Tests
     [TestClass]
     public class GivenDotNetUsesMSBuild(MSTestContext testContext) : SdkTest(testContext)
     {
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void ItCanNewRestoreBuildRunCleanMSBuildProject()
         {
             string projectDirectory = _testAssetsManager.CreateTestDirectory().Path;
@@ -42,7 +43,8 @@ namespace EndToEnd.Tests
             binDirectory.Should().NotHaveFilesMatching("*.dll", SearchOption.AllDirectories);
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0")]
         public void ItCanRunToolsInACSProj()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")
@@ -74,7 +76,8 @@ namespace EndToEnd.Tests
                     .And.HaveStdOutContaining("Hello Portable World!");
         }
 
-        [TestMethod][MSBuildVersionCondition("16.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("16.8.0")]
         public void ItCanRunToolsThatPrefersTheCliRuntimeEvenWhenTheToolItselfDeclaresADifferentRuntime()
         {
             var testInstance = _testAssetsManager.CopyTestAsset("MSBuildTestApp")

@@ -6,11 +6,13 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Security.Cryptography;
+
 using Microsoft.DotNet.Cli;
 using Microsoft.DotNet.Cli.NuGetPackageDownloader;
 using Microsoft.DotNet.Cli.Utils;
 using Microsoft.DotNet.ToolPackage;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using NuGet.Configuration;
 using NuGet.Packaging;
 using NuGet.Packaging.Signing;
@@ -150,7 +152,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             string packagePath = await _installer.DownloadPackageAsync(
                 TestPackageId,
                 packageVersion,
-                packageSourceLocation: new PackageSourceLocation(sourceFeedOverrides: new[] {GetTestLocalFeedPath()}));
+                packageSourceLocation: new PackageSourceLocation(sourceFeedOverrides: new[] { GetTestLocalFeedPath() }));
             packagePath.Should().Contain("global.tool.console.demo.1.0.4.nupkg", "It can get the latest non preview version");
             File.Exists(packagePath).Should().BeTrue();
         }
@@ -185,7 +187,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             Func<Task> a = () => _toolInstaller.DownloadPackageAsync(
                 TestPackageId,
                 new NuGetVersion(TestPackageVersion),
-                new PackageSourceLocation(additionalSourceFeeds: [ relativePath ]),
+                new PackageSourceLocation(additionalSourceFeeds: [relativePath]),
                 packageSourceMapping: mockPackageSourceMapping);
             (await a.Should().ThrowAsync<NuGetPackageInstallerException>()).And.Message.Should().Contain(string.Format(LocalizableStrings.FailedToFindSourceUnderPackageSourceMapping, TestPackageId));
         }
@@ -206,7 +208,7 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             Func<Task> a = () => _toolInstaller.DownloadPackageAsync(
                 TestPackageId,
                 new NuGetVersion(TestPackageVersion),
-                new PackageSourceLocation(additionalSourceFeeds: [ relativePath ]),
+                new PackageSourceLocation(additionalSourceFeeds: [relativePath]),
                 packageSourceMapping: mockPackageSourceMapping);
             (await a.Should().ThrowAsync<NuGetPackageInstallerException>()).And.Message.Should().Contain(string.Format(LocalizableStrings.FailedToMapSourceUnderPackageSourceMapping, TestPackageId));
         }
@@ -226,7 +228,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
                 "Package should download higher package version");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public async Task GivenANonSignedSdkItShouldPrintMessageOnce()
         {
             BufferedReporter bufferedReporter = new();
@@ -250,7 +253,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public async Task GivenANonSignedSdkItShouldNotPrintMessageInQuiet()
         {
             BufferedReporter bufferedReporter = new BufferedReporter();
@@ -272,7 +276,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             File.Exists(packagePath).Should().BeTrue();
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         // https://aka.ms/netsdkinternal-certificate-rotate
         public void ItShouldHaveUpdateToDateCertificateSha()
         {
@@ -317,7 +322,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void GivenFirstPartyPackageItShouldReturnTrue()
         {
             var iosSamplePackage = DownloadSamplePackage(new PackageId("Microsoft.iOS.Ref"));

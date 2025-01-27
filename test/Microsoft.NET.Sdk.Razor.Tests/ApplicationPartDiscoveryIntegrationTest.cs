@@ -10,7 +10,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
     {
         public ApplicationPartDiscoveryIntegrationTest(MSTestContext testContext) : base(testContext) { }
 
-        [TestMethod][CoreMSBuildCondition]
+        [TestMethod]
+        [CoreMSBuildCondition]
         public void Build_ProjectWithDependencyThatReferencesMvc_AddsAttribute_WhenBuildingUsingDotnetMsbuild()
             => Build_ProjectWithDependencyThatReferencesMvc_AddsAttribute();
 

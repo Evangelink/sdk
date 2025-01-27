@@ -15,7 +15,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void WhenCallWithWpfDllItCanCreateShimWithWindowsGraphicalUserInterfaceBitSet()
         {
             string shimPath = CreateApphostAndReturnShimPath();
@@ -23,7 +24,8 @@ namespace Microsoft.DotNet.ShellShim.Tests
             PEUtils.GetWindowsGraphicalUserInterfaceBit(shimPath).Should().Be(WindowsGUISubsystem);
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void GivenNonWindowsMachineWhenCallWithWpfDllItCanCreateShimWithoutThrow()
         {
             Action a = () => CreateApphostAndReturnShimPath();

@@ -4,6 +4,7 @@
 #nullable disable
 
 using System.Reflection;
+
 using Microsoft.DotNet.Cli;
 using Microsoft.DotNet.Cli.ToolPackage;
 using Microsoft.DotNet.ToolPackage;
@@ -11,6 +12,7 @@ using Microsoft.DotNet.Tools.Tests.ComponentMocks;
 using Microsoft.DotNet.Tools.Tool.Install;
 using Microsoft.Extensions.DependencyModel.Tests;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using NuGet.Versioning;
 
 namespace Microsoft.DotNet.PackageInstall.Tests
@@ -22,7 +24,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void GivenNugetConfigInstallSucceeds(bool testMockBehaviorIsInSync)
@@ -66,7 +69,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         public void GivenNugetConfigVersionRangeInstallSucceeds(bool testMockBehaviorIsInSync)

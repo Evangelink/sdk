@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using FluentAssertions;
+
 using Xunit;
 
 namespace Microsoft.NET.Build.Tasks.UnitTests
@@ -29,7 +30,8 @@ namespace Microsoft.NET.Build.Tasks.UnitTests
                 });
 
         // The logic is cross platform but the test path examples are all in Windows
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_can_expand_OutputPath()
         {
             var task = new GetPublishItemsOutputGroupOutputs

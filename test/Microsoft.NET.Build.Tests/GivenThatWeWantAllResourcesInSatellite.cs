@@ -14,7 +14,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.1.0.60101")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.1.0.60101")]
         public void It_retrieves_strings_successfully()
         {
             TestSatelliteResources(MSTestContext, _testAssetsManager);

@@ -14,7 +14,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void DotnetExeIsExecuted()
         {
             var msbuildPath = "<msbuildpath>";
@@ -22,7 +23,8 @@ namespace Microsoft.DotNet.Cli.MSBuild.Tests
                 .GetProcessStartInfo().FileName.Should().EndWith("dotnet.exe");
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void DotnetIsExecuted()
         {
             var msbuildPath = "<msbuildpath>";

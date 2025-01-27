@@ -25,7 +25,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_only_runs_when_switch_is_enabled(string targetFramework)
         {
@@ -59,7 +60,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesDepsFileHaveAssembly(depsFile, UnusedFrameworkAssembly).Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp3.0", true)]
         [DataRow("netcoreapp3.0", false)]
         [DataRow("net5.0", false)]
@@ -100,7 +102,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesDepsFileHaveAssembly(depsFile, UnusedFrameworkAssembly).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_links_simple_app_without_analysis_warnings_and_it_runs(string targetFramework)
         {
@@ -130,7 +133,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void PublishTrimmed_fails_when_no_matching_pack_is_found(string targetFramework)
         {
@@ -153,7 +157,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining($"error {Strings.PublishTrimmedRequiresVersion30}");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp2.0", true)]
         [DataRow("netcoreapp2.1", true)]
         [DataRow("netstandard2.1", true)]
@@ -172,16 +177,20 @@ namespace Microsoft.NET.Publish.Tests
             var testAsset = _testAssetsManager.CreateTestProject(testProject, identifier: targetFramework);
             var publishCommand = new PublishCommand(testAsset);
             var result = publishCommand.Execute($"/p:RuntimeIdentifier={rid}");
-            if (shouldFail) {
+            if (shouldFail)
+            {
                 result.Should().Fail()
                     .And.HaveStdOutContaining($"error {Strings.PublishTrimmedRequiresVersion30}");
-            } else {
+            }
+            else
+            {
                 result.Should().Pass()
                     .And.NotHaveStdOutContaining("warning");
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.8.0")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.8.0")]
         [DataRow("netstandard2.0", true)]
         [DataRow("netstandard2.1", true)]
         [DataRow("netcoreapp3.1", true)]
@@ -208,18 +217,22 @@ namespace Microsoft.NET.Publish.Tests
             var buildCommand = new BuildCommand(testAsset);
             var resultAssertion = buildCommand.Execute()
                 .Should().Pass();
-            if (shouldWarn) {
+            if (shouldWarn)
+            {
                 resultAssertion
                     // Note: can't check for Strings.IsTrimmableUnsupported because each line of
                     // the message gets prefixed with a file path by MSBuild.
                     .And.HaveStdOutContaining($"warning NETSDK1212")
                     .And.HaveStdOutContaining($"<IsTrimmable Condition=\"$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))\">true</IsTrimmable>");
-            } else {
+            }
+            else
+            {
                 resultAssertion.And.NotHaveStdOutContaining($"warning");
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netstandard2.1")]
         public void RequiresILLinkPack_errors_for_unsupported_target_framework(string targetFramework)
         {
@@ -236,7 +249,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining($"error {Strings.ILLinkNoValidRuntimePackageError}");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netstandard2.0")]
         [DataRow("netstandard2.1")]
         public void ILLink_can_use_latest_with_unsupported_target_framework(string targetFramework)
@@ -252,7 +266,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("warning IL2026");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void PrepareForILLink_can_set_IsTrimmable(string targetFramework)
         {
@@ -277,7 +292,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(unusedIsTrimmableDll).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void PrepareForILLink_can_set_TrimMode(string targetFramework)
         {
@@ -302,7 +318,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(unusedTrimModeLinkDll).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net5.0", "link")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "copyused")]
         [DataRow("net6.0", "full")]
@@ -344,7 +361,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_roots_IntermediateAssembly(string targetFramework)
         {
@@ -368,7 +386,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesImageHaveMethod(publishedDll, "Main").Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_respects_TrimmableAssembly(string targetFramework)
         {
@@ -393,7 +412,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(unusedTrimmableDll).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net6.0")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_respects_IsTrimmable_attribute(string targetFramework)
@@ -425,7 +445,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_IsTrimmable_metadata_can_override_attribute(string targetFramework)
         {
@@ -451,7 +472,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(unusedNonTrimmableDll).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net6.0")]
         public void ILLink_TrimMode_applies_to_IsTrimmable_assemblies(string targetFramework)
         {
@@ -479,7 +501,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesImageHaveMethod(unusedNonTrimmableDll, "UnusedMethod").Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "full")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, "partial")]
         public void ILLink_TrimMode_new_options(string targetFramework, string trimMode)
@@ -520,7 +543,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_can_set_TrimmerDefaultAction(string targetFramework)
         {
@@ -548,7 +572,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(unusedNonTrimmableDll).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net5.0")]
         public void ILLink_analysis_warnings_are_disabled_by_default(string targetFramework)
         {
@@ -566,7 +591,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutMatching(@"warning IL\d\d\d\d");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_analysis_warnings_are_enabled_by_default(string targetFramework)
         {
@@ -601,7 +627,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, expectedWarnings, targetFramework, rid, useRegex: true);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_accepts_option_to_enable_analysis_warnings(string targetFramework)
         {
@@ -623,7 +650,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutMatching("warning IL2093.*Program.Derived.IL_2093");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_accepts_option_to_disable_analysis_warnings(string targetFramework)
         {
@@ -645,7 +673,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL2093");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_accepts_option_to_enable_analysis_warnings_without_PublishTrimmed(string targetFramework)
         {
@@ -673,7 +702,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, expectedWarnings, targetFramework, rid, useRegex: true);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_shows_single_warning_for_packagereferences_only(string targetFramework)
         {
@@ -696,7 +726,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutMatching("IL2104.*'TransitiveProjectReference'");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_accepts_option_to_show_all_warnings(string targetFramework)
         {
@@ -716,7 +747,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("IL2104");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void ILLink_can_show_single_warning_per_assembly(string targetFramework)
         {
@@ -745,7 +777,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutMatching("IL2104.*'TransitiveProjectReference'");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_errors_fail_the_build(string targetFramework)
         {
@@ -791,7 +824,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_verify_analysis_warnings_hello_world_app_trim_mode_copyused(string targetFramework)
         {
@@ -852,7 +886,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, expectedWarnings, targetFramework, rid);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_verify_analysis_warnings_framework_assemblies(string targetFramework)
         {
@@ -944,7 +979,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, expectedWarnings, targetFramework, rid);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_verify_analysis_warnings_hello_world_app_trim_mode_link(string targetFramework)
         {
@@ -960,7 +996,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, new List<string>(), targetFramework, rid);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void ILLink_verify_analysis_warnings_hello_world_app_trim_mode_link_5_0()
         {
             string targetFramework = "net5.0";
@@ -977,7 +1014,8 @@ namespace Microsoft.NET.Publish.Tests
             ValidateWarningsOnHelloWorldApp(publishCommand, result, new List<string>(), targetFramework, rid);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void TrimmingOptions_are_defaulted_correctly_on_trimmed_apps(string targetFramework)
         {
@@ -1049,7 +1087,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_accepts_root_descriptor(string targetFramework)
         {
@@ -1084,7 +1123,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesImageHaveMethod(unusedDll, "UnusedMethodToRoot").Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("_TrimmerBeforeFieldInit")]
         [DataRow("_TrimmerOverrideRemoval")]
         [DataRow("_TrimmerUnreachableBodies")]
@@ -1105,7 +1145,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Should().Fail().And.HaveStdOutContaining("MSB4030");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void ILLink_respects_feature_settings_from_host_config()
         {
             var projectName = "HelloWorld";
@@ -1138,7 +1179,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesImageHaveMethod(referenceDll, "FeatureImplementation").Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void ILLink_ignores_host_config_settings_with_link_false()
         {
             var projectName = "HelloWorld";
@@ -1171,7 +1213,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesImageHaveMethod(referenceDll, "FeatureImplementation").Should().BeTrue();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_runs_incrementally(string targetFramework)
         {
@@ -1200,7 +1243,8 @@ namespace Microsoft.NET.Publish.Tests
             semaphoreFirstModifiedTime.Should().Be(semaphoreSecondModifiedTime);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("netcoreapp3.1")]
         [DataRow("net5.0")]
         [DataRow("net6.0")]
@@ -1238,7 +1282,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesDepsFileHaveAssembly(depsFile, UnusedFrameworkAssembly).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         public void ILLink_net7_defaults_trim_nonframework()
         {
             string targetFramework = "net7.0";
@@ -1274,7 +1319,8 @@ namespace Microsoft.NET.Publish.Tests
             DoesDepsFileHaveAssembly(depsFile, UnusedFrameworkAssembly).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_does_not_include_leftover_artifacts_on_second_run(string targetFramework)
         {
@@ -1327,7 +1373,8 @@ namespace Microsoft.NET.Publish.Tests
             Directory.Exists(Path.Combine(publishDirectory, "linked")).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_keeps_symbols_by_default(string targetFramework)
         {
@@ -1360,7 +1407,8 @@ namespace Microsoft.NET.Publish.Tests
             publishPdbSize.Should().Be(linkedPdbSize);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_removes_symbols_when_debugger_support_is_disabled(string targetFramework)
         {
@@ -1398,7 +1446,8 @@ namespace Microsoft.NET.Publish.Tests
         {
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_accepts_option_to_remove_symbols(string targetFramework)
         {
@@ -1426,7 +1475,8 @@ namespace Microsoft.NET.Publish.Tests
             File.Exists(publishedPdb).Should().BeFalse();
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_symbols_option_can_override_defaults_from_debugger_support(string targetFramework)
         {
@@ -1460,7 +1510,8 @@ namespace Microsoft.NET.Publish.Tests
             publishPdbSize.Should().Be(linkedPdbSize);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_can_treat_warnings_as_errors(string targetFramework)
         {
@@ -1478,7 +1529,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("warning IL2026");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_can_treat_warnings_not_as_errors(string targetFramework)
         {
@@ -1503,7 +1555,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL2043");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_can_ignore_warnings(string targetFramework)
         {
@@ -1522,7 +1575,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining("warning IL2026");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_respects_analysis_level(string targetFramework)
         {
@@ -1538,7 +1592,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Should().Pass().And.NotHaveStdOutMatching(@"warning IL\d\d\d\d");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_respects_warning_level_independently(string targetFramework)
         {
@@ -1557,7 +1612,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("warning IL2075");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net5Plus), typeof(PublishTestUtils))]
         public void ILLink_can_treat_warnings_as_errors_independently(string targetFramework)
         {
@@ -1579,7 +1635,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.NotHaveStdOutContaining("error IL2075");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_error_on_portable_app(string targetFramework)
         {
@@ -1595,7 +1652,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContaining(Strings.ILLinkNotSupportedError);
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow("net5.0")]
         [DataRow("netcoreapp3.1")]
         public void ILLink_displays_informational_warning_up_to_net5_by_default(string targetFramework)
@@ -1613,7 +1671,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Should().Pass().And.HaveStdOutContainingIgnoreCase("https://aka.ms/dotnet-illink");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_displays_informational_warning_when_trim_analysis_warnings_are_suppressed_on_net6plus(string targetFramework)
         {
@@ -1631,7 +1690,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContainingIgnoreCase("This process might take a while");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(Net6Plus), typeof(PublishTestUtils))]
         public void ILLink_dont_display_informational_warning_by_default_on_net6plus(string targetFramework)
         {
@@ -1649,7 +1709,8 @@ namespace Microsoft.NET.Publish.Tests
                 .And.HaveStdOutContainingIgnoreCase("This process might take a while");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DynamicData(nameof(SupportedTfms), typeof(PublishTestUtils))]
         public void ILLink_dont_display_time_awareness_message_on_incremental_build(string targetFramework)
         {
@@ -1669,7 +1730,8 @@ namespace Microsoft.NET.Publish.Tests
                 .Should().Pass().And.NotHaveStdErrContaining("This process might take a while");
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, false)]
         public void Build_respects_IsTrimmable_property(string targetFramework, bool isExe)
@@ -1706,7 +1768,8 @@ namespace Microsoft.NET.Publish.Tests
             }
         }
 
-        [TestMethod][MSBuildVersionCondition("17.0.0.32901")]
+        [TestMethod]
+        [MSBuildVersionCondition("17.0.0.32901")]
         [DataRow(ToolsetInfo.CurrentTargetFramework)]
         public void Build_respects_PublishTrimmed_property(string targetFramework)
         {

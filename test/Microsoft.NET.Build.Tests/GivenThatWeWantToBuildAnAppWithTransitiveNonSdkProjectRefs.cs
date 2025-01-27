@@ -14,7 +14,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void It_builds_the_project_successfully()
         {
             // NOTE the projects created by CreateTestProject:
@@ -26,7 +27,8 @@ namespace Microsoft.NET.Build.Tests
             VerifyAppBuilds(testAsset, string.Empty);
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow("")]
         [DataRow("TestApp.")]
         public void It_builds_deps_correctly_when_projects_do_not_get_restored(string prefix)

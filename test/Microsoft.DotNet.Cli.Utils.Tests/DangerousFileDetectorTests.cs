@@ -5,6 +5,7 @@
 
 using System.ComponentModel;
 using System.Runtime.Versioning;
+
 using Microsoft.Win32.SafeHandles;
 
 namespace Microsoft.DotNet.Cli.Utils.Tests
@@ -21,7 +22,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
 #if NETCOREAPP
         [SupportedOSPlatform("windows")]
 #endif
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void ItShouldDetectFileWithMarkOfTheWeb()
         {
             var testFile = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, Path.GetRandomFileName());
@@ -51,7 +53,8 @@ namespace Microsoft.DotNet.Cli.Utils.Tests
             new DangerousFileDetector().IsDangerous(testFile).Should().BeFalse();
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         public void WhenRunOnNonWindowsReturnFalse()
         {
             var testFile = Path.Combine(_testAssetsManager.CreateTestDirectory().Path, Path.GetRandomFileName());

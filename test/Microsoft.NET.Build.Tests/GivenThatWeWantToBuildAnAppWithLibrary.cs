@@ -126,7 +126,8 @@ namespace Microsoft.NET.Build.Tests
             }
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void The_clean_target_removes_all_files_from_the_output_folder()
         {
             var testAsset = _testAssetsManager

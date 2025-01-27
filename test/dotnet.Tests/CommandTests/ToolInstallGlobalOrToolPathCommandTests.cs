@@ -5,6 +5,7 @@
 
 using System.CommandLine;
 using System.Text.Json;
+
 using Microsoft.DotNet.Cli.NuGetPackageDownloader;
 using Microsoft.DotNet.Cli.ToolPackage;
 using Microsoft.DotNet.Cli.Utils;
@@ -17,6 +18,7 @@ using Microsoft.DotNet.Tools.Tool.Uninstall;
 using Microsoft.DotNet.Tools.Tool.Update;
 using Microsoft.Extensions.DependencyModel.Tests;
 using Microsoft.Extensions.EnvironmentAbstractions;
+
 using CreateShellShimRepository = Microsoft.DotNet.Tools.Tool.Install.CreateShellShimRepository;
 using LocalizableStrings = Microsoft.DotNet.Tools.Tool.Install.LocalizableStrings;
 using NuGetPackageDownloaderLocalizableStrings = Microsoft.DotNet.Cli.NuGetPackageDownloader.LocalizableStrings;
@@ -25,7 +27,7 @@ using Parser = Microsoft.DotNet.Cli.Parser;
 namespace Microsoft.DotNet.Tests.Commands.Tool
 {
     [TestClass]
-    public class ToolInstallGlobalOrToolPathCommandTests: SdkTest
+    public class ToolInstallGlobalOrToolPathCommandTests : SdkTest
     {
         private readonly PackageId _packageId;
         private readonly IFileSystem _fileSystem;
@@ -48,7 +50,7 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
         private const string ToolCommandName = "SimulatorCommand";
         private readonly string UnlistedPackageId = "elemental.sysinfotool";
 
-        public ToolInstallGlobalOrToolPathCommandTests(MSTestContext testContext): base(testContext)
+        public ToolInstallGlobalOrToolPathCommandTests(MSTestContext testContext) : base(testContext)
         {
             _packageId = new PackageId(PackageId);
             _reporter = new BufferedReporter();
@@ -969,7 +971,8 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
             exceptionThrown.Message.Should().Contain("-invalid is invalid");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void WhenRunWithArchOptionItDownloadsAppHostTemplate()
         {
             var nugetPackageDownloader = new MockNuGetPackageDownloader();

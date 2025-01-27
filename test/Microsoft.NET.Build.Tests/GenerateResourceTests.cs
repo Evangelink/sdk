@@ -11,7 +11,8 @@ namespace Microsoft.NET.Build.Tests
         {
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         [DataRow(ToolsetInfo.CurrentTargetFramework, true)]
         public void DependentUponTest(string targetFramework, bool isExe)
         {

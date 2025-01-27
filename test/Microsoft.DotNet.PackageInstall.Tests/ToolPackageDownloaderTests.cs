@@ -791,7 +791,8 @@ namespace Microsoft.DotNet.PackageInstall.Tests
             uninstaller.Uninstall(package.PackageDirectory);
         }
 
-        [TestMethod][OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(ConditionMode.Exclude, OperatingSystems.Windows)]
         [DataRow(false)]
         [DataRow(true)]
         // repro https://github.com/dotnet/cli/issues/10101

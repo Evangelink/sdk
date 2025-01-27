@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.CommandLine;
+
 using FakeItEasy;
+
 using Microsoft.TemplateEngine.Abstractions;
 using Microsoft.TemplateEngine.Abstractions.TemplatePackage;
 using Microsoft.TemplateEngine.Cli.Commands;
@@ -15,6 +17,7 @@ using Microsoft.TemplateEngine.TestHelper;
 using Microsoft.TemplateSearch.Common;
 using Microsoft.TemplateSearch.Common.Abstractions;
 using Microsoft.TemplateSearch.Common.Providers;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.TemplateEngine.Cli.UnitTests
@@ -105,7 +108,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
         // The _fooOneTemplate is a non-match because of a framework choice param value mismatch.
         // But the _fooTwoTemplate matches because the framework choice is valid for that template.
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod][Ignore("Fails due to matching on template options is not implemented.")]
+        [TestMethod]
+        [Ignore("Fails due to matching on template options is not implemented.")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public async Task CacheSearchCliSymbolNameFilterTest()
         {
@@ -149,7 +153,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests
 
         // test that an invalid symbol makes the search be a non-match
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [TestMethod][Ignore("Fails due to matching on template options is not implemented.")]
+        [TestMethod]
+        [Ignore("Fails due to matching on template options is not implemented.")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public async Task CacheSearchCliSymbolNameMismatchFilterTest()
         {

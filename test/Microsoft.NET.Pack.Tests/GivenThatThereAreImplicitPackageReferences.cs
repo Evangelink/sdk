@@ -103,7 +103,8 @@ namespace Microsoft.NET.Pack.Tests
                 .Should().StartWith("1.1.");
         }
 
-        [TestMethod][OSCondition(OperatingSystems.Windows)]
+        [TestMethod]
+        [OSCondition(OperatingSystems.Windows)]
         public void Packing_an_app_exclude_dependencies_framework_assemblies_dependency()
         {
             TestProject testProject = new()

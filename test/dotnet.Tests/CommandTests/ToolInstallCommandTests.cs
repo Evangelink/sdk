@@ -40,7 +40,8 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42346")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42346")]
         public void WhenRunWithRoot()
         {
             Directory.CreateDirectory("/tmp/folder/sub");

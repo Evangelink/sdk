@@ -953,7 +953,8 @@ class Program
         }
 
         [TestMethod]
-        [Ignore("https://github.com/NuGet/Home/issues/6823")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/NuGet/Home/issues/6823")]
         public void It_allows_TargetFrameworkVersion_to_be_capitalized()
         {
             var testProject = new TestProject()

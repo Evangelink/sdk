@@ -152,7 +152,8 @@ namespace Microsoft.NET.Build.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/29968")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/29968")]
         public void It_builds_successfully_when_targeting_net_framework()
         {
             var testDirectory = _testAssetsManager.CreateTestDirectory().Path;

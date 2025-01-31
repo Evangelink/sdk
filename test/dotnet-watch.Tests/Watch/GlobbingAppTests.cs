@@ -36,7 +36,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -54,7 +55,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task DeleteSourceFolder()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -72,7 +74,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task RenameCompiledFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -90,7 +93,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task ChangeExcludedFile()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)

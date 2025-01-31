@@ -716,7 +716,8 @@ Options:
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/522")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/522")]
         [DataRow("sln")]
         [DataRow("solution")]
         public void WhenPassedAnUnknownProjectTypeItFails(string solutionCommand)

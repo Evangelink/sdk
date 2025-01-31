@@ -579,7 +579,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105399")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105399")]
         public void Build_SatelliteAssembliesAreCopiedToBuildOutput()
         {
             // Arrange

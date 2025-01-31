@@ -305,7 +305,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/45299")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/45299")]
         [CombinatorialData]
         public async Task BlazorWasm(bool projectSpecifiesCapabilities)
         {

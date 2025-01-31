@@ -46,7 +46,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/26624")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/26624")]
         public void ItErrorUsingSkipManifestAndRollback()
         {
             var command = new DotnetCommand(MSTestContext);
@@ -586,7 +587,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/25175")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/25175")]
         public void HideManifestUpdateCheckWhenVerbosityIsQuiet()
         {
             var command = new DotnetCommand(MSTestContext);
@@ -602,7 +604,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
 
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/25175")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/25175")]
         [DataRow("--verbosity:minimal")]
         [DataRow("--verbosity:normal")]
         public void HideManifestUpdatesWhenVerbosityIsMinimalOrNormal(string verbosityFlag)
@@ -619,7 +622,8 @@ namespace Microsoft.DotNet.Cli.Workload.Install.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/25175")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/25175")]
         [DataRow("--verbosity:detailed")]
         [DataRow("--verbosity:diagnostic")]
         public void ShowManifestUpdatesWhenVerbosityIsDetailedOrDiagnostic(string verbosityFlag)

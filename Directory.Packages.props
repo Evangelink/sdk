@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- Using multiple feeds isn't supported by Maestro: https://github.com/dotnet/arcade/issues/14155. -->
     <NoWarn>$(NoWarn);NU1507</NoWarn>
-    <MSTestVersion>3.8.0-preview.25076.2</MSTestVersion>
+    <MSTestVersion>3.8.0-preview.25081.6</MSTestVersion>
   </PropertyGroup>
 
   <ItemGroup>

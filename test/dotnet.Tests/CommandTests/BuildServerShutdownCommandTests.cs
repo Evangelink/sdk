@@ -161,7 +161,8 @@ namespace Microsoft.DotNet.Tests.Commands
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/3684")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/3684")]
         public void GivenARunningRazorServerItShutsDownSuccessfully()
         {
             var pipeName = Path.GetRandomFileName();

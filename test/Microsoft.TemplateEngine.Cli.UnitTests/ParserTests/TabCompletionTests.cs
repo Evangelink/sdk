@@ -349,7 +349,8 @@ namespace Microsoft.TemplateEngine.Cli.UnitTests.ParserTests
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
         [TestMethod]
-        [Ignore("https://github.com/dotnet/templating/issues/4387")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/templating/issues/4387")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public void CanCompleteParameters_StartsWith_AfterOption()
         {

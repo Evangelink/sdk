@@ -55,7 +55,8 @@ namespace Microsoft.NET.Build.Tests
 
         //  Test behavior when implicit version differs for framework-dependent and self-contained apps
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/45417")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/45417")]
         [DataRow("netcoreapp1.0", false, true, "1.0.5")]
         [DataRow("netcoreapp1.0", true, true, "1.0.16")]
         [DataRow("netcoreapp1.0", false, false, "1.0.5")]
@@ -729,7 +730,8 @@ class Program
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/3044")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/3044")]
         public void ReferenceLegacyContracts()
         {
             var testProject = new TestProject()

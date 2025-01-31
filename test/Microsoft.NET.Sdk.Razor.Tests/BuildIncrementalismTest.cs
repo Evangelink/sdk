@@ -14,7 +14,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
 
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/aspnetcore/issues/28780")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/aspnetcore/issues/28780")]
         public void Build_ErrorInGeneratedCode_ReportsMSBuildError_OnIncrementalBuild()
         {
             var testAsset = "RazorSimpleMvc";
@@ -49,7 +50,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/aspnetcore/issues/28780")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/aspnetcore/issues/28780")]
         public void BuildComponents_DoesNotRegenerateComponentDefinition_WhenDefinitionIsUnchanged()
         {
             var testAsset = "RazorMvcWithComponents";
@@ -107,7 +109,8 @@ namespace Microsoft.NET.Sdk.Razor.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/aspnetcore/issues/28780")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/aspnetcore/issues/28780")]
         public void Build_TouchesUpToDateMarkerFile()
         {
             var testAsset = "RazorClassLibrary";

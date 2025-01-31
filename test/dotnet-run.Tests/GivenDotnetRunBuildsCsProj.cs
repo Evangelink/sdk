@@ -407,7 +407,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42841")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42841")]
         public void ItDefaultsToTheFirstUsableLaunchProfile()
         {
             var testAppName = "AppWithLaunchSettings";

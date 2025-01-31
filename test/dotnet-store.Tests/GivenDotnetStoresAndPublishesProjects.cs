@@ -15,7 +15,8 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/cli/issues/12482")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/cli/issues/12482")]
         public void ItPublishesARunnablePortableApp()
         {
             var testAppName = "NewtonSoftDependentProject";
@@ -101,7 +102,8 @@ namespace Microsoft.DotNet.Cli.Publish.Tests
 
         //  Windows only for now due to https://github.com/dotnet/cli/issues/7501
         [TestMethod]
-        [Ignore("https://github.com/dotnet/cli/issues/12482")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/cli/issues/12482")]
         public void ItPublishesAnAppWithMultipleProfiles()
         {
             var testAppName = "MultiDependentProject";

@@ -220,7 +220,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105393")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105393")]
         public void JsModules_CanCustomizeBlazorInitialization()
         {
             // Arrange
@@ -286,7 +287,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105393")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105393")]
         public void JsModules_Hosted_CanCustomizeBlazorInitialization()
         {
             // Arrange

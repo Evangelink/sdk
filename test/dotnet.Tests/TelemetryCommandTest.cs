@@ -112,7 +112,8 @@ namespace Microsoft.DotNet.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/24190")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/24190")]
         public void DotnetNewCommandFirstArgumentShouldBeSentToTelemetryWithPerformanceData()
         {
             const string argumentToSend = "console";

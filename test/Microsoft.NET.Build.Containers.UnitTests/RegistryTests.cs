@@ -398,7 +398,8 @@ public class RegistryTests : IDisposable
     }
 
     [TestMethod]
-    [Ignore("https://github.com/dotnet/sdk/issues/42820")]
+    [Ignore]
+    [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42820")]
     [DataRow(true, true, true)]
     [DataRow(false, true, true)]
     [DataRow(true, false, true)]

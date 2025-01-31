@@ -150,7 +150,8 @@ namespace Microsoft.DotNet.Cli.Run.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/38268")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/38268")]
         public void ItTerminatesTheChildWhenKilled()
         {
             var asset = _testAssetsManager.CopyTestAsset("TestAppThatWaits")

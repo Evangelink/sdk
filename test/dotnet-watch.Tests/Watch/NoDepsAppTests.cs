@@ -9,7 +9,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         private const string AppName = "WatchNoDepsApp";
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task RestartProcessOnFileChange()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)
@@ -28,7 +29,8 @@ namespace Microsoft.DotNet.Watch.UnitTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/42921")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/42921")]
         public async Task RestartProcessThatTerminatesAfterFileChange()
         {
             var testAsset = TestAssets.CopyTestAsset(AppName)

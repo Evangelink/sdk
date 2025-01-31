@@ -9,7 +9,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
     {
 #pragma warning disable xUnit1004 // Test methods should not be skipped
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/45406")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/45406")]
         [DataRow("-l")]
         [DataRow("--list")]
         public Task BasicTest_WhenLegacyCommandIsUsed(string commandName)
@@ -30,7 +31,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/45406")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/45406")]
         public Task BasicTest_WhenListCommandIsUsed()
         {
             CommandResult commandResult = new DotnetNewCommand(MSTestContext, "list")

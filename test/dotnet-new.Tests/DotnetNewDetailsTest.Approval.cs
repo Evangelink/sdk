@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Text.RegularExpressions;
+
 using Microsoft.DotNet.Cli.Utils;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.DotNet.Cli.New.IntegrationTests
@@ -14,7 +16,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
         [TestMethod]
-        [Ignore("https://github.com/dotnet/templating/issues/6811")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_NuGetFeedWithVersion()
         {
@@ -60,7 +63,8 @@ namespace Microsoft.DotNet.Cli.New.IntegrationTests
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
         [TestMethod]
-        [Ignore("https://github.com/dotnet/templating/issues/6811")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/templating/issues/6811")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
         public Task CanDisplayDetails_RemotePackage_OtherFeedWithVersion()
         {

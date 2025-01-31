@@ -77,7 +77,8 @@ namespace Microsoft.NET.ToolPack.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/sdk/issues/10335")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/sdk/issues/10335")]
         [DataRow(false, false)]
         [DataRow(false, true)]
         [DataRow(true, false)]

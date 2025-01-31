@@ -536,7 +536,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105399")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_SatelliteAssemblies_AreCopiedToBuildOutput()
         {
             // Arrange
@@ -726,7 +727,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105399")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_HostedApp_WithSatelliteAssemblies()
         {
             // Arrange
@@ -1150,7 +1152,8 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         // Regression test to verify satellite assemblies from the blazor app are copied to the published app's wwwroot output directory as
         // part of publishing in VS
         [TestMethod]
-        [Ignore("https://github.com/dotnet/runtime/issues/105399")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/runtime/issues/105399")]
         public void Publish_HostedApp_VisualStudio_WithSatelliteAssemblies()
         {
             var testAppName = "BlazorWasmWithLibrary";

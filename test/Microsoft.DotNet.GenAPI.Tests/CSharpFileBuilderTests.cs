@@ -2134,7 +2134,8 @@ namespace Microsoft.DotNet.GenAPI.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/roslyn/issues/74109")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithOperatorGeneration()
         {
             RunTest(original: """
@@ -2159,7 +2160,8 @@ namespace Microsoft.DotNet.GenAPI.Tests
         }
 
         [TestMethod]
-        [Ignore("https://github.com/dotnet/roslyn/issues/74109")]
+        [Ignore]
+        [GitHubWorkItem("https://github.com/dotnet/roslyn/issues/74109")]
         public void TestInterfaceWithCheckedOperatorGeneration()
         {
             RunTest(original: """

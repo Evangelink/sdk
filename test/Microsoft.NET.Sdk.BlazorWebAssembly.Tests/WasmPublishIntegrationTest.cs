@@ -331,7 +331,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [MSBuildVersionCondition("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         [DataRow("different-path")]
         [DataRow("/different-path")]
         public void Publish_WithStaticWebBasePathWorks(string basePath)
@@ -395,7 +395,7 @@ namespace Microsoft.NET.Sdk.BlazorWebAssembly.Tests
         }
 
         [TestMethod]
-        [MSBuildVersionCondition("17.12", IgnoreMessage = "Needs System.Text.Json 8.0.5")]
+        [MSBuildVersionCondition("17.12", Reason = "Needs System.Text.Json 8.0.5")]
         [DataRow("different-path/")]
         [DataRow("/different-path/")]
         public void Publish_Hosted_WithStaticWebBasePathWorks(string basePath)
